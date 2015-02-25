@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="calculator_number" >
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="calculator_options">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+</resources>

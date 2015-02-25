@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_toEndOf="@+id/calculator_numpad"
+    android:layout_marginStart="25dp"
+    android:orientation="vertical"
+    android:background="#666666"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    
+    <TextView
+        style="@style/calculator_options"
+        android:layout_weight="1"
+        android:text="+"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp" />
+
+    <TextView
+        style="@style/calculator_options"
+        android:layout_weight="1"
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp" />
+
+    <TextView
+        style="@style/calculator_options"
+        android:layout_weight="1"
+        android:text="/"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp" />
+
+    <TextView
+        style="@style/calculator_options"
+        android:layout_weight="1"
+        android:text="*"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp" />
+
+</LinearLayout>

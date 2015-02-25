@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MathApp</string>
+    <string name="first_question">
+        \n Bert heeft twee mensen in dienst:\n\n
+
+        Pieter verdient 200,- per maand\n
+        Hij krijgt 15,- loonsverhoging\n\n
+
+        mariska verdient 140,- per maand.\n
+        Zij krijg persentueel dezelfde\n
+        loonsverhoging.\n\n
+
+         Hoeveel gaat marsika verdienen?\n
+    </string>
+    <string name="question_fase">Bert\'s Bakkerij</string>
+
+</resources>
