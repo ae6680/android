@@ -16,7 +16,7 @@ import butterknife.InjectView;
 
 public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorResultsAdapter.ViewHolder> {
 
-    private List<CalculatorResult> results = new ArrayList<>();
+    private List<CalculatorEntry> results = new ArrayList<>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -29,13 +29,13 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        CalculatorResult result = getItem(i);
+        CalculatorEntry result = getItem(i);
 
         viewHolder.calculation.setText(result.calculation);
         viewHolder.answer.setText(result.answer);
     }
 
-    private CalculatorResult getItem(int position) {
+    private CalculatorEntry getItem(int position) {
         return results.get(position);
     }
 
@@ -44,9 +44,19 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         return results.size();
     }
 
-    public void addItem(CalculatorResult result) {
+    public void addItem(CalculatorEntry result) {
         this.results.add(result);
         notifyDataSetChanged();
+    }
+
+    public void updateLastItem(CalculatorEntry entry) {
+        if (results.size() > 0) {
+            CalculatorEntry lastItem = getItem(results.size() - 1);
+            lastItem.answer = entry.answer;
+            lastItem.calculation = entry.calculation;
+
+            notifyDataSetChanged();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

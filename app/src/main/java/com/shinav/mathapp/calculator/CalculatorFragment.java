@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,47 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.InjectViews;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class CalculatorFragment extends Fragment {
 
-    @InjectView(R.id.numpad_number_0) TextView numpadNumber0;
-    @InjectView(R.id.numpad_number_1) TextView numpadNumber1;
-    @InjectView(R.id.numpad_number_2) TextView numpadNumber2;
-    @InjectView(R.id.numpad_number_3) TextView numpadNumber3;
-    @InjectView(R.id.numpad_number_4) TextView numpadNumber4;
-    @InjectView(R.id.numpad_number_5) TextView numpadNumber5;
-    @InjectView(R.id.numpad_number_6) TextView numpadNumber6;
-    @InjectView(R.id.numpad_number_7) TextView numpadNumber7;
-    @InjectView(R.id.numpad_number_8) TextView numpadNumber8;
-    @InjectView(R.id.numpad_number_9) TextView numpadNumber9;
-
+    private static final String TAG = "CalculatorFragment";
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
 
-    private String calculation = "";
+    @InjectViews({
+            R.id.numpad_number_0,
+            R.id.numpad_number_1,
+            R.id.numpad_number_2,
+            R.id.numpad_number_3,
+            R.id.numpad_number_4,
+            R.id.numpad_number_5,
+            R.id.numpad_number_6,
+            R.id.numpad_number_7,
+            R.id.numpad_number_8,
+            R.id.numpad_number_9
+    }) List<TextView> numpadNumberViews;
+
+    @InjectViews({
+            R.id.calculator_options_square_root,
+            R.id.calculator_options_divide,
+            R.id.calculator_options_subtraction,
+            R.id.calculator_options_power_of,
+            R.id.calculator_options_multiply,
+            R.id.calculator_options_addition
+    }) List<TextView> numpadOptionViews;
+
+    private String calculationString = "";
+    private String answer = "";
+    private CalculatorResultsAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,38 +62,143 @@ public class CalculatorFragment extends Fragment {
         ButterKnife.inject(this, view);
 
         setNumpadNumberClickListeners();
+        setNumpadOptionClickListeners();
 
         initResults();
 
         return view;
     }
 
+    private void setNumpadOptionClickListeners() {
+        for (View view : numpadOptionViews) {
+            view.setOnClickListener(numpadOptionClickListerner);
+        }
+    }
+
     private void setNumpadNumberClickListeners() {
-        numpadNumber0.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber1.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber2.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber3.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber4.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber5.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber6.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber7.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber8.setOnClickListener(numpadNumberClickListerner);
-        numpadNumber9.setOnClickListener(numpadNumberClickListerner);
+        for (View view : numpadNumberViews) {
+            view.setOnClickListener(numpadNumberClickListerner);
+        }
     }
 
     public void initResults() {
+        adapter = new CalculatorResultsAdapter();
         calculatorResults.setLayoutManager(new LinearLayoutManager(getActivity()));
-        calculatorResults.setAdapter(new CalculatorResultsAdapter());
+        calculatorResults.setAdapter(adapter);
+
+        CalculatorEntry calculatorEntry = new CalculatorEntry();
+        calculatorEntry.answer = "wachten op input...";
+        adapter.addItem(calculatorEntry);
     }
 
     public void numberClicked(String text) {
-        calculation += text;
+        calculationString += text;
+        calculate();
+        showResult();
+    }
+
+    private void calculate() {
+        try {
+            String filteredCalculationString = filterCalculation();
+            Expression expression = new ExpressionBuilder(filteredCalculationString).build();
+            String ans = String.valueOf(expression.evaluate());
+
+            String dotSplit = ans.split("\\.")[1];
+            int decimalRange = ans.length() - dotSplit.length() + 3;
+            if (decimalRange < ans.length()) {
+                ans = ans.substring(0, decimalRange);
+            }
+
+            if (ans.endsWith(".0")) {
+                ans = ans.substring(0, ans.length() - 2);
+            }
+
+            answer = ans.replace(".", ",");
+
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
+            answer = "";
+        }
+    }
+
+    private String filterCalculation() {
+        String validCalculation = calculationString
+                .replace("×", "*")
+                .replace("÷", "/")
+                .replace(",", ".");
+
+        int squareIndex = validCalculation.indexOf("√");
+        // Check for square root in calculation.
+        if (squareIndex != -1) {
+
+            String sub = validCalculation.substring(squareIndex+1);
+
+            String[] splits = sub.split(" ");
+
+            String numberBehindSquare = "";
+            if (splits.length > 0) {
+                numberBehindSquare = splits[1];
+            }
+
+            if (numberBehindSquare.isEmpty()) {
+                numberBehindSquare = sub;
+            }
+
+            String newReplace = "sqrt(" + numberBehindSquare + ")";
+            String oldReplace = "√ " + numberBehindSquare;
+
+            validCalculation = validCalculation.replace(oldReplace, newReplace);
+        }
+
+        return validCalculation;
+    }
+
+    private void optionClicked(String text) {
+        String addedText = " " + text + " ";
+
+        if (!calculationString.endsWith("√")) {
+            calculationString += addedText;
+        }
+
+        showResult();
     }
 
     @OnClick(R.id.calculator_options_equals)
     public void onEqualsClicked() {
-        showResult();
+        if (!TextUtils.isEmpty(calculationString)) {
+            adapter.addItem(new CalculatorEntry());
+        }
+        calculationString = "";
         scrollToLast();
+    }
+
+    @OnClick(R.id.numpad_backspace)
+    public void onBackspace() {
+        if (calculationString.length() > 0) {
+
+            int amountToRemove = calculationString.endsWith(" ") ? 3 : 1;
+
+            calculationString = calculationString.substring(0, calculationString.length() - amountToRemove);
+
+            calculate();
+            showResult();
+
+        }
+    }
+
+    @OnLongClick(R.id.numpad_backspace)
+    public boolean onLongBackspace() {
+        calculationString = "";
+        answer = "";
+        showResult();
+
+        return false;
+    }
+
+    @OnClick(R.id.numpad_comma)
+    public void onComma() {
+        calculationString += ",";
+        showResult();
     }
 
     private void scrollToLast() {
@@ -81,26 +208,30 @@ public class CalculatorFragment extends Fragment {
 
     private void showResult() {
 
-        if (!TextUtils.isEmpty(calculation)) {
-            CalculatorResult result = new CalculatorResult();
-            result.answer = calculation;
-            result.calculation = calculation;
+        CalculatorEntry calculatorEntry = new CalculatorEntry();
+        calculatorEntry.answer = answer;
+        calculatorEntry.calculation = calculationString;
 
-            ((CalculatorResultsAdapter) calculatorResults.getAdapter()).addItem(result);
+        adapter.updateLastItem(calculatorEntry);
 
-            calculation = "";
-        }
-
+        scrollToLast();
     }
 
     View.OnClickListener numpadNumberClickListerner = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            TextView tv = (TextView) v;
-            String text = tv.getText().toString();
-
+            String text = ((TextView) v).getText().toString();
             numberClicked(text);
+        }
+    };
+
+    View.OnClickListener numpadOptionClickListerner = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            String text = ((TextView) v).getText().toString();
+            optionClicked(text);
         }
     };
 

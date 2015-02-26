@@ -111,14 +111,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/numpad_comma"
-            android:text=","
-            style="@style/calculator_number"
-            android:layout_marginTop="-8dp"
+        <LinearLayout
             android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:padding="3dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/numpad_comma"
+                android:text=","
+                style="@style/calculator_number"
+                android:layout_marginTop="-8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/numpad_number_0"
@@ -128,13 +136,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/numpad_backspace"
-            android:src="@drawable/backspace_icon"
-            android:layout_marginTop="-5dp"
             android:layout_alignParentEnd="true"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content" />
+            android:gravity="center_vertical"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/backspace_icon"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
     </RelativeLayout>
 

@@ -9,19 +9,19 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:text="7,5 × 100 + 1"
         android:id="@+id/results_calculation"
         android:textSize="15sp"
         android:textColor="#F8E71C"
+        android:gravity="end"
         android:layout_marginBottom="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="1,075"
         android:id="@+id/results_calculation_answer"
         android:textSize="20sp"
         android:textColor="#E2E2E2"
+        android:gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

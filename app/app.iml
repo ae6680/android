@@ -93,6 +93,7 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="library-2.0.4" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="exp4j-0.4.4" level="project" />
   </component>
 </module>
 
