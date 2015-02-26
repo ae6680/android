@@ -10,6 +10,7 @@ import com.shinav.mathapp.calculator.CalculatorFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class QuestionActivity extends FragmentActivity {
 
@@ -31,4 +32,10 @@ public class QuestionActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.calculator_container, new CalculatorFragment()).commit();
     }
+
+    @OnClick(R.id.hint)
+    public void onHintClicked() {
+        new QuestionHintFragment().show(getFragmentManager(), "QuestionHintFragment");
+    }
+
 }

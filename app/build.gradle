@@ -38,4 +38,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'net.objecthunter:exp4j:0.4.4'
     compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'com.afollestad:material-dialogs:0.6.3.1'
 }

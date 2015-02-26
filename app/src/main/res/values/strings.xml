@@ -13,5 +13,11 @@
          Hoeveel gaat Mariska verdienen?\n
     </string>
     <string name="question_fase">Bert\'s Bakkerij</string>
+    <string name="hint">
+        \n Om het antwoord te\n
+        vinden op deze vraag,\n
+        moet je weten hoeveel\n
+        procent Pieter verdient.
+    </string>
 
 </resources>
