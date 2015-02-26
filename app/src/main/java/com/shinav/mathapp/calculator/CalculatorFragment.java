@@ -154,6 +154,11 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void optionClicked(String text) {
+
+        if (!TextUtils.isEmpty(answer)) {
+            calculationString += answer;
+        }
+
         String addedText = " " + text + " ";
 
         if (!calculationString.endsWith("√")) {
