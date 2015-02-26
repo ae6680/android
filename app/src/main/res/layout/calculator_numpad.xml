@@ -4,6 +4,7 @@
     android:background="#4C4C4C"
     android:orientation="vertical"
     android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
     android:weightSum="4"
     android:layout_width="110dp"
     android:layout_height="270dp">
@@ -116,11 +117,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="="
-            style="@style/calculator_number"
+        <ImageView
+            android:src="@drawable/backspace_icon"
+            android:layout_marginTop="-5dp"
             android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>

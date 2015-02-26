@@ -1,43 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#4C4C4C"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
     android:layout_width="match_parent"
-    android:paddingStart="16dp"
-    android:layout_height="260dp"
-    tools:ignore="RtlSymmetry">
+    android:layout_height="220dp">
 
     <include layout="@layout/calculator_numpad" />
 
     <include layout="@layout/calculator_options" />
 
-    <include layout="@layout/calculator_results" />
-
-    <TextView
-        android:background="@drawable/circle_button"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:text="Return"
-        android:textSize="12sp"
-        android:textColor="#fff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:background="@drawable/circle_button"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="115dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="CE"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginEnd="16dp"
+        android:layout_width="100dp"
+        android:layout_height="match_parent">
 
+        <!--android:background="#DEDEDE"-->
+
+    </LinearLayout>
 
 </RelativeLayout>
