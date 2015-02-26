@@ -37,4 +37,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'net.objecthunter:exp4j:0.4.4'
+    compile 'org.apache.commons:commons-lang3:3.0'
 }

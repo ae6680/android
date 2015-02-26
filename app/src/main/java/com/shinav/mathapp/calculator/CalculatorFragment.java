@@ -16,6 +16,8 @@ import com.shinav.mathapp.R;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -86,9 +88,12 @@ public class CalculatorFragment extends Fragment {
         calculatorResults.setLayoutManager(new LinearLayoutManager(getActivity()));
         calculatorResults.setAdapter(adapter);
 
-        CalculatorEntry calculatorEntry = new CalculatorEntry();
-        calculatorEntry.answer = "wachten op input...";
-        adapter.addItem(calculatorEntry);
+        // Populate
+        for (int i = 0; i < 3; i++) {
+            CalculatorEntry calculatorEntry = new CalculatorEntry();
+            calculatorEntry.answer = "";
+            adapter.addItem(calculatorEntry);
+        }
     }
 
     public void numberClicked(String text) {
@@ -155,7 +160,7 @@ public class CalculatorFragment extends Fragment {
 
     private void optionClicked(String text) {
 
-        if (!TextUtils.isEmpty(answer)) {
+        if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(calculationString)) {
             calculationString += answer;
         }
 
@@ -203,6 +208,17 @@ public class CalculatorFragment extends Fragment {
     @OnClick(R.id.numpad_comma)
     public void onComma() {
         calculationString += ",";
+        showResult();
+    }
+
+    @OnClick(R.id.calculator_options_parenthesis)
+    public void onParenthesis() {
+        int openCounter = StringUtils.countMatches(calculationString, "(");
+        int closeCounter = StringUtils.countMatches(calculationString, ")");
+
+        calculationString += openCounter == closeCounter ? "(" : ")";
+
+        calculate();
         showResult();
     }
 

@@ -6,7 +6,7 @@
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
     android:weightSum="4"
-    android:layout_width="110dp"
+    android:layout_width="140dp"
     android:layout_height="270dp">
 
     <RelativeLayout
