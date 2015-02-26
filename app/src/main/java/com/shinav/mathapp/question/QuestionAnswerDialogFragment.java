@@ -1,6 +1,5 @@
 package com.shinav.mathapp.question;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
@@ -16,9 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class QuestionHintFragment extends DialogFragment {
+public class QuestionAnswerDialogFragment extends DialogFragment {
 
-    @InjectView(R.id.hint_title) TextView hintTitle;
+    @InjectView(R.id.dialog_answer_title) TextView title;
+    @InjectView(R.id.dialog_answer) TextView answer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,17 +27,22 @@ public class QuestionHintFragment extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        View view = inflater.inflate(R.layout.dialog_question_hint, container, false);
+        View view = inflater.inflate(R.layout.dialog_question_answer, container, false);
         ButterKnife.inject(this, view);
 
-        hintTitle.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        title.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         return view;
     }
 
-    @OnClick(R.id.close)
-    public void onClose() {
-        this.dismiss();
+    @OnClick(R.id.answer_button)
+    public void onAnswerSubmit() {
+
+        if (answer.getText().equals("150,5")) {
+            new QuestionPassDialogFragment().show(getFragmentManager(), "QuestionPassDialogFragment");
+        } else {
+            new QuestionFailDialogFragment().show(getFragmentManager(), "QuestionFailDialogFragment");
+        }
     }
 
 }

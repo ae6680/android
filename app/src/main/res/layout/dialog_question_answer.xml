@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/question_rounded"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialog_answer_title"
+        android:text="Antwoord"
+        android:textColor="@color/dialog_title_color"
+        android:layout_marginTop="12dp"
+        android:textSize="@dimen/dialog_title_font_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dialog_answer"
+        android:text="Je antwoord..."
+        android:background="@drawable/answer_field"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="#B1B1B1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/answer_button"
+        android:background="@drawable/ok_rounded"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Antwoord opslaan"
+        android:textColor="#fff"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="58dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

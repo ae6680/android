@@ -35,7 +35,12 @@ public class QuestionActivity extends FragmentActivity {
 
     @OnClick(R.id.hint)
     public void onHintClicked() {
-        new QuestionHintFragment().show(getFragmentManager(), "QuestionHintFragment");
+        new QuestionHintDialogFragment().show(getFragmentManager(), "QuestionHintFragment");
+    }
+
+    @OnClick(R.id.answer_button)
+    public void onAnswerClicked() {
+        new QuestionAnswerDialogFragment().show(getFragmentManager(), "QuestionAnswerDialogFragment");
     }
 
 }
