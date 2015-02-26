@@ -1,16 +1,17 @@
 package com.shinav.mathapp.question;
 
-import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.calculator.CalculatorFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class QuestionActivity extends Activity {
+public class QuestionActivity extends FragmentActivity {
 
     @InjectView(R.id.question_fase) TextView questionFase;
 
@@ -22,5 +23,12 @@ public class QuestionActivity extends Activity {
         ButterKnife.inject(this);
 
         questionFase.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        initCalculator();
+    }
+
+    private void initCalculator() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.calculator_container, new CalculatorFragment()).commit();
     }
 }
