@@ -1,8 +1,8 @@
 package com.shinav.mathapp.question;
 
-import android.app.DialogFragment;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +42,7 @@ public class QuestionAnswerDialogFragment extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         View view = inflater.inflate(R.layout.dialog_question_answer, container, false);
+
         ButterKnife.inject(this, view);
 
         setLastCalculatorAnswer();
@@ -62,10 +63,12 @@ public class QuestionAnswerDialogFragment extends DialogFragment {
     public void onAnswerSubmit() {
 
         if (answer.getText().equals("150,5")) {
-            new QuestionPassDialogFragment().show(getFragmentManager(), QUESTION_PASS_DIALOG_FRAGMENT);
+            new QuestionPassDialogFragment().show(getActivity().getSupportFragmentManager(), QUESTION_PASS_DIALOG_FRAGMENT);
         } else {
-            new QuestionFailDialogFragment().show(getFragmentManager(), QUESTION_FAIL_DIALOG_FRAGMENT);
+            new QuestionFailDialogFragment().show(getActivity().getSupportFragmentManager(), QUESTION_FAIL_DIALOG_FRAGMENT);
         }
+
+        dismiss();
     }
 
 }

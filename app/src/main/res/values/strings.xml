@@ -12,7 +12,7 @@
 
          Hoeveel gaat Mariska verdienen?\n
     </string>
-    <string name="question_fase">Bert\'s Bakkerij</string>
+    <string name="question_title">Bert\'s Bakkerij</string>
     <string name="hint">
         \n Om het antwoord te\n
         vinden op deze vraag,\n
@@ -27,6 +27,12 @@
        fout.\n\n
 
        Het goede antwoord is:
+    </string>
+    <string name="second_question">
+        \n Bert zijn broden moeten\n
+        300 minuten in de oven.\n\n
+
+        hoelaat moeten de\n  broden er weer uit?\n
     </string>
 
 </resources>

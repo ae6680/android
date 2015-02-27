@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@drawable/background_bakkery"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,8 +15,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/question_fase"
-            android:text="@string/question_fase"
+            android:id="@+id/question_title"
+            android:text="@string/question_title"
             android:layout_marginTop="12dp"
             android:layout_centerHorizontal="true"
             android:textSize="22sp"
@@ -30,14 +29,14 @@
             android:padding="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginStart="50dp"
-            android:layout_toRightOf="@id/question_fase"
+            android:layout_toRightOf="@id/question_title"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/question"
             android:text="@string/first_question"
-            android:layout_below="@id/question_fase"
+            android:layout_below="@id/question_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -56,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/calculator_container"
