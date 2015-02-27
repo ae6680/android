@@ -4,10 +4,10 @@
         \n Bert heeft twee mensen in dienst:\n\n
 
         Pieter verdient 200,- per maand\n
-        Hij krijgt 15,- loonsverhoging\n\n
+        Hij krijgt 15,- loonsverhoging.\n\n
 
         Mariska verdient 140,- per maand.\n
-        Zij krijg persentueel dezelfde\n
+        Zij krijgt procentueel dezelfde\n
         loonsverhoging.\n\n
 
          Hoeveel gaat Mariska verdienen?\n
@@ -17,7 +17,8 @@
         \n Om het antwoord te\n
         vinden op deze vraag,\n
         moet je weten hoeveel\n
-        procent Pieter verdient.
+        procent Pieter nu meer\n
+        verdient.
     </string>
     <string name="dialog_pass_title">Gefeliciteerd</string>
     <string name="dialog_pass_message">Het gegeven \nantwoord is goed!</string>

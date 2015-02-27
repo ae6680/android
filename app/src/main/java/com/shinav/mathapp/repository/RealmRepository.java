@@ -22,10 +22,12 @@ public class RealmRepository {
         Question question1 = new Question();
         question1.setValue(res.getString(R.string.first_question));
         question1.setTitle(res.getString(R.string.question_title));
+        question1.setAnswer("150,5");
 
         Question question2 = new Question();
         question2.setValue(res.getString(R.string.second_question));
         question2.setTitle(res.getString(R.string.question_title));
+        question2.setAnswer("3:15 PM");
 
         Realm realm = Realm.getInstance(MyApplication.getAppContext());
         realm.beginTransaction();

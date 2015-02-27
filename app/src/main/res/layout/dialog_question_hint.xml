@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hint_container"
     android:background="@drawable/question_rounded"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/close"
+        android:id="@+id/hint_close"
         android:src="@drawable/close_icon"
         android:layout_alignParentEnd="true"
         android:padding="16dp"

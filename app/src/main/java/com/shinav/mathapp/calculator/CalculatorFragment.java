@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.question.OnGiveAnswerListener;
+import com.shinav.mathapp.bus.BusProvider;
+import com.shinav.mathapp.event.OnAnswerChangedEvent;
+import com.shinav.mathapp.question.QuestionFragment;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -27,7 +29,7 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class CalculatorFragment extends Fragment implements OnGiveAnswerListener {
+public class CalculatorFragment extends Fragment {
 
     private static final String TAG = "CalculatorFragment";
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
@@ -237,6 +239,8 @@ public class CalculatorFragment extends Fragment implements OnGiveAnswerListener
         adapter.updateLastItem(calculatorEntry);
 
         scrollToLast();
+
+        ((QuestionFragment) getParentFragment()).onAnswerChangedEvent(answer);
     }
 
     View.OnClickListener numpadNumberClickListerner = new View.OnClickListener() {
@@ -257,8 +261,4 @@ public class CalculatorFragment extends Fragment implements OnGiveAnswerListener
         }
     };
 
-    @Override
-    public String onAnswerClicked() {
-        return answer;
-    }
 }

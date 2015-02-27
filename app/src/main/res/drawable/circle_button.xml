@@ -2,18 +2,21 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <shape>
+        <shape android:shape="oval" >
             <solid android:color="#11000000" />
+            <size android:width="40dp"
+                android:height="40dp" />
             <corners android:radius="2dp" />
         </shape>
     </item>
 
-    <item android:bottom="1dp" >
-        <shape>
+    <item android:bottom="1dp" android:right="1dp" >
+        <shape android:shape="oval">
+            <size android:width="40dp"
+                android:height="40dp" />
             <solid android:color="#009688" />
             <corners android:radius="2dp" />
         </shape>
     </item>
 
 </layer-list>
-

@@ -12,6 +12,7 @@ public class Question extends RealmObject implements Serializable {
     private boolean calculatorAllowed;
     private QuestionHint hint;
     private String title;
+    private String answer;
 
     public Question() { }
 
@@ -46,4 +47,13 @@ public class Question extends RealmObject implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
 }
