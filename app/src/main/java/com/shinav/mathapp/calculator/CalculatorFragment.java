@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.question.OnGiveAnswerListener;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -26,7 +27,7 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class CalculatorFragment extends Fragment {
+public class CalculatorFragment extends Fragment implements OnGiveAnswerListener {
 
     private static final String TAG = "CalculatorFragment";
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
@@ -256,4 +257,8 @@ public class CalculatorFragment extends Fragment {
         }
     };
 
+    @Override
+    public String onAnswerClicked() {
+        return answer;
+    }
 }
