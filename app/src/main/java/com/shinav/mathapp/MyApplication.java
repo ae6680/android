@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
+import com.shinav.mathapp.sync.FirebaseRealmAdapter;
 
 public class MyApplication extends Application {
 
@@ -21,7 +22,9 @@ public class MyApplication extends Application {
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
 
-        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(context);
+
+        FirebaseRealmAdapter.getInstance().register();
     }
 
     public static Context getAppContext() {

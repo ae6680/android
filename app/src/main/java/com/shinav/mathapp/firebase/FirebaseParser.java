@@ -1,24 +1,42 @@
 package com.shinav.mathapp.firebase;
 
+import android.util.Log;
+
+import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.question.Question;
 
 import java.util.Map;
 
 public class FirebaseParser {
 
-    public static Question parseQuestion(Map<String, Object> newQuestion) {
+    private static final String TAG = "FirebaseParser";
+
+    public static Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
-        String answer = newQuestion.get(FirebaseInterface.Question.ANSWER).toString();
-        String value = newQuestion.get(FirebaseInterface.Question.VALUE).toString();
-        String title = newQuestion.get(FirebaseInterface.Question.TITLE).toString();
-        boolean calculatorAllowed = (boolean) newQuestion.get(FirebaseInterface.Question.CALCULATOR_ALLOWED);
+        Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
 
-        question.setAnswer(answer);
-        question.setValue(value);
-        question.setTitle(title);
-        question.setCalculatorAllowed(calculatorAllowed);
+        try {
+            String answer = data.get(FirebaseInterface.Question.ANSWER).toString();
+            String value = data.get(FirebaseInterface.Question.VALUE).toString();
+            String title = data.get(FirebaseInterface.Question.TITLE).toString();
+            boolean calculatorAllowed = (boolean) data.get(FirebaseInterface.Question.CALCULATOR_ALLOWED);
 
-        return question;
+            question.setFirebaseKey(dataSnapshot.getKey());
+            question.setAnswer(answer);
+            question.setValue(value);
+            question.setTitle(title);
+            question.setCalculatorAllowed(calculatorAllowed);
+
+            return question;
+
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Field or value not set");
+            System.out.println(dataSnapshot.getKey());
+            System.out.println(dataSnapshot.getValue());
+            e.printStackTrace();
+
+            return null;
+        }
     }
 }

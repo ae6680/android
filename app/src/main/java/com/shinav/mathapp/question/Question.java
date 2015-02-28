@@ -3,10 +3,14 @@ package com.shinav.mathapp.question;
 import java.io.Serializable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class Question extends RealmObject implements Serializable {
+
+    @PrimaryKey
+    private String firebaseKey;
 
     private String value;
     private boolean calculatorAllowed;
@@ -56,4 +60,11 @@ public class Question extends RealmObject implements Serializable {
         this.answer = answer;
     }
 
+    public String getFirebaseKey() {
+        return firebaseKey;
+    }
+
+    public void setFirebaseKey(String firebaseKey) {
+        this.firebaseKey = firebaseKey;
+    }
 }

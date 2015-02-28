@@ -14,6 +14,7 @@ import butterknife.InjectView;
 public class StoryActivity extends FragmentActivity {
 
     @InjectView(R.id.view_pager) DisableableViewPager viewPager;
+    private StoryViewPagerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class StoryActivity extends FragmentActivity {
     }
 
     private void initViewPager() {
-        StoryViewPagerAdapter adapter = new StoryViewPagerAdapter(getSupportFragmentManager());
+        adapter = new StoryViewPagerAdapter(getSupportFragmentManager());
         viewPager.setPagingEnabled(false);
         viewPager.setAdapter(adapter);
     }
@@ -46,7 +47,7 @@ public class StoryActivity extends FragmentActivity {
     @Subscribe
     public void onNextQuestionClicked(OnNextQuestionClickedEvent event) {
         int nextPosition = viewPager.getCurrentItem() + 1;
-        if (nextPosition < viewPager.getChildCount()) {
+        if (nextPosition < adapter.getCount()) {
             viewPager.setCurrentItem(nextPosition);
         }
     }
