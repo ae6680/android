@@ -18,6 +18,16 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     private List<CalculatorEntry> results = new ArrayList<>();
 
+    public CalculatorResultsAdapter() {
+        populate();
+    }
+
+    private void populate() {
+        for (int i = 0; i < 3; i++) {
+            results.add(new CalculatorEntry());
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
