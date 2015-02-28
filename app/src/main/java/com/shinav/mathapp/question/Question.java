@@ -2,7 +2,11 @@ package com.shinav.mathapp.question;
 
 import java.io.Serializable;
 
-public class Question implements Serializable {
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
+
+@RealmClass
+public class Question extends RealmObject implements Serializable {
 
     private String value;
     private boolean calculatorAllowed;
