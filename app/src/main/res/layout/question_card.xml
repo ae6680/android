@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/question_container"
+    android:background="@drawable/question_rounded"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/fragment_question">
+
+    <TextView
+        android:id="@+id/question_title"
+        android:text="@string/question_title"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/hint"
+        android:src="@drawable/hint_icon"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@id/question_title"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/question"
+        android:text="@string/first_question"
+        android:layout_below="@id/question_title"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+
+    <ViewFlipper
+        android:id="@+id/answer_flipper"
+        android:layout_below="@id/question"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/answer_button"
+            android:background="@drawable/ok_rounded"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Geef antwoord"
+            android:textColor="#fff"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/answer_field"
+            android:text="Je antwoord..."
+            android:background="@drawable/answer_field"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#B1B1B1"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ViewFlipper>
+
+    <ImageButton
+        android:id="@+id/submit_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/submit_button"
+        android:layout_marginBottom="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+</RelativeLayout>

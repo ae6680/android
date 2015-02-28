@@ -7,7 +7,7 @@ public final class FirebaseInterface {
     }
 
     public interface Question {
-        public String ANSWER = "answer";
+        String ANSWER = "answer";
         String CALCULATOR_ALLOWED = "calculatorAllowed";
         String TITLE = "title";
         String VALUE = "value";

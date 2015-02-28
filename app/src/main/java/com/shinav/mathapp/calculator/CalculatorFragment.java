@@ -189,7 +189,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         resultsAdapter.updateLastItem(calculatorEntry);
 
-        ((QuestionFragment) getParentFragment()).onAnswerChangedEvent(answer);
+        ((QuestionFragment) getParentFragment()).onAnswerChanged(answer);
     }
 
     View.OnClickListener numpadNumberClickListener = new View.OnClickListener() {
