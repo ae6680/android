@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.bus.BusProvider;
-import com.shinav.mathapp.event.OnAnswerChangedEvent;
 import com.shinav.mathapp.question.QuestionFragment;
 
 import net.objecthunter.exp4j.Expression;

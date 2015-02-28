@@ -2,9 +2,7 @@ package com.shinav.mathapp.question;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-
-public class QuestionHint extends RealmObject implements Serializable {
+public class QuestionHint implements Serializable {
 
     private int questionId;
     private String title;
