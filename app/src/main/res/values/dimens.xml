@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="dialog_title_font_size">22sp</dimen>
+    <dimen name="hub_item_margin">20dp</dimen>
+    <dimen name="hub_item_dimen">125dp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.story;
+package com.shinav.mathapp.question;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,11 +11,11 @@ import com.shinav.mathapp.repository.RealmRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryViewPagerAdapter extends FragmentStatePagerAdapter {
+public class QuestionViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<QuestionFragment> fragmentPages = new ArrayList<>();
 
-    public StoryViewPagerAdapter(FragmentManager fm) {
+    public QuestionViewPagerAdapter(FragmentManager fm) {
         super(fm);
         fetchQuestions();
     }

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.story;
+package com.shinav.mathapp.chapter;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
