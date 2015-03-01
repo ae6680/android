@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/calculator_numpad"
-    android:background="#4C4C4C"
+    android:background="@color/calculator_numpad_background"
     android:orientation="vertical"
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
     android:weightSum="4"
-    android:layout_width="140dp"
-    android:layout_height="270dp">
+    android:layout_width="@dimen/calculator_numpad_width"
+    android:layout_height="@dimen/calculator_numpad_height">
 
     <RelativeLayout
         android:layout_weight="1"
@@ -19,25 +19,19 @@
             android:id="@+id/numpad_number_7"
             android:text="7"
             style="@style/calculator_number"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentStart="true"/>
 
         <TextView
             android:id="@+id/numpad_number_8"
             android:text="8"
             style="@style/calculator_number"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/numpad_number_9"
             android:text="9"
             style="@style/calculator_number"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 
@@ -51,25 +45,19 @@
             android:id="@+id/numpad_number_4"
             android:text="4"
             style="@style/calculator_number"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentStart="true"/>
 
         <TextView
             android:id="@+id/numpad_number_5"
             android:text="5"
             style="@style/calculator_number"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/numpad_number_6"
             android:text="6"
             style="@style/calculator_number"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 
@@ -83,25 +71,19 @@
             android:id="@+id/numpad_number_1"
             android:text="1"
             style="@style/calculator_number"
-            android:layout_alignParentStart="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentStart="true"/>
 
         <TextView
             android:id="@+id/numpad_number_2"
             android:text="2"
             style="@style/calculator_number"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/numpad_number_3"
             android:text="3"
             style="@style/calculator_number"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 
@@ -122,9 +104,7 @@
                 android:id="@+id/numpad_comma"
                 android:text=","
                 style="@style/calculator_number"
-                android:layout_marginTop="-8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="-8dp"/>
 
         </LinearLayout>
 
@@ -132,9 +112,7 @@
             android:id="@+id/numpad_number_0"
             android:text="0"
             style="@style/calculator_number"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerHorizontal="true"/>
 
         <LinearLayout
             android:id="@+id/numpad_backspace"

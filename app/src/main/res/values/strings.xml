@@ -9,8 +9,12 @@
         verdient.
     </string>
     <string name="dialog_pass_title">Gefeliciteerd</string>
-    <string name="dialog_pass_message">Het gegeven \nantwoord is goed!</string>
+    <string name="question_pass_message">Het gegeven \nantwoord is goed!</string>
     <string name="dialog_fail_title">Jammer</string>
     <string name="question_fail_message">Het goede\n antwoord is:</string>
+    <string name="next_question_text">Volgende vraag</string>
+    <string name="explanation_title">Uitleg</string>
+    <string name="question_pass_title">Gefeliciteerd</string>
+    <string name="question_fail_title">Jammer</string>
 
 </resources>

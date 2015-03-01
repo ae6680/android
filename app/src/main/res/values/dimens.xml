@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dialog_title_font_size">22sp</dimen>
+
     <dimen name="hub_item_margin">20dp</dimen>
     <dimen name="hub_item_dimen">125dp</dimen>
+
+    <dimen name="text_size_mini">15sp</dimen>
+    <dimen name="text_size_small">20sp</dimen>
+    <dimen name="text_size_normal">22sp</dimen>
+    <dimen name="text_size_medium">24sp</dimen>
+
+    <dimen name="calculator_numpad_width">140dp</dimen>
+    <dimen name="calculator_numpad_height">270dp</dimen>
+    <dimen name="text_size_large">30sp</dimen>
+
 </resources>

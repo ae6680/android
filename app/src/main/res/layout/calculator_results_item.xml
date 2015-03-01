@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="#4C4C4C"
+    android:background="@color/calculator_results_background"
     android:gravity="end"
     android:paddingTop="7dp"
     android:paddingBottom="7dp"
@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/results_calculation"
-        android:textSize="15sp"
-        android:textColor="#F8E71C"
+        android:textSize="@dimen/text_size_mini"
+        android:textColor="@color/calculator_calculation_text"
         android:gravity="end"
         android:layout_marginBottom="2dp"
         android:layout_width="wrap_content"
@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/results_calculation_answer"
-        android:textSize="20sp"
-        android:textColor="#E2E2E2"
+        android:textSize="@dimen/text_size_small"
+        android:textColor="@color/calculator_calculation_answer_text"
         android:gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

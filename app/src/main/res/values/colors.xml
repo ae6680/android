@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dialog_title_color">#9B9B9B</color>
-    <color name="dialog_message_color">#9B9B9B</color>
+    <color name="text_primary">#9B9B9B</color>
+    <color name="text_secondary">#383838</color>
+
+    <color name="calculator_background">#4C4C4C</color>
+    <color name="calculator_results_background">@color/calculator_background</color>
+    <color name="calculator_numpad_background">@color/calculator_background</color>
+    <color name="calculator_options_background">#414141</color>
+
+    <color name="calculator_calculation_text">#F8E71C</color>
+    <color name="calculator_calculation_answer_text">#E2E2E2</color>
+    <color name="question_answer_field_text">#B1B1B1</color>
+
 </resources>

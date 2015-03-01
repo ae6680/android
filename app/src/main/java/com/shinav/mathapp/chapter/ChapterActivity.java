@@ -7,6 +7,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.question.QuestionViewPagerAdapter;
+import com.shinav.mathapp.view.DisableableViewPager;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -14,7 +15,8 @@ import butterknife.InjectView;
 
 public class ChapterActivity extends FragmentActivity {
 
-    @InjectView(R.id.view_pager) DisableableViewPager viewPager;
+    @InjectView(R.id.view_pager)
+    DisableableViewPager viewPager;
     private QuestionViewPagerAdapter adapter;
 
     @Override

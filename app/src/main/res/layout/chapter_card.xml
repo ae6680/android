@@ -24,8 +24,8 @@
     <TextView
         android:id="@+id/chapter_description"
         android:text="Bert's bakkerij"
-        android:textSize="30sp"
-        android:textColor="#000"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/text_secondary"
         android:layout_marginTop="25dp"
         android:layout_below="@id/chapter_title"
         android:layout_centerHorizontal="true"
