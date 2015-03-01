@@ -27,7 +27,6 @@
         android:layout_below="@id/hint_title"
         android:text="@string/hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
