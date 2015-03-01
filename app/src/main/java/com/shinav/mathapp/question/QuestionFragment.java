@@ -99,6 +99,7 @@ public class QuestionFragment extends Fragment {
 
             viewFlipper.setBack(backView);
             AnimationFactory.flipTransition(viewFlipper, AnimationFactory.FlipDirection.LEFT_RIGHT, 300);
+            viewFlipper.setFront(new QuestionExplanationView(getActivity()));
         }
     }
 

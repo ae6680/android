@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.animation.AnimationFactory;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.view.FlipCard;
@@ -16,19 +15,18 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class QuestionFailView extends FlipCard {
+public class QuestionExplanationView extends FlipCard {
 
-    @InjectView(R.id.answer_title) TextView answerTitle;
-    @InjectView(R.id.answer) TextView answerView;
+    @InjectView(R.id.explanation_title) TextView explanationTitle;
 
-    public QuestionFailView(Context context) {
+    public QuestionExplanationView(Context context) {
         super(context);
         init(context);
     }
 
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.question_answer_fail, null, false);
+        View view = inflater.inflate(R.layout.question_explanantion, null, false);
 
         ButterKnife.inject(this, view);
 
@@ -39,21 +37,11 @@ public class QuestionFailView extends FlipCard {
     }
 
     private void setTitleUnderline() {
-        answerTitle.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        explanationTitle.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @OnClick(R.id.next_question_button)
     public void onNextButtonClicked() {
         BusProvider.getUIBusInstance().post(new OnNextQuestionClickedEvent());
     }
-
-    public void setAnswer(String answer) {
-        answerView.setText(answer);
-    }
-
-    @OnClick(R.id.question_explanation_icon)
-    public void onExplanationClicked() {
-        flip(AnimationFactory.FlipDirection.LEFT_RIGHT, 300);
-    }
-
 }

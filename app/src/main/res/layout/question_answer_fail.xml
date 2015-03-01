@@ -1,51 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/question_answer_container"
-    android:background="@drawable/question_rounded"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/card_rounded"
     android:padding="16dp"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/answer_title"
-        android:text="Jammer"
-        android:layout_marginTop="12dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="22sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/question_answer_icon"
-        android:src="@drawable/close_icon"
-        android:layout_marginTop="12dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:id="@+id/question_explanation_icon"
+        android:src="@drawable/explanation_icon"
+        android:layout_gravity="end"
+        android:layout_marginTop="-6dp"
+        android:padding="15dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
-    <TextView
-        android:id="@+id/answer_message"
-        android:text="@string/dialog_pass_message"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="20dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="22sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/next_question_button"
-        android:background="@drawable/ok_rounded"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="Volgende vraag"
-        android:textColor="#fff"
+    <RelativeLayout
+        android:id="@+id/question_answer_container"
         android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/answer_title"
+            android:text="Jammer"
+            android:layout_marginTop="12dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/question_answer_icon"
+            android:src="@drawable/close_icon"
+            android:layout_below="@id/answer_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/answer_message"
+            android:text="@string/question_fail_message"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/question_answer_icon"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/answer"
+            android:textColor="#000"
+            android:textSize="24sp"
+            android:layout_below="@+id/answer_message"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/next_question_button"
+            android:background="@drawable/ok_rounded"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Volgende vraag"
+            android:textColor="#fff"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</FrameLayout>

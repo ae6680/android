@@ -8,17 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.animation.AnimationFactory;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.view.FlipCard;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class QuestionPassView extends FlipCard {
 
     @InjectView(R.id.answer_title) TextView answerTitle;
-    @InjectView(R.id.next_question_button) View nextButton;
 
     public QuestionPassView(Context context) {
         super(context);
@@ -35,17 +36,20 @@ public class QuestionPassView extends FlipCard {
         setTitleUnderline();
 
         addView(view);
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BusProvider.getUIBusInstance().post(new OnNextQuestionClickedEvent());
-            }
-        });
     }
 
     private void setTitleUnderline() {
         answerTitle.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    @OnClick(R.id.next_question_button)
+    public void onNextButtonClicked() {
+        BusProvider.getUIBusInstance().post(new OnNextQuestionClickedEvent());
+    }
+
+    @OnClick(R.id.question_explanation_icon)
+    public void onExplanationClicked() {
+        flip(AnimationFactory.FlipDirection.LEFT_RIGHT, 300);
     }
 
 }

@@ -189,6 +189,8 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         resultsAdapter.updateLastItem(calculatorEntry);
 
+        scrollToLast();
+
         ((QuestionFragment) getParentFragment()).onAnswerChanged(answer);
     }
 
