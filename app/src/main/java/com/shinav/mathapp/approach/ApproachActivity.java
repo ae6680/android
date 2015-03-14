@@ -16,6 +16,7 @@ import com.shinav.mathapp.drag.DragSortRecycler;
 import com.shinav.mathapp.progress.ProgressProvider;
 import com.shinav.mathapp.question.Question;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ApproachActivity extends Activity {
         ButterKnife.inject(this);
 
         Question question = ProgressProvider.getCurrentQuestion();
-        approaches = question.getApproaches();
+        approaches = new ArrayList<>(question.getApproaches());
 
         questionTitle.setText(question.getTitle());
         questionText.setText(question.getValue());
@@ -93,6 +94,7 @@ public class ApproachActivity extends Activity {
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
         ProgressProvider.setCurrentApproach(approaches);
+
         startActivity(new Intent(this, ApproachFeedbackActivity.class));
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
