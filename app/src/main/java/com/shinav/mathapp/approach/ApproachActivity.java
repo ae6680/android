@@ -7,16 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.drag.DragSortRecycler;
 import com.shinav.mathapp.progress.ProgressProvider;
+import com.shinav.mathapp.question.Question;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -26,19 +26,24 @@ import butterknife.OnClick;
 public class ApproachActivity extends Activity {
 
     @InjectView(R.id.approach_list) RecyclerView approachList;
+    @InjectView(R.id.question_title) TextView questionTitle;
+    @InjectView(R.id.question_text) TextView questionText;
+
     private ApproachAdapter approachAdapter;
     private List<Approach> approaches;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_approach);
-
         ButterKnife.inject(this);
 
-        initApproachList();
+        Question question = ProgressProvider.getCurrentQuestion();
+        approaches = question.getApproaches();
 
-        populate();
+        questionTitle.setText(question.getTitle());
+        questionText.setText(question.getValue());
+
+        initApproachList();
     }
 
     private void initApproachList() {
@@ -55,15 +60,7 @@ public class ApproachActivity extends Activity {
     }
 
     private void populate() {
-        approaches = new LinkedList<>(Arrays.asList(
-                new Approach("Uit de tekst halen dat het om de getallen 200 en 163 gaat.", 0),
-                new Approach("Uitrekenen hoeveel procent nu geschreven is.", 1),
-                new Approach("Uitrekenen hoeveel procent nog geschreven moet worden.", 2),
-                new Approach("Afronden op juiste aantal decimalen.", 3)
-        ));
-
         Collections.shuffle(approaches);
-
         approachAdapter.setApproaches(approaches);
     }
 

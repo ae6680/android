@@ -10,13 +10,12 @@
         android:id="@+id/question_title"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Vraag 1: Laatste Examen."
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="@string/question_1"
+            android:id="@+id/question_text"
             android:layout_marginTop="16dp"
             android:layout_below="@+id/question_title"
             android:layout_marginStart="25dp"
