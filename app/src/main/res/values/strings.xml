@@ -17,4 +17,11 @@
     <string name="question_pass_title">Gefeliciteerd</string>
     <string name="question_fail_title">Jammer</string>
 
+    <string name="question_1">
+        Je bent bezig met je laatste onderdeel van je Nederlands examen, het schrijven van een samenvatting van maximaal 200 woorden.
+        \n\nJe hebt inmiddels 163 woorden geschreven en moet nog 2 onderdelen schrijven.
+        \n\nHoeveel procent mag je nog schrijven aan woorden?
+        \n\nRond af op 1 decimaal.
+    </string>
+
 </resources>
