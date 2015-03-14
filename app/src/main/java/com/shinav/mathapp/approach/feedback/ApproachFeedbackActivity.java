@@ -1,6 +1,7 @@
 package com.shinav.mathapp.approach.feedback;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,8 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachAdapter;
-import com.shinav.mathapp.approach.ApproachProvider;
+import com.shinav.mathapp.progress.ProgressProvider;
+import com.shinav.mathapp.question.QuestionActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class ApproachFeedbackActivity extends Activity {
 
@@ -34,7 +37,7 @@ public class ApproachFeedbackActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        approaches = ApproachProvider.getCurrentApproach();
+        approaches = ProgressProvider.getCurrentApproach();
 
         initApproachListMine();
         initApproachListCorrect();
@@ -84,6 +87,12 @@ public class ApproachFeedbackActivity extends Activity {
         );
         layoutParams.addRule(RelativeLayout.ABOVE, R.id.submit_button);
         approachListCorrect.setLayoutParams(layoutParams);
+    }
+
+    @OnClick(R.id.submit_button)
+    public void onSubmitClicked() {
+        startActivity(new Intent(this, QuestionActivity.class));
+        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
     @Override

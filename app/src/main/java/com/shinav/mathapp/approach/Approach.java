@@ -1,9 +1,15 @@
 package com.shinav.mathapp.approach;
 
-public class Approach {
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
+
+@RealmClass
+public class Approach extends RealmObject {
 
     private String text;
     private int position;
+
+    public Approach() { }
 
     public Approach(String text, int position) {
         this.text = text;
@@ -22,4 +28,7 @@ public class Approach {
         return position;
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

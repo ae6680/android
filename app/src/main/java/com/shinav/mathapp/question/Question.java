@@ -1,22 +1,22 @@
 package com.shinav.mathapp.question;
 
-import java.io.Serializable;
+import com.shinav.mathapp.approach.Approach;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class Question extends RealmObject implements Serializable {
+public class Question extends RealmObject {
 
     @PrimaryKey
     private String firebaseKey;
 
     private String value;
-    private boolean calculatorAllowed;
-    private QuestionHint hint;
     private String title;
     private String answer;
+    private RealmList<Approach> approaches;
 
     public Question() { }
 
@@ -26,22 +26,6 @@ public class Question extends RealmObject implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public boolean isCalculatorAllowed() {
-        return calculatorAllowed;
-    }
-
-    public void setCalculatorAllowed(boolean calculatorAllowed) {
-        this.calculatorAllowed = calculatorAllowed;
-    }
-
-    public QuestionHint getHint() {
-        return hint;
-    }
-
-    public void setHint(QuestionHint hint) {
-        this.hint = hint;
     }
 
     public String getTitle() {
@@ -67,4 +51,13 @@ public class Question extends RealmObject implements Serializable {
     public void setFirebaseKey(String firebaseKey) {
         this.firebaseKey = firebaseKey;
     }
+
+    public RealmList<Approach> getApproaches() {
+        return approaches;
+    }
+
+    public void setApproaches(RealmList<Approach> approaches) {
+        this.approaches = approaches;
+    }
+
 }

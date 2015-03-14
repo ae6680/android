@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.chapter.ChapterActivity;
+import com.shinav.mathapp.approach.ApproachActivity;
+import com.shinav.mathapp.progress.ProgressProvider;
+import com.shinav.mathapp.question.Question;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class StoryActivity extends Activity {
 
@@ -26,6 +29,9 @@ public class StoryActivity extends Activity {
         ButterKnife.inject(this);
 
         setTitleUnderline();
+
+        // Crappy solution for now.
+        ProgressProvider.setCurrentQuestion(Realm.getInstance(this).where(Question.class).findFirst());
     }
 
     private void setTitleUnderline() {
@@ -34,7 +40,7 @@ public class StoryActivity extends Activity {
 
     @OnClick(R.id.chapter_start_button)
     public void onChapterStartClicked() {
-        startActivity(new Intent(this, ChapterActivity.class));
+        startActivity(new Intent(this, ApproachActivity.class));
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 

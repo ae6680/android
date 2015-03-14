@@ -44,7 +44,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
     public void onCancelled(FirebaseError firebaseError) {  }
 
     public void copyToRealmOrUpdate(DataSnapshot dataSnapshot) {
-        Question question = FirebaseParser.parseQuestion(dataSnapshot);
+        Question question = FirebaseParser.getInstance().parseQuestion(dataSnapshot);
 
         if (question != null) {
             REALM.beginTransaction();

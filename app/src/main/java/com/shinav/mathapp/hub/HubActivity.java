@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.chapter.ChapterActivity;
 import com.shinav.mathapp.story.StoryActivity;
 
 import butterknife.ButterKnife;

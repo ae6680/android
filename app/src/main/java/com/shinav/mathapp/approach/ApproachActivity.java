@@ -12,6 +12,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.drag.DragSortRecycler;
+import com.shinav.mathapp.progress.ProgressProvider;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -94,7 +95,7 @@ public class ApproachActivity extends Activity {
 
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
-        ApproachProvider.setCurrentApproach(approaches);
+        ProgressProvider.setCurrentApproach(approaches);
         startActivity(new Intent(this, ApproachFeedbackActivity.class));
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
