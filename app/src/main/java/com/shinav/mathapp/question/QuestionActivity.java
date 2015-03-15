@@ -86,13 +86,15 @@ public class QuestionActivity extends FragmentActivity {
 
     @Subscribe
     public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
-
         List<Question> questions = new ArrayList<>(Realm.getInstance(this).where(Question.class).findAll());
-        int pos = questions.indexOf(question)+1 < questions.size() ? questions.indexOf(question)+1 : questions.indexOf(question);
-        ProgressProvider.setCurrentQuestion(questions.get(pos));
+        int nextPosition = questions.indexOf(question)+1;
 
-        startActivity(new Intent(this, ApproachActivity.class));
-        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+        if (nextPosition < questions.size()) {
+            ProgressProvider.setCurrentQuestion(questions.get(nextPosition));
+
+            startActivity(new Intent(this, ApproachActivity.class));
+            overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+        }
     }
 
     public void onAnswerChanged(String answer) {
