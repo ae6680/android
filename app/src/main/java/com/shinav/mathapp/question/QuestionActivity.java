@@ -42,11 +42,7 @@ public class QuestionActivity extends FragmentActivity {
         questionView = new QuestionView(this, question);
         viewFlipper.setFront(questionView);
 
-        QuestionHintView questionHintView = new QuestionHintView(this);
-//        questionHintView.setTitle(question.getHint().getTitle());
-//        questionHintView.setBody(question.getHint().getValue());
-
-        viewFlipper.setBack(questionHintView);
+        viewFlipper.setBack(new QuestionApproachView(this));
 
         initCalculator();
     }

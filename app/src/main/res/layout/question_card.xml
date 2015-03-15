@@ -15,7 +15,6 @@
 
         <TextView
             android:id="@+id/question_title"
-            android:textSize="@dimen/text_size_medium"
             android:gravity="center"
             android:layout_weight="70"
             android:layout_width="0dp"
@@ -34,6 +33,7 @@
     <TextView
         android:id="@+id/question"
         android:layout_below="@id/question_header"
+        android:layout_marginTop="-12dp"
         android:textSize="@dimen/text_size_normal"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

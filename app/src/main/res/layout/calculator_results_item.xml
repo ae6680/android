@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/results_calculation"
-        android:textSize="@dimen/text_size_mini"
+        android:textSize="@dimen/text_size_medium"
         android:textColor="@color/calculator_calculation_text"
         android:gravity="end"
         android:layout_marginBottom="2dp"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/results_calculation_answer"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_normal"
         android:textColor="@color/calculator_calculation_answer_text"
         android:gravity="end"
         android:layout_width="wrap_content"
