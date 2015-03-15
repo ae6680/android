@@ -1,73 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/card">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/card">
 
-    <ImageView
-        android:id="@+id/hint"
-        android:src="@drawable/hint_icon"
-        android:layout_gravity="end"
-        android:layout_marginEnd="-6dp"
-        android:paddingTop="15dp"
-        android:paddingStart="15dp"
-        android:paddingBottom="15dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+    <LinearLayout
+        android:id="@+id/question_header"
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/question_container"
-        android:layout_gravity="center_horizontal"
+        <Space
+            android:layout_weight="15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/question_title"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:layout_weight="70"
+            android:layout_width="0dp"
+            style="@style/title"/>
+
+        <ImageView
+            android:id="@+id/hint"
+            android:src="@drawable/hint_icon"
+            android:paddingBottom="20dp"
+            android:layout_weight="15"
+            android:layout_width="0dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_below="@id/question_header"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ViewFlipper
+        android:id="@+id/answer_flipper"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/question_title"
-            android:text="@string/question_title"
-            style="@style/title"/>
+            android:id="@+id/answer_button"
+            style="@style/primary_button"
+            android:text="Geef antwoord"
+            android:layout_gravity="bottom" />
 
         <TextView
-            android:id="@+id/question"
-            android:layout_below="@id/question_title"
-            android:layout_marginStart="2dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
+            android:id="@+id/answer_field"
+            style="@style/primary_button"
+            android:text="Je antwoord..."
+            android:background="@drawable/answer_field"
+            android:textColor="@color/question_answer_field_text"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ViewFlipper
-            android:id="@+id/answer_flipper"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    </ViewFlipper>
 
-            <TextView
-                android:id="@+id/answer_button"
-                style="@style/primary_button"
-                android:text="Geef antwoord"
-                android:layout_gravity="bottom" />
+    <ImageButton
+        android:id="@+id/submit_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/submit_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
-            <TextView
-                android:id="@+id/answer_field"
-                style="@style/primary_button"
-                android:text="Je antwoord..."
-                android:background="@drawable/answer_field"
-                android:textColor="@color/question_answer_field_text"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </ViewFlipper>
-
-        <ImageButton
-            android:id="@+id/submit_button"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/submit_button"
-            android:layout_marginBottom="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>
