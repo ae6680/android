@@ -9,6 +9,7 @@ import com.shinav.mathapp.animation.AnimationFactory;
 import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
+import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.progress.ProgressProvider;
@@ -92,7 +93,12 @@ public class QuestionActivity extends FragmentActivity {
         if (nextPosition < questions.size()) {
             ProgressProvider.setCurrentQuestion(questions.get(nextPosition));
 
-            startActivity(new Intent(this, ApproachActivity.class));
+            if (nextPosition == 3) {
+                startActivity(new Intent(this, ConversationActivity.class));
+            } else {
+                startActivity(new Intent(this, ApproachActivity.class));
+            }
+
             overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
         }
     }
