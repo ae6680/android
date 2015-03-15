@@ -26,6 +26,8 @@
 
         <activity android:name=".question.QuestionActivity"/>
 
+        <activity android:name=".conversation.ConversationActivity"/>
+
     </application>
 
 </manifest>
