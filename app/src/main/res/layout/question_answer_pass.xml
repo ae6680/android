@@ -6,10 +6,9 @@
         android:id="@+id/question_explanation_icon"
         android:src="@drawable/explanation_icon"
         android:layout_gravity="end"
-        android:layout_marginTop="-6dp"
-        android:padding="15dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:paddingBottom="@dimen/primary_margin"
+        android:layout_width="45dp"
+        android:layout_height="45dp" />
 
     <RelativeLayout
         android:id="@+id/question_answer_container"

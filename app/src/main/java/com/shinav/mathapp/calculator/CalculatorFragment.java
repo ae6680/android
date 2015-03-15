@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.question.QuestionFragment;
+import com.shinav.mathapp.question.QuestionActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -191,7 +191,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         scrollToLast();
 
-        ((QuestionFragment) getParentFragment()).onAnswerChanged(answer);
+        ((QuestionActivity) getActivity()).onAnswerChanged(answer);
     }
 
     View.OnClickListener numpadNumberClickListener = new View.OnClickListener() {

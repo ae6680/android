@@ -8,7 +8,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 public class Calculator {
 
     private static final String TAG = "Calculator";
-    private static final int AMOUNT_OF_DECIMALS = 3;
+    private static final int AMOUNT_OF_DECIMALS = 5;
 
     public String calculate(String calculation) {
         String answer = "";

@@ -23,7 +23,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
     }
 
     private void populate() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             results.add(new CalculatorEntry());
         }
     }
@@ -61,7 +61,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     public void updateLastItem(CalculatorEntry entry) {
         if (results.size() > 0) {
-            CalculatorEntry lastItem = getItem(results.size() - 1);
+            CalculatorEntry lastItem = getItem(results.size() - 2);
             lastItem.answer = entry.answer;
             lastItem.calculation = entry.calculation;
 

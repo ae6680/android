@@ -20,7 +20,11 @@
         </activity>
         
         <activity android:name=".story.StoryActivity"/>
-        <activity android:name=".chapter.ChapterActivity"/>
+
+        <activity android:name=".approach.ApproachActivity"/>
+        <activity android:name=".approach.feedback.ApproachFeedbackActivity"/>
+
+        <activity android:name=".question.QuestionActivity"/>
 
     </application>
 

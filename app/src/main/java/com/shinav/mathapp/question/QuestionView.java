@@ -1,22 +1,17 @@
 package com.shinav.mathapp.question;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.AnimationFactory;
 import com.shinav.mathapp.bus.BusProvider;
-import com.shinav.mathapp.event.OnAnswerChangedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
-import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.view.FlipCard;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,17 +44,12 @@ public class QuestionView extends FlipCard {
         ButterKnife.inject(this, view);
 
         setParams(view);
-        setTitleUnderline();
         submitButton.setEnabled(false);
 
         setBody(question.getValue());
         setTitle(question.getTitle());
 
         addView(view);
-    }
-
-    private void setTitleUnderline() {
-        questionTitle.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     public void setBody(String value) {

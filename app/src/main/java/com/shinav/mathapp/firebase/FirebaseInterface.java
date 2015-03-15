@@ -8,8 +8,14 @@ public final class FirebaseInterface {
 
     public interface Question {
         String ANSWER = "answer";
-        String CALCULATOR_ALLOWED = "calculatorAllowed";
         String TITLE = "title";
         String VALUE = "value";
+        String APPROACHES = "approaches";
     }
+
+    public interface Approaches {
+        String VALUE = "value";
+        String POSITION = "position";
+    }
+
 }
