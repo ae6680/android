@@ -10,13 +10,13 @@ public class Calculator {
     private static final String TAG = "Calculator";
     private static final int AMOUNT_OF_DECIMALS = 5;
 
-    public String calculate(String calculation) {
+    public String calculate(String equation) {
         String answer = "";
 
         try {
-            String filteredCalculation = filterCalculation(calculation);
+            String filteredEquation = filterEquation(equation);
 
-            String rawAnswer = calculateString(filteredCalculation);
+            String rawAnswer = calculateString(filteredEquation);
 
             answer = cleanUpAnswer(rawAnswer);
 
@@ -27,22 +27,22 @@ public class Calculator {
         return answer;
     }
 
-    private String filterCalculation(String calculation) {
-        String filteredCalculation = calculation
+    private String filterEquation(String equation) {
+        String filteredEquation = equation
                 .replace("×", "*")
                 .replace("÷", "/")
                 .replace(",", ".");
 
-        String validCalculation = filterSquareRoot(filteredCalculation);
+        String validEquation = filterSquareRoot(filteredEquation);
 
-        return validCalculation;
+        return validEquation;
     }
 
-    private String filterSquareRoot(String calculation) {
-        int squareIndex = calculation.indexOf("√");
+    private String filterSquareRoot(String equation) {
+        int squareIndex = equation.indexOf("√");
         if (squareIndex != -1) {
 
-            String subString = calculation.substring(squareIndex+1);
+            String subString = equation.substring(squareIndex+1);
 
             String[] splits = subString.split(" ");
 
@@ -58,13 +58,13 @@ public class Calculator {
             String newReplace = "sqrt(" + numberBehindSquare + ")";
             String oldReplace = "√ " + numberBehindSquare;
 
-            calculation = calculation.replace(oldReplace, newReplace);
+            equation = equation.replace(oldReplace, newReplace);
         }
-        return calculation;
+        return equation;
     }
 
-    private String calculateString(String calculation) {
-        Expression expression = new ExpressionBuilder(calculation).build();
+    private String calculateString(String equation) {
+        Expression expression = new ExpressionBuilder(equation).build();
         String answer = String.valueOf(expression.evaluate());
         return answer;
     }
