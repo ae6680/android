@@ -5,16 +5,20 @@ import android.util.Log;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
+import javax.inject.Inject;
+
 public class Calculator {
 
     private static final String TAG = "Calculator";
     private static final int AMOUNT_OF_DECIMALS = 5;
 
+    @Inject EquationFilterer equationFilterer;
+
     public String calculate(String equation) {
         String answer = "";
 
         try {
-            String filteredEquation = filterEquation(equation);
+            String filteredEquation = equationFilterer.filterEquation(equation);
 
             String rawAnswer = calculateString(filteredEquation);
 
@@ -25,42 +29,6 @@ public class Calculator {
         }
 
         return answer;
-    }
-
-    private String filterEquation(String equation) {
-        String filteredEquation = equation
-                .replace("×", "*")
-                .replace("÷", "/")
-                .replace(",", ".");
-
-        String validEquation = filterSquareRoot(filteredEquation);
-
-        return validEquation;
-    }
-
-    private String filterSquareRoot(String equation) {
-        int squareIndex = equation.indexOf("√");
-        if (squareIndex != -1) {
-
-            String subString = equation.substring(squareIndex+1);
-
-            String[] splits = subString.split(" ");
-
-            String numberBehindSquare = "";
-            if (splits.length > 0) {
-                numberBehindSquare = splits[1];
-            }
-
-            if (numberBehindSquare.isEmpty()) {
-                numberBehindSquare = subString;
-            }
-
-            String newReplace = "sqrt(" + numberBehindSquare + ")";
-            String oldReplace = "√ " + numberBehindSquare;
-
-            equation = equation.replace(oldReplace, newReplace);
-        }
-        return equation;
     }
 
     private String calculateString(String equation) {
