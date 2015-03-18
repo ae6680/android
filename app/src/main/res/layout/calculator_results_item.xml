@@ -9,7 +9,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/results_calculation"
+        android:id="@+id/results_equation"
         android:textSize="@dimen/text_size_medium"
         android:textColor="@color/calculator_calculation_text"
         android:gravity="end"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/results_calculation_answer"
+        android:id="@+id/results_equation_answer"
         android:textSize="@dimen/text_size_normal"
         android:textColor="@color/calculator_calculation_answer_text"
         android:gravity="end"

@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.question.QuestionActivity;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -49,11 +47,12 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
             R.id.calculator_options_addition
     }) List<TextView> numpadOptionViews;
 
-    private String calculationString = "";
+    private String equation = "";
     private String answer = "";
     private CalculatorResultsAdapter resultsAdapter;
     private Calculator calculator;
     private CalculatorPresenter calculatorPresenter;
+    private OperationHandler operationHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +62,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         calculator = new Calculator();
         calculatorPresenter = new CalculatorPresenter(this);
+        operationHandler = new OperationHandler();
 
         return view;
     }
@@ -98,8 +98,8 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     }
 
     private void numberClicked(String text) {
-        calculationString += text;
-        answer = calculator.calculate(calculationString);
+        equation += text;
+        answer = calculator.calculate(equation);
         updateLastCalculatorEntry();
     }
 
@@ -109,44 +109,44 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         String addedText = " " + text + " ";
 
-        if (!calculationString.endsWith("√")) {
-            calculationString += addedText;
+        if (!equation.endsWith("√")) {
+            equation += addedText;
         }
 
         updateLastCalculatorEntry();
     }
 
     private void checkForResumedCalculating() {
-        if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(calculationString)) {
-            calculationString += answer;
+        if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(equation)) {
+            equation += answer;
         }
     }
 
     @OnClick(R.id.calculator_options_equals)
     public void onEqualsClicked() {
-        if (!TextUtils.isEmpty(calculationString)) {
+        if (!TextUtils.isEmpty(equation)) {
             resultsAdapter.addItem(new CalculatorEntry());
         }
-        calculationString = "";
+        equation = "";
         scrollToLast();
     }
 
     @OnClick(R.id.numpad_backspace)
     public void onBackspace() {
-        if (calculationString.length() > 0) {
+        if (equation.length() > 0) {
 
-            int amountToRemove = calculationString.endsWith(" ") ? 3 : 1;
+            int amountToRemove = equation.endsWith(" ") ? 3 : 1;
 
-            calculationString = calculationString.substring(0, calculationString.length() - amountToRemove);
+            equation = equation.substring(0, equation.length() - amountToRemove);
 
-            answer = calculator.calculate(calculationString);
+            answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
         }
     }
 
     @OnLongClick(R.id.numpad_backspace)
     public boolean onLongBackspace() {
-        calculationString = "";
+        equation = "";
         answer = "";
         updateLastCalculatorEntry();
 
@@ -155,22 +155,17 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
     @OnClick(R.id.numpad_comma)
     public void onComma() {
-        calculationString += ",";
+        equation += ",";
         updateLastCalculatorEntry();
     }
 
     @OnClick(R.id.calculator_options_parenthesis)
     public void onParenthesis() {
-        int openCounter = StringUtils.countMatches(calculationString, "(");
-        int closeCounter = StringUtils.countMatches(calculationString, ")");
 
-        if (openCounter == closeCounter) {
-            calculationString += "(";
-        } else {
-            if (!calculationString.endsWith("(")) {
-                calculationString += ")";
-                answer = calculator.calculate(calculationString);
-            }
+        equation += operationHandler.handleParenthesis(equation);
+
+        if (equation.endsWith(")")) {
+            answer = calculator.calculate(equation);
         }
 
         updateLastCalculatorEntry();
@@ -185,7 +180,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         CalculatorEntry calculatorEntry = new CalculatorEntry();
         calculatorEntry.answer = answer;
-        calculatorEntry.calculation = calculationString;
+        calculatorEntry.equation = equation;
 
         resultsAdapter.updateLastItem(calculatorEntry);
 

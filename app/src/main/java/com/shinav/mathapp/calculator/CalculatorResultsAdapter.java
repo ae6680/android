@@ -41,7 +41,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
         CalculatorEntry result = getItem(i);
 
-        viewHolder.calculation.setText(result.calculation);
+        viewHolder.equation.setText(result.equation);
         viewHolder.answer.setText(result.answer);
     }
 
@@ -63,7 +63,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         if (results.size() > 0) {
             CalculatorEntry lastItem = getItem(results.size() - 2);
             lastItem.answer = entry.answer;
-            lastItem.calculation = entry.calculation;
+            lastItem.equation = entry.equation;
 
             notifyDataSetChanged();
         }
@@ -71,8 +71,8 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.results_calculation) TextView calculation;
-        @InjectView(R.id.results_calculation_answer) TextView answer;
+        @InjectView(R.id.results_equation) TextView equation;
+        @InjectView(R.id.results_equation_answer) TextView answer;
 
         public ViewHolder(View itemView) {
             super(itemView);
