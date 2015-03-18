@@ -108,7 +108,7 @@ public class CalculatorFragment extends InjectedFragment {
 
     private void checkForResumedCalculating() {
         if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(equation)) {
-            equationHandler.handleResumedCalculating(equation, answer);
+            equation = equationHandler.handleResumedCalculating(equation, answer);
         }
     }
 
@@ -125,7 +125,7 @@ public class CalculatorFragment extends InjectedFragment {
     public void onBackspace() {
         if (equation.length() > 0) {
 
-            equation += equationHandler.handleBackspace(equation);
+            equation = equationHandler.handleBackspace(equation);
 
             answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
