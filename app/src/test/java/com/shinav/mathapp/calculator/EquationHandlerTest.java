@@ -3,8 +3,6 @@ package com.shinav.mathapp.calculator;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -23,7 +21,7 @@ public class EquationHandlerTest {
 
         equation = equationHandler.handleParenthesis(equation);
 
-        assertThat(equation, containsString("("));
+        assertThat(equation, equalTo("("));
     }
 
     @Test
@@ -32,7 +30,7 @@ public class EquationHandlerTest {
 
         equation = equationHandler.handleParenthesis(equation);
 
-        assertThat(equation, containsString(")"));
+        assertThat(equation, equalTo("(13)"));
     }
 
     @Test
@@ -50,7 +48,7 @@ public class EquationHandlerTest {
 
         equation = equationHandler.handleParenthesis(equation);
 
-        assertThat(equation, endsWith("("));
+        assertThat(equation, equalTo("(13)("));
     }
 
     @Test
@@ -59,7 +57,7 @@ public class EquationHandlerTest {
 
         equation = equationHandler.handleParenthesis(equation);
 
-        assertThat(equation, endsWith(")"));
+        assertThat(equation, equalTo("(13) + (13)"));
     }
 
     @Test
@@ -87,6 +85,15 @@ public class EquationHandlerTest {
         equation = equationHandler.handleBackspace(equation);
 
         assertThat(equation, equalTo("1"));
+    }
+
+    @Test
+    public void testOperatorHaveAdjacentSpaces() throws Exception {
+        String equation = "1";
+
+        equation = equationHandler.handleOperator(equation, "+");
+
+        assertThat(equation, equalTo("1 + "));
     }
 
 }

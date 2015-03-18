@@ -103,14 +103,12 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
         updateLastCalculatorEntry();
     }
 
-    private void optionClicked(String text) {
+    private void operatorClicked(String operator) {
 
         checkForResumedCalculating();
 
-        String addedText = " " + text + " ";
-
         if (!equation.endsWith("√")) {
-            equation += addedText;
+            equation = equationHandler.handleOperator(equation, operator);
         }
 
         updateLastCalculatorEntry();
@@ -201,7 +199,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
         @Override
         public void onClick(View v) {
             String text = ((TextView) v).getText().toString();
-            optionClicked(text);
+            operatorClicked(text);
         }
     };
 

@@ -8,19 +8,24 @@ public class EquationHandler {
         int closeCounter = StringUtils.countMatches(equation, ")");
 
         if (openCounter == closeCounter) {
-            return "(";
+            equation += "(";
         } else {
             if (!equation.endsWith("(")) {
-                return ")";
+                equation += ")";
             }
         }
 
-        return "";
+        return equation;
     }
 
     public String handleBackspace(String equation) {
         int amountToRemove = equation.endsWith(" ") ? 3 : 1;
         return equation.substring(0, equation.length() - amountToRemove);
+    }
+
+    public String handleOperator(String equation, String operator) {
+        equation += (" " + operator + " ");
+        return equation;
     }
 
 }
