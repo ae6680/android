@@ -5,7 +5,13 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
+import com.shinav.mathapp.injection.AndroidModule;
 import com.shinav.mathapp.sync.FirebaseRealmAdapter;
+
+import java.util.Arrays;
+import java.util.List;
+
+import dagger.ObjectGraph;
 
 public class MyApplication extends Application {
 
@@ -13,8 +19,9 @@ public class MyApplication extends Application {
     public static int screenHeight;
     public static int screenWidth;
 
-    @Override
-    public void onCreate() {
+    private ObjectGraph applicationGraph;
+
+    @Override public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
 
@@ -22,9 +29,25 @@ public class MyApplication extends Application {
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
 
-        Firebase.setAndroidContext(context);
+        setupFirebase();
+
+        applicationGraph = ObjectGraph.create(getModules().toArray());
+    }
+
+    private void setupFirebase() {
+        Firebase.setAndroidContext(this);
 
         FirebaseRealmAdapter.getInstance().register();
+    }
+
+    protected List getModules() {
+        return Arrays.asList(
+                new AndroidModule(this)
+        );
+    }
+
+    public <T> void inject(T instance) {
+        applicationGraph.inject(instance);
     }
 
     public static Context getAppContext() {

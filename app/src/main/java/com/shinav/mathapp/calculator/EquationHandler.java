@@ -2,7 +2,13 @@ package com.shinav.mathapp.calculator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.inject.Inject;
+
 public class EquationHandler {
+
+    @Inject
+    public EquationHandler() { }
+
     public String handleParenthesis(String equation) {
         int openCounter = StringUtils.countMatches(equation, "(");
         int closeCounter = StringUtils.countMatches(equation, ")");

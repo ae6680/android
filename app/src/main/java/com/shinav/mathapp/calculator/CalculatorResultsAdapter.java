@@ -11,6 +11,8 @@ import com.shinav.mathapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -18,6 +20,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     private List<CalculatorEntry> results = new ArrayList<>();
 
+    @Inject
     public CalculatorResultsAdapter() {
         populate();
     }

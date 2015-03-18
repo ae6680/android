@@ -1,7 +1,6 @@
 package com.shinav.mathapp.calculator;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.injection.InjectedFragment;
 import com.shinav.mathapp.question.QuestionActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,7 +23,7 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class CalculatorFragment extends Fragment {
+public class CalculatorFragment extends InjectedFragment {
 
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
 
@@ -47,26 +49,27 @@ public class CalculatorFragment extends Fragment {
             R.id.calculator_options_addition
     }) List<TextView> numpadOperatorViews;
 
+    @Inject Calculator calculator;
+    @Inject EquationHandler equationHandler;
+    @Inject CalculatorResultsAdapter resultsAdapter;
+
     private String equation = "";
     private String answer = "";
-    private CalculatorResultsAdapter resultsAdapter;
-    private Calculator calculator;
-    private EquationHandler equationHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calculator, container, false);
-
         ButterKnife.inject(this, view);
 
-        calculator = new Calculator();
-        equationHandler = new EquationHandler();
+        return view;
+    }
+
+    @Override public void onStart() {
+        super.onStart();
 
         setNumpadNumberClickListeners();
         setNumpadOperatorClickListeners();
         showCalculatorResultArea();
-
-        return view;
     }
 
     private void setNumpadOperatorClickListeners() {
@@ -82,7 +85,6 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void showCalculatorResultArea() {
-        resultsAdapter = new CalculatorResultsAdapter();
         calculatorResults.setLayoutManager(new LinearLayoutManager(getActivity()));
         calculatorResults.setAdapter(resultsAdapter);
     }

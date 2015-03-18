@@ -11,8 +11,14 @@ public class Calculator {
 
     private static final String TAG = "Calculator";
 
-    @Inject EquationFilterer equationFilterer;
-    @Inject AnswerCleaner answerCleaner;
+    private EquationFilterer equationFilterer;
+    private AnswerCleaner answerCleaner;
+
+    @Inject
+    public Calculator(EquationFilterer equationFilterer, AnswerCleaner answerCleaner) {
+        this.equationFilterer = equationFilterer;
+        this.answerCleaner = answerCleaner;
+    }
 
     public String calculate(String equation) {
         String answer = "";
