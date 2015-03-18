@@ -52,7 +52,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     private CalculatorResultsAdapter resultsAdapter;
     private Calculator calculator;
     private CalculatorPresenter calculatorPresenter;
-    private OperationHandler operationHandler;
+    private EquationHandler equationHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
 
         calculator = new Calculator();
         calculatorPresenter = new CalculatorPresenter(this);
-        operationHandler = new OperationHandler();
+        equationHandler = new EquationHandler();
 
         return view;
     }
@@ -135,7 +135,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     public void onBackspace() {
         if (equation.length() > 0) {
 
-            equation += operationHandler.handleBackspace(equation);
+            equation += equationHandler.handleBackspace(equation);
 
             answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
@@ -160,7 +160,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     @OnClick(R.id.calculator_options_parenthesis)
     public void onParenthesis() {
 
-        equation += operationHandler.handleParenthesis(equation);
+        equation += equationHandler.handleParenthesis(equation);
 
         if (equation.endsWith(")")) {
             answer = calculator.calculate(equation);

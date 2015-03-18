@@ -8,20 +8,20 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-public class OperationHandlerTest {
+public class EquationHandlerTest {
 
-    private OperationHandler operationHandler;
+    private EquationHandler equationHandler;
 
     @Before
     public void setUp() throws Exception {
-        operationHandler = new OperationHandler();
+        equationHandler = new EquationHandler();
     }
 
     @Test
     public void testReturnsOpenParenthesisWhenNotOpened() throws Exception {
         String equation = "";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, containsString("("));
     }
@@ -30,7 +30,7 @@ public class OperationHandlerTest {
     public void testReturnsClosedParenthesisWhenOpened() throws Exception {
         String equation = "(13";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, containsString(")"));
     }
@@ -39,7 +39,7 @@ public class OperationHandlerTest {
     public void testReturnsNothingWhenParenthesisOnlyOpened() throws Exception {
         String equation = "(";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, equalTo(equation));
     }
@@ -48,7 +48,7 @@ public class OperationHandlerTest {
     public void testReturnsOpenParenthesisWhenClosedMultipleTimes() throws Exception {
         String equation = "(13)";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, endsWith("("));
     }
@@ -57,7 +57,7 @@ public class OperationHandlerTest {
     public void testReturnsClosedParenthesisWhenOpenedWithMultipleParenthesisGroups() throws Exception {
         String equation = "(13) + (13";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, endsWith(")"));
     }
@@ -66,7 +66,7 @@ public class OperationHandlerTest {
     public void testReturnsNothingWhenLastOpenedParenthesisIsOnlyOpened() throws Exception {
         String equation = "(13) + (";
 
-        equation = operationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         assertThat(equation, equalTo(equation));
     }
@@ -75,7 +75,7 @@ public class OperationHandlerTest {
     public void testBackspaceRemovesOneCharacter() throws Exception {
         String equation = "1 + 1";
 
-        equation = operationHandler.handleBackspace(equation);
+        equation = equationHandler.handleBackspace(equation);
 
         assertThat(equation, equalTo("1 + "));
     }
@@ -84,7 +84,7 @@ public class OperationHandlerTest {
     public void testBackspaceRemovesOperatorWhenLastAction() throws Exception {
         String equation = "1 + ";
 
-        equation = operationHandler.handleBackspace(equation);
+        equation = equationHandler.handleBackspace(equation);
 
         assertThat(equation, equalTo("1"));
     }
