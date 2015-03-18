@@ -21,7 +21,7 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class CalculatorFragment extends Fragment implements CalculatorView {
+public class CalculatorFragment extends Fragment {
 
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
 
@@ -51,7 +51,6 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     private String answer = "";
     private CalculatorResultsAdapter resultsAdapter;
     private Calculator calculator;
-    private CalculatorPresenter calculatorPresenter;
     private EquationHandler equationHandler;
 
     @Override
@@ -61,44 +60,35 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
         ButterKnife.inject(this, view);
 
         calculator = new Calculator();
-        calculatorPresenter = new CalculatorPresenter(this);
         equationHandler = new EquationHandler();
+
+        setNumpadNumberClickListeners();
+        setNumpadOperatorClickListeners();
+        showCalculatorResultArea();
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        calculatorPresenter.start();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        calculatorPresenter.stop();
-    }
-
-    public void setNumpadOptionClickListeners() {
+    private void setNumpadOperatorClickListeners() {
         for (View view : numpadOptionViews) {
             view.setOnClickListener(numpadOptionClickListener);
         }
     }
 
-    public void setNumpadNumberClickListeners() {
+    private void setNumpadNumberClickListeners() {
         for (View view : numpadNumberViews) {
             view.setOnClickListener(numpadNumberClickListener);
         }
     }
 
-    public void showCalculatorResultArea() {
+    private void showCalculatorResultArea() {
         resultsAdapter = new CalculatorResultsAdapter();
         calculatorResults.setLayoutManager(new LinearLayoutManager(getActivity()));
         calculatorResults.setAdapter(resultsAdapter);
     }
 
-    private void numberClicked(String text) {
-        equation += text;
+    private void numberClicked(String number) {
+        equation = equationHandler.handleNumber(equation, number);
         answer = calculator.calculate(equation);
         updateLastCalculatorEntry();
     }

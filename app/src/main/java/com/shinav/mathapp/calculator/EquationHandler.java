@@ -28,4 +28,9 @@ public class EquationHandler {
         return equation;
     }
 
+    public String handleNumber(String equation, String number) {
+        equation += number;
+        return equation;
+    }
+
 }

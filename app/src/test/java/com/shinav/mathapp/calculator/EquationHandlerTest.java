@@ -96,4 +96,14 @@ public class EquationHandlerTest {
         assertThat(equation, equalTo("1 + "));
     }
 
+    @Test
+    public void testNumberIsAddedToEquation() throws Exception {
+        String equation = "1";
+        String number = "1";
+
+        equation = equationHandler.handleNumber(equation, number);
+
+        assertThat(equation, equalTo("11"));
+
+    }
 }
