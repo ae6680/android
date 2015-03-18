@@ -1,36 +1,64 @@
 package com.shinav.mathapp.conversation;
 
-public class ConversationEntry {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
-    public static final int LEFT = 0;
-    public static final int RIGHT = 1;
-    private final int typingDuration;
-    private final int delay;
+@RealmClass
+public class ConversationEntry extends RealmObject {
+
+    @PrimaryKey
+    private String firebaseKey;
 
     private String message;
     private int position;
+    private int delay;
+    private int typingDuration;
 
-    public ConversationEntry(String message, int position, int delay, int typingDuration) {
-        this.message = message;
-        this.position = position;
-        this.typingDuration = typingDuration;
-        this.delay = delay;
-    }
+    public ConversationEntry() { }
 
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getPosition() {
         return position;
     }
 
-    public int getTypingDuration() {
-        return typingDuration;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public int getDelay() {
         return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getTypingDuration() {
+        return typingDuration;
+    }
+
+    public void setTypingDuration(int typingDuration) {
+        this.typingDuration = typingDuration;
+    }
+
+    public String getFirebaseKey() {
+        return firebaseKey;
+    }
+
+    public void setFirebaseKey(String firebaseKey) {
+        this.firebaseKey = firebaseKey;
+    }
+
+    public boolean isLeft() {
+       return getPosition() == 0;
     }
 
 }

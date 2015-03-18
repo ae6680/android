@@ -1,7 +1,6 @@
 package com.shinav.mathapp.approach.feedback;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +10,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachAdapter;
-import com.shinav.mathapp.progress.ProgressProvider;
-import com.shinav.mathapp.question.QuestionActivity;
+import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +27,7 @@ public class ApproachFeedbackActivity extends Activity {
     @InjectView(R.id.approach_list_mine) RecyclerView approachListMine;
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
     private List<Approach> approaches;
+    private Storyteller storyteller;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,8 @@ public class ApproachFeedbackActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        approaches = ProgressProvider.getCurrentApproach();
+        storyteller = new Storyteller(this);
+        approaches = storyteller.getCurrentApproach();
 
         initApproachListMine();
         initApproachListCorrect();
@@ -91,8 +91,7 @@ public class ApproachFeedbackActivity extends Activity {
 
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
-        startActivity(new Intent(this, QuestionActivity.class));
-        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+        storyteller.next();
     }
 
     @Override

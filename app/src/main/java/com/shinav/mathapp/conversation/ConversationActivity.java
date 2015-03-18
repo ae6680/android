@@ -1,7 +1,6 @@
 package com.shinav.mathapp.conversation;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -9,9 +8,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachActivity;
+import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.repository.RealmRepository;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -32,13 +32,9 @@ public class ConversationActivity extends Activity {
 
     private void initConversation() {
 
-        final List<ConversationEntry> conversation = Arrays.asList(
-                new ConversationEntry("Hey, zullen we op vakantie?", ConversationEntry.LEFT, 1500, 2500),
-                new ConversationEntry("Waarheen?", ConversationEntry.RIGHT, 1500, 2000),
-                new ConversationEntry("Geen idee, ik zal mijn Maps er eens bij pakken.", ConversationEntry.LEFT, 800, 3000),
-                new ConversationEntry("Is er een land waar je niet bent geweest en waar je graag heen wil?", ConversationEntry.RIGHT, 1200, 4500),
-                new ConversationEntry("Ja, Spanje bijvoorbeeld!", ConversationEntry.LEFT, 800, 2500)
-        );
+        String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+
+        final Conversation conversation = RealmRepository.getInstance().getConversation(conversationKey);
 
         final Handler handler = new Handler();
         Runnable showTypingMessageRunnable = new Runnable() {
@@ -47,7 +43,10 @@ public class ConversationActivity extends Activity {
 
             @Override public void run() {
 
-                ConversationEntry conversationEntry = conversation.get(counter);
+                final List<ConversationEntry> entries = new ArrayList<>(
+                        conversation.getConversationEntries());
+
+                ConversationEntry conversationEntry = entries.get(counter);
 
                 final ConversationEntryView view = new ConversationEntryView(
                         ConversationActivity.this,
@@ -68,8 +67,8 @@ public class ConversationActivity extends Activity {
 
                         view.showMessage();
 
-                        if (counter < conversation.size()) {
-                            handler.postDelayed(parent, conversation.get(counter).getDelay());
+                        if (counter < entries.size()) {
+                            handler.postDelayed(parent, entries.get(counter).getDelay());
                         }
                     }
                 };
@@ -85,8 +84,7 @@ public class ConversationActivity extends Activity {
 
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
-        startActivity(new Intent(this, ApproachActivity.class));
-        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+        new Storyteller(this).next();
     }
 
 }

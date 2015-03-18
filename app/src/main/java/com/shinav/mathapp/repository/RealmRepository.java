@@ -1,7 +1,9 @@
 package com.shinav.mathapp.repository;
 
 import com.shinav.mathapp.MyApplication;
+import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.story.Story;
 
 import java.util.List;
 
@@ -24,4 +26,11 @@ public class RealmRepository {
         return REALM.where(Question.class).contains("firebaseKey", firebaseKey).findFirst();
     }
 
+    public Story getStory(String firebaseKey) {
+        return REALM.where(Story.class).contains("firebaseKey", firebaseKey).findFirst();
+    }
+
+    public Conversation getConversation(String firebaseKey) {
+        return REALM.where(Conversation.class).contains("firebaseKey", firebaseKey).findFirst();
+    }
 }

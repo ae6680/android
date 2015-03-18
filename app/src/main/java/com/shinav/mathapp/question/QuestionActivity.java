@@ -1,28 +1,22 @@
 package com.shinav.mathapp.question;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.AnimationFactory;
-import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
-import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.progress.ProgressProvider;
+import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.view.CustomViewFlipper;
 import com.shinav.mathapp.view.FlipCard;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.realm.Realm;
 
 public class QuestionActivity extends FragmentActivity {
 
@@ -38,12 +32,13 @@ public class QuestionActivity extends FragmentActivity {
 
         ButterKnife.inject(this);
 
-        question = ProgressProvider.getCurrentQuestion();
+        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        question = RealmRepository.getInstance().getQuestion(questionKey);
 
         questionView = new QuestionView(this, question);
         viewFlipper.setFront(questionView);
 
-        viewFlipper.setBack(new QuestionApproachView(this));
+        viewFlipper.setBack(new QuestionApproachView(this, question.getApproaches()));
 
         initCalculator();
     }
@@ -87,20 +82,7 @@ public class QuestionActivity extends FragmentActivity {
 
     @Subscribe
     public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
-        List<Question> questions = new ArrayList<>(Realm.getInstance(this).where(Question.class).findAll());
-        int nextPosition = questions.indexOf(question)+1;
-
-        if (nextPosition < questions.size()) {
-            ProgressProvider.setCurrentQuestion(questions.get(nextPosition));
-
-            if (nextPosition == 3) {
-                startActivity(new Intent(this, ConversationActivity.class));
-            } else {
-                startActivity(new Intent(this, ApproachActivity.class));
-            }
-
-            overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
-        }
+        new Storyteller(this).next();
     }
 
     public void onAnswerChanged(String answer) {

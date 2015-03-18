@@ -1,7 +1,6 @@
 package com.shinav.mathapp.approach;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +10,10 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.drag.DragSortRecycler;
-import com.shinav.mathapp.progress.ProgressProvider;
+import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.repository.RealmRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +37,9 @@ public class ApproachActivity extends Activity {
         setContentView(R.layout.activity_approach);
         ButterKnife.inject(this);
 
-        Question question = ProgressProvider.getCurrentQuestion();
+        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        Question question = RealmRepository.getInstance().getQuestion(questionKey);
+
         approaches = new ArrayList<>(question.getApproaches());
 
         questionTitle.setText(question.getTitle());
@@ -93,10 +94,10 @@ public class ApproachActivity extends Activity {
 
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
-        ProgressProvider.setCurrentApproach(approaches);
+        Storyteller storyteller = new Storyteller(this);
 
-        startActivity(new Intent(this, ApproachFeedbackActivity.class));
-        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+        storyteller.setCurrentApproach(approaches);
+        storyteller.next();
     }
 
     @Override

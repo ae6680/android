@@ -10,9 +10,11 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.AnimationFactory;
+import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachAdapter;
-import com.shinav.mathapp.progress.ProgressProvider;
 import com.shinav.mathapp.view.FlipCard;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,18 +25,18 @@ public class QuestionApproachView extends FlipCard {
     public static final float PERCENTAGE_HEIGHT = 0.38f;
     @InjectView(R.id.approach_list) RecyclerView approachList;
 
-    public QuestionApproachView(Context context) {
+    public QuestionApproachView(Context context, List<Approach> approaches) {
         super(context);
-        init();
+        init(approaches);
     }
 
-    public void init() {
+    public void init(List<Approach> approaches) {
         View view = LayoutInflater.from(this.getContext())
                 .inflate(R.layout.question_approach_card, null, false);
 
         ButterKnife.inject(this, view);
 
-        initApproachList();
+        initApproachList(approaches);
         setParams(view);
 
         addView(view);
@@ -45,13 +47,13 @@ public class QuestionApproachView extends FlipCard {
         flip(AnimationFactory.FlipDirection.LEFT_RIGHT, 300);
     }
 
-    private void initApproachList() {
+    private void initApproachList(List<Approach> approaches) {
         ApproachAdapter approachAdapter = new ApproachAdapter();
 
         approachList.setAdapter(approachAdapter);
         approachList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        approachAdapter.setApproaches(ProgressProvider.getCurrentQuestion().getApproaches());
+        approachAdapter.setApproaches(approaches);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

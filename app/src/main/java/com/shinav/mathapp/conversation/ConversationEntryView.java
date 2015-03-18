@@ -38,7 +38,7 @@ public class ConversationEntryView extends LinearLayout {
 
         int layout;
 
-        if (conversationEntry.getPosition() == ConversationEntry.LEFT) {
+        if (conversationEntry.isLeft()) {
             layout = R.layout.conversation_list_item_left;
         } else {
             layout = R.layout.conversation_list_item_right;
