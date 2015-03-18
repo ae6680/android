@@ -18,6 +18,7 @@ import butterknife.InjectView;
 
 public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorResultsAdapter.ViewHolder> {
 
+    public static final int ITEM_LAYOUT = R.layout.calculator_results_item;
     private List<CalculatorEntry> results = new ArrayList<>();
 
     @Inject
@@ -34,7 +35,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.calculator_results_item, viewGroup, false);
+                .inflate(ITEM_LAYOUT, viewGroup, false);
 
         return new ViewHolder(view);
     }
