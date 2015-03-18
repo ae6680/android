@@ -45,7 +45,7 @@ public class CalculatorFragment extends Fragment {
             R.id.calculator_options_power_of,
             R.id.calculator_options_multiply,
             R.id.calculator_options_addition
-    }) List<TextView> numpadOptionViews;
+    }) List<TextView> numpadOperatorViews;
 
     private String equation = "";
     private String answer = "";
@@ -70,8 +70,8 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setNumpadOperatorClickListeners() {
-        for (View view : numpadOptionViews) {
-            view.setOnClickListener(numpadOptionClickListener);
+        for (View view : numpadOperatorViews) {
+            view.setOnClickListener(numpadOperatorClickListener);
         }
     }
 
@@ -106,7 +106,7 @@ public class CalculatorFragment extends Fragment {
 
     private void checkForResumedCalculating() {
         if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(equation)) {
-            equation += answer;
+            equationHandler.handleResumedCalculating(equation, answer);
         }
     }
 
@@ -184,7 +184,7 @@ public class CalculatorFragment extends Fragment {
         }
     };
 
-    View.OnClickListener numpadOptionClickListener = new View.OnClickListener() {
+    View.OnClickListener numpadOperatorClickListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {

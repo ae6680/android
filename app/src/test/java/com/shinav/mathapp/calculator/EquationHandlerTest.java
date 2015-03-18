@@ -106,4 +106,15 @@ public class EquationHandlerTest {
         assertThat(equation, equalTo("11"));
 
     }
+
+    @Test
+    public void testAnswerIsAppendedToEquationWhenCalculatingResumed() throws Exception {
+        String equation = "";
+        String answer = "13";
+
+        equation = equationHandler.handleResumedCalculating(equation, answer);
+
+        assertThat(equation, equalTo(answer));
+    }
+
 }

@@ -33,4 +33,9 @@ public class EquationHandler {
         return equation;
     }
 
+    public String handleResumedCalculating(String equation, String answer) {
+        equation += answer;
+        return equation;
+    }
+
 }
