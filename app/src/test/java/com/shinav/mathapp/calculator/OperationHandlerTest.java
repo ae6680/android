@@ -71,4 +71,22 @@ public class OperationHandlerTest {
         assertThat(equation, equalTo(equation));
     }
 
+    @Test
+    public void testBackspaceRemovesOneCharacter() throws Exception {
+        String equation = "1 + 1";
+
+        equation = operationHandler.handleBackspace(equation);
+
+        assertThat(equation, equalTo("1 + "));
+    }
+
+    @Test
+    public void testBackspaceRemovesOperatorWhenLastAction() throws Exception {
+        String equation = "1 + ";
+
+        equation = operationHandler.handleBackspace(equation);
+
+        assertThat(equation, equalTo("1"));
+    }
+
 }

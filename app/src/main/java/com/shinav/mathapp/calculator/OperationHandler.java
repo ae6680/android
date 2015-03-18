@@ -17,4 +17,10 @@ public class OperationHandler {
 
         return "";
     }
+
+    public String handleBackspace(String equation) {
+        int amountToRemove = equation.endsWith(" ") ? 3 : 1;
+        return equation.substring(0, equation.length() - amountToRemove);
+    }
+
 }

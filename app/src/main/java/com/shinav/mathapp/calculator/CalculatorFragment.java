@@ -135,9 +135,7 @@ public class CalculatorFragment extends Fragment implements CalculatorView {
     public void onBackspace() {
         if (equation.length() > 0) {
 
-            int amountToRemove = equation.endsWith(" ") ? 3 : 1;
-
-            equation = equation.substring(0, equation.length() - amountToRemove);
+            equation += operationHandler.handleBackspace(equation);
 
             answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
