@@ -10,7 +10,7 @@
 
     <item android:bottom="2dp" android:right="2dp" >
         <shape>
-            <solid android:color="#fff" />
+            <solid android:color="@color/card_background" />
             <corners android:radius="2dp" />
         </shape>
     </item>

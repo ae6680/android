@@ -1,7 +1,6 @@
 package com.shinav.mathapp.view;
 
 import android.content.Context;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -18,10 +17,10 @@ public class ViewPagerIndicator extends ImageButton {
         setBackgroundResource(R.drawable.view_pager_indicator);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                getResources().getDimensionPixelSize(R.dimen.indicator_dimension),
+                getResources().getDimensionPixelSize(R.dimen.indicator_dimension)
         );
-        params.setMargins(5, 0, 5, 0);
+        params.setMargins(10, 0, 10, 0);
 
         setLayoutParams(params);
     }

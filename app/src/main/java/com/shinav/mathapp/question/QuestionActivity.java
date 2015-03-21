@@ -1,7 +1,8 @@
 package com.shinav.mathapp.question;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class QuestionActivity extends FragmentActivity {
+public class QuestionActivity extends ActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
@@ -29,27 +30,21 @@ public class QuestionActivity extends FragmentActivity {
 
     private QuestionCardView questionCardView;
     private Question question;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
         ButterKnife.inject(this);
 
 //        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
         String questionKey = "question-1";
         question = RealmRepository.getInstance().getQuestion(questionKey);
 
-        questionCardView = new QuestionCardView(this);
-        questionCardView.setQuestion(question);
+        toolbar.setTitle(question.getTitle());
+        setSupportActionBar(toolbar);
 
-        cardViewPager.setIndicator(viewPagerIndicator);
-        cardViewPager.setCards(Arrays.<Card>asList(
-                new QuestionCardView(this),
-                questionCardView,
-                new QuestionCardView(this)
-        ));
-        cardViewPager.setCurrentItem(1);
+        initViewPager();
 
         initCalculator();
     }
@@ -64,6 +59,19 @@ public class QuestionActivity extends FragmentActivity {
     public void onStop() {
         super.onStop();
         BusProvider.getUIBusInstance().unregister(this);
+    }
+
+    private void initViewPager() {
+        questionCardView = new QuestionCardView(this);
+        questionCardView.setQuestion(question);
+
+        cardViewPager.setIndicator(viewPagerIndicator);
+        cardViewPager.setCards(Arrays.<Card>asList(
+                new QuestionCardView(this),
+                questionCardView,
+                new QuestionCardView(this)
+        ));
+        cardViewPager.setCurrentItem(1);
     }
 
     private void initCalculator() {

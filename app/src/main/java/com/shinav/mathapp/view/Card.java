@@ -11,7 +11,7 @@ import com.shinav.mathapp.MyApplication;
 public class Card extends LinearLayout {
 
     public static final float PERCENTAGE_WIDTH_OF_SCREEN = 0.8F;
-    public static final float PERCENTAGE_HEIGHT_OF_SCREEN = 0.55F;
+    public static final float PERCENTAGE_HEIGHT_OF_SCREEN = 0.45F;
 
     public Card(Context context) {
         super(context);
