@@ -2,6 +2,7 @@ package com.shinav.mathapp.question;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
@@ -24,6 +25,7 @@ public class QuestionActivity extends FragmentActivity {
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
+    @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
 
     private QuestionCardView questionCardView;
     private Question question;
@@ -41,9 +43,13 @@ public class QuestionActivity extends FragmentActivity {
         questionCardView = new QuestionCardView(this);
         questionCardView.setQuestion(question);
 
+        cardViewPager.setIndicator(viewPagerIndicator);
         cardViewPager.setCards(Arrays.<Card>asList(
-                questionCardView
+                new QuestionCardView(this),
+                questionCardView,
+                new QuestionCardView(this)
         ));
+        cardViewPager.setCurrentItem(1);
 
         initCalculator();
     }

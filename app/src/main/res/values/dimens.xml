@@ -22,4 +22,6 @@
     <dimen name="card_pager_gutter">16dp</dimen>
     <dimen name="card_pager_margin">26dp</dimen>
 
+    <dimen name="indicator_dimension">12dp</dimen>
+
 </resources>

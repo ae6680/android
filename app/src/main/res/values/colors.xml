@@ -14,5 +14,8 @@
 
     <color name="approach_correct">#26C281</color>
     <color name="approach_incorrect">#E08283</color>
+    
+    <color name="indicator_selected">#4D4D4D</color>
+    <color name="indicator_unselected">#A3A3A3</color>
 
 </resources>
