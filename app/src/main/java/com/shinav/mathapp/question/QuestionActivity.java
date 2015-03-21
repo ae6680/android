@@ -3,6 +3,9 @@ package com.shinav.mathapp.question;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
@@ -41,12 +44,37 @@ public class QuestionActivity extends ActionBarActivity {
         String questionKey = "question-1";
         question = RealmRepository.getInstance().getQuestion(questionKey);
 
-        toolbar.setTitle(question.getTitle());
-        setSupportActionBar(toolbar);
+        initToolbar();
 
         initViewPager();
 
         initCalculator();
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.question_menu, menu);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_approach:
+                cardViewPager.setCurrentItem(0);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void initToolbar() {
+        toolbar.setTitle(question.getTitle());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
