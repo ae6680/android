@@ -19,4 +19,7 @@
     <dimen name="primary_margin">16dp</dimen>
     <dimen name="conversation_entry_margin_top">20dp</dimen>
 
+    <dimen name="card_pager_gutter">16dp</dimen>
+    <dimen name="card_pager_margin">26dp</dimen>
+
 </resources>

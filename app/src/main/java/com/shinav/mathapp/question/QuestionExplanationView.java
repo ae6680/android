@@ -9,13 +9,13 @@ import android.widget.TextView;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.view.FlipCard;
+import com.shinav.mathapp.view.Card;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class QuestionExplanationView extends FlipCard {
+public class QuestionExplanationView extends Card {
 
     @InjectView(R.id.explanation_title) TextView explanationTitle;
 

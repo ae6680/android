@@ -47,8 +47,7 @@
 
     <style name="card">
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:padding">16dp</item>
-        <item name="android:background">@drawable/card_rounded</item>
+        <item name="android:background">@drawable/card_background</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>

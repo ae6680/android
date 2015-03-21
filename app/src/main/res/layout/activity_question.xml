@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <view
-        class="com.shinav.mathapp.view.CustomViewFlipper"
-        android:id="@+id/view_flipper"
+    <com.shinav.mathapp.view.CardViewPager
+        android:id="@+id/card_view_pager"
         android:layout_gravity="center_horizontal"
-        android:padding="20dp"
-        android:clipToPadding="false"
+        android:layout_marginTop="22dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

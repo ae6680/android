@@ -16,6 +16,8 @@
     <string name="explanation_title">Uitleg</string>
     <string name="question_pass_title">Gefeliciteerd</string>
     <string name="question_fail_title">Jammer</string>
+    <string name="submit_button_text">BEVESTIG</string>
+    <string name="answer_input_placeholder">GEEF ANTWOORD</string>
 
     <!--<string name="question_1">-->
         <!--Je bent bezig met je laatste onderdeel van je Nederlands examen, het schrijven van een samenvatting van maximaal 200 woorden.-->

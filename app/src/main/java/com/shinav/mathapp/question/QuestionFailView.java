@@ -7,16 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.animation.AnimationFactory;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.view.FlipCard;
+import com.shinav.mathapp.view.Card;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class QuestionFailView extends FlipCard {
+public class QuestionFailView extends Card {
 
     @InjectView(R.id.answer_title) TextView answerTitle;
     @InjectView(R.id.answer) TextView answerView;
@@ -49,11 +48,6 @@ public class QuestionFailView extends FlipCard {
 
     public void setAnswer(String answer) {
         answerView.setText(answer);
-    }
-
-    @OnClick(R.id.question_explanation_icon)
-    public void onExplanationClicked() {
-        flip(AnimationFactory.FlipDirection.LEFT_RIGHT, 300);
     }
 
 }

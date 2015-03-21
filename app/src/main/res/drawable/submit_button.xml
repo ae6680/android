@@ -3,10 +3,14 @@
 
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/check_icon" />
+        android:color="#009688"
+        />
+    <!--android:drawable="@drawable/check_icon"-->
 
     <item
         android:state_enabled="false"
-        android:drawable="@drawable/check_disabled_icon" />
+        android:color="#A3A3A3"
+        />
+    <!--android:drawable="@drawable/check_disabled_icon"-->
 
 </selector>
