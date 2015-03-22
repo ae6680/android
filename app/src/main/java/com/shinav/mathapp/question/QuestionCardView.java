@@ -4,12 +4,15 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
+import com.shinav.mathapp.calculator.OnAnswerFieldClickedEvent;
+import com.shinav.mathapp.calculator.OnNumpadOperationClicked;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.view.Card;
 
@@ -37,7 +40,16 @@ public class QuestionCardView extends Card {
 
         setLayoutParams(view);
 
+        submitButton.setEnabled(false);
         answerField.addTextChangedListener(new AnswerTextWatcher());
+
+        answerField.setOnTouchListener(new OnTouchListener() {
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                v.onTouchEvent(event);
+                BusProvider.getUIBusInstance().post(new OnAnswerFieldClickedEvent());
+                return true;
+            }
+        });
 
         addView(view);
     }
@@ -70,8 +82,32 @@ public class QuestionCardView extends Card {
         BusProvider.getUIBusInstance().post(event);
     }
 
-    public void onAnswerChanged(String answer) {
-        answerField.setText(answer);
+    public void onCalculatorNumpadClicked(OnNumpadOperationClicked event) {
+        String value = event.getValue();
+        int cursorPosition = answerField.getSelectionStart();
+        String currentText = answerField.getText().toString();
+
+        StringBuilder sb = new StringBuilder(currentText);
+
+        switch (event.getOperation()) {
+
+            case OnNumpadOperationClicked.OPERATION_INSERT:
+                sb.insert(cursorPosition, value);
+                answerField.setText(sb.toString());
+                answerField.setSelection(cursorPosition+1);
+                break;
+
+            case OnNumpadOperationClicked.OPERATION_BACKSPACE:
+                if (cursorPosition != 0) {
+                    sb.deleteCharAt(cursorPosition-1);
+                    answerField.setText(sb.toString());
+                    answerField.setSelection(cursorPosition-1);
+                }
+                break;
+
+            case OnNumpadOperationClicked.OPERATION_REMOVE_ALL:
+                answerField.setText("");
+        }
     }
 
     private class AnswerTextWatcher implements TextWatcher {

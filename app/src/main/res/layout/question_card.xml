@@ -12,6 +12,7 @@
 
     <RelativeLayout
         android:layout_alignParentBottom="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,13 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
 
-        <EditText
+        <com.shinav.mathapp.view.NoKeyboardEditText
             android:id="@+id/answer_input"
             android:ems="8"
             android:singleLine="true"
             android:hint="@string/answer_input_placeholder"
             android:textSize="@dimen/text_size_normal"
-            android:textColor="#4D4D4D"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
             android:layout_marginStart="16dp"
             android:layout_centerVertical="true"
             android:paddingTop="16dp"

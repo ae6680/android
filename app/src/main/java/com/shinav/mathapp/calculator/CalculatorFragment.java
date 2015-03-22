@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.injection.InjectedFragment;
-import com.shinav.mathapp.question.QuestionActivity;
 
 import java.util.List;
 
@@ -55,6 +55,7 @@ public class CalculatorFragment extends InjectedFragment {
 
     private String equation = "";
     private String answer = "";
+    private boolean hasFocus = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,20 +91,26 @@ public class CalculatorFragment extends InjectedFragment {
     }
 
     private void numberClicked(String number) {
-        equation = equationHandler.handleNumber(equation, number);
-        answer = calculator.calculate(equation);
-        updateLastCalculatorEntry();
+        if (hasFocus) {
+            equation = equationHandler.handleNumber(equation, number);
+            answer = calculator.calculate(equation);
+            updateLastCalculatorEntry();
+        } else {
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
+                    OnNumpadOperationClicked.OPERATION_INSERT, number));
+        }
     }
 
     private void operatorClicked(String operator) {
+        if (hasFocus) {
+            checkForResumedCalculating();
 
-        checkForResumedCalculating();
+            if (!equation.endsWith("√")) {
+                equation = equationHandler.handleOperator(equation, operator);
+            }
 
-        if (!equation.endsWith("√")) {
-            equation = equationHandler.handleOperator(equation, operator);
+            updateLastCalculatorEntry();
         }
-
-        updateLastCalculatorEntry();
     }
 
     private void checkForResumedCalculating() {
@@ -123,28 +130,42 @@ public class CalculatorFragment extends InjectedFragment {
 
     @OnClick(R.id.numpad_backspace)
     public void onBackspace() {
-        if (equation.length() > 0) {
+        if (hasFocus) {
+            if (equation.length() > 0) {
+                equation = equationHandler.handleBackspace(equation);
 
-            equation = equationHandler.handleBackspace(equation);
-
-            answer = calculator.calculate(equation);
-            updateLastCalculatorEntry();
+                answer = calculator.calculate(equation);
+                updateLastCalculatorEntry();
+            }
+        } else {
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
+                    OnNumpadOperationClicked.OPERATION_BACKSPACE, null));
         }
     }
 
     @OnLongClick(R.id.numpad_backspace)
     public boolean onLongBackspace() {
-        equation = "";
-        answer = "";
-        updateLastCalculatorEntry();
+        if (hasFocus) {
+            equation = "";
+            answer = "";
+            updateLastCalculatorEntry();
+        } else {
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
+                    OnNumpadOperationClicked.OPERATION_REMOVE_ALL, null));
+        }
 
         return false;
     }
 
     @OnClick(R.id.numpad_comma)
     public void onComma() {
-        equation += ",";
-        updateLastCalculatorEntry();
+        if (hasFocus) {
+            equation += ",";
+            updateLastCalculatorEntry();
+        } else {
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
+                    OnNumpadOperationClicked.OPERATION_INSERT, ","));
+        }
     }
 
     @OnClick(R.id.calculator_options_parenthesis)
@@ -161,7 +182,7 @@ public class CalculatorFragment extends InjectedFragment {
 
     private void scrollToLast() {
         int amount = calculatorResults.getAdapter().getItemCount();
-        calculatorResults.scrollToPosition(amount-1);
+        calculatorResults.scrollToPosition(amount - 1);
     }
 
     private void updateLastCalculatorEntry() {
@@ -173,8 +194,10 @@ public class CalculatorFragment extends InjectedFragment {
         resultsAdapter.updateLastItem(calculatorEntry);
 
         scrollToLast();
+    }
 
-        ((QuestionActivity) getActivity()).onAnswerChanged(answer);
+    public void setFocus(boolean gainFocus) {
+        hasFocus = gainFocus;
     }
 
     View.OnClickListener numpadNumberClickListener = new View.OnClickListener() {
