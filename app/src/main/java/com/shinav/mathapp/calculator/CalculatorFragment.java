@@ -196,10 +196,6 @@ public class CalculatorFragment extends InjectedFragment {
         scrollToLast();
     }
 
-    public void setFocus(boolean gainFocus) {
-        hasFocus = gainFocus;
-    }
-
     View.OnClickListener numpadNumberClickListener = new View.OnClickListener() {
 
         @Override
@@ -218,4 +214,14 @@ public class CalculatorFragment extends InjectedFragment {
         }
     };
 
+    public void gainFocus() {
+        if (!hasFocus) {
+            resultsAdapter.blinkLastItem();
+        }
+        hasFocus = true;
+    }
+
+    public void releaseFocus() {
+        hasFocus = false;
+    }
 }

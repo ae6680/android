@@ -110,7 +110,7 @@ public class QuestionCardView extends Card {
         }
     }
 
-    public void onCalculatorResultAreaClicked() {
+    public void releaseFocus() {
         answerField.clearFocus();
     }
 

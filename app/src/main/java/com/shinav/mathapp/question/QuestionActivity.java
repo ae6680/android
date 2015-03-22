@@ -192,15 +192,15 @@ public class QuestionActivity extends ActionBarActivity {
     @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
                 .findFragmentByTag(CALCULATOR_FRAGMENT);
-        fragment.setFocus(false);
+        fragment.releaseFocus();
     }
 
     @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClicked event) {
-        questionCardView.onCalculatorResultAreaClicked();
+        questionCardView.releaseFocus();
 
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
                 .findFragmentByTag(CALCULATOR_FRAGMENT);
-        fragment.setFocus(true);
+        fragment.gainFocus();
     }
 
     @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClicked event) {

@@ -84,7 +84,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         return getItem(results.size() - 2);
     }
 
-    private void blinkLastItem() {
+    public void blinkLastItem() {
         final Handler handler = new Handler();
         new Runnable() {
             public int counter = 0;
@@ -117,7 +117,6 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
 
         @Override public void onClick(View v) {
-            blinkLastItem();
             BusProvider.getUIBusInstance().post(new OnCalculatorResultAreaClicked());
         }
     }
