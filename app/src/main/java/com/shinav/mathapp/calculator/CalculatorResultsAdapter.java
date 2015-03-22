@@ -117,7 +117,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
 
         @Override public void onClick(View v) {
-            BusProvider.getUIBusInstance().post(new OnCalculatorResultAreaClicked());
+            BusProvider.getUIBusInstance().post(new OnCalculatorResultAreaClickedEvent());
         }
     }
 }

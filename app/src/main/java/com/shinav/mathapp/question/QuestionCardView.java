@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
-import com.shinav.mathapp.calculator.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.calculator.OnNumpadOperationClicked;
+import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.view.Card;
 
@@ -24,7 +23,7 @@ public class QuestionCardView extends Card {
 
     @InjectView(R.id.question) TextView questionBody;
     @InjectView(R.id.answer_input) EditText answerField;
-    @InjectView(R.id.next_question_button) TextView submitButton;
+    @InjectView(R.id.submit_button) TextView submitButton;
 
     private Question question;
 
@@ -75,14 +74,14 @@ public class QuestionCardView extends Card {
         questionBody.setText(value);
     }
 
-    @OnClick(R.id.next_question_button)
+    @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
         String answer = answerField.getText().toString();
         OnAnswerSubmittedEvent event = new OnAnswerSubmittedEvent(question.getFirebaseKey(), answer);
         BusProvider.getUIBusInstance().post(event);
     }
 
-    public void onCalculatorNumpadClicked(OnNumpadOperationClicked event) {
+    public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
         String value = event.getValue();
         int cursorPosition = answerField.getSelectionStart();
         String currentText = answerField.getText().toString();
@@ -91,13 +90,13 @@ public class QuestionCardView extends Card {
 
         switch (event.getOperation()) {
 
-            case OnNumpadOperationClicked.OPERATION_INSERT:
+            case OnNumpadOperationClickedEvent.OPERATION_INSERT:
                 sb.insert(cursorPosition, value);
                 answerField.setText(sb.toString());
                 answerField.setSelection(cursorPosition + 1);
                 break;
 
-            case OnNumpadOperationClicked.OPERATION_BACKSPACE:
+            case OnNumpadOperationClickedEvent.OPERATION_BACKSPACE:
                 if (cursorPosition != 0) {
                     sb.deleteCharAt(cursorPosition-1);
                     answerField.setText(sb.toString());
@@ -105,7 +104,7 @@ public class QuestionCardView extends Card {
                 }
                 break;
 
-            case OnNumpadOperationClicked.OPERATION_REMOVE_ALL:
+            case OnNumpadOperationClickedEvent.OPERATION_REMOVE_ALL:
                 answerField.setText("");
         }
     }

@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/next_question_button"
+            android:id="@+id/submit_button"
             style="?android:attr/borderlessButtonStyle"
             android:text="@string/submit_button_text"
             android:textColor="@drawable/submit_button"

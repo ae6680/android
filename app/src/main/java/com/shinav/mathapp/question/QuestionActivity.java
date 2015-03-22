@@ -18,9 +18,8 @@ import com.shinav.mathapp.animation.SimpleAnimatorListener;
 import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
-import com.shinav.mathapp.calculator.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.calculator.OnCalculatorResultAreaClicked;
-import com.shinav.mathapp.calculator.OnNumpadOperationClicked;
+import com.shinav.mathapp.calculator.OnCalculatorResultAreaClickedEvent;
+import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.progress.Storyteller;
@@ -128,7 +127,7 @@ public class QuestionActivity extends ActionBarActivity {
         startAnimation(event.getAnswer());
     }
 
-    private void startAnimation(String answer) {
+    private void startAnimation(String givenAnswer) {
         float originalScaleX = viewPagerIndicator.getScaleX();
         float originalScaleY = viewPagerIndicator.getScaleY();
         float questionResultY = MyApplication.screenHeight * 0.62f;
@@ -142,21 +141,24 @@ public class QuestionActivity extends ActionBarActivity {
 
         ObjectAnimator anim3 = YAnimation.create(calculatorContainer, 1000);
 
-        final QuestionAnswerCardView questionResultCard = new QuestionAnswerCardView(this);
-        questionResultCard.showCorrect();
-        activityContainer.addView(questionResultCard);
+        final QuestionAnswerCardView questionAnswerCard = new QuestionAnswerCardView(this);
+        questionAnswerCard.setQuestion(question);
+        questionAnswerCard.giveAnswer(givenAnswer);
+        questionAnswerCard.setVisibility(View.GONE);
 
-        ObjectAnimator anim4 = ObjectAnimator.ofFloat(questionResultCard,
+        activityContainer.addView(questionAnswerCard);
+
+        ObjectAnimator anim4 = ObjectAnimator.ofFloat(questionAnswerCard,
                 "Y", 3000, questionResultY);
 
         anim4.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationStart(Animator animation) {
-                questionResultCard.setVisibility(View.VISIBLE);
+                questionAnswerCard.setVisibility(View.VISIBLE);
             }
         });
 
         final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
-        questionNextCardView.setGivenAnswer(answer);
+        questionNextCardView.setGivenAnswer(givenAnswer);
         activityContainer.addView(questionNextCardView);
 
         ObjectAnimator anim5 = ObjectAnimator.ofFloat(questionNextCardView,
@@ -195,7 +197,7 @@ public class QuestionActivity extends ActionBarActivity {
         fragment.releaseFocus();
     }
 
-    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClicked event) {
+    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClickedEvent event) {
         questionCardView.releaseFocus();
 
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
@@ -203,7 +205,7 @@ public class QuestionActivity extends ActionBarActivity {
         fragment.gainFocus();
     }
 
-    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClicked event) {
+    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
         questionCardView.onCalculatorNumpadClicked(event);
     }
 

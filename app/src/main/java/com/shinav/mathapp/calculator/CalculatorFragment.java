@@ -96,8 +96,8 @@ public class CalculatorFragment extends InjectedFragment {
             answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
-                    OnNumpadOperationClicked.OPERATION_INSERT, number));
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+                    OnNumpadOperationClickedEvent.OPERATION_INSERT, number));
         }
     }
 
@@ -138,8 +138,8 @@ public class CalculatorFragment extends InjectedFragment {
                 updateLastCalculatorEntry();
             }
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
-                    OnNumpadOperationClicked.OPERATION_BACKSPACE, null));
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+                    OnNumpadOperationClickedEvent.OPERATION_BACKSPACE, null));
         }
     }
 
@@ -150,8 +150,8 @@ public class CalculatorFragment extends InjectedFragment {
             answer = "";
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
-                    OnNumpadOperationClicked.OPERATION_REMOVE_ALL, null));
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+                    OnNumpadOperationClickedEvent.OPERATION_REMOVE_ALL, null));
         }
 
         return false;
@@ -163,8 +163,8 @@ public class CalculatorFragment extends InjectedFragment {
             equation += ",";
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClicked(
-                    OnNumpadOperationClicked.OPERATION_INSERT, ","));
+            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+                    OnNumpadOperationClickedEvent.OPERATION_INSERT, ","));
         }
     }
 
