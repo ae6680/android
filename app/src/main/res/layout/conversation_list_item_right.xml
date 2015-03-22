@@ -17,6 +17,7 @@
     <ImageView
         android:id="@+id/conversation_entry_image"
         android:src="@drawable/submit_button"
+        android:textColor="#fff"
         android:layout_alignParentEnd="true"
         android:layout_width="60dp"
         android:layout_height="60dp"/>

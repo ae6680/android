@@ -15,6 +15,7 @@
         android:id="@+id/conversation_entry_message"
         android:layout_marginStart="@dimen/primary_margin"
         android:layout_marginEnd="32dp"
+        android:textColor="#fff"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>

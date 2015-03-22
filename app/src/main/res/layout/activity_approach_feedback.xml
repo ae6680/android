@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_marginStart="@dimen/activity_gutter"
-                android:layout_marginEnd="@dimen/activity_gutter"
+                android:paddingStart="@dimen/activity_gutter"
+                android:paddingEnd="@dimen/activity_gutter"
+                android:background="@drawable/background_bus_road"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
