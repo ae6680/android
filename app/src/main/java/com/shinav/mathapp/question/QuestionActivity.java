@@ -1,5 +1,8 @@
 package com.shinav.mathapp.question;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
@@ -28,8 +34,10 @@ public class QuestionActivity extends ActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
+    @InjectView(R.id.activity_container) RelativeLayout activityContainer;
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
     @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
+    @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
     private QuestionCardView questionCardView;
     private Question question;
@@ -109,6 +117,76 @@ public class QuestionActivity extends ActionBarActivity {
 
     @Subscribe
     public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
+        startAnimation(event.getAnswer());
+    }
+
+    private void startAnimation(String answer) {
+        AnimatorSet set = new AnimatorSet();
+
+        float originalScaleX = viewPagerIndicator.getScaleX();
+        float originalScaleY = viewPagerIndicator.getScaleY();
+        float questionResultY = MyApplication.screenHeight * 0.62f;
+        float questionNextY = MyApplication.screenHeight * 0.84f;
+
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(viewPagerIndicator,
+                "scaleX", originalScaleX, 0f);
+
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(viewPagerIndicator,
+                "scaleY", originalScaleY, 0f);
+
+        ObjectAnimator anim3 = YAnimation.create(calculatorContainer, 1000);
+
+        final QuestionResultCardView questionResultCard = new QuestionResultCardView(this);
+        questionResultCard.showCorrect();
+        activityContainer.addView(questionResultCard);
+
+        ObjectAnimator anim4 = ObjectAnimator.ofFloat(questionResultCard,
+                "Y", 3000, questionResultY);
+
+        anim4.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animation) {
+                questionResultCard.setVisibility(View.VISIBLE);
+            }
+
+            @Override public void onAnimationEnd(Animator animation) {  }
+
+            @Override public void onAnimationCancel(Animator animation) {  }
+
+            @Override public void onAnimationRepeat(Animator animation) {  }
+        });
+
+        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
+        questionNextCardView.setGivenAnswer(answer);
+        activityContainer.addView(questionNextCardView);
+
+        ObjectAnimator anim5 = ObjectAnimator.ofFloat(questionNextCardView,
+                "Y", 3000, questionNextY);
+
+        anim5.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animation) {
+                questionNextCardView.setVisibility(View.VISIBLE);
+            }
+
+            @Override public void onAnimationEnd(Animator animation) {  }
+
+            @Override public void onAnimationCancel(Animator animation) {  }
+
+            @Override public void onAnimationRepeat(Animator animation) {  }
+        });
+
+        ObjectAnimator anim6 = ObjectAnimator.ofFloat(viewPagerIndicator,
+                "scaleX", 0f, originalScaleX);
+
+        ObjectAnimator anim7 = ObjectAnimator.ofFloat(viewPagerIndicator,
+                "scaleY", 0f, originalScaleY);
+
+        set.play(anim1).with(anim2);
+        set.play(anim3).after(100);
+        set.play(anim4).after(600);
+        set.play(anim5).after(1000);
+        set.play(anim6).with(anim7).after(1500);
+
+        set.start();
     }
 
     @Subscribe

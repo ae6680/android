@@ -18,14 +18,14 @@
         android:id="@+id/conversation_container"
         android:orientation="vertical"
         android:layout_below="@id/conversation_title"
-        android:layout_above="@id/submit_button"
+        android:layout_above="@id/next_question_button"
         android:layout_marginStart="@dimen/primary_margin"
         android:layout_marginEnd="@dimen/primary_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <TextView
-        android:id="@+id/submit_button"
+        android:id="@+id/next_question_button"
         style="@style/primary_button"
         android:text="Ga verder"
         android:layout_marginTop="8dp"

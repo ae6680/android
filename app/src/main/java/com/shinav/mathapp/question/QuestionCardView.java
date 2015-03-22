@@ -21,7 +21,7 @@ public class QuestionCardView extends Card {
 
     @InjectView(R.id.question) TextView questionBody;
     @InjectView(R.id.answer_input) EditText answerField;
-    @InjectView(R.id.submit_button) TextView submitButton;
+    @InjectView(R.id.next_question_button) TextView submitButton;
 
     private Question question;
 
@@ -63,7 +63,7 @@ public class QuestionCardView extends Card {
         questionBody.setText(value);
     }
 
-    @OnClick(R.id.submit_button)
+    @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
         String answer = answerField.getText().toString();
         OnAnswerSubmittedEvent event = new OnAnswerSubmittedEvent(question.getFirebaseKey(), answer);

@@ -71,7 +71,7 @@ public class ApproachActivity extends Activity {
                 MyApplication.screenWidth,
                 (int) (MyApplication.screenHeight * 0.41f)
         );
-        layoutParams.addRule(RelativeLayout.ABOVE, R.id.submit_button);
+        layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
         approachList.setLayoutParams(layoutParams);
     }
 
@@ -92,7 +92,7 @@ public class ApproachActivity extends Activity {
         approachList.setOnScrollListener(dragSortRecycler.getScrollListener());
     }
 
-    @OnClick(R.id.submit_button)
+    @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
         Storyteller storyteller = new Storyteller(this);
 

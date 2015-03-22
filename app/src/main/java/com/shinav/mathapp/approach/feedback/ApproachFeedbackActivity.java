@@ -85,11 +85,11 @@ public class ApproachFeedbackActivity extends Activity {
                 MyApplication.screenWidth,
                 (int) (MyApplication.screenHeight * PERCENTAGE_HEIGHT)
         );
-        layoutParams.addRule(RelativeLayout.ABOVE, R.id.submit_button);
+        layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
         approachListCorrect.setLayoutParams(layoutParams);
     }
 
-    @OnClick(R.id.submit_button)
+    @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
         storyteller.next();
     }

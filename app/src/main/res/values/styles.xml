@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="android:background">#fff</item>-->
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
@@ -48,7 +47,7 @@
 
     <style name="card">
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:background">@drawable/card_background</item>
+        <item name="android:background">@drawable/card_default</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>

@@ -15,9 +15,9 @@ public class ApproachFeedbackAdapter extends ApproachAdapter {
         Resources res = background.getContext().getResources();
 
         if (position == super.getItem(position).getPosition()) {
-            background.setBackgroundColor(res.getColor(R.color.approach_correct));
+            background.setBackgroundColor(res.getColor(R.color.input_correct));
         } else {
-            background.setBackgroundColor(res.getColor(R.color.approach_incorrect));
+            background.setBackgroundColor(res.getColor(R.color.input_incorrect));
         }
 
         super.onBindViewHolder(holder, position);

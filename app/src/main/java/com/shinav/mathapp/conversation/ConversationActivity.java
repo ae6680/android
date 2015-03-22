@@ -82,7 +82,7 @@ public class ConversationActivity extends Activity {
 
     }
 
-    @OnClick(R.id.submit_button)
+    @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
         new Storyteller(this).next();
     }
