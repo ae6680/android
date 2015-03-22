@@ -94,7 +94,7 @@ public class QuestionCardView extends Card {
             case OnNumpadOperationClicked.OPERATION_INSERT:
                 sb.insert(cursorPosition, value);
                 answerField.setText(sb.toString());
-                answerField.setSelection(cursorPosition+1);
+                answerField.setSelection(cursorPosition + 1);
                 break;
 
             case OnNumpadOperationClicked.OPERATION_BACKSPACE:
@@ -108,6 +108,10 @@ public class QuestionCardView extends Card {
             case OnNumpadOperationClicked.OPERATION_REMOVE_ALL:
                 answerField.setText("");
         }
+    }
+
+    public void onCalculatorResultAreaClicked() {
+        answerField.clearFocus();
     }
 
     private class AnswerTextWatcher implements TextWatcher {

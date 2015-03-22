@@ -1,5 +1,6 @@
 package com.shinav.mathapp.calculator;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.bus.BusProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     public static final int ITEM_LAYOUT = R.layout.calculator_results_item;
     private List<CalculatorEntry> results = new ArrayList<>();
+    private View lastVisibleItemView;
 
     @Inject
     public CalculatorResultsAdapter() {
@@ -47,6 +50,10 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
         viewHolder.equation.setText(result.equation);
         viewHolder.answer.setText(result.answer);
+
+        if (results.size()-2 == i) {
+            lastVisibleItemView = viewHolder.itemView;
+        }
     }
 
     private CalculatorEntry getItem(int position) {
@@ -65,7 +72,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     public void updateLastItem(CalculatorEntry entry) {
         if (results.size() > 0) {
-            CalculatorEntry lastItem = getItem(results.size() - 2);
+            CalculatorEntry lastItem = getLastItem();
             lastItem.answer = entry.answer;
             lastItem.equation = entry.equation;
 
@@ -73,7 +80,31 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private CalculatorEntry getLastItem() {
+        return getItem(results.size() - 2);
+    }
+
+    private void blinkLastItem() {
+        final Handler handler = new Handler();
+        new Runnable() {
+            public int counter = 0;
+
+            @Override public void run() {
+                if (counter % 2 == 0) {
+                    lastVisibleItemView.setBackgroundResource(R.color.calculator_results_background);
+                } else {
+                    lastVisibleItemView.setBackgroundResource(R.color.calculator_results_blink);
+                }
+
+                counter++;
+                if (counter < 5) {
+                    handler.postDelayed(this, 200);
+                }
+            }
+        }.run();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @InjectView(R.id.results_equation) TextView equation;
         @InjectView(R.id.results_equation_answer) TextView answer;
@@ -81,7 +112,13 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override public void onClick(View v) {
+            blinkLastItem();
+            BusProvider.getUIBusInstance().post(new OnCalculatorResultAreaClicked());
+        }
     }
 }

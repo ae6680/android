@@ -19,6 +19,7 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.calculator.OnAnswerFieldClickedEvent;
+import com.shinav.mathapp.calculator.OnCalculatorResultAreaClicked;
 import com.shinav.mathapp.calculator.OnNumpadOperationClicked;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
@@ -192,6 +193,14 @@ public class QuestionActivity extends ActionBarActivity {
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
                 .findFragmentByTag(CALCULATOR_FRAGMENT);
         fragment.setFocus(false);
+    }
+
+    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClicked event) {
+        questionCardView.onCalculatorResultAreaClicked();
+
+        CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
+                .findFragmentByTag(CALCULATOR_FRAGMENT);
+        fragment.setFocus(true);
     }
 
     @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClicked event) {
