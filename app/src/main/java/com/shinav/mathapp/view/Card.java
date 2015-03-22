@@ -3,14 +3,13 @@ package com.shinav.mathapp.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.MyApplication;
+import com.shinav.mathapp.R;
 
 public class Card extends LinearLayout {
 
-    public static final float PERCENTAGE_WIDTH_OF_SCREEN = 0.8F;
     public static final float PERCENTAGE_HEIGHT_OF_SCREEN = 0.45F;
 
     public Card(Context context) {
@@ -25,10 +24,6 @@ public class Card extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private int calculateWidth() {
-        return (int) Math.floor(MyApplication.screenWidth * PERCENTAGE_WIDTH_OF_SCREEN);
-    }
-
     private int calculateHeight() {
         return (int) Math.floor(MyApplication.screenHeight * PERCENTAGE_HEIGHT_OF_SCREEN);
     }
@@ -37,11 +32,17 @@ public class Card extends LinearLayout {
         return calculateHeight();
     }
 
-    public void setParams(View view) {
-        view.setLayoutParams(new ViewGroup.LayoutParams(
-                calculateWidth(),
-                calculateHeight()
-        ));
+    public void setLayoutParamsForViewPager(View view) {
+        LayoutParams params = new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                getDefaultCardHeight()
+        );
+
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
+
+        view.setLayoutParams(params);
     }
+
 
 }

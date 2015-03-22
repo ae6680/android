@@ -39,7 +39,7 @@ public class QuestionCardView extends Card {
         View view = inflater.inflate(R.layout.question_card, this, false);
         ButterKnife.inject(this, view);
 
-        setLayoutParams(view);
+        setLayoutParamsForViewPager(view);
 
         submitButton.setEnabled(false);
         answerField.addTextChangedListener(new AnswerTextWatcher());
@@ -53,18 +53,6 @@ public class QuestionCardView extends Card {
         });
 
         addView(view);
-    }
-
-    private void setLayoutParams(View view) {
-        LayoutParams params = new LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                getDefaultCardHeight()
-        );
-
-        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
-        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
-
-        view.setLayoutParams(params);
     }
 
     public void setQuestion(Question question) {

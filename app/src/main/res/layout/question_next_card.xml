@@ -6,28 +6,16 @@
               android:layout_marginEnd="@dimen/card_pager_margin"
               style="@style/card">
 
-    <EditText
-        android:id="@+id/answer_input"
-        android:text="18,5"
-        android:ems="8"
-        android:textSize="@dimen/text_size_normal"
-        android:textColor="@color/text_primary"
-        android:layout_marginStart="16dp"
-        android:layout_centerVertical="true"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     <Button
         android:id="@+id/next_question_button"
         style="?android:attr/borderlessButtonStyle"
         android:text="VOLGENDE VRAAG"
         android:textColor="@drawable/submit_button"
         android:textSize="@dimen/text_size_normal"
+        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/answer_input"
         android:layout_centerVertical="true"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

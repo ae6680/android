@@ -26,14 +26,16 @@ import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.cards.QuestionAnswerCardView;
 import com.shinav.mathapp.question.cards.QuestionApproachCardView;
 import com.shinav.mathapp.question.cards.QuestionCardView;
+import com.shinav.mathapp.question.cards.QuestionExplanationView;
 import com.shinav.mathapp.question.cards.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.repository.RealmRepository;
+import com.shinav.mathapp.view.Card;
 import com.shinav.mathapp.view.CardViewPager;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -116,11 +118,12 @@ public class QuestionActivity extends ActionBarActivity {
         QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
         questionApproachCardView.setApproach(new ArrayList<>(question.getApproach()));
 
+        List<Card> cards = new ArrayList<>();
+        cards.add(questionApproachCardView);
+        cards.add(questionCardView);
+
         cardViewPager.setIndicator(viewPagerIndicator);
-        cardViewPager.setCards(Arrays.asList(
-                questionApproachCardView,
-                questionCardView
-        ));
+        cardViewPager.setCards(cards);
         cardViewPager.setCurrentItem(1);
     }
 
@@ -145,6 +148,14 @@ public class QuestionActivity extends ActionBarActivity {
         ObjectAnimator anim1 = ObjectAnimator.ofFloat(viewPagerIndicator,
                 "scaleX", originalScaleX, 0f);
 
+        anim1.addListener(new SimpleAnimatorListener() {
+            @Override public void onAnimationEnd(Animator animation) {
+                List<Card> cards = new ArrayList<>();
+                cards.add(new QuestionExplanationView(QuestionActivity.this));
+                cardViewPager.addCards(cards);
+            }
+        });
+
         ObjectAnimator anim2 = ObjectAnimator.ofFloat(viewPagerIndicator,
                 "scaleY", originalScaleY, 0f);
 
@@ -167,7 +178,7 @@ public class QuestionActivity extends ActionBarActivity {
         });
 
         final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
-        questionNextCardView.setGivenAnswer(givenAnswer);
+        questionNextCardView.setVisibility(View.GONE);
         activityContainer.addView(questionNextCardView);
 
         ObjectAnimator anim5 = ObjectAnimator.ofFloat(questionNextCardView,
@@ -184,6 +195,12 @@ public class QuestionActivity extends ActionBarActivity {
 
         ObjectAnimator anim7 = ObjectAnimator.ofFloat(viewPagerIndicator,
                 "scaleY", 0f, originalScaleY);
+
+        anim7.addListener(new SimpleAnimatorListener() {
+            @Override public void onAnimationEnd(Animator animation) {
+                cardViewPager.setCurrentItem(2);
+            }
+        });
 
         AnimatorSet set = new AnimatorSet();
 

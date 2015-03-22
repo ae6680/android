@@ -14,6 +14,7 @@ public class CardViewPager extends ViewPager {
 
     private CardsAdapter adapter;
     private LinearLayout indicatorContainer;
+    private List<Card> cards;
 
     public CardViewPager(Context context) {
         super(context);
@@ -58,12 +59,19 @@ public class CardViewPager extends ViewPager {
     }
 
     public void setCards(List<Card> cards) {
+        this.cards = cards;
         adapter.setCards(cards);
         generateIndicator();
     }
 
     public void setIndicator(LinearLayout viewPagerIndicator) {
         this.indicatorContainer = viewPagerIndicator;
+        generateIndicator();
+    }
+
+    public void addCards(List<Card> cards) {
+        this.cards.addAll(cards);
+        adapter.setCards(this.cards);
         generateIndicator();
     }
 
@@ -77,19 +85,23 @@ public class CardViewPager extends ViewPager {
             indicatorContainer.removeAllViews();
 
             for (int i = 0; i < adapter.getCount(); i++) {
-                ViewPagerIndicator indicator = new ViewPagerIndicator(this.getContext());
-                indicator.setTag("indicator-"+i);
-
-                final int position = i;
-                indicator.setOnClickListener(new OnClickListener() {
-                    @Override public void onClick(View v) {
-                        CardViewPager.this.setCurrentItem(position);
-                    }
-                });
-
-                indicatorContainer.addView(indicator);
+                addIndicatorDot(i);
             }
         }
+    }
+
+    private void addIndicatorDot(int i) {
+        ViewPagerIndicator indicator = new ViewPagerIndicator(this.getContext());
+        indicator.setTag("indicator-"+i);
+
+        final int position = i;
+        indicator.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                CardViewPager.this.setCurrentItem(position);
+            }
+        });
+
+        indicatorContainer.addView(indicator);
     }
 
     private void handleIndicatorSelection(int position) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/card">
+
+    <TextView
+        android:id="@+id/explanation_title"
+        android:layout_marginTop="6dp"
+        style="@style/title"
+        android:text="@string/explanation_title" />
+
+    <!--<ImageView-->
+    <!--android:src="@drawable/explain_sample"-->
+    <!--android:layout_marginTop="-12dp"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+</RelativeLayout>

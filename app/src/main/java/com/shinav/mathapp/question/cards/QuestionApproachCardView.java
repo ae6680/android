@@ -34,21 +34,9 @@ public class QuestionApproachCardView extends Card {
                 .inflate(R.layout.question_approach_card, this, false);
         ButterKnife.inject(this, view);
 
-        setLayoutParams(view);
+        setLayoutParamsForViewPager(view);
 
         addView(view);
-    }
-
-    private void setLayoutParams(View view) {
-        LayoutParams params = new LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                getDefaultCardHeight()
-        );
-
-        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
-        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
-
-        view.setLayoutParams(params);
     }
 
     public void setApproach(List<Approach> approaches) {
