@@ -115,6 +115,14 @@ public class QuestionCardView extends Card {
         answerField.clearFocus();
     }
 
+    public void setAnswerFieldEnabled(boolean enabled) {
+        answerField.setEnabled(enabled);
+    }
+
+    public void setSubmitButtonEnabled(boolean enabled) {
+        submitButton.setEnabled(enabled);
+    }
+
     private class AnswerTextWatcher implements TextWatcher {
 
         @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }

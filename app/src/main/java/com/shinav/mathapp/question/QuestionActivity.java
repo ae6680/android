@@ -132,6 +132,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Subscribe
     public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
         startAnimation(event.getAnswer());
+        questionCardView.setAnswerFieldEnabled(false);
+        questionCardView.setSubmitButtonEnabled(false);
     }
 
     private void startAnimation(String givenAnswer) {
