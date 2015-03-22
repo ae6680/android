@@ -40,7 +40,7 @@ public class ApproachActivity extends Activity {
         String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
         Question question = RealmRepository.getInstance().getQuestion(questionKey);
 
-        approaches = new ArrayList<>(question.getApproaches());
+        approaches = new ArrayList<>(question.getApproach());
 
         questionTitle.setText(question.getTitle());
         questionText.setText(question.getValue());

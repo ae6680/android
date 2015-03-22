@@ -16,7 +16,7 @@ public class Question extends RealmObject {
     private String value;
     private String title;
     private String answer;
-    private RealmList<Approach> approaches;
+    private RealmList<Approach> approach;
 
     public Question() { }
 
@@ -52,12 +52,12 @@ public class Question extends RealmObject {
         this.firebaseKey = firebaseKey;
     }
 
-    public RealmList<Approach> getApproaches() {
-        return approaches;
+    public RealmList<Approach> getApproach() {
+        return approach;
     }
 
-    public void setApproaches(RealmList<Approach> approaches) {
-        this.approaches = approaches;
+    public void setApproach(RealmList<Approach> approach) {
+        this.approach = approach;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.question.cards;
 
 import android.content.Context;
 import android.text.Editable;
@@ -13,6 +13,8 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
+import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.view.Card;
 
 import butterknife.ButterKnife;

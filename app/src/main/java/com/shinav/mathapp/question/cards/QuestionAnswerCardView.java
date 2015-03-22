@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.question.cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.question.Question;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.question.cards;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,21 +24,35 @@ public class QuestionApproachCardView extends Card {
 
     @InjectView(R.id.approach_list) RecyclerView approachList;
 
-    public QuestionApproachCardView(Context context, List<Approach> approaches) {
+    public QuestionApproachCardView(Context context) {
         super(context);
-        init(approaches);
+        init();
     }
 
-    public void init(List<Approach> approaches) {
+    public void init() {
         View view = LayoutInflater.from(this.getContext())
-                .inflate(R.layout.question_approach_card, null, false);
-
+                .inflate(R.layout.question_approach_card, this, false);
         ButterKnife.inject(this, view);
 
-        initApproachList(approaches);
-        setParams(view);
+        setLayoutParams(view);
 
         addView(view);
+    }
+
+    private void setLayoutParams(View view) {
+        LayoutParams params = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                getDefaultCardHeight()
+        );
+
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
+
+        view.setLayoutParams(params);
+    }
+
+    public void setApproach(List<Approach> approaches) {
+        initApproachList(approaches);
     }
 
     private void initApproachList(List<Approach> approaches) {

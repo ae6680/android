@@ -1,10 +1,8 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.view;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.shinav.mathapp.view.Card;
 
 import java.util.Collections;
 import java.util.List;

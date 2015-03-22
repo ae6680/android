@@ -40,7 +40,7 @@ public class FirebaseParser {
                 approaches.add(parseApproach(approachesSnapshot.child("approach-"+i)));
             }
 
-            question.setApproaches(approaches);
+            question.setApproach(approaches);
 
             return question;
 

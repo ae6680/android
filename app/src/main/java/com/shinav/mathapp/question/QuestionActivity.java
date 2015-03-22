@@ -23,11 +23,16 @@ import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.question.cards.QuestionAnswerCardView;
+import com.shinav.mathapp.question.cards.QuestionApproachCardView;
+import com.shinav.mathapp.question.cards.QuestionCardView;
+import com.shinav.mathapp.question.cards.QuestionNextCardView;
+import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.repository.RealmRepository;
-import com.shinav.mathapp.view.Card;
 import com.shinav.mathapp.view.CardViewPager;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.ButterKnife;
@@ -108,11 +113,13 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView = new QuestionCardView(this);
         questionCardView.setQuestion(question);
 
+        QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
+        questionApproachCardView.setApproach(new ArrayList<>(question.getApproach()));
+
         cardViewPager.setIndicator(viewPagerIndicator);
-        cardViewPager.setCards(Arrays.<Card>asList(
-                new QuestionCardView(this),
-                questionCardView,
-                new QuestionCardView(this)
+        cardViewPager.setCards(Arrays.asList(
+                questionApproachCardView,
+                questionCardView
         ));
         cardViewPager.setCurrentItem(1);
     }

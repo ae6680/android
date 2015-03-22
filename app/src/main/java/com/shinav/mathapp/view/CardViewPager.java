@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.question.CardsAdapter;
 
 import java.util.List;
 

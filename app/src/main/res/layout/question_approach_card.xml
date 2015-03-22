@@ -2,23 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 style="@style/card">
 
-    <ImageView
-        android:id="@+id/close"
-        android:src="@drawable/close_icon"
-        android:layout_alignParentEnd="true"
-        android:paddingBottom="@dimen/primary_margin"
-        android:layout_width="45dp"
-        android:layout_height="45dp" />
-
-    <TextView
-        android:id="@+id/question_approach_title"
-        android:text="Aanpak"
-        style="@style/title"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/approach_list"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/primary_margin"
         android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

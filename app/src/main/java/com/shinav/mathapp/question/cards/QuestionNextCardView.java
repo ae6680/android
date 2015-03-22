@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.question.cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
