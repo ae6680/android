@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.animation.SimpleAnimatorListener;
 import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
@@ -53,10 +54,20 @@ public class QuestionActivity extends ActionBarActivity {
         question = RealmRepository.getInstance().getQuestion(questionKey);
 
         initToolbar();
-
         initViewPager();
-
         initCalculator();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BusProvider.getUIBusInstance().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BusProvider.getUIBusInstance().unregister(this);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +84,12 @@ public class QuestionActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
+    }
+
     private void initToolbar() {
         toolbar.setTitle(question.getTitle());
         setSupportActionBar(toolbar);
@@ -83,18 +100,6 @@ public class QuestionActivity extends ActionBarActivity {
                 onBackPressed();
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        BusProvider.getUIBusInstance().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        BusProvider.getUIBusInstance().unregister(this);
     }
 
     private void initViewPager() {
@@ -121,8 +126,6 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void startAnimation(String answer) {
-        AnimatorSet set = new AnimatorSet();
-
         float originalScaleX = viewPagerIndicator.getScaleX();
         float originalScaleY = viewPagerIndicator.getScaleY();
         float questionResultY = MyApplication.screenHeight * 0.62f;
@@ -136,23 +139,17 @@ public class QuestionActivity extends ActionBarActivity {
 
         ObjectAnimator anim3 = YAnimation.create(calculatorContainer, 1000);
 
-        final QuestionResultCardView questionResultCard = new QuestionResultCardView(this);
+        final QuestionAnswerCardView questionResultCard = new QuestionAnswerCardView(this);
         questionResultCard.showCorrect();
         activityContainer.addView(questionResultCard);
 
         ObjectAnimator anim4 = ObjectAnimator.ofFloat(questionResultCard,
                 "Y", 3000, questionResultY);
 
-        anim4.addListener(new Animator.AnimatorListener() {
+        anim4.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationStart(Animator animation) {
                 questionResultCard.setVisibility(View.VISIBLE);
             }
-
-            @Override public void onAnimationEnd(Animator animation) {  }
-
-            @Override public void onAnimationCancel(Animator animation) {  }
-
-            @Override public void onAnimationRepeat(Animator animation) {  }
         });
 
         final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
@@ -162,16 +159,10 @@ public class QuestionActivity extends ActionBarActivity {
         ObjectAnimator anim5 = ObjectAnimator.ofFloat(questionNextCardView,
                 "Y", 3000, questionNextY);
 
-        anim5.addListener(new Animator.AnimatorListener() {
+        anim5.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationStart(Animator animation) {
                 questionNextCardView.setVisibility(View.VISIBLE);
             }
-
-            @Override public void onAnimationEnd(Animator animation) {  }
-
-            @Override public void onAnimationCancel(Animator animation) {  }
-
-            @Override public void onAnimationRepeat(Animator animation) {  }
         });
 
         ObjectAnimator anim6 = ObjectAnimator.ofFloat(viewPagerIndicator,
@@ -179,6 +170,8 @@ public class QuestionActivity extends ActionBarActivity {
 
         ObjectAnimator anim7 = ObjectAnimator.ofFloat(viewPagerIndicator,
                 "scaleY", 0f, originalScaleY);
+
+        AnimatorSet set = new AnimatorSet();
 
         set.play(anim1).with(anim2);
         set.play(anim3).after(100);
@@ -196,12 +189,6 @@ public class QuestionActivity extends ActionBarActivity {
 
     public void onAnswerChanged(String answer) {
         questionCardView.onAnswerChanged(answer);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
     }
 
 }

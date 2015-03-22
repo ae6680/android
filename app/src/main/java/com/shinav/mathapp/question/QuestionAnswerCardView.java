@@ -10,11 +10,11 @@ import com.shinav.mathapp.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class QuestionResultCardView extends RelativeLayout {
+public class QuestionAnswerCardView extends RelativeLayout {
 
     @InjectView(R.id.question_result_card) RelativeLayout questionResultCard;
 
-    public QuestionResultCardView(Context context) {
+    public QuestionAnswerCardView(Context context) {
         super(context);
         init();
     }
