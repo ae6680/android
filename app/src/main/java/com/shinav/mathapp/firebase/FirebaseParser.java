@@ -16,10 +16,6 @@ public class FirebaseParser {
 
     private static final String TAG = "FirebaseParser";
 
-    public static FirebaseParser getInstance() {
-        return new FirebaseParser();
-    }
-
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 

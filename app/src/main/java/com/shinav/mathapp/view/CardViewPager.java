@@ -58,6 +58,11 @@ public class CardViewPager extends ViewPager {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @Override public void setCurrentItem(int item) {
+        super.setCurrentItem(item);
+        handleIndicatorSelection(item);
+    }
+
     public void setCards(List<Card> cards) {
         this.cards = cards;
         adapter.setCards(cards);
@@ -73,11 +78,6 @@ public class CardViewPager extends ViewPager {
         this.cards.addAll(cards);
         adapter.setCards(this.cards);
         generateIndicator();
-    }
-
-    @Override public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
-        handleIndicatorSelection(item);
     }
 
     private void generateIndicator() {

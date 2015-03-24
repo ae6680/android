@@ -17,6 +17,8 @@ import com.shinav.mathapp.story.StoryEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class Storyteller {
 
     public static final String TYPE_KEY = "type_key";
@@ -27,9 +29,10 @@ public class Storyteller {
     private final Context context;
     private final Story story;
 
-    public Storyteller(Context context) {
+    @Inject
+    public Storyteller(Context context, RealmRepository realmRepository) {
         this.context = context;
-        story = RealmRepository.getInstance().getStory("story-0");
+        story = realmRepository.getStory("story-0");
     }
 
     public void next() {

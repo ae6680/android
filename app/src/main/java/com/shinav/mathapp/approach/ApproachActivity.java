@@ -1,6 +1,5 @@
 package com.shinav.mathapp.approach;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.drag.DragSortRecycler;
+import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.repository.RealmRepository;
@@ -19,28 +19,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ApproachActivity extends Activity {
+public class ApproachActivity extends InjectedActivity {
 
     @InjectView(R.id.approach_list) RecyclerView approachList;
     @InjectView(R.id.question_title) TextView questionTitle;
     @InjectView(R.id.question_text) TextView questionText;
 
-    private ApproachAdapter approachAdapter;
-    private List<Approach> approaches;
+    @Inject ApproachAdapter approachAdapter;
+    @Inject Storyteller storyteller;
+    @Inject RealmRepository realmRepository;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    private List<Approach> approach;
+
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approach);
         ButterKnife.inject(this);
 
         String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-        Question question = RealmRepository.getInstance().getQuestion(questionKey);
+        Question question = realmRepository.getQuestion(questionKey);
 
-        approaches = new ArrayList<>(question.getApproach());
+        approach = new ArrayList<>(question.getApproach());
 
         questionTitle.setText(question.getTitle());
         questionText.setText(question.getValue());
@@ -49,24 +54,35 @@ public class ApproachActivity extends Activity {
     }
 
     private void initApproachList() {
-        approachAdapter = new ApproachAdapter();
-
         approachList.setAdapter(approachAdapter);
         approachList.setLayoutManager(new LinearLayoutManager(this));
         approachList.setItemAnimator(null);
 
-        populate();
-
-        setupDrag();
+        loadApproach();
         setupDragArea();
     }
 
-    private void populate() {
-        Collections.shuffle(approaches);
-        approachAdapter.setApproaches(approaches);
+    private void loadApproach() {
+        Collections.shuffle(approach);
+        approachAdapter.setApproaches(approach);
     }
 
     private void setupDragArea() {
+        DragSortRecycler dragSortRecycler = new DragSortRecycler();
+        dragSortRecycler.setViewHandleId(R.id.approach_list_item);
+        dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
+
+        dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
+            @Override public void onItemMoved(int from, int to) {
+                approach.add(to, approach.remove(from));
+                approachAdapter.setApproaches(approach);
+            }
+        });
+
+        approachList.addItemDecoration(dragSortRecycler);
+        approachList.addOnItemTouchListener(dragSortRecycler);
+        approachList.setOnScrollListener(dragSortRecycler.getScrollListener());
+
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 MyApplication.screenWidth,
                 (int) (MyApplication.screenHeight * 0.41f)
@@ -75,28 +91,9 @@ public class ApproachActivity extends Activity {
         approachList.setLayoutParams(layoutParams);
     }
 
-    private void setupDrag() {
-        DragSortRecycler dragSortRecycler = new DragSortRecycler();
-        dragSortRecycler.setViewHandleId(R.id.approach_list_item);
-        dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
-
-        dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
-            @Override public void onItemMoved(int from, int to) {
-                approaches.add(to, approaches.remove(from));
-                approachAdapter.setApproaches(approaches);
-            }
-        });
-
-        approachList.addItemDecoration(dragSortRecycler);
-        approachList.addOnItemTouchListener(dragSortRecycler);
-        approachList.setOnScrollListener(dragSortRecycler.getScrollListener());
-    }
-
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        Storyteller storyteller = new Storyteller(this);
-
-        storyteller.setCurrentApproach(approaches);
+        storyteller.setCurrentApproach(approach);
         storyteller.next();
     }
 

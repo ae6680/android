@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,12 +15,12 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.SimpleAnimatorListener;
 import com.shinav.mathapp.animation.YAnimation;
-import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.calculator.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
+import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.cards.QuestionAnswerCardView;
 import com.shinav.mathapp.question.cards.QuestionApproachCardView;
@@ -32,15 +31,18 @@ import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.view.Card;
 import com.shinav.mathapp.view.CardViewPager;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class QuestionActivity extends ActionBarActivity {
+public class QuestionActivity extends InjectedActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
@@ -53,14 +55,18 @@ public class QuestionActivity extends ActionBarActivity {
     private Question question;
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Inject Bus bus;
+    @Inject RealmRepository realmRepository;
+    @Inject Storyteller storyTeller;
+
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         ButterKnife.inject(this);
 
 //        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
         String questionKey = "question-1";
-        question = RealmRepository.getInstance().getQuestion(questionKey);
+        question = realmRepository.getQuestion(questionKey);
 
         initToolbar();
         initViewPager();
@@ -70,13 +76,13 @@ public class QuestionActivity extends ActionBarActivity {
     @Override
     public void onStart() {
         super.onStart();
-        BusProvider.getUIBusInstance().register(this);
+        bus.register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        BusProvider.getUIBusInstance().unregister(this);
+        bus.unregister(this);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,6 +143,28 @@ public class QuestionActivity extends ActionBarActivity {
         startAnimation(event.getAnswer());
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
+    }
+
+    @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
+        storyTeller.next();
+    }
+
+    @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {
+        CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
+                .findFragmentByTag(CALCULATOR_FRAGMENT);
+        fragment.releaseFocus();
+    }
+
+    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClickedEvent event) {
+        questionCardView.releaseFocus();
+
+        CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
+                .findFragmentByTag(CALCULATOR_FRAGMENT);
+        fragment.gainFocus();
+    }
+
+    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
+        questionCardView.onCalculatorNumpadClicked(event);
     }
 
     private void startAnimation(String givenAnswer) {
@@ -211,28 +239,6 @@ public class QuestionActivity extends ActionBarActivity {
         set.play(anim6).with(anim7).after(1500);
 
         set.start();
-    }
-
-    @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
-        new Storyteller(this).next();
-    }
-
-    @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {
-        CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
-                .findFragmentByTag(CALCULATOR_FRAGMENT);
-        fragment.releaseFocus();
-    }
-
-    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClickedEvent event) {
-        questionCardView.releaseFocus();
-
-        CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
-                .findFragmentByTag(CALCULATOR_FRAGMENT);
-        fragment.gainFocus();
-    }
-
-    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
-        questionCardView.onCalculatorNumpadClicked(event);
     }
 
 }

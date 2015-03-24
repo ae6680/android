@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.injection.InjectedFragment;
+import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -52,6 +52,7 @@ public class CalculatorFragment extends InjectedFragment {
     @Inject Calculator calculator;
     @Inject EquationHandler equationHandler;
     @Inject CalculatorResultsAdapter resultsAdapter;
+    @Inject Bus bus;
 
     private String equation = "";
     private String answer = "";
@@ -96,7 +97,7 @@ public class CalculatorFragment extends InjectedFragment {
             answer = calculator.calculate(equation);
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+            bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_INSERT, number));
         }
     }
@@ -138,7 +139,7 @@ public class CalculatorFragment extends InjectedFragment {
                 updateLastCalculatorEntry();
             }
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+            bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_BACKSPACE, null));
         }
     }
@@ -150,7 +151,7 @@ public class CalculatorFragment extends InjectedFragment {
             answer = "";
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+            bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_REMOVE_ALL, null));
         }
 
@@ -163,7 +164,7 @@ public class CalculatorFragment extends InjectedFragment {
             equation += ",";
             updateLastCalculatorEntry();
         } else {
-            BusProvider.getUIBusInstance().post(new OnNumpadOperationClickedEvent(
+            bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_INSERT, ","));
         }
     }

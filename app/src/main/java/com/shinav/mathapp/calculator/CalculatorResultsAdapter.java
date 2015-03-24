@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.bus.BusProvider;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,15 @@ import butterknife.InjectView;
 public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorResultsAdapter.ViewHolder> {
 
     public static final int ITEM_LAYOUT = R.layout.calculator_results_item;
+
     private List<CalculatorEntry> results = new ArrayList<>();
     private View lastVisibleItemView;
 
+    private final Bus bus;
+
     @Inject
-    public CalculatorResultsAdapter() {
+    public CalculatorResultsAdapter(Bus bus) {
+        this.bus = bus;
         populate();
     }
 
@@ -117,7 +121,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
 
         @Override public void onClick(View v) {
-            BusProvider.getUIBusInstance().post(new OnCalculatorResultAreaClickedEvent());
+            bus.post(new OnCalculatorResultAreaClickedEvent());
         }
     }
 }

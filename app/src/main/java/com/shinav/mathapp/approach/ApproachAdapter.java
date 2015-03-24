@@ -8,15 +8,21 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class ApproachAdapter extends RecyclerView.Adapter<ApproachAdapter.ViewHolder> {
 
-    List<Approach> approaches = new ArrayList<>();
+    List<Approach> approaches = Collections.emptyList();
+
+    @Inject
+    public ApproachAdapter() {
+    }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

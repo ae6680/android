@@ -1,10 +1,12 @@
 package com.shinav.mathapp.calculator;
 
 import com.shinav.mathapp.R;
+import com.squareup.otto.Bus;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -20,7 +22,9 @@ public class CalculatorResultsAdapterTest {
 
     @Before
     public void setUp() throws Exception {
-        calculatorResultsAdapter = new CalculatorResultsAdapter();
+        calculatorResultsAdapter = new CalculatorResultsAdapter(
+                Mockito.mock(Bus.class)
+        );
     }
 
     @Test

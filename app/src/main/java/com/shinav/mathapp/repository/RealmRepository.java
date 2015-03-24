@@ -1,36 +1,37 @@
 package com.shinav.mathapp.repository;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.story.Story;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.realm.Realm;
 
 public class RealmRepository {
 
-    private static RealmRepository REPOSITORY = new RealmRepository();
-    private final Realm REALM = Realm.getInstance(MyApplication.getAppContext());
+    private final Realm realm;
 
-    public static RealmRepository getInstance() {
-        return REPOSITORY;
+    @Inject
+    public RealmRepository(Realm realm) {
+        this.realm = realm;
     }
 
     public List<Question> getQuestions() {
-        return REALM.where(Question.class).findAll();
+        return realm.where(Question.class).findAll();
     }
 
     public Question getQuestion(String firebaseKey) {
-        return REALM.where(Question.class).contains("firebaseKey", firebaseKey).findFirst();
+        return realm.where(Question.class).contains("firebaseKey", firebaseKey).findFirst();
     }
 
     public Story getStory(String firebaseKey) {
-        return REALM.where(Story.class).contains("firebaseKey", firebaseKey).findFirst();
+        return realm.where(Story.class).contains("firebaseKey", firebaseKey).findFirst();
     }
 
     public Conversation getConversation(String firebaseKey) {
-        return REALM.where(Conversation.class).contains("firebaseKey", firebaseKey).findFirst();
+        return realm.where(Conversation.class).contains("firebaseKey", firebaseKey).findFirst();
     }
 }
