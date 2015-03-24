@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"/>
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.shinav.mathapp.approach.ApproachDragRecyclerView
         android:id="@+id/approach_list"
         android:layout_alignParentBottom="true"
         android:layout_above="@+id/next_question_button"

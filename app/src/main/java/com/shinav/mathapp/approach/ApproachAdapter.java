@@ -21,8 +21,7 @@ public class ApproachAdapter extends RecyclerView.Adapter<ApproachAdapter.ViewHo
     List<Approach> approaches = Collections.emptyList();
 
     @Inject
-    public ApproachAdapter() {
-    }
+    public ApproachAdapter() { }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -32,10 +31,8 @@ public class ApproachAdapter extends RecyclerView.Adapter<ApproachAdapter.ViewHo
     }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.number.setText(String.valueOf(position+1));
         holder.text.setText(getItem(position).getText());
-
     }
 
     public Approach getItem(int position) {

@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.Approach;
-import com.shinav.mathapp.approach.ApproachAdapter;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;
@@ -26,11 +25,15 @@ import butterknife.OnClick;
 public class ApproachFeedbackActivity extends Activity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
+
     @InjectView(R.id.approach_list_mine) RecyclerView approachListMine;
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
-    private List<Approach> approaches;
 
     @Inject Storyteller storyteller;
+    @Inject ApproachFeedbackAdapter approachFeedbackMineAdapter;
+    @Inject ApproachFeedbackAdapter approachFeedbackCorrectAdapter;
+
+    private List<Approach> approaches = Collections.emptyList();
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +49,10 @@ public class ApproachFeedbackActivity extends Activity {
     }
 
     private void initApproachListMine() {
-        ApproachAdapter approachAdapter = new ApproachFeedbackAdapter();
-
-        approachListMine.setAdapter(approachAdapter);
+        approachListMine.setAdapter(approachFeedbackMineAdapter);
         approachListMine.setLayoutManager(new LinearLayoutManager(this));
 
-        approachAdapter.setApproaches(approaches);
+        approachFeedbackMineAdapter.setApproaches(approaches);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -63,9 +64,7 @@ public class ApproachFeedbackActivity extends Activity {
     }
 
     private void initApproachListCorrect() {
-        ApproachAdapter approachAdapter = new ApproachFeedbackAdapter();
-
-        approachListCorrect.setAdapter(approachAdapter);
+        approachListCorrect.setAdapter(approachFeedbackCorrectAdapter);
         approachListCorrect.setLayoutManager(new LinearLayoutManager(this));
 
         // Sort on approach position.
@@ -80,7 +79,7 @@ public class ApproachFeedbackActivity extends Activity {
             }
         });
 
-        approachAdapter.setApproaches(sortedApproaches);
+        approachFeedbackCorrectAdapter.setApproaches(sortedApproaches);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

@@ -11,11 +11,6 @@ public class Approach extends RealmObject {
 
     public Approach() { }
 
-    public Approach(String text, int position) {
-        this.text = text;
-        this.position = position;
-    }
-
     public String getText() {
         return text;
     }
