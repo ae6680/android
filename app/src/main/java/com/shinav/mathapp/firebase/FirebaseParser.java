@@ -10,11 +10,16 @@ import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.story.StoryEntry;
 
+import javax.inject.Inject;
+
 import io.realm.RealmList;
 
 public class FirebaseParser {
 
     private static final String TAG = "FirebaseParser";
+
+    @Inject
+    public FirebaseParser() { }
 
     private String getString(DataSnapshot dataSnapshot, String attribute) {
         return dataSnapshot.child(attribute).getValue().toString();

@@ -1,5 +1,6 @@
 package com.shinav.mathapp.question.cards;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,17 +11,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.view.Card;
+import com.squareup.otto.Bus;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+@SuppressLint("ViewConstructor")
 public class QuestionCardView extends Card {
 
     @InjectView(R.id.question) TextView questionBody;
@@ -28,9 +30,11 @@ public class QuestionCardView extends Card {
     @InjectView(R.id.submit_button) TextView submitButton;
 
     private Question question;
+    private Bus bus;
 
-    public QuestionCardView(Context context) {
+    public QuestionCardView(Context context, Bus bus) {
         super(context);
+        this.bus = bus;
         init();
     }
 
@@ -47,7 +51,7 @@ public class QuestionCardView extends Card {
         answerField.setOnTouchListener(new OnTouchListener() {
             @Override public boolean onTouch(View v, MotionEvent event) {
                 v.onTouchEvent(event);
-                BusProvider.getUIBusInstance().post(new OnAnswerFieldClickedEvent());
+                bus.post(new OnAnswerFieldClickedEvent());
                 return true;
             }
         });
@@ -68,7 +72,7 @@ public class QuestionCardView extends Card {
     public void onSubmitClicked() {
         String answer = answerField.getText().toString();
         OnAnswerSubmittedEvent event = new OnAnswerSubmittedEvent(question.getFirebaseKey(), answer);
-        BusProvider.getUIBusInstance().post(event);
+        bus.post(event);
     }
 
     public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {

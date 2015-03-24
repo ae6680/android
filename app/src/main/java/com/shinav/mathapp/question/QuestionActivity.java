@@ -118,7 +118,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
     }
 
     private void initViewPager() {
-        questionCardView = new QuestionCardView(this);
+        questionCardView = new QuestionCardView(this, bus);
         questionCardView.setQuestion(question);
 
         QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
@@ -205,7 +205,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
             }
         });
 
-        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
+        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this, bus);
         questionNextCardView.setVisibility(View.GONE);
         activityContainer.addView(questionNextCardView);
 

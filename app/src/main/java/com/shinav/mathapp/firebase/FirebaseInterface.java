@@ -1,6 +1,6 @@
 package com.shinav.mathapp.firebase;
 
-public final class FirebaseInterface {
+public abstract class FirebaseInterface {
 
     public interface Nodes {
         String QUESTIONS = "questions";

@@ -1,21 +1,26 @@
 package com.shinav.mathapp.question.cards;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.bus.BusProvider;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
+import com.squareup.otto.Bus;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+@SuppressLint("ViewConstructor")
 public class QuestionNextCardView extends RelativeLayout {
 
-    public QuestionNextCardView(Context context) {
+    private final Bus bus;
+
+    public QuestionNextCardView(Context context, Bus bus) {
         super(context);
+        this.bus = bus;
         init();
     }
 
@@ -27,6 +32,7 @@ public class QuestionNextCardView extends RelativeLayout {
 
     @OnClick(R.id.next_question_button)
     public void onNextButtonClicked() {
-        BusProvider.getUIBusInstance().post(new OnNextQuestionClickedEvent());
+        bus.post(new OnNextQuestionClickedEvent());
     }
+
 }
