@@ -9,6 +9,7 @@ import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
+import com.shinav.mathapp.injection.ForApplication;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
@@ -30,7 +31,7 @@ public class Storyteller {
     private final Story story;
 
     @Inject
-    public Storyteller(Context context, RealmRepository realmRepository) {
+    public Storyteller(@ForApplication Context context, RealmRepository realmRepository) {
         this.context = context;
         story = realmRepository.getStory("story-0");
     }

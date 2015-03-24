@@ -14,6 +14,8 @@ import com.shinav.mathapp.repository.RealmRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -21,6 +23,9 @@ import butterknife.OnClick;
 public class ConversationActivity extends Activity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
+
+    @Inject RealmRepository realmRepository;
+    @Inject Storyteller storyTeller;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +39,7 @@ public class ConversationActivity extends Activity {
 
         String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        final Conversation conversation = RealmRepository.getInstance().getConversation(conversationKey);
+        final Conversation conversation = realmRepository.getConversation(conversationKey);
 
         final Handler handler = new Handler();
         Runnable showTypingMessageRunnable = new Runnable() {
@@ -84,7 +89,7 @@ public class ConversationActivity extends Activity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        new Storyteller(this).next();
+        storyTeller.next();
     }
 
 }

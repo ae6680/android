@@ -16,6 +16,10 @@ public class FirebaseParser {
 
     private static final String TAG = "FirebaseParser";
 
+    private String getString(DataSnapshot dataSnapshot, String attribute) {
+        return dataSnapshot.child(attribute).getValue().toString();
+    }
+
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
@@ -42,8 +46,8 @@ public class FirebaseParser {
 
         } catch (NullPointerException e) {
             Log.e(TAG, "Field or value not set");
-            System.out.println(dataSnapshot.getKey());
-            System.out.println(dataSnapshot.getValue());
+            Log.e(TAG, "Key : " + dataSnapshot.getKey());
+            Log.e(TAG, "Value : " + dataSnapshot.getValue());
             e.printStackTrace();
 
             return null;
@@ -94,18 +98,14 @@ public class FirebaseParser {
 
         } catch (NullPointerException e) {
             Log.e(TAG, "Field or value not set");
-            System.out.println(dataSnapshot.getKey());
-            System.out.println(dataSnapshot.getValue());
+            Log.e(TAG, "Key : " + dataSnapshot.getKey());
+            Log.e(TAG, "Value : " + dataSnapshot.getValue());
             e.printStackTrace();
 
             return null;
         }
 
         return storyEntry;
-    }
-
-    private String getString(DataSnapshot dataSnapshot, String attribute) {
-        return dataSnapshot.child(attribute).getValue().toString();
     }
 
     public Conversation parseConversation(DataSnapshot dataSnapshot) {

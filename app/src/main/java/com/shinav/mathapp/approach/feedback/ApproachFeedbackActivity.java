@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -27,7 +29,8 @@ public class ApproachFeedbackActivity extends Activity {
     @InjectView(R.id.approach_list_mine) RecyclerView approachListMine;
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
     private List<Approach> approaches;
-    private Storyteller storyteller;
+
+    @Inject Storyteller storyteller;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,6 @@ public class ApproachFeedbackActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        storyteller = new Storyteller(this);
         approaches = storyteller.getCurrentApproach();
 
         initApproachListMine();

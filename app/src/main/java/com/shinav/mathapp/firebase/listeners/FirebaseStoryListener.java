@@ -6,12 +6,12 @@ import io.realm.RealmObject;
 
 public class FirebaseStoryListener extends FirebaseListener {
 
-    @Override protected RealmObject parseObject(DataSnapshot dataSnapshot) {
+    @Override public RealmObject parseObject(DataSnapshot dataSnapshot) {
         return firebaseParser.parseStory(dataSnapshot);
     }
 
-    @Override protected RealmObject getObject(String dataSnapshotKey) {
+    @Override public RealmObject getObject(String dataSnapshotKey) {
         return realmRepository.getStory(dataSnapshotKey);
     }
-    
+
 }

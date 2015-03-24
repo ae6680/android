@@ -52,12 +52,7 @@ public abstract class FirebaseListener implements ChildEventListener {
         }
     }
 
-    protected RealmObject parseObject(DataSnapshot dataSnapshot) {
-        return null;
-    }
-
-    protected RealmObject getObject(String dataSnapshotKey) {
-        return null;
-    }
+    public abstract RealmObject parseObject(DataSnapshot dataSnapshot);
+    public abstract RealmObject getObject(String dataSnapshotKey);
 
 }
