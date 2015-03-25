@@ -4,14 +4,14 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachAdapter;
+import com.shinav.mathapp.approach.ApproachEntryAdapter;
 
 import javax.inject.Inject;
 
-public class ApproachFeedbackAdapter extends ApproachAdapter {
+public class ApproachEntryFeedbackAdapter extends ApproachEntryAdapter {
 
     @Inject
-    public ApproachFeedbackAdapter() { }
+    public ApproachEntryFeedbackAdapter() { }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
 

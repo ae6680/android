@@ -122,7 +122,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
         questionCardView.setQuestion(question);
 
         QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
-        questionApproachCardView.setApproach(new ArrayList<>(question.getApproach()));
+        questionApproachCardView.setApproach(new ArrayList<>(question.getApproachEntry()));
 
         List<Card> cards = new ArrayList<>();
         cards.add(questionApproachCardView);

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachActivity;
+import com.shinav.mathapp.approach.ApproachEntry;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.injection.ForApplication;
@@ -25,7 +25,7 @@ public class Storyteller {
     public static final String TYPE_KEY = "type_key";
 
     private static int current = 0;
-    private static List<Approach> currentApproach;
+    private static List<ApproachEntry> currentApproachEntry;
 
     private final Context context;
     private final Story story;
@@ -80,12 +80,12 @@ public class Storyteller {
         ((Activity) context).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
-    public void setCurrentApproach(List<Approach> currentApproach) {
-        Storyteller.currentApproach = currentApproach;
+    public void setCurrentApproach(List<ApproachEntry> currentApproachEntry) {
+        Storyteller.currentApproachEntry = currentApproachEntry;
     }
 
-    public List<Approach> getCurrentApproach() {
-        return currentApproach;
+    public List<ApproachEntry> getCurrentApproach() {
+        return currentApproachEntry;
     }
 
 }

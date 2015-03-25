@@ -1,29 +1,33 @@
 package com.shinav.mathapp.approach;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class Approach extends RealmObject {
 
-    private String text;
-    private int position;
+    @PrimaryKey
+    private String firebaseKey;
+
+    private RealmList<ApproachEntry> approachEntries;
 
     public Approach() { }
 
-    public String getText() {
-        return text;
+    public String getFirebaseKey() {
+        return firebaseKey;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setFirebaseKey(String firebaseKey) {
+        this.firebaseKey = firebaseKey;
     }
 
-    public int getPosition() {
-        return position;
+    public RealmList<ApproachEntry> getApproachEntries() {
+        return approachEntries;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setApproachEntries(RealmList<ApproachEntry> approachEntries) {
+        this.approachEntries = approachEntries;
     }
 }

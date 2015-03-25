@@ -16,12 +16,12 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ApproachAdapter extends RecyclerView.Adapter<ApproachAdapter.ViewHolder> {
+public class ApproachEntryAdapter extends RecyclerView.Adapter<ApproachEntryAdapter.ViewHolder> {
 
-    List<Approach> approaches = Collections.emptyList();
+    List<ApproachEntry> approachEntries = Collections.emptyList();
 
     @Inject
-    public ApproachAdapter() { }
+    public ApproachEntryAdapter() { }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -35,16 +35,16 @@ public class ApproachAdapter extends RecyclerView.Adapter<ApproachAdapter.ViewHo
         holder.text.setText(getItem(position).getText());
     }
 
-    public Approach getItem(int position) {
-        return approaches.get(position);
+    public ApproachEntry getItem(int position) {
+        return approachEntries.get(position);
     }
 
     @Override public int getItemCount() {
-        return approaches.size();
+        return approachEntries.size();
     }
 
-    public void setApproaches(List<Approach> approaches) {
-        this.approaches = approaches;
+    public void setApproachEntries(List<ApproachEntry> approachEntries) {
+        this.approachEntries = approachEntries;
         notifyDataSetChanged();
     }
 

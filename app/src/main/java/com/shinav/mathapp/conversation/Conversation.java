@@ -13,8 +13,7 @@ public class Conversation extends RealmObject {
 
     private RealmList<ConversationEntry> conversationEntries;
 
-    public Conversation() {
-    }
+    public Conversation() { }
 
     public String getFirebaseKey() {
         return firebaseKey;

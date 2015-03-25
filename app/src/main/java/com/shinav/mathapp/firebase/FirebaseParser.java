@@ -3,7 +3,7 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.approach.ApproachEntry;
 import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.conversation.ConversationEntry;
 import com.shinav.mathapp.question.Question;
@@ -40,12 +40,12 @@ public class FirebaseParser {
 
             DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
 
-            RealmList<Approach> approaches = new RealmList<>();
+            RealmList<ApproachEntry> approachEntries = new RealmList<>();
             for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
-                approaches.add(parseApproach(approachesSnapshot.child("approach-"+i)));
+                approachEntries.add(parseApproach(approachesSnapshot.child("approach-"+i)));
             }
 
-            question.setApproach(approaches);
+            question.setApproachEntry(approachEntries);
 
             return question;
 
@@ -59,17 +59,17 @@ public class FirebaseParser {
         }
     }
 
-    private Approach parseApproach(DataSnapshot dataSnapshot) {
+    private ApproachEntry parseApproach(DataSnapshot dataSnapshot) {
 
-        Approach approach = new Approach();
+        ApproachEntry approachEntry = new ApproachEntry();
 
         String position =  getString(dataSnapshot, FirebaseInterface.Approach.POSITION);
         String value =     getString(dataSnapshot, FirebaseInterface.Approach.VALUE);
 
-        approach.setPosition(Integer.parseInt(position));
-        approach.setText(value);
+        approachEntry.setPosition(Integer.parseInt(position));
+        approachEntry.setText(value);
 
-        return approach;
+        return approachEntry;
     }
 
     public Story parseStory(DataSnapshot dataSnapshot) {

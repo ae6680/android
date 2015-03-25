@@ -1,6 +1,6 @@
 package com.shinav.mathapp.approach;
 
-import com.shinav.mathapp.approach.feedback.ApproachFeedbackAdapter;
+import com.shinav.mathapp.approach.feedback.ApproachEntryFeedbackAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,24 +14,24 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
-public class ApproachFeedbackAdapterTest {
+@Config(emulateSdk = 18, manifest = Config.NONE)
+public class ApproachEntryFeedbackAdapterTest {
 
-    private ApproachFeedbackAdapter adapter;
+    private ApproachEntryFeedbackAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new ApproachFeedbackAdapter();
+        adapter = new ApproachEntryFeedbackAdapter();
     }
 
     @Test
     public void testCorrectWhenPositionEqualsItemPosition() throws Exception {
         int pos1 = 0;
 
-        Approach approach = new Approach();
-        approach.setPosition(pos1);
+        ApproachEntry approachEntry = new ApproachEntry();
+        approachEntry.setPosition(pos1);
 
-        adapter.setApproaches(Arrays.asList(approach));
+        adapter.setApproachEntries(Arrays.asList(approachEntry));
 
         assertThat(adapter.isCorrect(pos1), is(true));
     }
@@ -41,10 +41,10 @@ public class ApproachFeedbackAdapterTest {
         int approachPosition = 1;
         int pos1 = 0;
 
-        Approach approach = new Approach();
-        approach.setPosition(approachPosition);
+        ApproachEntry approachEntry = new ApproachEntry();
+        approachEntry.setPosition(approachPosition);
 
-        adapter.setApproaches(Arrays.asList(approach));
+        adapter.setApproachEntries(Arrays.asList(approachEntry));
 
         assertThat(adapter.isCorrect(pos1), is(false));
     }

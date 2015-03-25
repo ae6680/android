@@ -18,9 +18,9 @@ import javax.inject.Inject;
 
 public class ApproachDragRecyclerView extends RecyclerView {
 
-    @Inject ApproachAdapter approachAdapter;
+    @Inject ApproachEntryAdapter approachEntryAdapter;
 
-    private List<Approach> approach = Collections.emptyList();
+    private List<ApproachEntry> approachEntry = Collections.emptyList();
 
     public ApproachDragRecyclerView(Context context) {
         super(context);
@@ -38,7 +38,7 @@ public class ApproachDragRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        setAdapter(approachAdapter);
+        setAdapter(approachEntryAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
         setItemAnimator(null);
 
@@ -52,8 +52,8 @@ public class ApproachDragRecyclerView extends RecyclerView {
         dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override public void onItemMoved(int from, int to) {
-                approach.add(to, approach.remove(from));
-                approachAdapter.setApproaches(approach);
+                approachEntry.add(to, approachEntry.remove(from));
+                approachEntryAdapter.setApproachEntries(approachEntry);
             }
         });
 
@@ -71,9 +71,9 @@ public class ApproachDragRecyclerView extends RecyclerView {
         setLayoutParams(layoutParams);
     }
 
-    public void setApproaches(List<Approach> approach) {
-        this.approach = approach;
-        Collections.shuffle(approach);
-        approachAdapter.setApproaches(approach);
+    public void setApproaches(List<ApproachEntry> approachEntry) {
+        this.approachEntry = approachEntry;
+        Collections.shuffle(approachEntry);
+        approachEntryAdapter.setApproachEntries(approachEntry);
     }
 }

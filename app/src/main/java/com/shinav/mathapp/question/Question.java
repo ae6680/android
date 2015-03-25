@@ -1,6 +1,6 @@
 package com.shinav.mathapp.question;
 
-import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.approach.ApproachEntry;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -16,7 +16,7 @@ public class Question extends RealmObject {
     private String value;
     private String title;
     private String answer;
-    private RealmList<Approach> approach;
+    private RealmList<ApproachEntry> approachEntry;
 
     public Question() { }
 
@@ -52,12 +52,12 @@ public class Question extends RealmObject {
         this.firebaseKey = firebaseKey;
     }
 
-    public RealmList<Approach> getApproach() {
-        return approach;
+    public RealmList<ApproachEntry> getApproachEntry() {
+        return approachEntry;
     }
 
-    public void setApproach(RealmList<Approach> approach) {
-        this.approach = approach;
+    public void setApproachEntry(RealmList<ApproachEntry> approachEntry) {
+        this.approachEntry = approachEntry;
     }
 
 }

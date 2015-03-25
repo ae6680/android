@@ -28,7 +28,7 @@ public class ApproachActivity extends InjectedActivity {
     @Inject Storyteller storyteller;
     @Inject RealmRepository realmRepository;
 
-    private List<Approach> approach = Collections.emptyList();
+    private List<ApproachEntry> approachEntry = Collections.emptyList();
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +38,8 @@ public class ApproachActivity extends InjectedActivity {
         String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
         Question question = realmRepository.getQuestion(questionKey);
 
-        approach = new ArrayList<>(question.getApproach());
-        approachList.setApproaches(approach);
+        approachEntry = new ArrayList<>(question.getApproachEntry());
+        approachList.setApproaches(approachEntry);
 
         questionTitle.setText(question.getTitle());
         questionText.setText(question.getValue());
@@ -47,7 +47,7 @@ public class ApproachActivity extends InjectedActivity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        storyteller.setCurrentApproach(approach);
+        storyteller.setCurrentApproach(approachEntry);
         storyteller.next();
     }
 
