@@ -3,12 +3,11 @@ package com.shinav.mathapp.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 
-public class Card extends LinearLayout {
+public class Card extends ButterKnifeLayout {
 
     public static final float PERCENTAGE_HEIGHT_OF_SCREEN = 0.45F;
 

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.drag.DragSortRecycler;
+import com.shinav.mathapp.view.DragSortRecycler;
 
 import java.util.Collections;
 import java.util.List;

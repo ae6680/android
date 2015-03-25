@@ -1,21 +1,22 @@
 package com.shinav.mathapp.conversation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ConversationEntryView extends LinearLayout {
+@SuppressLint("ViewConstructor")
+public class ConversationEntryView extends ButterKnifeLayout {
 
     public static final String IS_TYPING_TEXT = "aan het typen";
     public static final int DELAY_MILLIS = 300;
@@ -44,7 +45,7 @@ public class ConversationEntryView extends LinearLayout {
             layout = R.layout.conversation_list_item_right;
         }
 
-        View view = LayoutInflater.from(context).inflate(layout, this, false);
+        View view = inflate(layout, this, false);
 
         holder =  new ViewHolder(view);
 

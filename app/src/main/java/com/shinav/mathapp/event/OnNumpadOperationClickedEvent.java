@@ -1,4 +1,4 @@
-package com.shinav.mathapp.calculator;
+package com.shinav.mathapp.event;
 
 public class OnNumpadOperationClickedEvent {
 

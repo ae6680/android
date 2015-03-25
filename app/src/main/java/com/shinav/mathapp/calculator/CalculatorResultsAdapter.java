@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;

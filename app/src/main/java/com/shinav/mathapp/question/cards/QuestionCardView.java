@@ -4,21 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.calculator.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
+import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.view.Card;
 import com.squareup.otto.Bus;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -39,9 +37,7 @@ public class QuestionCardView extends Card {
     }
 
     private void init() {
-        LayoutInflater inflater = LayoutInflater.from(this.getContext());
-        View view = inflater.inflate(R.layout.question_card, this, false);
-        ButterKnife.inject(this, view);
+        View view = inflate(R.layout.question_card, this, false);
 
         setLayoutParamsForViewPager(view);
 

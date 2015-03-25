@@ -1,4 +1,4 @@
-package com.shinav.mathapp.drag;
+package com.shinav.mathapp.view;
 
 /*
  * DragSortRecycler

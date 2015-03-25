@@ -1,18 +1,16 @@
 package com.shinav.mathapp.question.cards;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.view.ButterKnifeLayout;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class QuestionAnswerCardView extends RelativeLayout {
+public class QuestionAnswerCardView extends ButterKnifeLayout {
 
     @InjectView(R.id.question_result_card) RelativeLayout questionResultCard;
     @InjectView(R.id.answer) TextView answerView;
@@ -24,9 +22,7 @@ public class QuestionAnswerCardView extends RelativeLayout {
     }
 
     private void init() {
-        LayoutInflater inflater = LayoutInflater.from(this.getContext());
-        View view = inflater.inflate(R.layout.question_result_card, this, true);
-        ButterKnife.inject(this, view);
+        inflate(R.layout.question_answer_card, this, true);
     }
 
     public void setQuestion(Question question) {

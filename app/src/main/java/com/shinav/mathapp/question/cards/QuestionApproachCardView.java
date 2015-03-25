@@ -3,7 +3,6 @@ package com.shinav.mathapp.question.cards;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,7 +14,6 @@ import com.shinav.mathapp.view.Card;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class QuestionApproachCardView extends Card {
@@ -30,12 +28,8 @@ public class QuestionApproachCardView extends Card {
     }
 
     public void init() {
-        View view = LayoutInflater.from(this.getContext())
-                .inflate(R.layout.question_approach_card, this, false);
-        ButterKnife.inject(this, view);
-
+        View view = inflate(R.layout.question_approach_card, this, false);
         setLayoutParamsForViewPager(view);
-
         addView(view);
     }
 
