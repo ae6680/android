@@ -6,7 +6,12 @@ import android.view.View;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachAdapter;
 
+import javax.inject.Inject;
+
 public class ApproachFeedbackAdapter extends ApproachAdapter {
+
+    @Inject
+    public ApproachFeedbackAdapter() { }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -14,12 +19,16 @@ public class ApproachFeedbackAdapter extends ApproachAdapter {
 
         Resources res = background.getContext().getResources();
 
-        if (position == super.getItem(position).getPosition()) {
+        if (isCorrect(position)) {
             background.setBackgroundColor(res.getColor(R.color.input_correct));
         } else {
             background.setBackgroundColor(res.getColor(R.color.input_incorrect));
         }
 
         super.onBindViewHolder(holder, position);
+    }
+
+    public boolean isCorrect(int position) {
+        return position == super.getItem(position).getPosition();
     }
 }
