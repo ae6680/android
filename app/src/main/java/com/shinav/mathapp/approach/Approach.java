@@ -11,7 +11,7 @@ public class Approach extends RealmObject {
     @PrimaryKey
     private String firebaseKey;
 
-    private RealmList<ApproachEntry> approachEntries;
+    private RealmList<ApproachPart> approachParts;
 
     public Approach() { }
 
@@ -23,11 +23,11 @@ public class Approach extends RealmObject {
         this.firebaseKey = firebaseKey;
     }
 
-    public RealmList<ApproachEntry> getApproachEntries() {
-        return approachEntries;
+    public RealmList<ApproachPart> getApproachParts() {
+        return approachParts;
     }
 
-    public void setApproachEntries(RealmList<ApproachEntry> approachEntries) {
-        this.approachEntries = approachEntries;
+    public void setApproachParts(RealmList<ApproachPart> approachParts) {
+        this.approachParts = approachParts;
     }
 }

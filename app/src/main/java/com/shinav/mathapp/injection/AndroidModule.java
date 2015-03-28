@@ -6,7 +6,7 @@ import com.firebase.client.Firebase;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.question.QuestionActivity;
+import com.shinav.mathapp.firebase.listeners.FirebaseListener;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -17,11 +17,14 @@ import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
 
-@Module(injects = {
-        CalculatorFragment.class,
-        QuestionActivity.class,
-        FirebaseChildRegisterer.class,
-}, library = true)
+@Module(
+        injects = {
+                CalculatorFragment.class,
+                FirebaseChildRegisterer.class,
+                FirebaseListener.class
+        },
+        library = true
+)
 public class AndroidModule {
 
     private final MyApplication application;

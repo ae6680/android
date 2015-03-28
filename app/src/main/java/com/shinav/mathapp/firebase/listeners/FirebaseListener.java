@@ -5,10 +5,6 @@ import android.util.Log;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.repository.RealmRepository;
-
-import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -17,24 +13,20 @@ public abstract class FirebaseListener implements ChildEventListener {
 
     public static final String TAG = "FirebaseListener";
 
-    @Inject Realm realm;
-    @Inject FirebaseParser firebaseParser;
-    @Inject RealmRepository realmRepository;
-
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.e(TAG, dataSnapshot.getKey() + " : added");
         copyToRealmOrUpdate(dataSnapshot);
+        Log.e(TAG, dataSnapshot.getKey() + " : added");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        Log.e(TAG, dataSnapshot.getKey() + " : changed");
         copyToRealmOrUpdate(dataSnapshot);
+        Log.e(TAG, dataSnapshot.getKey() + " : changed");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.e(TAG, dataSnapshot.getKey() + " : removed");
         RealmObject object = getObject(dataSnapshot.getKey());
         object.removeFromRealm();
+        Log.e(TAG, dataSnapshot.getKey() + " : removed");
     }
 
     @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }
@@ -42,6 +34,8 @@ public abstract class FirebaseListener implements ChildEventListener {
     @Override public void onCancelled(FirebaseError firebaseError) {  }
 
     private void copyToRealmOrUpdate(DataSnapshot dataSnapshot) {
+
+        Realm realm = getRealm();
 
         RealmObject object = parseObject(dataSnapshot);
 
@@ -54,5 +48,6 @@ public abstract class FirebaseListener implements ChildEventListener {
 
     public abstract RealmObject parseObject(DataSnapshot dataSnapshot);
     public abstract RealmObject getObject(String dataSnapshotKey);
+    public abstract Realm getRealm();
 
 }

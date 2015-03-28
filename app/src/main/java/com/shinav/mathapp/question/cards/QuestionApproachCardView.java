@@ -8,8 +8,9 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachEntry;
-import com.shinav.mathapp.approach.ApproachEntryAdapter;
+import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.approach.ApproachPart;
+import com.shinav.mathapp.approach.ApproachPartAdapter;
 import com.shinav.mathapp.view.Card;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class QuestionApproachCardView extends Card {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
-    @InjectView(R.id.approach_list) RecyclerView approachList;
+    @InjectView(R.id.approach_part_list) RecyclerView approachList;
 
     public QuestionApproachCardView(Context context) {
         super(context);
@@ -33,17 +34,17 @@ public class QuestionApproachCardView extends Card {
         addView(view);
     }
 
-    public void setApproach(List<ApproachEntry> approachEntries) {
-        initApproachList(approachEntries);
+    public void setApproach(Approach approach) {
+        initApproachList(approach.getApproachParts());
     }
 
-    private void initApproachList(List<ApproachEntry> approachEntries) {
-        ApproachEntryAdapter approachEntryAdapter = new ApproachEntryAdapter();
+    private void initApproachList(List<ApproachPart> approachEntries) {
+        ApproachPartAdapter approachPartAdapter = new ApproachPartAdapter();
 
-        approachList.setAdapter(approachEntryAdapter);
+        approachList.setAdapter(approachPartAdapter);
         approachList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        approachEntryAdapter.setApproachEntries(approachEntries);
+        approachPartAdapter.setApproachParts(approachEntries);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

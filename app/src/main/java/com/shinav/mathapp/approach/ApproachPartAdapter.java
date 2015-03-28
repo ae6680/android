@@ -16,12 +16,12 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ApproachEntryAdapter extends RecyclerView.Adapter<ApproachEntryAdapter.ViewHolder> {
+public class ApproachPartAdapter extends RecyclerView.Adapter<ApproachPartAdapter.ViewHolder> {
 
-    List<ApproachEntry> approachEntries = Collections.emptyList();
+    List<ApproachPart> approachParts = Collections.emptyList();
 
     @Inject
-    public ApproachEntryAdapter() { }
+    public ApproachPartAdapter() { }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -35,23 +35,23 @@ public class ApproachEntryAdapter extends RecyclerView.Adapter<ApproachEntryAdap
         holder.text.setText(getItem(position).getText());
     }
 
-    public ApproachEntry getItem(int position) {
-        return approachEntries.get(position);
+    public ApproachPart getItem(int position) {
+        return approachParts.get(position);
     }
 
     @Override public int getItemCount() {
-        return approachEntries.size();
+        return approachParts.size();
     }
 
-    public void setApproachEntries(List<ApproachEntry> approachEntries) {
-        this.approachEntries = approachEntries;
+    public void setApproachParts(List<ApproachPart> approachParts) {
+        this.approachParts = approachParts;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.approach_number) TextView number;
-        @InjectView(R.id.approach_text) TextView text;
+        @InjectView(R.id.approach_part_number) TextView number;
+        @InjectView(R.id.approach_part_text) TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);

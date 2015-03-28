@@ -5,10 +5,16 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.shinav.mathapp.MyApplication;
 
-public class InjectedActionBarActivity extends ActionBarActivity {
+import dagger.ObjectGraph;
+
+public abstract class InjectedActionBarActivity extends ActionBarActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((MyApplication) getApplication()).inject(this);
+        ObjectGraph objectGraph = ((MyApplication) getApplication()).getApplicationGraph();
+        objectGraph.plus(getModules()).inject(this);
     }
+
+    public abstract ActivityModule getModules();
+
 }

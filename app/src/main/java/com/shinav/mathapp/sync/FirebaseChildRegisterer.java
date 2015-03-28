@@ -10,19 +10,30 @@ import javax.inject.Inject;
 
 import static com.shinav.mathapp.firebase.FirebaseInterface.Nodes;
 
-public final class FirebaseChildRegisterer {
+public class FirebaseChildRegisterer {
 
     private final Firebase firebase;
+    private final FirebaseQuestionListener firebaseQuestionListener;
+    private final FirebaseStoryListener firebaseStoryListener;
+    private final FirebaseConversationListener firebaseConversationListener;
 
     @Inject
-    public FirebaseChildRegisterer(Firebase firebase) {
+    public FirebaseChildRegisterer(
+            Firebase firebase,
+            FirebaseQuestionListener firebaseQuestionListener,
+            FirebaseStoryListener firebaseStoryListener,
+            FirebaseConversationListener firebaseConversationListener
+    ) {
         this.firebase = firebase;
+        this.firebaseQuestionListener = firebaseQuestionListener;
+        this.firebaseStoryListener = firebaseStoryListener;
+        this.firebaseConversationListener = firebaseConversationListener;
     }
 
     public void register() {
-        addChildEventListener(Nodes.QUESTIONS, new FirebaseQuestionListener());
-        addChildEventListener(Nodes.STORIES, new FirebaseStoryListener());
-        addChildEventListener(Nodes.CONVERSATIONS, new FirebaseConversationListener());
+        addChildEventListener(Nodes.QUESTIONS, firebaseQuestionListener);
+        addChildEventListener(Nodes.STORIES, firebaseStoryListener);
+        addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {

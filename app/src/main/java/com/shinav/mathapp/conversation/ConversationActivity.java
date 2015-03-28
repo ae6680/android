@@ -1,6 +1,5 @@
 package com.shinav.mathapp.conversation;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -8,6 +7,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.injection.ActivityModule;
+import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.repository.RealmRepository;
 
@@ -20,19 +21,23 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ConversationActivity extends Activity {
+public class ConversationActivity extends InjectedActivity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
 
     @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         ButterKnife.inject(this);
 
         initConversation();
+    }
+
+    @Override public ActivityModule getModules() {
+        return new ActivityModule(this);
     }
 
     private void initConversation() {

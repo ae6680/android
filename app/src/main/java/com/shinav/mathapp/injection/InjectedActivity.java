@@ -5,10 +5,16 @@ import android.os.Bundle;
 
 import com.shinav.mathapp.MyApplication;
 
-public class InjectedActivity extends Activity {
+import dagger.ObjectGraph;
+
+public abstract class InjectedActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((MyApplication) getApplication()).inject(this);
+        ObjectGraph objectGraph = ((MyApplication) getApplication()).getApplicationGraph();
+        objectGraph.plus(getModules()).inject(this);
     }
+
+   public abstract ActivityModule getModules();
+
 }

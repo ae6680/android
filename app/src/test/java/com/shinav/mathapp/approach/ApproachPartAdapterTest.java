@@ -14,13 +14,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class ApproachEntryAdapterTest {
+public class ApproachPartAdapterTest {
 
-    private ApproachEntryAdapter adapter;
+    private ApproachPartAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new ApproachEntryAdapter();
+        adapter = new ApproachPartAdapter();
     }
 
     @Test
@@ -30,24 +30,24 @@ public class ApproachEntryAdapterTest {
 
     @Test
     public void testItemCountIsAmountOfApproachEntries() throws Exception {
-        List<ApproachEntry> approachEntries = Arrays.asList(
-                new ApproachEntry(),
-                new ApproachEntry()
+        List<ApproachPart> approachEntries = Arrays.asList(
+                new ApproachPart(),
+                new ApproachPart()
         );
 
-        adapter.setApproachEntries(approachEntries);
+        adapter.setApproachParts(approachEntries);
 
         assertThat(adapter.getItemCount(), is(2));
     }
 
     @Test
     public void testGetItemReturnsApproachEntryBasedOnPosition() throws Exception {
-        List<ApproachEntry> approachEntries = Arrays.asList(
-                new ApproachEntry(),
-                new ApproachEntry()
+        List<ApproachPart> approachEntries = Arrays.asList(
+                new ApproachPart(),
+                new ApproachPart()
         );
 
-        adapter.setApproachEntries(approachEntries);
+        adapter.setApproachParts(approachEntries);
 
         assertThat(adapter.getItem(1), is(approachEntries.get(1)));
     }

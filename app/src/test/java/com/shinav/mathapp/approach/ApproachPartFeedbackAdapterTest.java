@@ -1,6 +1,6 @@
 package com.shinav.mathapp.approach;
 
-import com.shinav.mathapp.approach.feedback.ApproachEntryFeedbackAdapter;
+import com.shinav.mathapp.approach.feedback.ApproachPartFeedbackAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,23 +15,23 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class ApproachEntryFeedbackAdapterTest {
+public class ApproachPartFeedbackAdapterTest {
 
-    private ApproachEntryFeedbackAdapter adapter;
+    private ApproachPartFeedbackAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new ApproachEntryFeedbackAdapter();
+        adapter = new ApproachPartFeedbackAdapter();
     }
 
     @Test
     public void testCorrectWhenPositionEqualsItemPosition() throws Exception {
         int pos1 = 0;
 
-        ApproachEntry approachEntry = new ApproachEntry();
-        approachEntry.setPosition(pos1);
+        ApproachPart approachPart = new ApproachPart();
+        approachPart.setPosition(pos1);
 
-        adapter.setApproachEntries(Arrays.asList(approachEntry));
+        adapter.setApproachParts(Arrays.asList(approachPart));
 
         assertThat(adapter.isCorrect(pos1), is(true));
     }
@@ -41,10 +41,10 @@ public class ApproachEntryFeedbackAdapterTest {
         int approachPosition = 1;
         int pos1 = 0;
 
-        ApproachEntry approachEntry = new ApproachEntry();
-        approachEntry.setPosition(approachPosition);
+        ApproachPart approachPart = new ApproachPart();
+        approachPart.setPosition(approachPosition);
 
-        adapter.setApproachEntries(Arrays.asList(approachEntry));
+        adapter.setApproachParts(Arrays.asList(approachPart));
 
         assertThat(adapter.isCorrect(pos1), is(false));
     }

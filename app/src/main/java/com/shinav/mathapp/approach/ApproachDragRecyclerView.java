@@ -5,10 +5,9 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.injection.ViewModule;
 import com.shinav.mathapp.view.DragSortRecycler;
 
 import java.util.Collections;
@@ -16,11 +15,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.ObjectGraph;
+
 public class ApproachDragRecyclerView extends RecyclerView {
 
-    @Inject ApproachEntryAdapter approachEntryAdapter;
+    @Inject ApproachPartAdapter approachPartAdapter;
 
-    private List<ApproachEntry> approachEntry = Collections.emptyList();
+    private List<ApproachPart> approachParts = Collections.emptyList();
 
     public ApproachDragRecyclerView(Context context) {
         super(context);
@@ -38,12 +39,14 @@ public class ApproachDragRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        setAdapter(approachEntryAdapter);
+
+        ObjectGraph.create(new ViewModule()).inject(this);
+
+        setAdapter(approachPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
         setItemAnimator(null);
 
         setupDragSortRecycler();
-        setLayoutParams();
     }
 
     private void setupDragSortRecycler() {
@@ -52,8 +55,8 @@ public class ApproachDragRecyclerView extends RecyclerView {
         dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override public void onItemMoved(int from, int to) {
-                approachEntry.add(to, approachEntry.remove(from));
-                approachEntryAdapter.setApproachEntries(approachEntry);
+                approachParts.add(to, approachParts.remove(from));
+                approachPartAdapter.setApproachParts(approachParts);
             }
         });
 
@@ -62,18 +65,9 @@ public class ApproachDragRecyclerView extends RecyclerView {
         setOnScrollListener(dragSortRecycler.getScrollListener());
     }
 
-    private void setLayoutParams() {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                MyApplication.screenWidth,
-                (int) (MyApplication.screenHeight * 0.41f)
-        );
-        layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
-        setLayoutParams(layoutParams);
-    }
-
-    public void setApproaches(List<ApproachEntry> approachEntry) {
-        this.approachEntry = approachEntry;
-        Collections.shuffle(approachEntry);
-        approachEntryAdapter.setApproachEntries(approachEntry);
+    public void setApproachParts(List<ApproachPart> approachParts) {
+        this.approachParts = approachParts;
+        Collections.shuffle(approachParts);
+        approachPartAdapter.setApproachParts(approachParts);
     }
 }

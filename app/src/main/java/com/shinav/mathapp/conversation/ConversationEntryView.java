@@ -87,7 +87,6 @@ public class ConversationEntryView extends ButterKnifeLayout {
             }
         };
         runnable.run();
-
     }
 
     public void showMessage() {
@@ -108,7 +107,6 @@ public class ConversationEntryView extends ButterKnifeLayout {
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
-
     }
 
 }

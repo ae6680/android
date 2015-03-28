@@ -18,11 +18,11 @@ import static org.junit.Assert.assertThat;
 @Config(emulateSdk = 18, manifest = Config.NONE)
 public class CalculatorResultsAdapterTest {
 
-    private CalculatorResultsAdapter calculatorResultsAdapter;
+    private CalculatorResultsAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        calculatorResultsAdapter = new CalculatorResultsAdapter(
+        adapter = new CalculatorResultsAdapter(
                 Mockito.mock(Bus.class)
         );
     }
@@ -34,16 +34,16 @@ public class CalculatorResultsAdapterTest {
 
     @Test
     public void testIncreaseItemsWhenAdded() throws Exception {
-        int count = calculatorResultsAdapter.getItemCount();
+        int count = adapter.getItemCount();
 
-        calculatorResultsAdapter.addItem(new CalculatorEntry());
+        adapter.addItem(new CalculatorEntry());
 
-        assertThat(calculatorResultsAdapter.getItemCount(), is(count+1));
+        assertThat(adapter.getItemCount(), is(count + 1));
     }
 
     @Test
     public void testPopulatesWithTwoItemsWhenConstructed() throws Exception {
-        assertThat(calculatorResultsAdapter.getItemCount(), is(2));
+        assertThat(adapter.getItemCount(), is(2));
     }
 
 

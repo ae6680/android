@@ -4,7 +4,7 @@
                 style="@style/card">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/approach_list"
+        android:id="@+id/approach_part_list"
         android:layout_centerInParent="true"
         android:overScrollMode="never"
         android:layout_width="match_parent"

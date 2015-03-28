@@ -3,7 +3,8 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.approach.ApproachEntry;
+import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.conversation.ConversationEntry;
 import com.shinav.mathapp.question.Question;
@@ -40,12 +41,16 @@ public class FirebaseParser {
 
             DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
 
-            RealmList<ApproachEntry> approachEntries = new RealmList<>();
+            RealmList<ApproachPart> approachParts = new RealmList<>();
             for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
-                approachEntries.add(parseApproach(approachesSnapshot.child("approach-"+i)));
+                approachParts.add(parseApproachPart(approachesSnapshot.child("approach-" + i)));
             }
 
-            question.setApproachEntry(approachEntries);
+            Approach approach = new Approach();
+            approach.setFirebaseKey(question.getFirebaseKey() + "-approaches");
+            approach.setApproachParts(approachParts);
+
+            question.setApproach(approach);
 
             return question;
 
@@ -59,17 +64,17 @@ public class FirebaseParser {
         }
     }
 
-    private ApproachEntry parseApproach(DataSnapshot dataSnapshot) {
+    private ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
 
-        ApproachEntry approachEntry = new ApproachEntry();
+        ApproachPart approachPart = new ApproachPart();
 
         String position =  getString(dataSnapshot, FirebaseInterface.Approach.POSITION);
         String value =     getString(dataSnapshot, FirebaseInterface.Approach.VALUE);
 
-        approachEntry.setPosition(Integer.parseInt(position));
-        approachEntry.setText(value);
+        approachPart.setPosition(Integer.parseInt(position));
+        approachPart.setText(value);
 
-        return approachEntry;
+        return approachPart;
     }
 
     public Story parseStory(DataSnapshot dataSnapshot) {

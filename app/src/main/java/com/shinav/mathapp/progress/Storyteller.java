@@ -6,10 +6,10 @@ import android.content.Intent;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachActivity;
-import com.shinav.mathapp.approach.ApproachEntry;
+import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.injection.ForApplication;
+import com.shinav.mathapp.injection.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
@@ -25,13 +25,13 @@ public class Storyteller {
     public static final String TYPE_KEY = "type_key";
 
     private static int current = 0;
-    private static List<ApproachEntry> currentApproachEntry;
+    private static List<ApproachPart> currentApproachPart;
 
     private final Context context;
     private final Story story;
 
     @Inject
-    public Storyteller(@ForApplication Context context, RealmRepository realmRepository) {
+    public Storyteller(@ForActivity Context context, RealmRepository realmRepository) {
         this.context = context;
         story = realmRepository.getStory("story-0");
     }
@@ -80,12 +80,12 @@ public class Storyteller {
         ((Activity) context).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
-    public void setCurrentApproach(List<ApproachEntry> currentApproachEntry) {
-        Storyteller.currentApproachEntry = currentApproachEntry;
+    public void setCurrentApproach(List<ApproachPart> currentApproachPart) {
+        Storyteller.currentApproachPart = currentApproachPart;
     }
 
-    public List<ApproachEntry> getCurrentApproach() {
-        return currentApproachEntry;
+    public List<ApproachPart> getCurrentApproach() {
+        return currentApproachPart;
     }
 
 }

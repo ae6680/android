@@ -1,10 +1,13 @@
 package com.shinav.mathapp.approach;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.InjectedActivity;
+import com.shinav.mathapp.injection.ActivityModule;
+import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.repository.RealmRepository;
@@ -19,16 +22,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ApproachActivity extends InjectedActivity {
+public class ApproachActivity extends InjectedActionBarActivity {
 
-    @InjectView(R.id.approach_list) ApproachDragRecyclerView approachList;
-    @InjectView(R.id.question_title) TextView questionTitle;
+    @InjectView(R.id.approach_part_list) ApproachDragRecyclerView approachPartList;
     @InjectView(R.id.question_text) TextView questionText;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
 
     @Inject Storyteller storyteller;
     @Inject RealmRepository realmRepository;
 
-    private List<ApproachEntry> approachEntry = Collections.emptyList();
+    private List<ApproachPart> approachParts = Collections.emptyList();
+    private Question question;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,18 +40,35 @@ public class ApproachActivity extends InjectedActivity {
         ButterKnife.inject(this);
 
         String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-        Question question = realmRepository.getQuestion(questionKey);
+        question = realmRepository.getQuestion(questionKey);
 
-        approachEntry = new ArrayList<>(question.getApproachEntry());
-        approachList.setApproaches(approachEntry);
+        approachParts = new ArrayList<>(question.getApproach().getApproachParts());
+        approachPartList.setApproachParts(approachParts);
 
-        questionTitle.setText(question.getTitle());
         questionText.setText(question.getValue());
+
+        initToolbar();
+    }
+
+    @Override public ActivityModule getModules() {
+        return new ActivityModule(this);
+    }
+
+    private void initToolbar() {
+        toolbar.setTitle(question.getTitle());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        storyteller.setCurrentApproach(approachEntry);
+        storyteller.setCurrentApproach(approachParts);
         storyteller.next();
     }
 

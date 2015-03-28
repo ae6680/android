@@ -4,12 +4,12 @@ import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class ApproachEntry extends RealmObject {
+public class ApproachPart extends RealmObject {
 
     private String text;
     private int position;
 
-    public ApproachEntry() { }
+    public ApproachPart() { }
 
     public String getText() {
         return text;

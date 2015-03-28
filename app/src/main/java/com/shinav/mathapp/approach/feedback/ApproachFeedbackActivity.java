@@ -1,6 +1,5 @@
 package com.shinav.mathapp.approach.feedback;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +7,9 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachEntry;
+import com.shinav.mathapp.approach.ApproachPart;
+import com.shinav.mathapp.injection.ActivityModule;
+import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ApproachFeedbackActivity extends Activity {
+public class ApproachFeedbackActivity extends InjectedActivity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
@@ -30,12 +31,12 @@ public class ApproachFeedbackActivity extends Activity {
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
 
     @Inject Storyteller storyteller;
-    @Inject ApproachEntryFeedbackAdapter approachFeedbackMineAdapter;
-    @Inject ApproachEntryFeedbackAdapter approachFeedbackCorrectAdapter;
+    @Inject ApproachPartFeedbackAdapter approachFeedbackMineAdapter;
+    @Inject ApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
 
-    private List<ApproachEntry> approachEntries = Collections.emptyList();
+    private List<ApproachPart> approachEntries = Collections.emptyList();
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_approach_feedback);
@@ -48,11 +49,15 @@ public class ApproachFeedbackActivity extends Activity {
         initApproachListCorrect();
     }
 
+    @Override public ActivityModule getModules() {
+        return new ActivityModule(this);
+    }
+
     private void initApproachListMine() {
         approachListMine.setAdapter(approachFeedbackMineAdapter);
         approachListMine.setLayoutManager(new LinearLayoutManager(this));
 
-        approachFeedbackMineAdapter.setApproachEntries(approachEntries);
+        approachFeedbackMineAdapter.setApproachParts(approachEntries);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -68,18 +73,18 @@ public class ApproachFeedbackActivity extends Activity {
         approachListCorrect.setLayoutManager(new LinearLayoutManager(this));
 
         // Sort on approach position.
-        ArrayList<ApproachEntry> sortedApproachEntries = new ArrayList<>();
+        ArrayList<ApproachPart> sortedApproachEntries = new ArrayList<>();
         sortedApproachEntries.addAll(approachEntries);
 
-        Collections.sort(sortedApproachEntries, new Comparator<ApproachEntry>() {
-            public int compare(ApproachEntry approachEntry, ApproachEntry approachEntry2) {
-                String pos1 = String.valueOf(approachEntry.getPosition());
-                String pos2 = String.valueOf(approachEntry2.getPosition());
+        Collections.sort(sortedApproachEntries, new Comparator<ApproachPart>() {
+            public int compare(ApproachPart approachPart, ApproachPart approachPart2) {
+                String pos1 = String.valueOf(approachPart.getPosition());
+                String pos2 = String.valueOf(approachPart2.getPosition());
                 return pos1.compareTo(pos2);
             }
         });
 
-        approachFeedbackCorrectAdapter.setApproachEntries(sortedApproachEntries);
+        approachFeedbackCorrectAdapter.setApproachParts(sortedApproachEntries);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

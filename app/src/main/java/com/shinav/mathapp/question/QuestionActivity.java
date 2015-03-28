@@ -20,6 +20,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.injection.ActivityModule;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.cards.QuestionAnswerCardView;
@@ -73,6 +74,10 @@ public class QuestionActivity extends InjectedActionBarActivity {
         initCalculator();
     }
 
+    @Override public ActivityModule getModules() {
+        return new ActivityModule(this);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -118,14 +123,14 @@ public class QuestionActivity extends InjectedActionBarActivity {
     }
 
     private void initViewPager() {
-        questionCardView = new QuestionCardView(this, bus);
-        questionCardView.setQuestion(question);
+        List<Card> cards = new ArrayList<>();
 
         QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
-        questionApproachCardView.setApproach(new ArrayList<>(question.getApproachEntry()));
-
-        List<Card> cards = new ArrayList<>();
+        questionApproachCardView.setApproach(question.getApproach());
         cards.add(questionApproachCardView);
+
+        questionCardView = new QuestionCardView(this, bus);
+        questionCardView.setQuestion(question);
         cards.add(questionCardView);
 
         cardViewPager.setIndicator(viewPagerIndicator);
