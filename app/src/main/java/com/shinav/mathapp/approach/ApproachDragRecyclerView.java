@@ -70,4 +70,5 @@ public class ApproachDragRecyclerView extends RecyclerView {
         Collections.shuffle(approachParts);
         approachPartAdapter.setApproachParts(approachParts);
     }
+
 }

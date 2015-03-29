@@ -7,7 +7,7 @@ import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.ApproachDragRecyclerView;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.hub.HubActivity;
+import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 
 import javax.inject.Singleton;
@@ -17,7 +17,7 @@ import dagger.Provides;
 
 @Module(
         injects = {
-                HubActivity.class,
+                MainActivity.class,
                 ConversationActivity.class,
                 ApproachActivity.class,
                 ApproachFeedbackActivity.class,

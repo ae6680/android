@@ -19,6 +19,7 @@
     <string name="submit_button_text">BEVESTIG</string>
     <string name="answer_input_placeholder">GEEF ANTWOORD</string>
     <string name="action_approach">Aanpak</string>
+    <string name="main_toolbar_title">Rekentoets</string>
 
     <!--<string name="question_1">-->
         <!--Je bent bezig met je laatste onderdeel van je Nederlands examen, het schrijven van een samenvatting van maximaal 200 woorden.-->
