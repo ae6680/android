@@ -1,53 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_marginStart="25dp"
-              android:layout_marginEnd="25dp"
-              android:layout_marginTop="8dp"
-              android:layout_marginBottom="8dp"
-              android:orientation="vertical"
-              style="@style/card"
-              android:layout_width="match_parent"
-              android:layout_height="200dp">
+                android:layout_marginStart="@dimen/primary_margin"
+                android:layout_marginEnd="@dimen/primary_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
 
     <ImageView
+        android:id="@+id/story_card_image"
         android:background="@drawable/background_bus_road_horizontal"
         android:layout_width="match_parent"
-        android:layout_marginEnd="2dp"
-        android:layout_height="160dp"/>
+        android:layout_marginStart="-1dp"
+        android:layout_marginEnd="1.5dp"
+        android:layout_height="165dp"/>
 
-    <TextView
-        android:id="@+id/story_title"
-        android:textColor="#fff"
-        android:textSize="@dimen/text_size_small"
-        android:text="Onderweg met de bus."
-        android:layout_above="@+id/see_story_button"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"
+    <RelativeLayout
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/story_card_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="65dp">
+
+        <TextView
+            android:id="@+id/story_title"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_small"
+            android:text="Onderweg met de bus."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_small"
+            android:text="Text"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_small"
+            android:text="Text"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/see_story_button"
         style="?android:attr/borderlessButtonStyle"
         android:text="BEKIJK"
         android:textColor="@color/text_primary"
-        android:textSize="@dimen/text_size_mini"
+        android:textSize="@dimen/text_size_normal"
         android:layout_alignParentBottom="true"
-        android:layout_width="70dp"
-        android:layout_height="40dp"/>
-    <!--android:layout_marginStart="22dp"-->
+        android:layout_marginStart="10dp"
+        android:layout_width="75dp"
+        android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/make_story_button"
         style="?android:attr/borderlessButtonStyle"
         android:text="MAAK"
         android:textColor="@color/text_primary"
-        android:textSize="@dimen/text_size_mini"
+        android:textSize="@dimen/text_size_normal"
         android:layout_toEndOf="@+id/see_story_button"
-        android:layout_centerVertical="true"
         android:layout_alignParentBottom="true"
         android:layout_width="70dp"
-        android:layout_height="40dp"/>
+        android:layout_height="50dp"/>
     <!--android:layout_marginStart="30dp"-->
 
 </RelativeLayout>

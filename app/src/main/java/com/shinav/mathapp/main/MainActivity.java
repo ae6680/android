@@ -8,6 +8,10 @@ import com.shinav.mathapp.injection.ActivityModule;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
+import com.shinav.mathapp.story.StoryEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,7 +45,17 @@ public class MainActivity extends InjectedActionBarActivity {
 
     private void initStoryRecyclerView() {
         Story story = realmRepository.getStory("story-0");
-        storyCardRecyclerView.setStoryEntries(story.getStoryEntries());
+        storyCardRecyclerView.setStoryEntries(filterOnQuestionType(story.getStoryEntries()));
+    }
+
+    private ArrayList<StoryEntry> filterOnQuestionType(List<StoryEntry> storyEntries) {
+        ArrayList<StoryEntry> questionStories = new ArrayList<>();
+        for (StoryEntry storyEntry : storyEntries) {
+            if (storyEntry.isQuestion()) {
+                questionStories.add(storyEntry);
+            }
+        }
+        return questionStories;
     }
 
 }
