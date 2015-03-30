@@ -1,11 +1,11 @@
-package com.shinav.mathapp.main;
+package com.shinav.mathapp.main.storyProgress;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.injection.ViewModule;
+import com.shinav.mathapp.injection.modules.ViewModule;
 import com.shinav.mathapp.story.StoryEntry;
 
 import java.util.List;

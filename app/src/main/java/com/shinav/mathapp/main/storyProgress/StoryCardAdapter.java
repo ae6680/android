@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main;
+package com.shinav.mathapp.main.storyProgress;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

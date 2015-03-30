@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.ViewModule;
+import com.shinav.mathapp.injection.modules.ViewModule;
 import com.shinav.mathapp.view.DragSortRecycler;
 
 import java.util.Collections;

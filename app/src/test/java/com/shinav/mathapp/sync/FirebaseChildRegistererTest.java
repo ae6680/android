@@ -25,7 +25,12 @@ public class FirebaseChildRegistererTest {
         when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.STORIES)).thenReturn(Mockito.mock(Firebase.class));
 
-        new FirebaseChildRegisterer(firebase).register();
+        new FirebaseChildRegisterer(
+                firebase,
+                Mockito.mock(FirebaseQuestionListener.class),
+                Mockito.mock(FirebaseStoryListener.class),
+                Mockito.mock(FirebaseConversationListener.class)
+        ).register();
     }
 
     @Test

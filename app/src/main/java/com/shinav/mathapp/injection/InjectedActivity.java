@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.shinav.mathapp.MyApplication;
+import com.shinav.mathapp.injection.modules.ActivityModule;
 
 import dagger.ObjectGraph;
 

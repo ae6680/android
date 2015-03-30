@@ -1,4 +1,4 @@
-package com.shinav.mathapp.injection;
+package com.shinav.mathapp.injection.annotations;
 
 import java.lang.annotation.Retention;
 

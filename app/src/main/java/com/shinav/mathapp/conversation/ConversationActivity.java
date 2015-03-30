@@ -7,8 +7,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.ActivityModule;
 import com.shinav.mathapp.injection.InjectedActivity;
+import com.shinav.mathapp.injection.modules.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.repository.RealmRepository;
 
