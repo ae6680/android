@@ -1,9 +1,9 @@
 package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.firebase.listeners.FirebaseConversationListener;
-import com.shinav.mathapp.firebase.listeners.FirebaseQuestionListener;
-import com.shinav.mathapp.firebase.listeners.FirebaseStoryListener;
+import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
 
 import org.junit.Before;
 import org.junit.Test;

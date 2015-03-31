@@ -1,4 +1,4 @@
-package com.shinav.mathapp.injection.modules;
+package com.shinav.mathapp.injection.module;
 
 import android.content.Context;
 
@@ -6,8 +6,8 @@ import com.firebase.client.Firebase;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.firebase.listeners.FirebaseListener;
-import com.shinav.mathapp.injection.annotations.ForApplication;
+import com.shinav.mathapp.firebase.listener.FirebaseListener;
+import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;

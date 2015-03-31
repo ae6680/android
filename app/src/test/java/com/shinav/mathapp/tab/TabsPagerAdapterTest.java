@@ -1,4 +1,4 @@
-package com.shinav.mathapp.tabs;
+package com.shinav.mathapp.tab;
 
 import android.view.ViewGroup;
 

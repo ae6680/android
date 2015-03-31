@@ -1,4 +1,4 @@
-package com.shinav.mathapp.firebase.listeners;
+package com.shinav.mathapp.firebase.listener;
 
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.firebase.FirebaseParser;

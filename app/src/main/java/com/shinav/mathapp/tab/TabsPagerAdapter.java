@@ -1,37 +1,43 @@
-package com.shinav.mathapp.view;
+package com.shinav.mathapp.tab;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CardsAdapter extends PagerAdapter {
+import javax.inject.Inject;
 
-    private List<Card> cards = Collections.emptyList();
+public class TabsPagerAdapter extends PagerAdapter {
+
+    private List<ViewGroup> tabs = new ArrayList<>();
+
+    @Inject
+    public TabsPagerAdapter() { }
 
     @Override public Object instantiateItem(ViewGroup container, int position) {
-        View view = cards.get(position);
-        container.addView(view);
+        ViewGroup viewGroup = tabs.get(position);
+        container.addView(viewGroup);
 
-        return view;
+        return viewGroup;
     }
 
     @Override public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        container.removeViewAt(position);
     }
 
     @Override public int getCount() {
-        return cards.size();
+        return tabs.size();
     }
 
     @Override public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
+    public void addTab(ViewGroup viewGroup) {
+        tabs.add(viewGroup);
         notifyDataSetChanged();
     }
+
 }

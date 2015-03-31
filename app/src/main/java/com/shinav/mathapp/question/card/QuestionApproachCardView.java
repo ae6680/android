@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question.cards;
+package com.shinav.mathapp.question.card;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +11,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.ApproachPartAdapter;
-import com.shinav.mathapp.view.Card;
+import com.shinav.mathapp.card.Card;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question.cards;
+package com.shinav.mathapp.question.card;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,11 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.view.Card;
 import com.squareup.otto.Bus;
 
 import butterknife.InjectView;

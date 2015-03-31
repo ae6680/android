@@ -9,7 +9,7 @@ import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.injection.annotations.ForActivity;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.view;
+package com.shinav.mathapp.card;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.view.ViewPagerIndicator;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question.cards;
+package com.shinav.mathapp.question.card;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

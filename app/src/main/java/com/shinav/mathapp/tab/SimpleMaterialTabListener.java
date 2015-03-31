@@ -1,4 +1,4 @@
-package com.shinav.mathapp.tabs;
+package com.shinav.mathapp.tab;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;

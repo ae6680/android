@@ -1,10 +1,10 @@
-package com.shinav.mathapp.question.cards;
+package com.shinav.mathapp.question.card;
 
 import android.content.Context;
 import android.view.View;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.view.Card;
+import com.shinav.mathapp.card.Card;
 
 public class QuestionExplanationView extends Card {
 

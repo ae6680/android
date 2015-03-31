@@ -1,4 +1,4 @@
-package com.shinav.mathapp.view;
+package com.shinav.mathapp.tab;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -6,9 +6,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.modules.ViewModule;
-import com.shinav.mathapp.tabs.SimpleMaterialTabListener;
-import com.shinav.mathapp.tabs.TabsPagerAdapter;
+import com.shinav.mathapp.injection.module.ViewModule;
+import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import javax.inject.Inject;
 

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.injection.modules.AndroidModule;
+import com.shinav.mathapp.injection.module.AndroidModule;
 
 import java.util.Arrays;
 import java.util.List;

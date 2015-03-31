@@ -1,9 +1,9 @@
-package com.shinav.mathapp.injection.modules;
+package com.shinav.mathapp.injection.module;
 
 import com.shinav.mathapp.approach.ApproachDragRecyclerView;
 import com.shinav.mathapp.main.practice.PracticeCardRecyclerView;
 import com.shinav.mathapp.main.storyProgress.StoryCardRecyclerView;
-import com.shinav.mathapp.view.TabsView;
+import com.shinav.mathapp.tab.TabsView;
 
 import dagger.Module;
 

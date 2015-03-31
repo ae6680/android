@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.annotations.ForActivity;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import javax.inject.Inject;

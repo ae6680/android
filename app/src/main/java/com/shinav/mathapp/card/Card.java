@@ -1,4 +1,4 @@
-package com.shinav.mathapp.view;
+package com.shinav.mathapp.card;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.view.ButterKnifeLayout;
 
 public class Card extends ButterKnifeLayout {
 

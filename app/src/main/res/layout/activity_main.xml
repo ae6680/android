@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.shinav.mathapp.view.TabsView
+    <com.shinav.mathapp.tab.TabsView
         android:id="@+id/tabs_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

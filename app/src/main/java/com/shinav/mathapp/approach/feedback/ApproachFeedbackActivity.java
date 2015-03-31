@@ -9,7 +9,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.injection.InjectedActivity;
-import com.shinav.mathapp.injection.modules.ActivityModule;
+import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;

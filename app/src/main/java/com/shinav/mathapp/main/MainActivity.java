@@ -5,13 +5,13 @@ import android.support.v7.widget.Toolbar;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
-import com.shinav.mathapp.injection.modules.ActivityModule;
+import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
-import com.shinav.mathapp.view.TabsView;
+import com.shinav.mathapp.tab.TabsView;
 
 import javax.inject.Inject;
 

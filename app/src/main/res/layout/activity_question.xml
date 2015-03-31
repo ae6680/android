@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.shinav.mathapp.view.CardViewPager
+    <com.shinav.mathapp.card.CardViewPager
         android:id="@+id/card_view_pager"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbar"

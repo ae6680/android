@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
-import com.shinav.mathapp.injection.modules.ActivityModule;
+import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.repository.RealmRepository;

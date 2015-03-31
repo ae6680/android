@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.injection.modules.ViewModule;
+import com.shinav.mathapp.injection.module.ViewModule;
 
 import javax.inject.Inject;
 
