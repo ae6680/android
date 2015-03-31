@@ -10,12 +10,8 @@ import com.shinav.mathapp.main.practice.PracticeOverviewView;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryEntry;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
 import com.shinav.mathapp.view.TabsView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -60,18 +56,12 @@ public class MainActivity extends InjectedActionBarActivity {
     }
 
     private void initStoryRecyclerView() {
-        Story story = realmRepository.getStory("story-0");
-        storyProgressView.setStoryEntries(filterOnQuestionType(story.getStoryEntries()));
+        Story story = fetchStory();
+        storyProgressView.setStoryEntries(story.filterOnQuestionType());
     }
 
-    private ArrayList<StoryEntry> filterOnQuestionType(List<StoryEntry> storyEntries) {
-        ArrayList<StoryEntry> questionStories = new ArrayList<>();
-        for (StoryEntry storyEntry : storyEntries) {
-            if (storyEntry.isQuestion()) {
-                questionStories.add(storyEntry);
-            }
-        }
-        return questionStories;
+    private Story fetchStory() {
+        return realmRepository.getStory("story-0");
     }
 
 }

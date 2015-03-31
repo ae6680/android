@@ -1,5 +1,7 @@
 package com.shinav.mathapp.story;
 
+import java.util.ArrayList;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -29,4 +31,17 @@ public class Story extends RealmObject {
     public void setStoryEntries(RealmList<StoryEntry> storyEntries) {
         this.storyEntries = storyEntries;
     }
+
+    public ArrayList<StoryEntry> filterOnQuestionType() {
+        ArrayList<StoryEntry> questionStories = new ArrayList<>();
+
+        for (StoryEntry storyEntry : storyEntries) {
+            if (storyEntry.isQuestion()) {
+                questionStories.add(storyEntry);
+            }
+        }
+
+        return questionStories;
+    }
+
 }
