@@ -1,7 +1,6 @@
 package com.shinav.mathapp.main;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 import com.shinav.mathapp.R;
@@ -13,8 +12,7 @@ import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.story.StoryEntry;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
-import com.shinav.mathapp.tabs.SimpleMaterialTabListener;
-import com.shinav.mathapp.tabs.TabsPagerAdapter;
+import com.shinav.mathapp.view.TabsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +21,14 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
 
 public class MainActivity extends InjectedActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
-    @InjectView(R.id.tab_host) MaterialTabHost tabHost;
-    @InjectView(R.id.tabs_pager) ViewPager tabsPager;
+    @InjectView(R.id.tabs_view) TabsView tabsView;
 
     @Inject FirebaseChildRegisterer registerer;
     @Inject RealmRepository realmRepository;
-    @Inject TabsPagerAdapter tabsPagerAdapter;
 
     @Inject StoryProgressView storyProgressView;
     @Inject PracticeOverviewView practiceOverviewView;
@@ -62,24 +55,8 @@ public class MainActivity extends InjectedActionBarActivity {
     }
 
     private void initTabs() {
-        tabsPagerAdapter.addTab(storyProgressView);
-        tabsPagerAdapter.addTab(practiceOverviewView);
-
-        MaterialTabListener tabListener =  new SimpleMaterialTabListener() {
-            @Override public void onTabSelected(MaterialTab materialTab) {
-                tabsPager.setCurrentItem(materialTab.getPosition());
-            }
-        };
-
-        tabHost.addTab(tabHost.newTab().setText("VERHAAL").setTabListener(tabListener));
-        tabHost.addTab(tabHost.newTab().setText("OEFENEN").setTabListener(tabListener));
-
-        tabsPager.setAdapter(tabsPagerAdapter);
-        tabsPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override public void onPageSelected(int position) {
-                tabHost.setSelectedNavigationItem(position);
-            }
-        });
+        tabsView.addTab(getResources().getString(R.string.main_tab_1), storyProgressView);
+        tabsView.addTab(getResources().getString(R.string.main_tab_2), practiceOverviewView);
     }
 
     private void initStoryRecyclerView() {
