@@ -20,13 +20,13 @@ public abstract class FirebaseInterface {
         String POSITION = "position";
     }
 
-    public interface StoryEntry {
+    public interface StoryPart {
         String POSITION = "position";
         String TYPE = "type";
         String TYPE_KEY = "typeKey";
     }
 
-    public interface ConversationEntry {
+    public interface ConversationPart {
         String POSITION = "position";
         String DELAY = "delay";
         String TYPING_DURATION = "typingDuration";

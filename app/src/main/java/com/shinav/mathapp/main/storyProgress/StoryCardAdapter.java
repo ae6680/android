@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.story.StoryPart;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class StoryCardAdapter extends RecyclerView.Adapter<StoryCardAdapter.ViewHolder> {
 
-    private List<StoryEntry> storyEntries = Collections.emptyList();
+    private List<StoryPart> storyParts = Collections.emptyList();
 
     @Inject
     public StoryCardAdapter() { }
@@ -35,11 +35,11 @@ public class StoryCardAdapter extends RecyclerView.Adapter<StoryCardAdapter.View
     }
 
     @Override public int getItemCount() {
-        return storyEntries.size();
+        return storyParts.size();
     }
 
-    public void setStoryEntries(List<StoryEntry> storyEntries) {
-        this.storyEntries = storyEntries;
+    public void setStoryParts(List<StoryPart> storyParts) {
+        this.storyParts = storyParts;
         notifyDataSetChanged();
     }
 

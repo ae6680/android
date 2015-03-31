@@ -5,7 +5,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class StoryEntry extends RealmObject {
+public class StoryPart extends RealmObject {
 
     @PrimaryKey
     private String firebaseKey;
@@ -14,7 +14,7 @@ public class StoryEntry extends RealmObject {
     private String type;
     private String typeKey;
 
-    public StoryEntry() {  }
+    public StoryPart() {  }
 
     public String getFirebaseKey() {
         return firebaseKey;

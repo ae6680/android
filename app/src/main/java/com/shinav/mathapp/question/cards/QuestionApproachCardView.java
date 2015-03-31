@@ -38,13 +38,13 @@ public class QuestionApproachCardView extends Card {
         initApproachList(approach.getApproachParts());
     }
 
-    private void initApproachList(List<ApproachPart> approachEntries) {
+    private void initApproachList(List<ApproachPart> approachParts) {
         ApproachPartAdapter approachPartAdapter = new ApproachPartAdapter();
 
         approachList.setAdapter(approachPartAdapter);
         approachList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        approachPartAdapter.setApproachParts(approachEntries);
+        approachPartAdapter.setApproachParts(approachParts);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

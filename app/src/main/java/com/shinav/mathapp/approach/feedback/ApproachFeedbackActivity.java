@@ -34,7 +34,7 @@ public class ApproachFeedbackActivity extends InjectedActivity {
     @Inject ApproachPartFeedbackAdapter approachFeedbackMineAdapter;
     @Inject ApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
 
-    private List<ApproachPart> approachEntries = Collections.emptyList();
+    private List<ApproachPart> approachParts = Collections.emptyList();
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class ApproachFeedbackActivity extends InjectedActivity {
 
         ButterKnife.inject(this);
 
-        approachEntries = storyteller.getCurrentApproach();
+        approachParts = storyteller.getCurrentApproach();
 
         initApproachListMine();
         initApproachListCorrect();
@@ -57,7 +57,7 @@ public class ApproachFeedbackActivity extends InjectedActivity {
         approachListMine.setAdapter(approachFeedbackMineAdapter);
         approachListMine.setLayoutManager(new LinearLayoutManager(this));
 
-        approachFeedbackMineAdapter.setApproachParts(approachEntries);
+        approachFeedbackMineAdapter.setApproachParts(approachParts);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -73,10 +73,10 @@ public class ApproachFeedbackActivity extends InjectedActivity {
         approachListCorrect.setLayoutManager(new LinearLayoutManager(this));
 
         // Sort on approach position.
-        ArrayList<ApproachPart> sortedApproachEntries = new ArrayList<>();
-        sortedApproachEntries.addAll(approachEntries);
+        ArrayList<ApproachPart> sortedApproachParts = new ArrayList<>();
+        sortedApproachParts.addAll(approachParts);
 
-        Collections.sort(sortedApproachEntries, new Comparator<ApproachPart>() {
+        Collections.sort(sortedApproachParts, new Comparator<ApproachPart>() {
             public int compare(ApproachPart approachPart, ApproachPart approachPart2) {
                 String pos1 = String.valueOf(approachPart.getPosition());
                 String pos2 = String.valueOf(approachPart2.getPosition());
@@ -84,7 +84,7 @@ public class ApproachFeedbackActivity extends InjectedActivity {
             }
         });
 
-        approachFeedbackCorrectAdapter.setApproachParts(sortedApproachEntries);
+        approachFeedbackCorrectAdapter.setApproachParts(sortedApproachParts);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

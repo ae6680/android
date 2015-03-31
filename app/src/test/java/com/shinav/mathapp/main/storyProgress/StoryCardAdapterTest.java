@@ -1,6 +1,6 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.story.StoryPart;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +28,12 @@ public class StoryCardAdapterTest {
 
     @Test
     public void testItemCountIsAmountOfApproachEntries() throws Exception {
-        List<StoryEntry> storyEntries = Arrays.asList(
-                Mockito.mock(StoryEntry.class),
-                Mockito.mock(StoryEntry.class)
+        List<StoryPart> storyEntries = Arrays.asList(
+                Mockito.mock(StoryPart.class),
+                Mockito.mock(StoryPart.class)
         );
 
-        adapter.setStoryEntries(storyEntries);
+        adapter.setStoryParts(storyEntries);
 
         assertThat(adapter.getItemCount(), is(2));
     }

@@ -11,7 +11,7 @@ public class Conversation extends RealmObject {
     @PrimaryKey
     private String firebaseKey;
 
-    private RealmList<ConversationEntry> conversationEntries;
+    private RealmList<ConversationPart> conversationParts;
 
     public Conversation() { }
 
@@ -23,11 +23,11 @@ public class Conversation extends RealmObject {
         this.firebaseKey = firebaseKey;
     }
 
-    public RealmList<ConversationEntry> getConversationEntries() {
-        return conversationEntries;
+    public RealmList<ConversationPart> getConversationParts() {
+        return conversationParts;
     }
 
-    public void setConversationEntries(RealmList<ConversationEntry> conversationEntries) {
-        this.conversationEntries = conversationEntries;
+    public void setConversationParts(RealmList<ConversationPart> conversationParts) {
+        this.conversationParts = conversationParts;
     }
 }

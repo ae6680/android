@@ -96,7 +96,7 @@ public class CalculatorFragment extends InjectedFragment {
         if (hasFocus) {
             equation = equationHandler.handleNumber(equation, number);
             answer = calculator.calculate(equation);
-            updateLastCalculatorEntry();
+            updateLastCalculatorResultItem();
         } else {
             bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_INSERT, number));
@@ -111,7 +111,7 @@ public class CalculatorFragment extends InjectedFragment {
                 equation = equationHandler.handleOperator(equation, operator);
             }
 
-            updateLastCalculatorEntry();
+            updateLastCalculatorResultItem();
         }
     }
 
@@ -124,7 +124,7 @@ public class CalculatorFragment extends InjectedFragment {
     @OnClick(R.id.calculator_options_equals)
     public void onEqualsClicked() {
         if (!TextUtils.isEmpty(equation)) {
-            resultsAdapter.addItem(new CalculatorEntry());
+            resultsAdapter.addItem(new CalculatorResultItem());
         }
         equation = "";
         scrollToLast();
@@ -137,7 +137,7 @@ public class CalculatorFragment extends InjectedFragment {
                 equation = equationHandler.handleBackspace(equation);
 
                 answer = calculator.calculate(equation);
-                updateLastCalculatorEntry();
+                updateLastCalculatorResultItem();
             }
         } else {
             bus.post(new OnNumpadOperationClickedEvent(
@@ -150,7 +150,7 @@ public class CalculatorFragment extends InjectedFragment {
         if (hasFocus) {
             equation = "";
             answer = "";
-            updateLastCalculatorEntry();
+            updateLastCalculatorResultItem();
         } else {
             bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_REMOVE_ALL, null));
@@ -163,7 +163,7 @@ public class CalculatorFragment extends InjectedFragment {
     public void onComma() {
         if (hasFocus) {
             equation += ",";
-            updateLastCalculatorEntry();
+            updateLastCalculatorResultItem();
         } else {
             bus.post(new OnNumpadOperationClickedEvent(
                     OnNumpadOperationClickedEvent.OPERATION_INSERT, ","));
@@ -179,7 +179,7 @@ public class CalculatorFragment extends InjectedFragment {
             answer = calculator.calculate(equation);
         }
 
-        updateLastCalculatorEntry();
+        updateLastCalculatorResultItem();
     }
 
     private void scrollToLast() {
@@ -187,13 +187,13 @@ public class CalculatorFragment extends InjectedFragment {
         calculatorResults.scrollToPosition(amount - 1);
     }
 
-    private void updateLastCalculatorEntry() {
+    private void updateLastCalculatorResultItem() {
 
-        CalculatorEntry calculatorEntry = new CalculatorEntry();
-        calculatorEntry.answer = answer;
-        calculatorEntry.equation = equation;
+        CalculatorResultItem calculatorResultItem = new CalculatorResultItem();
+        calculatorResultItem.answer = answer;
+        calculatorResultItem.equation = equation;
 
-        resultsAdapter.updateLastItem(calculatorEntry);
+        resultsAdapter.updateLastItem(calculatorResultItem);
 
         scrollToLast();
     }

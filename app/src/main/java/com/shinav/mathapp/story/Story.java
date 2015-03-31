@@ -12,7 +12,7 @@ public class Story extends RealmObject {
 
     @PrimaryKey
     private String firebaseKey;
-    private RealmList<StoryEntry> storyEntries;
+    private RealmList<StoryPart> storyParts;
 
     public Story() { }
 
@@ -24,20 +24,20 @@ public class Story extends RealmObject {
         this.firebaseKey = firebaseKey;
     }
 
-    public RealmList<StoryEntry> getStoryEntries() {
-        return storyEntries;
+    public RealmList<StoryPart> getStoryParts() {
+        return storyParts;
     }
 
-    public void setStoryEntries(RealmList<StoryEntry> storyEntries) {
-        this.storyEntries = storyEntries;
+    public void setStoryParts(RealmList<StoryPart> storyParts) {
+        this.storyParts = storyParts;
     }
 
-    public ArrayList<StoryEntry> filterOnQuestionType() {
-        ArrayList<StoryEntry> questionStories = new ArrayList<>();
+    public ArrayList<StoryPart> filterOnQuestionType() {
+        ArrayList<StoryPart> questionStories = new ArrayList<>();
 
-        for (StoryEntry storyEntry : storyEntries) {
-            if (storyEntry.isQuestion()) {
-                questionStories.add(storyEntry);
+        for (StoryPart storyPart : storyParts) {
+            if (storyPart.isQuestion()) {
+                questionStories.add(storyPart);
             }
         }
 

@@ -5,7 +5,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class ConversationEntry extends RealmObject {
+public class ConversationPart extends RealmObject {
 
     @PrimaryKey
     private String firebaseKey;
@@ -15,7 +15,7 @@ public class ConversationEntry extends RealmObject {
     private int delay;
     private int typingDuration;
 
-    public ConversationEntry() { }
+    public ConversationPart() { }
 
     public String getMessage() {
         return message;

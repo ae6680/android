@@ -53,14 +53,14 @@ public class ConversationActivity extends InjectedActivity {
 
             @Override public void run() {
 
-                final List<ConversationEntry> entries = new ArrayList<>(
-                        conversation.getConversationEntries());
+                final List<ConversationPart> conversationParts = new ArrayList<>(
+                        conversation.getConversationParts());
 
-                ConversationEntry conversationEntry = entries.get(counter);
+                ConversationPart conversationPart = conversationParts.get(counter);
 
-                final ConversationEntryView view = new ConversationEntryView(
+                final ConversationPartView view = new ConversationPartView(
                         ConversationActivity.this,
-                        conversationEntry
+                        conversationPart
                 );
 
                 conversationContainer.addView(view);
@@ -77,13 +77,13 @@ public class ConversationActivity extends InjectedActivity {
 
                         view.showMessage();
 
-                        if (counter < entries.size()) {
-                            handler.postDelayed(parent, entries.get(counter).getDelay());
+                        if (counter < conversationParts.size()) {
+                            handler.postDelayed(parent, conversationParts.get(counter).getDelay());
                         }
                     }
                 };
 
-                handler.postDelayed(showMessageRunnable, conversationEntry.getTypingDuration());
+                handler.postDelayed(showMessageRunnable, conversationPart.getTypingDuration());
 
             }
         };

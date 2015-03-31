@@ -16,30 +16,30 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 @SuppressLint("ViewConstructor")
-public class ConversationEntryView extends ButterKnifeLayout {
+public class ConversationPartView extends ButterKnifeLayout {
 
     public static final String IS_TYPING_TEXT = "aan het typen";
     public static final int DELAY_MILLIS = 300;
 
     private ViewHolder holder;
     private boolean showTyping = true;
-    private ConversationEntry conversationEntry;
+    private ConversationPart conversationPart;
     private Runnable runnable;
     private Handler handler;
     private Context context;
 
-    public ConversationEntryView(Context context, ConversationEntry conversationEntry) {
+    public ConversationPartView(Context context, ConversationPart conversationPart) {
         super(context);
-        init(context, conversationEntry);
+        init(context, conversationPart);
     }
 
-    private void init(Context context, ConversationEntry conversationEntry) {
-        this.conversationEntry = conversationEntry;
+    private void init(Context context, ConversationPart conversationPart) {
+        this.conversationPart = conversationPart;
         this.context = context;
 
         int layout;
 
-        if (conversationEntry.isLeft()) {
+        if (conversationPart.isLeft()) {
             layout = R.layout.conversation_list_item_left;
         } else {
             layout = R.layout.conversation_list_item_right;
@@ -93,7 +93,7 @@ public class ConversationEntryView extends ButterKnifeLayout {
         showTyping = false;
         handler.removeCallbacks(runnable);
 
-        holder.message.setText(conversationEntry.getMessage());
+        holder.message.setText(conversationPart.getMessage());
 
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         holder.message.startAnimation(animation);
@@ -101,7 +101,7 @@ public class ConversationEntryView extends ButterKnifeLayout {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.conversation_entry_message) TextView message;
+        @InjectView(R.id.conversation_part_message) TextView message;
 
         public ViewHolder(View itemView) {
             super(itemView);

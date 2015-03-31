@@ -6,10 +6,9 @@ import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.conversation.Conversation;
-import com.shinav.mathapp.conversation.ConversationEntry;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.story.StoryPart;
 
 import javax.inject.Inject;
 
@@ -80,31 +79,31 @@ public class FirebaseParser {
     public Story parseStory(DataSnapshot dataSnapshot) {
         Story story = new Story();
 
-        RealmList<StoryEntry> storyEntries = new RealmList<>();
+        RealmList<StoryPart> storyParts = new RealmList<>();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            storyEntries.add(parseStoryEntry(snapshot));
+            storyParts.add(parseStoryPart(snapshot));
         }
 
-        story.setStoryEntries(storyEntries);
+        story.setStoryParts(storyParts);
 
         story.setFirebaseKey(dataSnapshot.getKey());
 
         return story;
     }
 
-    private StoryEntry parseStoryEntry(DataSnapshot dataSnapshot) {
-        StoryEntry storyEntry = new StoryEntry();
+    private StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
+        StoryPart storyPart = new StoryPart();
 
         try {
-            String position = getString(dataSnapshot, FirebaseInterface.StoryEntry.POSITION);
-            String type =     getString(dataSnapshot, FirebaseInterface.StoryEntry.TYPE);
-            String typeKey =  getString(dataSnapshot, FirebaseInterface.StoryEntry.TYPE_KEY);
+            String position = getString(dataSnapshot, FirebaseInterface.StoryPart.POSITION);
+            String type =     getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE);
+            String typeKey =  getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE_KEY);
 
-            storyEntry.setPosition(Integer.parseInt(position));
-            storyEntry.setType(type);
-            storyEntry.setTypeKey(typeKey);
+            storyPart.setPosition(Integer.parseInt(position));
+            storyPart.setType(type);
+            storyPart.setTypeKey(typeKey);
 
-            storyEntry.setFirebaseKey(dataSnapshot.getKey());
+            storyPart.setFirebaseKey(dataSnapshot.getKey());
 
         } catch (NullPointerException e) {
             Log.e(TAG, "Field or value not set");
@@ -115,40 +114,40 @@ public class FirebaseParser {
             return null;
         }
 
-        return storyEntry;
+        return storyPart;
     }
 
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
-        RealmList<ConversationEntry> conversationEntries = new RealmList<>();
+        RealmList<com.shinav.mathapp.conversation.ConversationPart> conversationParts = new RealmList<>();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            conversationEntries.add(parseConversationEntry(snapshot, dataSnapshot.getKey()));
+            conversationParts.add(parseConversationPart(snapshot, dataSnapshot.getKey()));
         }
 
-        conversation.setConversationEntries(conversationEntries);
+        conversation.setConversationParts(conversationParts);
 
         conversation.setFirebaseKey(dataSnapshot.getKey());
 
         return conversation;
     }
 
-    private ConversationEntry parseConversationEntry(DataSnapshot dataSnapshot, String parentKey) {
-        ConversationEntry conversationEntry = new ConversationEntry();
+    private com.shinav.mathapp.conversation.ConversationPart parseConversationPart(DataSnapshot dataSnapshot, String parentKey) {
+        com.shinav.mathapp.conversation.ConversationPart conversationPart = new com.shinav.mathapp.conversation.ConversationPart();
 
-        String position = getString(dataSnapshot, FirebaseInterface.ConversationEntry.POSITION);
-        String message = getString(dataSnapshot, FirebaseInterface.ConversationEntry.MESSAGE);
-        String delay = getString(dataSnapshot, FirebaseInterface.ConversationEntry.DELAY);
-        String typingDuration = getString(dataSnapshot, FirebaseInterface.ConversationEntry.TYPING_DURATION);
+        String position = getString(dataSnapshot, FirebaseInterface.ConversationPart.POSITION);
+        String message = getString(dataSnapshot, FirebaseInterface.ConversationPart.MESSAGE);
+        String delay = getString(dataSnapshot, FirebaseInterface.ConversationPart.DELAY);
+        String typingDuration = getString(dataSnapshot, FirebaseInterface.ConversationPart.TYPING_DURATION);
 
-        conversationEntry.setPosition(Integer.parseInt(position));
-        conversationEntry.setMessage(message);
-        conversationEntry.setDelay(Integer.parseInt(delay));
-        conversationEntry.setTypingDuration(Integer.parseInt(typingDuration));
+        conversationPart.setPosition(Integer.parseInt(position));
+        conversationPart.setMessage(message);
+        conversationPart.setDelay(Integer.parseInt(delay));
+        conversationPart.setTypingDuration(Integer.parseInt(typingDuration));
 
-        conversationEntry.setFirebaseKey(parentKey + "-" + dataSnapshot.getKey());
+        conversationPart.setFirebaseKey(parentKey + "-" + dataSnapshot.getKey());
 
-        return conversationEntry;
+        return conversationPart;
     }
 
 

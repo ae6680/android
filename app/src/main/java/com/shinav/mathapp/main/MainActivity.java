@@ -57,7 +57,7 @@ public class MainActivity extends InjectedActionBarActivity {
 
     private void initStoryRecyclerView() {
         Story story = fetchStory();
-        storyProgressView.setStoryEntries(story.filterOnQuestionType());
+        storyProgressView.setStoryParts(story.filterOnQuestionType());
     }
 
     private Story fetchStory() {

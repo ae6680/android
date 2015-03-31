@@ -23,7 +23,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     public static final int ITEM_LAYOUT = R.layout.calculator_results_item;
 
-    private List<CalculatorEntry> results = new ArrayList<>();
+    private List<CalculatorResultItem> results = new ArrayList<>();
     private View lastVisibleItemView;
 
     private final Bus bus;
@@ -36,7 +36,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
 
     private void populate() {
         for (int i = 0; i < 2; i++) {
-            results.add(new CalculatorEntry());
+            results.add(new CalculatorResultItem());
         }
     }
 
@@ -51,7 +51,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        CalculatorEntry result = getItem(i);
+        CalculatorResultItem result = getItem(i);
 
         viewHolder.equation.setText(result.equation);
         viewHolder.answer.setText(result.answer);
@@ -61,7 +61,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
     }
 
-    private CalculatorEntry getItem(int position) {
+    private CalculatorResultItem getItem(int position) {
         return results.get(position);
     }
 
@@ -70,22 +70,22 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         return results.size();
     }
 
-    public void addItem(CalculatorEntry result) {
+    public void addItem(CalculatorResultItem result) {
         this.results.add(result);
         notifyDataSetChanged();
     }
 
-    public void updateLastItem(CalculatorEntry entry) {
+    public void updateLastItem(CalculatorResultItem item) {
         if (results.size() > 0) {
-            CalculatorEntry lastItem = getLastItem();
-            lastItem.answer = entry.answer;
-            lastItem.equation = entry.equation;
+            CalculatorResultItem lastItem = getLastItem();
+            lastItem.answer = item.answer;
+            lastItem.equation = item.equation;
 
             notifyDataSetChanged();
         }
     }
 
-    private CalculatorEntry getLastItem() {
+    private CalculatorResultItem getLastItem() {
         return getItem(results.size() - 2);
     }
 

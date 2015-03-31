@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.injection.modules.ViewModule;
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.story.StoryPart;
 
 import java.util.List;
 
@@ -42,8 +42,8 @@ public class StoryCardRecyclerView extends RecyclerView {
 
     }
 
-    public void setStoryEntries(List<StoryEntry> storyEntries) {
-        storyCardAdapter.setStoryEntries(storyEntries);
+    public void setStoryParts(List<StoryPart> storyParts) {
+        storyCardAdapter.setStoryParts(storyParts);
     }
 
 }

@@ -13,7 +13,7 @@ import com.shinav.mathapp.injection.annotations.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.repository.RealmRepository;
 import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.story.StoryPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,37 +37,37 @@ public class Storyteller {
     }
 
     public void next() {
-        List<StoryEntry> entries = new ArrayList<>();
-        entries.addAll(story.getStoryEntries());
+        List<StoryPart> storyParts = new ArrayList<>();
+        storyParts.addAll(story.getStoryParts());
 
-        if (current+1 < entries.size()) {
-            StoryEntry storyEntry = entries.get(current+1);
-            startBasedOnType(storyEntry);
+        if (current+1 < storyParts.size()) {
+            StoryPart storyPart = storyParts.get(current+1);
+            startBasedOnType(storyPart);
             current++;
         }
     }
 
     public void current() {
-        List<StoryEntry> entries = new ArrayList<>();
-        entries.addAll(story.getStoryEntries());
+        List<StoryPart> storyParts = new ArrayList<>();
+        storyParts.addAll(story.getStoryParts());
 
-        StoryEntry storyEntry = entries.get(current);
+        StoryPart storyPart = storyParts.get(current);
 
-        startBasedOnType(storyEntry);
+        startBasedOnType(storyPart);
     }
 
-    private void startBasedOnType(StoryEntry storyEntry) {
-        if (storyEntry.isApproach()) {
-            start(ApproachActivity.class, storyEntry.getTypeKey());
+    private void startBasedOnType(StoryPart storyPart) {
+        if (storyPart.isApproach()) {
+            start(ApproachActivity.class, storyPart.getTypeKey());
 
-        } else if (storyEntry.isApproachFeedback()) {
-            start(ApproachFeedbackActivity.class, storyEntry.getTypeKey());
+        } else if (storyPart.isApproachFeedback()) {
+            start(ApproachFeedbackActivity.class, storyPart.getTypeKey());
 
-        } else if (storyEntry.isQuestion()) {
-            start(QuestionActivity.class, storyEntry.getTypeKey());
+        } else if (storyPart.isQuestion()) {
+            start(QuestionActivity.class, storyPart.getTypeKey());
 
-        } else if (storyEntry.isConversation()) {
-            start(ConversationActivity.class, storyEntry.getTypeKey());
+        } else if (storyPart.isConversation()) {
+            start(ConversationActivity.class, storyPart.getTypeKey());
         }
     }
 
