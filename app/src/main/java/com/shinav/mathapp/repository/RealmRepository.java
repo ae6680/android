@@ -1,6 +1,7 @@
 package com.shinav.mathapp.repository;
 
 import com.shinav.mathapp.conversation.Conversation;
+import com.shinav.mathapp.main.storyProgress.StoryProgress;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.story.Story;
 
@@ -33,5 +34,9 @@ public class RealmRepository {
 
     public Conversation getConversation(String firebaseKey) {
         return realm.where(Conversation.class).contains("firebaseKey", firebaseKey).findFirst();
+    }
+
+    public StoryProgress getStoryProgress() {
+        return realm.where(StoryProgress.class).findFirst();
     }
 }

@@ -1,6 +1,5 @@
 package com.shinav.mathapp.question.card;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,14 +12,16 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.Question;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
 
+import javax.inject.Inject;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-@SuppressLint("ViewConstructor")
 public class QuestionCardView extends Card {
 
     @InjectView(R.id.question) TextView questionBody;
@@ -28,15 +29,17 @@ public class QuestionCardView extends Card {
     @InjectView(R.id.submit_button) TextView submitButton;
 
     private Question question;
-    private Bus bus;
+    private final Bus bus;
 
-    public QuestionCardView(Context context, Bus bus) {
+    @Inject
+    public QuestionCardView(@ForActivity Context context, Bus bus) {
         super(context);
         this.bus = bus;
         init();
     }
 
     private void init() {
+
         View view = inflate(R.layout.question_card, this, false);
 
         setLayoutParamsForViewPager(view);

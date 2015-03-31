@@ -12,8 +12,11 @@ import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.ApproachPartAdapter;
 import com.shinav.mathapp.card.Card;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 
@@ -23,7 +26,8 @@ public class QuestionApproachCardView extends Card {
 
     @InjectView(R.id.approach_part_list) RecyclerView approachList;
 
-    public QuestionApproachCardView(Context context) {
+    @Inject
+    public QuestionApproachCardView(@ForActivity Context context) {
         super(context);
         init();
     }

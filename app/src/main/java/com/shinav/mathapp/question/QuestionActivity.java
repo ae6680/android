@@ -47,26 +47,27 @@ public class QuestionActivity extends InjectedActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
+    @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.activity_container) RelativeLayout activityContainer;
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
     @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
-    private QuestionCardView questionCardView;
-    private Question question;
-    @InjectView(R.id.toolbar) Toolbar toolbar;
-
     @Inject Bus bus;
     @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
+    @Inject QuestionCardView questionCardView;
+    @Inject QuestionApproachCardView questionApproachCardView;
+
+    private Question question;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         ButterKnife.inject(this);
 
-//        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-        String questionKey = "question-1";
+        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+//        String questionKey = "question-1";
         question = realmRepository.getQuestion(questionKey);
 
         initToolbar();
@@ -78,14 +79,12 @@ public class QuestionActivity extends InjectedActionBarActivity {
         return new ActivityModule(this);
     }
 
-    @Override
-    public void onStart() {
+    @Override public void onStart() {
         super.onStart();
         bus.register(this);
     }
 
-    @Override
-    public void onStop() {
+    @Override public void onStop() {
         super.onStop();
         bus.unregister(this);
     }
@@ -104,8 +103,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
     }
@@ -125,11 +123,9 @@ public class QuestionActivity extends InjectedActionBarActivity {
     private void initViewPager() {
         List<Card> cards = new ArrayList<>();
 
-        QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
         questionApproachCardView.setApproach(question.getApproach());
         cards.add(questionApproachCardView);
 
-        questionCardView = new QuestionCardView(this, bus);
         questionCardView.setQuestion(question);
         cards.add(questionCardView);
 
@@ -143,8 +139,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
                 .add(R.id.calculator_container, new CalculatorFragment(), CALCULATOR_FRAGMENT).commit();
     }
 
-    @Subscribe
-    public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
+    @Subscribe public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
         startAnimation(event.getAnswer());
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
@@ -210,7 +205,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
             }
         });
 
-        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this, bus);
+        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
         questionNextCardView.setVisibility(View.GONE);
         activityContainer.addView(questionNextCardView);
 

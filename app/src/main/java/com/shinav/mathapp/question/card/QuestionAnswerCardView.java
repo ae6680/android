@@ -14,6 +14,7 @@ public class QuestionAnswerCardView extends ButterKnifeLayout {
 
     @InjectView(R.id.question_result_card) RelativeLayout questionResultCard;
     @InjectView(R.id.answer) TextView answerView;
+    
     private Question question;
 
     public QuestionAnswerCardView(Context context) {

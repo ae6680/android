@@ -1,28 +1,38 @@
 package com.shinav.mathapp.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
+import com.shinav.mathapp.main.storyProgress.StoryProgress;
+import com.shinav.mathapp.main.storyProgress.StoryProgressPart;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
+import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.repository.RealmRepository;
-import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
 import com.shinav.mathapp.tab.TabsView;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.realm.RealmList;
 
 public class MainActivity extends InjectedActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
 
+    @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
     @Inject RealmRepository realmRepository;
 
@@ -45,6 +55,16 @@ public class MainActivity extends InjectedActionBarActivity {
         return new ActivityModule(this);
     }
 
+    @Override public void onStart() {
+        super.onStart();
+        bus.register(this);
+    }
+
+    @Override public void onStop() {
+        super.onStop();
+        bus.unregister(this);
+    }
+
     private void initToolbar() {
         toolbar.setTitle(R.string.main_toolbar_title);
         setSupportActionBar(toolbar);
@@ -56,12 +76,38 @@ public class MainActivity extends InjectedActionBarActivity {
     }
 
     private void initStoryRecyclerView() {
-        Story story = fetchStory();
-        storyProgressView.setStoryParts(story.filterOnQuestionType());
+        StoryProgress storyProgress = realmRepository.getStoryProgress();
+
+        // For now
+        if (storyProgress == null) {
+            storyProgress = createStoryProgress();
+        }
+
+        storyProgressView.setStoryProgress(storyProgress);
     }
 
-    private Story fetchStory() {
-        return realmRepository.getStory("story-0");
+    private StoryProgress createStoryProgress() {
+
+        Question question = realmRepository.getQuestion("question-1");
+
+        StoryProgressPart storyProgressPart = new StoryProgressPart();
+        storyProgressPart.setQuestion(question);
+
+        StoryProgress storyProgress = new StoryProgress();
+
+        RealmList<StoryProgressPart> realmList = new RealmList<>();
+        realmList.add(storyProgressPart);
+
+        storyProgress.setStoryProgressParts(realmList);
+
+        return storyProgress;
+    }
+
+    @Subscribe public void onMakeQuestionButtonClicked(MakeQuestionButtonClicked event) {
+        Intent intent = new Intent(this, QuestionActivity.class);
+        intent.putExtra(Storyteller.TYPE_KEY, event.getQuestionFirebaseKey());
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
 }
