@@ -92,11 +92,17 @@ public class MainActivity extends InjectedActionBarActivity {
 
         StoryProgressPart storyProgressPart = new StoryProgressPart();
         storyProgressPart.setQuestion(question);
+        storyProgressPart.setGivenAnswer("19");
+
+        StoryProgressPart storyProgressPart2 = new StoryProgressPart();
+        storyProgressPart2.setQuestion(question);
+        storyProgressPart2.setGivenAnswer("18,5");
 
         StoryProgress storyProgress = new StoryProgress();
 
         RealmList<StoryProgressPart> realmList = new RealmList<>();
         realmList.add(storyProgressPart);
+        realmList.add(storyProgressPart2);
 
         storyProgress.setStoryProgressParts(realmList);
 

@@ -8,10 +8,8 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.injection.module.AndroidModule;
-import com.shinav.mathapp.question.Question;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,7 +21,7 @@ import dagger.Provides;
 public class StoryCardRecyclerView extends RecyclerView {
 
     @Inject Bus bus;
-    @Inject StoryQuestionCardAdapter storyQuestionCardAdapter;
+    @Inject StoryProgressPartAdapter storyProgressPartAdapter;
 
     public StoryCardRecyclerView(Context context) {
         super(context);
@@ -45,26 +43,20 @@ public class StoryCardRecyclerView extends RecyclerView {
         ObjectGraph graph = ((MyApplication) ((Activity) context).getApplication()).getApplicationGraph();
         graph.plus(new CustomModule()).inject(this);
 
-        setAdapter(storyQuestionCardAdapter);
+        setAdapter(storyProgressPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
 
     }
 
     public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {
-        List<Question> questions = new ArrayList<>();
-
-        for (StoryProgressPart part : storyProgressParts) {
-            questions.add(part.getQuestion());
-        }
-
-        storyQuestionCardAdapter.setQuestions(questions);
+        storyProgressPartAdapter.setStoryProgressParts(storyProgressParts);
     }
 
     @Module(injects = StoryCardRecyclerView.class, addsTo = AndroidModule.class, library = true)
     public class CustomModule {
 
-        @Provides public StoryQuestionCardAdapter provideStoryQuestionCardAdapter() {
-            return new StoryQuestionCardAdapter(bus);
+        @Provides public StoryProgressPartAdapter provideStoryQuestionCardAdapter() {
+            return new StoryProgressPartAdapter(bus);
         }
 
     }

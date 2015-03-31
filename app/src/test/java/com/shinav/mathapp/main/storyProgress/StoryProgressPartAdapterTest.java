@@ -1,6 +1,5 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import com.shinav.mathapp.question.Question;
 import com.squareup.otto.Bus;
 
 import org.junit.Before;
@@ -18,23 +17,23 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class StoryQuestionCardAdapterTest {
+public class StoryProgressPartAdapterTest {
 
-    private StoryQuestionCardAdapter adapter;
+    private StoryProgressPartAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new StoryQuestionCardAdapter(Mockito.mock(Bus.class));
+        adapter = new StoryProgressPartAdapter(Mockito.mock(Bus.class));
     }
 
     @Test
     public void testItemCountIsAmountOfQuestions() throws Exception {
-        List<Question> questions = Arrays.asList(
-                Mockito.mock(Question.class),
-                Mockito.mock(Question.class)
+        List<StoryProgressPart> storyProgressParts = Arrays.asList(
+                Mockito.mock(StoryProgressPart.class),
+                Mockito.mock(StoryProgressPart.class)
         );
 
-        adapter.setQuestions(questions);
+        adapter.setStoryProgressParts(storyProgressParts);
 
         assertThat(adapter.getItemCount(), is(2));
     }

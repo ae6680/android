@@ -9,6 +9,7 @@ import io.realm.annotations.RealmClass;
 public class StoryProgressPart extends RealmObject {
 
     private Question question;
+    private String givenAnswer;
 
     public StoryProgressPart() { }
 
@@ -18,5 +19,13 @@ public class StoryProgressPart extends RealmObject {
 
     public Question getQuestion() {
         return question;
+    }
+
+    public String getGivenAnswer() {
+        return givenAnswer;
+    }
+
+    public void setGivenAnswer(String givenAnswer) {
+        this.givenAnswer = givenAnswer;
     }
 }

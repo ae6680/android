@@ -20,45 +20,63 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class StoryQuestionCardAdapter extends RecyclerView.Adapter<StoryQuestionCardAdapter.ViewHolder> {
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-    private List<Question> questions = Collections.emptyList();
+public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
+
     private final Bus bus;
+    private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
-    public StoryQuestionCardAdapter(Bus bus) {
+    public StoryProgressPartAdapter(Bus bus) {
         this.bus = bus;
     }
 
     @Override
-    public StoryQuestionCardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoryProgressPartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.story_list_item, parent, false);
 
         return new ViewHolder(view);
     }
 
-    @Override public void onBindViewHolder(StoryQuestionCardAdapter.ViewHolder holder, int position) {
-        final Question question = questions.get(position);
+    @Override public void onBindViewHolder(StoryProgressPartAdapter.ViewHolder holder, int position) {
+        StoryProgressPart storyProgressPart = storyProgressParts.get(position);
+
+        Question question = storyProgressPart.getQuestion();
 
         if (question != null) {
             holder.title.setText(question.getTitle());
+
+            if (isMadeCorrect(storyProgressPart, question)) {
+                holder.seeQuestionButton.setVisibility(VISIBLE);
+                holder.result.setText("Goed");
+            } else {
+                holder.seeQuestionButton.setVisibility(GONE);
+                holder.result.setText("Fout");
+            }
 
             holder.setQuestion(question);
         }
     }
 
-    @Override public int getItemCount() {
-        return questions.size();
+    private boolean isMadeCorrect(StoryProgressPart storyProgressPart, Question question) {
+        return storyProgressPart.getGivenAnswer().equals(question.getAnswer());
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    @Override public int getItemCount() {
+        return storyProgressParts.size();
+    }
+
+    public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {
+        this.storyProgressParts = storyProgressParts;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.question_title) TextView title;
+        @InjectView(R.id.question_result) TextView result;
         @InjectView(R.id.see_question_button) Button seeQuestionButton;
         @InjectView(R.id.make_question_button) Button makeQuestionButton;
         private Question question;
