@@ -70,7 +70,7 @@ public class QuestionCardView extends Card {
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
         String answer = answerField.getText().toString();
-        bus.post(new OnAnswerSubmittedEvent(question.getFirebaseKey(), answer));
+        bus.post(new OnAnswerSubmittedEvent(question, answer));
     }
 
     public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {

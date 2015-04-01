@@ -1,12 +1,14 @@
 package com.shinav.mathapp.event;
 
+import com.shinav.mathapp.question.Question;
+
 public class OnAnswerSubmittedEvent {
 
-    private final String questionKey;
+    private final Question question;
     private String answer;
 
-    public OnAnswerSubmittedEvent(String questionKey, String answer) {
-        this.questionKey = questionKey;
+    public OnAnswerSubmittedEvent(Question question, String answer) {
+        this.question = question;
         this.answer = answer;
     }
 
@@ -14,8 +16,8 @@ public class OnAnswerSubmittedEvent {
         return answer;
     }
 
-    public String getQuestionKey() {
-        return questionKey;
+    public Question getQuestion() {
+        return question;
     }
-
+    
 }

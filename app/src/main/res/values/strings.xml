@@ -1,33 +1,17 @@
 <resources>
+
     <string name="app_name">MathApp</string>
-    <string name="question_title">Bert\'s Bakkerij</string>
-    <string name="hint">
-        \n Om het antwoord te\n
-        vinden op deze vraag,\n
-        moet je weten hoeveel\n
-        procent Pieter nu meer\n
-        verdient.
-    </string>
-    <string name="dialog_pass_title">Gefeliciteerd</string>
-    <string name="question_pass_message">Het gegeven \nantwoord is goed!</string>
-    <string name="dialog_fail_title">Jammer</string>
-    <string name="question_fail_message">Het goede\n antwoord is:</string>
-    <string name="next_question_text">Volgende vraag</string>
-    <string name="explanation_title">Uitleg</string>
-    <string name="question_pass_title">Gefeliciteerd</string>
-    <string name="question_fail_title">Jammer</string>
-    <string name="submit_button_text">BEVESTIG</string>
-    <string name="answer_input_placeholder">GEEF ANTWOORD</string>
-    <string name="action_approach">Aanpak</string>
+
     <string name="main_toolbar_title">Rekentoets</string>
-    <string name="main_tab_1">VERHAAL:</string>
+
+    <string name="main_tab_1">VERHAAL</string>
     <string name="main_tab_2">OEFENEN</string>
 
-    <!--<string name="question_1">-->
-        <!--Je bent bezig met je laatste onderdeel van je Nederlands examen, het schrijven van een samenvatting van maximaal 200 woorden.-->
-        <!--\n\nJe hebt inmiddels 163 woorden geschreven en moet nog 2 onderdelen schrijven.-->
-        <!--\n\nHoeveel procent mag je nog schrijven aan woorden?-->
-        <!--\n\nRond af op 1 decimaal.-->
-    <!--</string>-->
+    <string name="action_approach">Aanpak</string>
+
+    <string name="answer_input_placeholder">GEEF ANTWOORD</string>
+    <string name="submit_button_text">BEVESTIG</string>
+
+    <string name="explanation_title">Uitleg</string>
 
 </resources>

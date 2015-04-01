@@ -1,24 +1,34 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import com.shinav.mathapp.question.Question;
-
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class StoryProgressPart extends RealmObject {
 
-    private Question question;
+    @PrimaryKey
+    private String identifier;
+
+    private String questionKey;
     private String givenAnswer;
 
     public StoryProgressPart() { }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public Question getQuestion() {
-        return question;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getQuestionKey() {
+        return questionKey;
+    }
+
+    public void setQuestionKey(String questionKey) {
+        this.questionKey = questionKey;
     }
 
     public String getGivenAnswer() {
@@ -28,4 +38,5 @@ public class StoryProgressPart extends RealmObject {
     public void setGivenAnswer(String givenAnswer) {
         this.givenAnswer = givenAnswer;
     }
+
 }

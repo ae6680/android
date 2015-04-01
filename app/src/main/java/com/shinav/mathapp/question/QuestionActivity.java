@@ -24,6 +24,8 @@ import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
+import com.shinav.mathapp.main.storyProgress.StoryProgress;
+import com.shinav.mathapp.main.storyProgress.StoryProgressPart;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -42,6 +44,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.realm.Realm;
+import io.realm.RealmList;
 
 public class QuestionActivity extends InjectedActionBarActivity {
 
@@ -54,10 +58,12 @@ public class QuestionActivity extends InjectedActionBarActivity {
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
     @Inject Bus bus;
+    @Inject Realm realm;
     @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
-    @Inject QuestionCardView questionCardView;
     @Inject QuestionApproachCardView questionApproachCardView;
+    @Inject QuestionCardView questionCardView;
+    @Inject QuestionNextCardView questionNextCardView;
 
     private Question question;
 
@@ -143,6 +149,40 @@ public class QuestionActivity extends InjectedActionBarActivity {
         startAnimation(event.getAnswer());
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
+        updateStoryProgress(event);
+    }
+
+    private void updateStoryProgress(OnAnswerSubmittedEvent event) {
+        StoryProgressPart storyProgressPart = realmRepository.
+                getStoryProgressPartByQuestionKey(event.getQuestion().getFirebaseKey());
+
+        storyProgressPart.setGivenAnswer(event.getAnswer());
+
+        // Fill in progress
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(storyProgressPart);
+        realm.commitTransaction();
+
+        // Create progress part for next question.
+
+        StoryProgress storyProgress = realmRepository.getStoryProgress();
+
+        RealmList<StoryProgressPart> newParts = new RealmList<>();
+        newParts.addAll(storyProgress.getStoryProgressParts());
+
+        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+        newStoryProgressPart.setGivenAnswer(null);
+
+        String nextQuestionKey = storyTeller.getNextQuestionKey();
+        newStoryProgressPart.setQuestionKey(nextQuestionKey);
+
+        newParts.add(newStoryProgressPart);
+
+        storyProgress.setStoryProgressParts(newParts);
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(storyProgress);
+        realm.commitTransaction();
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
@@ -205,7 +245,6 @@ public class QuestionActivity extends InjectedActionBarActivity {
             }
         });
 
-        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this);
         questionNextCardView.setVisibility(View.GONE);
         activityContainer.addView(questionNextCardView);
 

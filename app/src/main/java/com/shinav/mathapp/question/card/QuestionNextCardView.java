@@ -4,26 +4,26 @@ import android.content.Context;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.injection.module.ViewModule;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
 import butterknife.OnClick;
-import dagger.ObjectGraph;
 
 public class QuestionNextCardView extends ButterKnifeLayout {
 
-    @Inject Bus bus;
+    private final Bus bus;
 
-    public QuestionNextCardView(Context context) {
+    @Inject
+    public QuestionNextCardView(@ForActivity Context context, Bus bus) {
         super(context);
+        this.bus = bus;
         init();
     }
 
     private void init() {
-        ObjectGraph.create(new ViewModule()).inject(this);
         inflate(R.layout.question_next_card, this, true);
     }
 

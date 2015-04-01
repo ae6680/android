@@ -47,6 +47,19 @@ public class Storyteller {
         }
     }
 
+    public String getNextQuestionKey() {
+        List<StoryPart> storyParts = new ArrayList<>();
+        storyParts.addAll(story.getStoryParts());
+
+        StoryPart storyPart = new StoryPart();
+        int counter = current;
+        while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
+            storyPart = storyParts.get(counter+1);
+            counter++;
+        }
+        return storyPart.getTypeKey();
+    }
+
     public void current() {
         List<StoryPart> storyParts = new ArrayList<>();
         storyParts.addAll(story.getStoryParts());

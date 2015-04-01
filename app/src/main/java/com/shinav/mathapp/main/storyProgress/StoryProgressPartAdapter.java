@@ -1,6 +1,7 @@
 package com.shinav.mathapp.main.storyProgress;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.repository.RealmRepository;
 import com.squareup.otto.Bus;
 
 import java.util.Collections;
@@ -26,10 +28,12 @@ import static android.view.View.VISIBLE;
 public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
 
     private final Bus bus;
+    private final RealmRepository realmRepository;
     private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
-    public StoryProgressPartAdapter(Bus bus) {
+    public StoryProgressPartAdapter(Bus bus, RealmRepository realmRepository) {
         this.bus = bus;
+        this.realmRepository = realmRepository;
     }
 
     @Override
@@ -43,21 +47,35 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
     @Override public void onBindViewHolder(StoryProgressPartAdapter.ViewHolder holder, int position) {
         StoryProgressPart storyProgressPart = storyProgressParts.get(position);
 
-        Question question = storyProgressPart.getQuestion();
+        if (!isSameQuestion(holder, storyProgressPart)) {
+            holder.question = realmRepository.getQuestion(storyProgressPart.getQuestionKey());
+        }
 
-        if (question != null) {
-            holder.title.setText(question.getTitle());
+        if (holder.question != null) {
+            holder.title.setText(holder.question.getTitle());
 
-            if (isMadeCorrect(storyProgressPart, question)) {
-                holder.seeQuestionButton.setVisibility(VISIBLE);
-                holder.result.setText("Goed");
-            } else {
+            if (TextUtils.isEmpty(storyProgressPart.getGivenAnswer())) {
+
+                holder.result.setText("Ongemaakt");
                 holder.seeQuestionButton.setVisibility(GONE);
-                holder.result.setText("Fout");
+
+            } else {
+
+                if (isMadeCorrect(storyProgressPart, holder.question)) {
+                    holder.seeQuestionButton.setVisibility(VISIBLE);
+                    holder.result.setText("Goed");
+                } else {
+                    holder.seeQuestionButton.setVisibility(GONE);
+                    holder.result.setText("Fout");
+                }
+
             }
 
-            holder.setQuestion(question);
         }
+    }
+
+    private boolean isSameQuestion(ViewHolder holder, StoryProgressPart storyProgressPart) {
+        return holder.question != null && holder.question.getFirebaseKey().equals(storyProgressPart.getQuestionKey());
     }
 
     private boolean isMadeCorrect(StoryProgressPart storyProgressPart, Question question) {
@@ -79,6 +97,7 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
         @InjectView(R.id.question_result) TextView result;
         @InjectView(R.id.see_question_button) Button seeQuestionButton;
         @InjectView(R.id.make_question_button) Button makeQuestionButton;
+
         private Question question;
 
         public ViewHolder(View itemView) {

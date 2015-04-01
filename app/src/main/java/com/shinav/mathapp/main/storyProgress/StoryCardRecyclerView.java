@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.injection.module.AndroidModule;
+import com.shinav.mathapp.repository.RealmRepository;
 import com.squareup.otto.Bus;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import dagger.Provides;
 public class StoryCardRecyclerView extends RecyclerView {
 
     @Inject Bus bus;
+    @Inject RealmRepository realmRepository;
     @Inject StoryProgressPartAdapter storyProgressPartAdapter;
 
     public StoryCardRecyclerView(Context context) {
@@ -56,7 +58,7 @@ public class StoryCardRecyclerView extends RecyclerView {
     public class CustomModule {
 
         @Provides public StoryProgressPartAdapter provideStoryQuestionCardAdapter() {
-            return new StoryProgressPartAdapter(bus);
+            return new StoryProgressPartAdapter(bus, realmRepository);
         }
 
     }
