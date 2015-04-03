@@ -1,23 +1,28 @@
 package com.shinav.mathapp.question;
 
-import com.shinav.mathapp.approach.Approach;
+import android.content.ContentValues;
+import android.database.Cursor;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
+import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 
-@RealmClass
-public class Question extends RealmObject {
+public class Question {
 
-    @PrimaryKey
-    private String firebaseKey;
+    private String key;
 
     private String value;
     private String title;
     private String answer;
-    private Approach approach;
 
-    public Question() { }
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getValue() {
         return value;
@@ -43,20 +48,30 @@ public class Question extends RealmObject {
         this.answer = answer;
     }
 
-    public String getFirebaseKey() {
-        return firebaseKey;
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY, getKey());
+        values.put(VALUE, getValue());
+        values.put(TITLE, getTitle());
+        values.put(ANSWER, getAnswer());
+
+        return values;
     }
 
-    public void setFirebaseKey(String firebaseKey) {
-        this.firebaseKey = firebaseKey;
+    public static Question fromCursor(Cursor c) {
+        Question question = new Question();
+
+        question.setKey(getString(c, KEY));
+        question.setValue(getString(c, VALUE));
+        question.setTitle(getString(c, TITLE));
+        question.setAnswer(getString(c, ANSWER));
+
+        return question;
     }
 
-    public Approach getApproach() {
-        return approach;
-    }
-
-    public void setApproach(Approach approach) {
-        this.approach = approach;
+    private static String getString(Cursor c, String column) {
+        return c.getString(c.getColumnIndex(column));
     }
 
 }

@@ -1,26 +1,35 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import android.content.ContentValues;
+import android.database.Cursor;
 
-@RealmClass
-public class StoryProgressPart extends RealmObject {
+import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.GIVEN_ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.KEY;
+import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.QUESTION_KEY;
+import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.STORY_PROGRESS_KEY;
 
-    @PrimaryKey
-    private String identifier;
+public class StoryProgressPart {
 
+    private String key;
+
+    private String storyProgressKey;
     private String questionKey;
     private String givenAnswer;
 
-    public StoryProgressPart() { }
-
-    public String getIdentifier() {
-        return identifier;
+    public String getKey() {
+        return key;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getStoryProgressKey() {
+        return storyProgressKey;
+    }
+
+    public void setStoryProgressKey(String storyProgressKey) {
+        this.storyProgressKey = storyProgressKey;
     }
 
     public String getQuestionKey() {
@@ -37,6 +46,32 @@ public class StoryProgressPart extends RealmObject {
 
     public void setGivenAnswer(String givenAnswer) {
         this.givenAnswer = givenAnswer;
+    }
+
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY, getKey());
+        values.put(STORY_PROGRESS_KEY, getStoryProgressKey());
+        values.put(QUESTION_KEY, getQuestionKey());
+        values.put(GIVEN_ANSWER, getGivenAnswer());
+
+        return values;
+    }
+
+    public static StoryProgressPart fromCursor(Cursor c) {
+        StoryProgressPart storyProgressPart = new StoryProgressPart();
+
+        storyProgressPart.setKey(getString(c, KEY));
+        storyProgressPart.setStoryProgressKey(getString(c, STORY_PROGRESS_KEY));
+        storyProgressPart.setQuestionKey(getString(c, QUESTION_KEY));
+        storyProgressPart.setGivenAnswer(getString(c, GIVEN_ANSWER));
+
+        return storyProgressPart;
+    }
+
+    private static String getString(Cursor c, String column) {
+        return c.getString(c.getColumnIndex(column));
     }
 
 }

@@ -1,41 +1,49 @@
 package com.shinav.mathapp.firebase.listener;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.repository.RealmRepository;
+import com.shinav.mathapp.question.Question;
+import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
-import io.realm.RealmObject;
-
-public class FirebaseQuestionListener extends FirebaseListener {
+public class FirebaseQuestionListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
-    private final Realm realm;
-    private final RealmRepository realmRepository;
+    private final SqlBrite db;
 
     @Inject
     public FirebaseQuestionListener(
             FirebaseParser firebaseParser,
-            Realm realm,
-            RealmRepository realmRepository
+            SqlBrite db
     ) {
         this.firebaseParser = firebaseParser;
-        this.realm = realm;
-        this.realmRepository = realmRepository;
+        this.db = db;
     }
 
-    @Override public RealmObject parseObject(DataSnapshot dataSnapshot) {
-        return firebaseParser.parseQuestion(dataSnapshot);
+
+    @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Question question = firebaseParser.parseQuestion(dataSnapshot);
+        db.insert(Tables.Question.TABLE_NAME, question.getContentValues());
     }
 
-    @Override public RealmObject getObject(String dataSnapshotKey) {
-        return realmRepository.getQuestion(dataSnapshotKey);
+    @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
     }
 
-    @Override public Realm getRealm() {
-        return realm;
+    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override public void onCancelled(FirebaseError firebaseError) {
+
     }
 
 }

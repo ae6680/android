@@ -1,33 +1,42 @@
 package com.shinav.mathapp.approach;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import android.database.Cursor;
 
-@RealmClass
-public class Approach extends RealmObject {
+import static com.shinav.mathapp.db.helper.Tables.Approach.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Approach.QUESTION_KEY;
 
-    @PrimaryKey
-    private String firebaseKey;
+public class Approach {
 
-    private RealmList<ApproachPart> approachParts;
+    private String key;
+    private String questionKey;
 
-    public Approach() { }
-
-    public String getFirebaseKey() {
-        return firebaseKey;
+    public String getKey() {
+        return key;
     }
 
-    public void setFirebaseKey(String firebaseKey) {
-        this.firebaseKey = firebaseKey;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public RealmList<ApproachPart> getApproachParts() {
-        return approachParts;
+    public String getQuestionKey() {
+        return questionKey;
     }
 
-    public void setApproachParts(RealmList<ApproachPart> approachParts) {
-        this.approachParts = approachParts;
+    public void setQuestionKey(String questionKey) {
+        this.questionKey = questionKey;
     }
+
+    public static Approach fromCursor(Cursor c) {
+        Approach approach = new Approach();
+
+        approach.setKey(getString(c, KEY));
+        approach.setQuestionKey(getString(c, QUESTION_KEY));
+
+        return approach;
+    }
+
+    private static String getString(Cursor c, String column) {
+        return c.getString(c.getColumnIndex(column));
+    }
+
 }

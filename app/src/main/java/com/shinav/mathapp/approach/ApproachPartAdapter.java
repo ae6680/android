@@ -32,7 +32,7 @@ public class ApproachPartAdapter extends RecyclerView.Adapter<ApproachPartAdapte
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
         holder.number.setText(String.valueOf(position+1));
-        holder.text.setText(getItem(position).getText());
+        holder.text.setText(getItem(position).getValue());
     }
 
     public ApproachPart getItem(int position) {

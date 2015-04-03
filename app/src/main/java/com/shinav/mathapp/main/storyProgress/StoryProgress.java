@@ -1,34 +1,39 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import android.content.ContentValues;
+import android.database.Cursor;
 
-@RealmClass
-public class StoryProgress extends RealmObject {
+import static com.shinav.mathapp.db.helper.Tables.StoryProgress.KEY;
 
-    @PrimaryKey
-    private String identifier;
+public class StoryProgress {
 
-    private RealmList<StoryProgressPart> storyProgressParts;
+    private String key;
 
-    public StoryProgress() {
+    public String getKey() {
+        return key;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public static StoryProgress fromCursor(Cursor c) {
+        StoryProgress storyProgress = new StoryProgress();
+
+        storyProgress.setKey(getString(c, KEY));
+
+        return storyProgress;
     }
 
-    public RealmList<StoryProgressPart> getStoryProgressParts() {
-        return storyProgressParts;
+    private static String getString(Cursor c, String column) {
+        return c.getString(c.getColumnIndex(column));
     }
 
-    public void setStoryProgressParts(RealmList<StoryProgressPart> storyProgressParts) {
-        this.storyProgressParts = storyProgressParts;
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY, getKey());
+
+        return values;
     }
 }

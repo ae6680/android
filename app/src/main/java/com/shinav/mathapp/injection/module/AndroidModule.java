@@ -5,24 +5,23 @@ import android.content.Context;
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.calculator.CalculatorFragment;
+import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.firebase.listener.FirebaseListener;
 import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.shinav.mathapp.sync.FirebaseChildRegisterer;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
+import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.realm.Realm;
 
 @Module(
         injects = {
                 CalculatorFragment.class,
                 FirebaseChildRegisterer.class,
-                FirebaseListener.class
         },
         library = true
 )
@@ -38,16 +37,20 @@ public class AndroidModule {
         return new Bus(ThreadEnforcer.ANY);
     }
 
-    @Provides @Singleton Realm provideRealm() {
-        return Realm.getInstance(application);
-    }
-
     @Provides @Singleton FirebaseParser provideFirebaseParser() {
         return new FirebaseParser();
     }
 
     @Provides @Singleton Firebase provideFirebase() {
         return new Firebase("https://arithmetic-exam-app.firebaseio.com/");
+    }
+
+    @Provides @Singleton DbOpenHelper provideDbOpenHelper(@ForApplication Context context) {
+        return new DbOpenHelper(context);
+    }
+
+    @Provides @Singleton SqlBrite provideSqlBrite(DbOpenHelper helper) {
+        return SqlBrite.create(helper);
     }
 
     @Provides @ForApplication Context provideApplicationContext() {

@@ -9,16 +9,19 @@ import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
+import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.mapper.StoryPartListMapper;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
-import com.shinav.mathapp.repository.RealmRepository;
-import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.story.StoryPart;
+import com.squareup.sqlbrite.SqlBrite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class Storyteller {
 
@@ -28,18 +31,33 @@ public class Storyteller {
     private static List<ApproachPart> currentApproachPart;
 
     private final Context context;
-    private final Story story;
+    private List<StoryPart> storyParts;
 
     @Inject
-    public Storyteller(@ForActivity Context context, RealmRepository realmRepository) {
+    public Storyteller(@ForActivity Context context, SqlBrite db) {
         this.context = context;
-        story = realmRepository.getStory("story-0");
+        String storyKey = "story-0";
+
+        db.createQuery(
+                Tables.StoryPart.TABLE_NAME,
+                "SELECT * FROM " + Tables.StoryPart.TABLE_NAME +
+                        " WHERE " + Tables.StoryPart.KEY + " = ?"
+                , storyKey
+        ).map(new StoryPartListMapper())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<StoryPart>>() {
+                    @Override public void call(List<StoryPart> storyParts) {
+                        Storyteller.this.storyParts = storyParts;
+
+                    }
+                });
+    }
+
+    public void current() {
+        startBasedOnType(storyParts.get(current));
     }
 
     public void next() {
-        List<StoryPart> storyParts = new ArrayList<>();
-        storyParts.addAll(story.getStoryParts());
-
         if (current+1 < storyParts.size()) {
             StoryPart storyPart = storyParts.get(current+1);
             startBasedOnType(storyPart);
@@ -48,9 +66,6 @@ public class Storyteller {
     }
 
     public String getNextQuestionKey() {
-        List<StoryPart> storyParts = new ArrayList<>();
-        storyParts.addAll(story.getStoryParts());
-
         StoryPart storyPart = new StoryPart();
         int counter = current;
         while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
@@ -58,15 +73,6 @@ public class Storyteller {
             counter++;
         }
         return storyPart.getTypeKey();
-    }
-
-    public void current() {
-        List<StoryPart> storyParts = new ArrayList<>();
-        storyParts.addAll(story.getStoryParts());
-
-        StoryPart storyPart = storyParts.get(current);
-
-        startBasedOnType(storyPart);
     }
 
     private void startBasedOnType(StoryPart storyPart) {

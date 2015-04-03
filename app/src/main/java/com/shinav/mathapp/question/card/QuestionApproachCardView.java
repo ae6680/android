@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.ApproachPartAdapter;
 import com.shinav.mathapp.card.Card;
@@ -38,8 +37,8 @@ public class QuestionApproachCardView extends Card {
         addView(view);
     }
 
-    public void setApproach(Approach approach) {
-        initApproachList(approach.getApproachParts());
+    public void setApproachParts(List<ApproachPart> approachParts) {
+        initApproachList(approachParts);
     }
 
     private void initApproachList(List<ApproachPart> approachParts) {

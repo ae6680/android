@@ -1,5 +1,6 @@
 package com.shinav.mathapp.main.storyProgress;
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,11 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.shinav.mathapp.question.Question;
-import com.shinav.mathapp.repository.RealmRepository;
 import com.squareup.otto.Bus;
+import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,12 +30,12 @@ import static android.view.View.VISIBLE;
 public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
 
     private final Bus bus;
-    private final RealmRepository realmRepository;
+    private final SqlBrite db;
     private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
-    public StoryProgressPartAdapter(Bus bus, RealmRepository realmRepository) {
+    public StoryProgressPartAdapter(Bus bus, SqlBrite db) {
         this.bus = bus;
-        this.realmRepository = realmRepository;
+        this.db = db;
     }
 
     @Override
@@ -48,7 +50,16 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
         StoryProgressPart storyProgressPart = storyProgressParts.get(position);
 
         if (!isSameQuestion(holder, storyProgressPart)) {
-            holder.question = realmRepository.getQuestion(storyProgressPart.getQuestionKey());
+
+            Cursor c = db.query(
+                    "SELECT * FROM " + Tables.Question.TABLE_NAME +
+                            " WHERE " + Tables.Question.KEY + " = ?"
+                    , storyProgressPart.getQuestionKey()
+            );
+
+            if (c.moveToFirst()) {
+                holder.question = Question.fromCursor(c);
+            }
         }
 
         if (holder.question != null) {
@@ -70,12 +81,11 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
                 }
 
             }
-
         }
     }
 
     private boolean isSameQuestion(ViewHolder holder, StoryProgressPart storyProgressPart) {
-        return holder.question != null && holder.question.getFirebaseKey().equals(storyProgressPart.getQuestionKey());
+        return holder.question != null && holder.question.getKey().equals(storyProgressPart.getQuestionKey());
     }
 
     private boolean isMadeCorrect(StoryProgressPart storyProgressPart, Question question) {
@@ -111,12 +121,12 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
 
         @OnClick(R.id.see_question_button)
         public void onSeeQuestionButtonClicked() {
-            bus.post(new SeeQuestionButtonClicked(question.getFirebaseKey()));
+            bus.post(new SeeQuestionButtonClicked(question.getKey()));
         }
 
         @OnClick(R.id.make_question_button)
         public void onMakeQuestionButtonClicked() {
-            bus.post(new MakeQuestionButtonClicked(question.getFirebaseKey()));
+            bus.post(new MakeQuestionButtonClicked(question.getKey()));
         }
 
     }

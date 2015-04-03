@@ -1,33 +1,26 @@
 package com.shinav.mathapp.story;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import android.content.ContentValues;
 
-@RealmClass
-public class Story extends RealmObject {
+import com.shinav.mathapp.db.helper.Tables;
 
-    @PrimaryKey
-    private String firebaseKey;
-    private RealmList<StoryPart> storyParts;
+public class Story {
 
-    public Story() { }
+    private String key;
 
-    public String getFirebaseKey() {
-        return firebaseKey;
+    public String getKey() {
+        return key;
     }
 
-    public void setFirebaseKey(String firebaseKey) {
-        this.firebaseKey = firebaseKey;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public RealmList<StoryPart> getStoryParts() {
-        return storyParts;
-    }
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
 
-    public void setStoryParts(RealmList<StoryPart> storyParts) {
-        this.storyParts = storyParts;
-    }
+        values.put(Tables.Story.KEY, getKey());
 
+        return values;
+    }
 }

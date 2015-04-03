@@ -3,7 +3,6 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.approach.Approach;
 import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.question.Question;
@@ -11,8 +10,6 @@ import com.shinav.mathapp.story.Story;
 import com.shinav.mathapp.story.StoryPart;
 
 import javax.inject.Inject;
-
-import io.realm.RealmList;
 
 public class FirebaseParser {
 
@@ -33,23 +30,10 @@ public class FirebaseParser {
             String value = getString(dataSnapshot, FirebaseInterface.Question.VALUE);
             String title = getString(dataSnapshot, FirebaseInterface.Question.TITLE);
 
-            question.setFirebaseKey(dataSnapshot.getKey());
+            question.setKey(dataSnapshot.getKey());
             question.setAnswer(answer);
             question.setValue(value);
             question.setTitle(title);
-
-            DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
-
-            RealmList<ApproachPart> approachParts = new RealmList<>();
-            for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
-                approachParts.add(parseApproachPart(approachesSnapshot.child("approach-" + i)));
-            }
-
-            Approach approach = new Approach();
-            approach.setFirebaseKey(question.getFirebaseKey() + "-approaches");
-            approach.setApproachParts(approachParts);
-
-            question.setApproach(approach);
 
             return question;
 
@@ -71,7 +55,7 @@ public class FirebaseParser {
         String value =     getString(dataSnapshot, FirebaseInterface.Approach.VALUE);
 
         approachPart.setPosition(Integer.parseInt(position));
-        approachPart.setText(value);
+        approachPart.setValue(value);
 
         return approachPart;
     }
@@ -79,14 +63,7 @@ public class FirebaseParser {
     public Story parseStory(DataSnapshot dataSnapshot) {
         Story story = new Story();
 
-        RealmList<StoryPart> storyParts = new RealmList<>();
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            storyParts.add(parseStoryPart(snapshot));
-        }
-
-        story.setStoryParts(storyParts);
-
-        story.setFirebaseKey(dataSnapshot.getKey());
+        story.setKey(dataSnapshot.getKey());
 
         return story;
     }
@@ -103,7 +80,7 @@ public class FirebaseParser {
             storyPart.setType(type);
             storyPart.setTypeKey(typeKey);
 
-            storyPart.setFirebaseKey(dataSnapshot.getKey());
+            storyPart.setKey(dataSnapshot.getKey());
 
         } catch (NullPointerException e) {
             Log.e(TAG, "Field or value not set");
@@ -120,14 +97,7 @@ public class FirebaseParser {
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
-        RealmList<com.shinav.mathapp.conversation.ConversationPart> conversationParts = new RealmList<>();
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            conversationParts.add(parseConversationPart(snapshot, dataSnapshot.getKey()));
-        }
-
-        conversation.setConversationParts(conversationParts);
-
-        conversation.setFirebaseKey(dataSnapshot.getKey());
+        conversation.setKey(dataSnapshot.getKey());
 
         return conversation;
     }
@@ -145,7 +115,7 @@ public class FirebaseParser {
         conversationPart.setDelay(Integer.parseInt(delay));
         conversationPart.setTypingDuration(Integer.parseInt(typingDuration));
 
-        conversationPart.setFirebaseKey(parentKey + "-" + dataSnapshot.getKey());
+        conversationPart.setKey(parentKey + "-" + dataSnapshot.getKey());
 
         return conversationPart;
     }

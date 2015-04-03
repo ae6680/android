@@ -3,6 +3,7 @@ package com.shinav.mathapp.question;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,16 +16,22 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.SimpleAnimatorListener;
 import com.shinav.mathapp.animation.YAnimation;
+import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
+import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.mapper.ApproachMapper;
+import com.shinav.mathapp.db.mapper.ApproachPartListMapper;
+import com.shinav.mathapp.db.mapper.QuestionMapper;
+import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
-import com.shinav.mathapp.main.storyProgress.StoryProgress;
 import com.shinav.mathapp.main.storyProgress.StoryProgressPart;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
@@ -33,9 +40,9 @@ import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionExplanationView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.repository.RealmRepository;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +51,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.realm.Realm;
-import io.realm.RealmList;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class QuestionActivity extends InjectedActionBarActivity {
 
@@ -58,31 +66,89 @@ public class QuestionActivity extends InjectedActionBarActivity {
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
     @Inject Bus bus;
-    @Inject Realm realm;
-    @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
+    @Inject SqlBrite db;
+
     @Inject QuestionApproachCardView questionApproachCardView;
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
 
     private Question question;
 
+    private Subscription questionSubscription;
+    private Subscription approachSubscription;
+    private Subscription approachPartSubscription;
+    private Subscription updateStoryProgressSubscription;
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         ButterKnife.inject(this);
 
-        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-//        String questionKey = "question-1";
-        question = realmRepository.getQuestion(questionKey);
-
-        initToolbar();
-        initViewPager();
         initCalculator();
     }
 
     @Override public ActivityModule getModules() {
         return new ActivityModule(this);
+    }
+
+
+    @Override protected void onResume() {
+        super.onResume();
+
+        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+
+        questionSubscription = db.createQuery(
+                Tables.Question.TABLE_NAME,
+                "SELECT * FROM " + Tables.Question.TABLE_NAME +
+                        " WHERE " + Tables.Question.KEY + " = ?"
+                , questionKey
+        )
+                .map(new QuestionMapper())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Question>() {
+
+                    @Override public void call(Question question) {
+                        QuestionActivity.this.question = question;
+                        initToolbar();
+                    }
+                });
+
+        approachSubscription = db.createQuery(
+                Tables.Approach.TABLE_NAME,
+                "SELECT * FROM " + Tables.Approach.TABLE_NAME +
+                        " WHERE " + Tables.Approach.QUESTION_KEY + " = ?"
+                , questionKey
+        )
+                .map(new ApproachMapper())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Approach>() {
+                    @Override public void call(Approach approach) {
+
+                        approachPartSubscription = db.createQuery(
+                                Tables.ApproachPart.TABLE_NAME,
+                                "SELECT * FROM " + Tables.ApproachPart.TABLE_NAME +
+                                        " WHERE " + Tables.ApproachPart.APPROACH_KEY + " = ?"
+                                , approach.getKey()
+                        )
+                                .map(new ApproachPartListMapper())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Action1<List<ApproachPart>>() {
+                                    @Override public void call(List<ApproachPart> approachParts) {
+                                        initViewPager(approachParts);
+                                    }
+                                });
+
+                    }
+                });
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        questionSubscription.unsubscribe();
+        approachSubscription.unsubscribe();
+        approachPartSubscription.unsubscribe();
+        updateStoryProgressSubscription.unsubscribe();
     }
 
     @Override public void onStart() {
@@ -126,10 +192,10 @@ public class QuestionActivity extends InjectedActionBarActivity {
         });
     }
 
-    private void initViewPager() {
+    private void initViewPager(List<ApproachPart> approachParts) {
         List<Card> cards = new ArrayList<>();
 
-        questionApproachCardView.setApproach(question.getApproach());
+        questionApproachCardView.setApproachParts(approachParts);
         cards.add(questionApproachCardView);
 
         questionCardView.setQuestion(question);
@@ -152,37 +218,43 @@ public class QuestionActivity extends InjectedActionBarActivity {
         updateStoryProgress(event);
     }
 
-    private void updateStoryProgress(OnAnswerSubmittedEvent event) {
-        StoryProgressPart storyProgressPart = realmRepository.
-                getStoryProgressPartByQuestionKey(event.getQuestion().getFirebaseKey());
+    private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
 
-        storyProgressPart.setGivenAnswer(event.getAnswer());
+        updateStoryProgressSubscription = db.createQuery(
+                Tables.StoryProgressPart.TABLE_NAME,
+                "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+                        " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+                , event.getQuestion().getKey()
+        )
+                .map(new StoryProgressPartMapper())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<StoryProgressPart>() {
+                    @Override public void call(StoryProgressPart storyProgressPart) {
 
-        // Fill in progress
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(storyProgressPart);
-        realm.commitTransaction();
+                        ContentValues values = storyProgressPart.getContentValues();
+                        values.put(Tables.StoryProgressPart.GIVEN_ANSWER, event.getAnswer());
 
-        // Create progress part for next question.
+                        db.update(
+                                Tables.StoryProgressPart.TABLE_NAME,
+                                values,
+                                "key=?",
+                                values.getAsString(Tables.StoryProgressPart.KEY)
+                        );
 
-        StoryProgress storyProgress = realmRepository.getStoryProgress();
+                        // Create progress part for next question.
+                        String storyProgressKey = storyProgressPart.getStoryProgressKey();
+                        String nextQuestionKey = storyTeller.getNextQuestionKey();
 
-        RealmList<StoryProgressPart> newParts = new RealmList<>();
-        newParts.addAll(storyProgress.getStoryProgressParts());
+                        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
 
-        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
-        newStoryProgressPart.setGivenAnswer(null);
+                        newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+                        newStoryProgressPart.setGivenAnswer(null);
+                        newStoryProgressPart.setQuestionKey(nextQuestionKey);
 
-        String nextQuestionKey = storyTeller.getNextQuestionKey();
-        newStoryProgressPart.setQuestionKey(nextQuestionKey);
+                        db.insert(Tables.StoryProgressPart.TABLE_NAME, newStoryProgressPart.getContentValues());
 
-        newParts.add(newStoryProgressPart);
-
-        storyProgress.setStoryProgressParts(newParts);
-
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(storyProgress);
-        realm.commitTransaction();
+                    }
+                });
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {

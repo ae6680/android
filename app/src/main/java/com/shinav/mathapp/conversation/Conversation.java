@@ -1,33 +1,26 @@
 package com.shinav.mathapp.conversation;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+import android.content.ContentValues;
 
-@RealmClass
-public class Conversation extends RealmObject {
+import com.shinav.mathapp.db.helper.Tables;
 
-    @PrimaryKey
-    private String firebaseKey;
+public class Conversation {
 
-    private RealmList<ConversationPart> conversationParts;
+    private String key;
 
-    public Conversation() { }
-
-    public String getFirebaseKey() {
-        return firebaseKey;
+    public String getKey() {
+        return key;
     }
 
-    public void setFirebaseKey(String firebaseKey) {
-        this.firebaseKey = firebaseKey;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public RealmList<ConversationPart> getConversationParts() {
-        return conversationParts;
-    }
+    public ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
 
-    public void setConversationParts(RealmList<ConversationPart> conversationParts) {
-        this.conversationParts = conversationParts;
+        values.put(Tables.Conversation.KEY, getKey());
+
+        return values;
     }
 }

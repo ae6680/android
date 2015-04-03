@@ -7,7 +7,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,9 +37,8 @@ public class StoryProgressView extends ButterKnifeLayout {
         inflate(R.layout.story_progress_view, this, true);
     }
 
-    public void setStoryProgress(StoryProgress storyProgress) {
-        ArrayList<StoryProgressPart> parts = new ArrayList<>(storyProgress.getStoryProgressParts());
-        storyCardRecyclerView.setStoryProgressParts(parts);
+    public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {
+        storyCardRecyclerView.setStoryProgressParts(storyProgressParts);
     }
 
 }
