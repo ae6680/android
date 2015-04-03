@@ -1,4 +1,4 @@
-package com.shinav.mathapp.conversation;
+package com.shinav.mathapp.db.model;
 
 import android.database.Cursor;
 
@@ -64,21 +64,13 @@ public class ConversationPart {
     public static ConversationPart fromCursor(Cursor c) {
         ConversationPart conversationPart = new ConversationPart();
 
-        conversationPart.setKey(getString(c, KEY));
-        conversationPart.setMessage(getString(c, MESSAGE));
-        conversationPart.setPosition(getInt(c, POSITION));
-        conversationPart.setDelay(getInt(c, DELAY));
-        conversationPart.setTypingDuration(getInt(c, TYPING_DURATION));
+        conversationPart.setKey(c.getString(c.getColumnIndex(KEY)));
+        conversationPart.setMessage(c.getString(c.getColumnIndex(MESSAGE)));
+        conversationPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+        conversationPart.setDelay(c.getInt(c.getColumnIndex(DELAY)));
+        conversationPart.setTypingDuration(c.getInt(c.getColumnIndex(TYPING_DURATION)));
 
         return conversationPart;
-    }
-
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
-    }
-
-    private static int getInt(Cursor c, String column) {
-        return c.getInt(c.getColumnIndex(column));
     }
 
 }

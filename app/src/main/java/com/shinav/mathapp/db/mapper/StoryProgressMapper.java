@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.main.storyProgress.StoryProgress;
+import com.shinav.mathapp.db.model.StoryProgress;
 import com.squareup.sqlbrite.SqlBrite;
 
 public class StoryProgressMapper implements rx.functions.Func1<SqlBrite.Query, StoryProgress> {

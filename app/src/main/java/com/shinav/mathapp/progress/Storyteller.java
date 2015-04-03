@@ -6,14 +6,14 @@ import android.content.Intent;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachActivity;
-import com.shinav.mathapp.approach.ApproachPart;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.StoryPartListMapper;
+import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.model.StoryPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
-import com.shinav.mathapp.story.StoryPart;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;

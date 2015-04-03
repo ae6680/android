@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question;
+package com.shinav.mathapp.db.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -62,16 +62,12 @@ public class Question {
     public static Question fromCursor(Cursor c) {
         Question question = new Question();
 
-        question.setKey(getString(c, KEY));
-        question.setValue(getString(c, VALUE));
-        question.setTitle(getString(c, TITLE));
-        question.setAnswer(getString(c, ANSWER));
+        question.setKey(c.getString(c.getColumnIndex(KEY)));
+        question.setValue(c.getString(c.getColumnIndex(VALUE)));
+        question.setTitle(c.getString(c.getColumnIndex(TITLE)));
+        question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
 
         return question;
-    }
-
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
     }
 
 }

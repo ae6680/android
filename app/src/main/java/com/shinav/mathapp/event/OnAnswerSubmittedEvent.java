@@ -1,6 +1,6 @@
 package com.shinav.mathapp.event;
 
-import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.db.model.Question;
 
 public class OnAnswerSubmittedEvent {
 
@@ -19,5 +19,5 @@ public class OnAnswerSubmittedEvent {
     public Question getQuestion() {
         return question;
     }
-    
+
 }

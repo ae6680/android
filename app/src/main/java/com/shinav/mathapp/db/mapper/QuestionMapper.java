@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.db.model.Question;
 import com.squareup.sqlbrite.SqlBrite;
 
 public class QuestionMapper implements rx.functions.Func1<SqlBrite.Query, Question> {

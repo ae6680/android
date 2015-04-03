@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.model.ConversationPart;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import butterknife.ButterKnife;

@@ -11,9 +11,10 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.model.Question;
+import com.shinav.mathapp.db.model.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
-import com.shinav.mathapp.question.Question;
 import com.squareup.otto.Bus;
 import com.squareup.sqlbrite.SqlBrite;
 

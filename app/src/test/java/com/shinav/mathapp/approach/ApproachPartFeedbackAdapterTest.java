@@ -1,6 +1,7 @@
 package com.shinav.mathapp.approach;
 
 import com.shinav.mathapp.approach.feedback.ApproachPartFeedbackAdapter;
+import com.shinav.mathapp.db.model.ApproachPart;
 
 import org.junit.Before;
 import org.junit.Test;

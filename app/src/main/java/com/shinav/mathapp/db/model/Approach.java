@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.db.model;
 
 import android.database.Cursor;
 
@@ -29,14 +29,10 @@ public class Approach {
     public static Approach fromCursor(Cursor c) {
         Approach approach = new Approach();
 
-        approach.setKey(getString(c, KEY));
-        approach.setQuestionKey(getString(c, QUESTION_KEY));
+        approach.setKey(c.getString(c.getColumnIndex(KEY)));
+        approach.setQuestionKey(c.getString(c.getColumnIndex(QUESTION_KEY)));
 
         return approach;
-    }
-
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
     }
 
 }

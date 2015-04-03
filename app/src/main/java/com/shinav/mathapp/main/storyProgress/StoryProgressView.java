@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.model.StoryProgressPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 

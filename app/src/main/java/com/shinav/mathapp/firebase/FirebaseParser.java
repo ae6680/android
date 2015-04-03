@@ -3,11 +3,12 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.approach.ApproachPart;
-import com.shinav.mathapp.conversation.Conversation;
-import com.shinav.mathapp.question.Question;
-import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryPart;
+import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.model.Conversation;
+import com.shinav.mathapp.db.model.ConversationPart;
+import com.shinav.mathapp.db.model.Question;
+import com.shinav.mathapp.db.model.Story;
+import com.shinav.mathapp.db.model.StoryPart;
 
 import javax.inject.Inject;
 
@@ -102,8 +103,8 @@ public class FirebaseParser {
         return conversation;
     }
 
-    private com.shinav.mathapp.conversation.ConversationPart parseConversationPart(DataSnapshot dataSnapshot, String parentKey) {
-        com.shinav.mathapp.conversation.ConversationPart conversationPart = new com.shinav.mathapp.conversation.ConversationPart();
+    private ConversationPart parseConversationPart(DataSnapshot dataSnapshot, String parentKey) {
+        ConversationPart conversationPart = new ConversationPart();
 
         String position = getString(dataSnapshot, FirebaseInterface.ConversationPart.POSITION);
         String message = getString(dataSnapshot, FirebaseInterface.ConversationPart.MESSAGE);

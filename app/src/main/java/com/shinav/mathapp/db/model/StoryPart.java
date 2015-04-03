@@ -1,4 +1,4 @@
-package com.shinav.mathapp.story;
+package com.shinav.mathapp.db.model;
 
 import android.database.Cursor;
 
@@ -78,20 +78,13 @@ public class StoryPart {
     public static StoryPart fromCursor(Cursor c) {
         StoryPart storyPart = new StoryPart();
 
-        storyPart.setKey(getString(c, KEY));
-        storyPart.setStoryKey(getString(c, STORY_KEY));
-        storyPart.setPosition(getInt(c, POSITION));
-        storyPart.setType(getString(c, TYPE));
-        storyPart.setTypeKey(getString(c, TYPE_KEY));
+        storyPart.setKey(c.getString(c.getColumnIndex(KEY)));
+        storyPart.setStoryKey(c.getString(c.getColumnIndex(STORY_KEY)));
+        storyPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+        storyPart.setType(c.getString(c.getColumnIndex(TYPE)));
+        storyPart.setTypeKey(c.getString(c.getColumnIndex(TYPE_KEY)));
 
         return storyPart;
     }
 
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
-    }
-
-    private static int getInt(Cursor c, String column) {
-        return c.getInt(c.getColumnIndex(column));
-    }
 }

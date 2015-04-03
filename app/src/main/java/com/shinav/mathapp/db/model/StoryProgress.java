@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main.storyProgress;
+package com.shinav.mathapp.db.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -20,13 +20,9 @@ public class StoryProgress {
     public static StoryProgress fromCursor(Cursor c) {
         StoryProgress storyProgress = new StoryProgress();
 
-        storyProgress.setKey(getString(c, KEY));
+        storyProgress.setKey(c.getString(c.getColumnIndex(KEY)));
 
         return storyProgress;
-    }
-
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
     }
 
     public ContentValues getContentValues() {

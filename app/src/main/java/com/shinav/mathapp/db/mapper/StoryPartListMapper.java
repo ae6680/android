@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.story.StoryPart;
+import com.shinav.mathapp.db.model.StoryPart;
 
 import java.util.ArrayList;
 import java.util.List;

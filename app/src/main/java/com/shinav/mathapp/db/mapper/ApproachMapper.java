@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.approach.Approach;
+import com.shinav.mathapp.db.model.Approach;
 
 import static com.squareup.sqlbrite.SqlBrite.Query;
 

@@ -1,5 +1,6 @@
 package com.shinav.mathapp.main.storyProgress;
 
+import com.shinav.mathapp.db.model.StoryProgressPart;
 import com.squareup.otto.Bus;
 
 import org.junit.Before;

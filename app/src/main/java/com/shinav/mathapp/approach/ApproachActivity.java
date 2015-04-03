@@ -10,10 +10,12 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.ApproachMapper;
 import com.shinav.mathapp.db.mapper.ApproachPartListMapper;
 import com.shinav.mathapp.db.mapper.QuestionMapper;
+import com.shinav.mathapp.db.model.Approach;
+import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
-import com.shinav.mathapp.question.Question;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.Collections;

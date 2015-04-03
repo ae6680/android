@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.conversation.ConversationPart;
+import com.shinav.mathapp.db.model.ConversationPart;
 
 import java.util.ArrayList;
 import java.util.List;

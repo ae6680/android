@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.db.model;
 
 import android.database.Cursor;
 
@@ -50,20 +50,12 @@ public class ApproachPart {
     public static ApproachPart fromCursor(Cursor c) {
         ApproachPart approachPart = new ApproachPart();
 
-        approachPart.setKey(getString(c, KEY));
-        approachPart.setApproachKey(getString(c, APPROACH_KEY));
-        approachPart.setPosition(getInt(c, POSITION));
-        approachPart.setValue(getString(c, VALUE));
+        approachPart.setKey(c.getString(c.getColumnIndex(KEY)));
+        approachPart.setApproachKey(c.getString(c.getColumnIndex(APPROACH_KEY)));
+        approachPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+        approachPart.setValue(c.getString(c.getColumnIndex(VALUE)));
 
         return approachPart;
-    }
-
-    private static String getString(Cursor c, String column) {
-        return c.getString(c.getColumnIndex(column));
-    }
-
-    private static int getInt(Cursor c, String column) {
-        return c.getInt(c.getColumnIndex(column));
     }
 
 }

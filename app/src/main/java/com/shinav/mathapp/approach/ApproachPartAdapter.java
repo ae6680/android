@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.model.ApproachPart;
 
 import java.util.Collections;
 import java.util.List;

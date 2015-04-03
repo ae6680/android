@@ -1,4 +1,4 @@
-package com.shinav.mathapp.conversation;
+package com.shinav.mathapp.db.model;
 
 import android.content.ContentValues;
 

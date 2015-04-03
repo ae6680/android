@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.MyApplication;
+import com.shinav.mathapp.db.model.StoryProgressPart;
 import com.shinav.mathapp.injection.module.AndroidModule;
 import com.squareup.otto.Bus;
 import com.squareup.sqlbrite.SqlBrite;

@@ -5,7 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.question.Question;
+import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import butterknife.InjectView;

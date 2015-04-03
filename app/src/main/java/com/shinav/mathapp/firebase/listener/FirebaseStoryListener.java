@@ -4,8 +4,8 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.model.Story;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.shinav.mathapp.story.Story;
 import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;

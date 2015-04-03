@@ -3,8 +3,8 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.conversation.Conversation;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.model.Conversation;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.squareup.sqlbrite.SqlBrite;
 
