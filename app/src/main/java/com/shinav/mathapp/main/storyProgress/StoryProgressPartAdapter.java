@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.db.model.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
@@ -59,7 +60,7 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
             );
 
             if (c.moveToFirst()) {
-                holder.question = Question.fromCursor(c);
+                holder.question = new QuestionMapper().fromCursor(c);
             }
         }
 

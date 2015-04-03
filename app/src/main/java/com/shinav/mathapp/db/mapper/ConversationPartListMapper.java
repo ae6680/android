@@ -7,6 +7,11 @@ import com.shinav.mathapp.db.model.ConversationPart;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.shinav.mathapp.db.helper.Tables.ConversationPart.DELAY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationPart.KEY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationPart.MESSAGE;
+import static com.shinav.mathapp.db.helper.Tables.ConversationPart.POSITION;
+import static com.shinav.mathapp.db.helper.Tables.ConversationPart.TYPING_DURATION;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ConversationPartListMapper implements rx.functions.Func1<Query, List<ConversationPart>> {
@@ -16,11 +21,24 @@ public class ConversationPartListMapper implements rx.functions.Func1<Query, Lis
         try {
             List<ConversationPart> conversationParts = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
-                conversationParts.add(ConversationPart.fromCursor(c));
+                conversationParts.add(fromCursor(c));
             }
             return conversationParts;
         } finally {
             c.close();
         }
     }
+
+    public ConversationPart fromCursor(Cursor c) {
+        ConversationPart conversationPart = new ConversationPart();
+
+        conversationPart.setKey(c.getString(c.getColumnIndex(KEY)));
+        conversationPart.setMessage(c.getString(c.getColumnIndex(MESSAGE)));
+        conversationPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
+        conversationPart.setDelay(c.getInt(c.getColumnIndex(DELAY)));
+        conversationPart.setTypingDuration(c.getInt(c.getColumnIndex(TYPING_DURATION)));
+
+        return conversationPart;
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.shinav.mathapp.db.model;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.GIVEN_ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart.KEY;
@@ -57,17 +56,6 @@ public class StoryProgressPart {
         values.put(GIVEN_ANSWER, getGivenAnswer());
 
         return values;
-    }
-
-    public static StoryProgressPart fromCursor(Cursor c) {
-        StoryProgressPart storyProgressPart = new StoryProgressPart();
-
-        storyProgressPart.setKey(c.getString(c.getColumnIndex(KEY)));
-        storyProgressPart.setStoryProgressKey(c.getString(c.getColumnIndex(STORY_PROGRESS_KEY)));
-        storyProgressPart.setQuestionKey(c.getString(c.getColumnIndex(QUESTION_KEY)));
-        storyProgressPart.setGivenAnswer(c.getString(c.getColumnIndex(GIVEN_ANSWER)));
-
-        return storyProgressPart;
     }
 
 }

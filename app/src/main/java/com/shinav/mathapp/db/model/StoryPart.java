@@ -1,13 +1,5 @@
 package com.shinav.mathapp.db.model;
 
-import android.database.Cursor;
-
-import static com.shinav.mathapp.db.helper.Tables.StoryPart.KEY;
-import static com.shinav.mathapp.db.helper.Tables.StoryPart.POSITION;
-import static com.shinav.mathapp.db.helper.Tables.StoryPart.STORY_KEY;
-import static com.shinav.mathapp.db.helper.Tables.StoryPart.TYPE;
-import static com.shinav.mathapp.db.helper.Tables.StoryPart.TYPE_KEY;
-
 public class StoryPart {
 
     private String key;
@@ -73,18 +65,6 @@ public class StoryPart {
 
     public boolean isQuestion() {
         return getType().equals("question");
-    }
-
-    public static StoryPart fromCursor(Cursor c) {
-        StoryPart storyPart = new StoryPart();
-
-        storyPart.setKey(c.getString(c.getColumnIndex(KEY)));
-        storyPart.setStoryKey(c.getString(c.getColumnIndex(STORY_KEY)));
-        storyPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
-        storyPart.setType(c.getString(c.getColumnIndex(TYPE)));
-        storyPart.setTypeKey(c.getString(c.getColumnIndex(TYPE_KEY)));
-
-        return storyPart;
     }
 
 }

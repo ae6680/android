@@ -24,7 +24,6 @@ public class FirebaseQuestionListener implements ChildEventListener {
         this.db = db;
     }
 
-
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Question question = firebaseParser.parseQuestion(dataSnapshot);
         db.insert(Tables.Question.TABLE_NAME, question.getContentValues());

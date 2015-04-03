@@ -34,7 +34,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-
 public class MainActivity extends InjectedActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
@@ -46,6 +45,7 @@ public class MainActivity extends InjectedActionBarActivity {
 
     @Inject StoryProgressView storyProgressView;
     @Inject PracticeOverviewView practiceOverviewView;
+
     private Subscription storyProgressSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class MainActivity extends InjectedActionBarActivity {
         // For now
         Cursor c = db.query("SELECT * FROM " + Tables.StoryProgress.TABLE_NAME);
         if (c.moveToFirst()) {
-            storyProgressKey = StoryProgress.fromCursor(c).getKey();
+            storyProgressKey = c.getString(c.getColumnIndex(Tables.StoryProgress.KEY));
         } else {
             StoryProgress storyProgress = new StoryProgress();
             storyProgress.setKey(UUID.randomUUID().toString());

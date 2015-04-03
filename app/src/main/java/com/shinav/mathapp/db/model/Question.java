@@ -1,7 +1,6 @@
 package com.shinav.mathapp.db.model;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
@@ -57,17 +56,6 @@ public class Question {
         values.put(ANSWER, getAnswer());
 
         return values;
-    }
-
-    public static Question fromCursor(Cursor c) {
-        Question question = new Question();
-
-        question.setKey(c.getString(c.getColumnIndex(KEY)));
-        question.setValue(c.getString(c.getColumnIndex(VALUE)));
-        question.setTitle(c.getString(c.getColumnIndex(TITLE)));
-        question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
-
-        return question;
     }
 
 }
