@@ -14,6 +14,7 @@ public class Question {
     private String value;
     private String title;
     private String answer;
+    private Approach approach;
 
     public String getKey() {
         return key;
@@ -56,6 +57,14 @@ public class Question {
         values.put(ANSWER, getAnswer());
 
         return values;
+    }
+
+    public void setApproach(Approach approach) {
+        this.approach = approach;
+    }
+
+    public Approach getApproach() {
+        return approach;
     }
 
 }

@@ -4,6 +4,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.model.ApproachPart;
 import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.squareup.sqlbrite.SqlBrite;
@@ -27,6 +28,11 @@ public class FirebaseQuestionListener implements ChildEventListener {
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Question question = firebaseParser.parseQuestion(dataSnapshot);
         db.insert(Tables.Question.TABLE_NAME, question.getContentValues());
+
+        db.insert(Tables.Approach.TABLE_NAME, question.getApproach().getContentValues());
+        for (ApproachPart part : question.getApproach().getApproachParts()) {
+            db.insert(Tables.ApproachPart.TABLE_NAME, part.getContentValues());
+        }
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {

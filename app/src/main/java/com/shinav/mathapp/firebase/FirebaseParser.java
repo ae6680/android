@@ -3,12 +3,17 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
+import com.shinav.mathapp.db.model.Approach;
 import com.shinav.mathapp.db.model.ApproachPart;
 import com.shinav.mathapp.db.model.Conversation;
 import com.shinav.mathapp.db.model.ConversationPart;
 import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.db.model.Story;
 import com.shinav.mathapp.db.model.StoryPart;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -36,6 +41,21 @@ public class FirebaseParser {
             question.setValue(value);
             question.setTitle(title);
 
+            Approach approach = parseApproach(question.getKey());
+
+            DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
+
+            List<ApproachPart> approachParts = new ArrayList<>();
+            for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
+                ApproachPart approachPart = parseApproachPart(approachesSnapshot.child("approach-" + i));
+                approachPart.setApproachKey(approach.getKey());
+                approachParts.add(approachPart);
+            }
+
+            approach.setApproachParts(approachParts);
+
+            question.setApproach(approach);
+
             return question;
 
         } catch (NullPointerException e) {
@@ -47,6 +67,15 @@ public class FirebaseParser {
             return null;
         }
     }
+
+    private Approach parseApproach(String questionKey) {
+        Approach approach = new Approach();
+
+        approach.setKey(UUID.randomUUID().toString());
+        approach.setQuestionKey(questionKey);
+
+        return approach;
+    };
 
     private ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
 

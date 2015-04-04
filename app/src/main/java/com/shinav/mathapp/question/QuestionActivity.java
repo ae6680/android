@@ -97,7 +97,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
     @Override protected void onResume() {
         super.onResume();
 
-        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
         questionSubscription = db.createQuery(
                 Tables.Question.TABLE_NAME,
@@ -112,9 +112,12 @@ public class QuestionActivity extends InjectedActionBarActivity {
                     @Override public void call(Question question) {
                         QuestionActivity.this.question = question;
                         initToolbar();
+                        fetchApproach(questionKey);
                     }
                 });
+    }
 
+    private void fetchApproach(String questionKey) {
         approachSubscription = db.createQuery(
                 Tables.Approach.TABLE_NAME,
                 "SELECT * FROM " + Tables.Approach.TABLE_NAME +
@@ -143,6 +146,31 @@ public class QuestionActivity extends InjectedActionBarActivity {
                     }
                 });
     }
+
+//    private void testing() {
+//
+//        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+//
+//        String questionTable = Tables.Question.TABLE_NAME;
+//        String approachTable = Tables.Approach.TABLE_NAME;
+//        String approachPartTable = Tables.ApproachPart.TABLE_NAME;
+//
+//        Cursor c = db.query(
+//                "SELECT * FROM " + questionTable +
+//
+//                        " LEFT JOIN " + approachTable + " ON " +
+//                        questionTable + "." + Tables.Question.KEY + " = " +
+//                        approachTable + "." + Tables.Approach.QUESTION_KEY +
+//
+//                        " LEFT JOIN " + approachPartTable + " ON " +
+//                        approachTable + "." + Tables.Approach.KEY + " = " +
+//                        approachPartTable + "." + Tables.ApproachPart.APPROACH_KEY +
+//
+//                        " WHERE " + questionTable + "." + Tables.Question.KEY + " = ?"
+//                , questionKey
+//        );
+//
+//    }
 
     @Override protected void onPause() {
         super.onPause();
