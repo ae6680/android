@@ -132,7 +132,10 @@ public class QuestionActivity extends InjectedActionBarActivity {
         questionSubscription.unsubscribe();
         approachSubscription.unsubscribe();
         approachPartSubscription.unsubscribe();
-        updateStoryProgressSubscription.unsubscribe();
+
+        if (updateStoryProgressSubscription != null) {
+            updateStoryProgressSubscription.unsubscribe();
+        }
     }
 
     @Override public void onStart() {
