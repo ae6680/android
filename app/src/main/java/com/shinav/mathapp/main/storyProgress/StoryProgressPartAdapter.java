@@ -1,8 +1,6 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.mapper.QuestionMapper;
-import com.shinav.mathapp.db.model.Question;
-import com.shinav.mathapp.db.model.StoryProgressPart;
+import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.squareup.otto.Bus;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,12 +26,11 @@ import static android.view.View.VISIBLE;
 public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
 
     private final Bus bus;
-    private final SqlBrite db;
+
     private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
-    public StoryProgressPartAdapter(Bus bus, SqlBrite db) {
+    public StoryProgressPartAdapter(Bus bus) {
         this.bus = bus;
-        this.db = db;
     }
 
     @Override
@@ -51,47 +44,23 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
     @Override public void onBindViewHolder(StoryProgressPartAdapter.ViewHolder holder, int position) {
         StoryProgressPart storyProgressPart = storyProgressParts.get(position);
 
-        if (!isSameQuestion(holder, storyProgressPart)) {
+        holder.setQuestionKey(storyProgressPart.getQuestionKey());
 
-            Cursor c = db.query(
-                    "SELECT * FROM " + Tables.Question.TABLE_NAME +
-                            " WHERE " + Tables.Question.KEY + " = ?"
-                    , storyProgressPart.getQuestionKey()
-            );
+        holder.title.setText(storyProgressPart.getTitle());
 
-            if (c.moveToFirst()) {
-                holder.question = new QuestionMapper().fromCursor(c);
-            }
-        }
-
-        if (holder.question != null) {
-            holder.title.setText(holder.question.getTitle());
-
-            if (TextUtils.isEmpty(storyProgressPart.getGivenAnswer())) {
-
+        switch (storyProgressPart.getState()) {
+            case StoryProgressPart.STATE_UNMADE:
                 holder.result.setText("Ongemaakt");
                 holder.seeQuestionButton.setVisibility(GONE);
-
-            } else {
-
-                if (isMadeCorrect(storyProgressPart, holder.question)) {
-                    holder.seeQuestionButton.setVisibility(VISIBLE);
-                    holder.result.setText("Goed");
-                } else {
-                    holder.seeQuestionButton.setVisibility(GONE);
-                    holder.result.setText("Fout");
-                }
-
-            }
+                break;
+            case StoryProgressPart.STATE_PASS:
+                holder.result.setText("Goed");
+                holder.seeQuestionButton.setVisibility(VISIBLE);
+                break;
+            case StoryProgressPart.STATE_FAIL:
+                holder.result.setText("Fout");
+                holder.seeQuestionButton.setVisibility(GONE);
         }
-    }
-
-    private boolean isSameQuestion(ViewHolder holder, StoryProgressPart storyProgressPart) {
-        return holder.question != null && holder.question.getKey().equals(storyProgressPart.getQuestionKey());
-    }
-
-    private boolean isMadeCorrect(StoryProgressPart storyProgressPart, Question question) {
-        return storyProgressPart.getGivenAnswer().equals(question.getAnswer());
     }
 
     @Override public int getItemCount() {
@@ -110,25 +79,25 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
         @InjectView(R.id.see_question_button) Button seeQuestionButton;
         @InjectView(R.id.make_question_button) Button makeQuestionButton;
 
-        private Question question;
+        private String questionKey;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
 
-        public void setQuestion(Question question) {
-            this.question = question;
+        public void setQuestionKey(String questionKey) {
+            this.questionKey = questionKey;
         }
 
         @OnClick(R.id.see_question_button)
         public void onSeeQuestionButtonClicked() {
-            bus.post(new SeeQuestionButtonClicked(question.getKey()));
+            bus.post(new SeeQuestionButtonClicked(questionKey));
         }
 
         @OnClick(R.id.make_question_button)
         public void onMakeQuestionButtonClicked() {
-            bus.post(new MakeQuestionButtonClicked(question.getKey()));
+            bus.post(new MakeQuestionButtonClicked(questionKey));
         }
 
     }

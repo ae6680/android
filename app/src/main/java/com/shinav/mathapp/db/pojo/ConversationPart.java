@@ -1,4 +1,4 @@
-package com.shinav.mathapp.db.model;
+package com.shinav.mathapp.db.pojo;
 
 public class ConversationPart {
 

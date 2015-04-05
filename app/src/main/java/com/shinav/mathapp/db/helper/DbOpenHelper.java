@@ -151,8 +151,9 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + StoryProgressPart.TABLE_NAME + " ("
                         + StoryProgressPart.KEY + " TEXT,"
                         + StoryProgressPart.STORY_PROGRESS_KEY + " TEXT,"
-                        + StoryProgressPart.GIVEN_ANSWER + " TEXT,"
                         + StoryProgressPart.QUESTION_KEY + " TEXT,"
+                        + StoryProgressPart.TITLE + " TEXT,"
+                        + StoryProgressPart.STATE + " INTEGER,"
                         + " UNIQUE (" + StoryProgressPart.KEY + ") ON CONFLICT REPLACE)"
         );
 

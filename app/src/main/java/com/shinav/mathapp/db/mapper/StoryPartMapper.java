@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.db.model.StoryPart;
+import com.shinav.mathapp.db.pojo.StoryPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import static com.shinav.mathapp.db.helper.Tables.StoryPart.TYPE;
 import static com.shinav.mathapp.db.helper.Tables.StoryPart.TYPE_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class StoryPartListMapper implements rx.functions.Func1<Query, List<StoryPart>> {
+public class StoryPartMapper implements rx.functions.Func1<Query, List<StoryPart>> {
 
     @Override public List<StoryPart> call(Query query) {
         Cursor c = query.run();

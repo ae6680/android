@@ -9,9 +9,9 @@ import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.mapper.StoryPartListMapper;
-import com.shinav.mathapp.db.model.ApproachPart;
-import com.shinav.mathapp.db.model.StoryPart;
+import com.shinav.mathapp.db.mapper.StoryPartMapper;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.StoryPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.squareup.sqlbrite.SqlBrite;
@@ -43,7 +43,7 @@ public class Storyteller {
                 "SELECT * FROM " + Tables.StoryPart.TABLE_NAME +
                         " WHERE " + Tables.StoryPart.KEY + " = ?"
                 , storyKey
-        ).map(new StoryPartListMapper())
+        ).map(new StoryPartMapper())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<StoryPart>>() {
                     @Override public void call(List<StoryPart> storyParts) {

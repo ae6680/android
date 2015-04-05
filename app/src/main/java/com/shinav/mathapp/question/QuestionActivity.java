@@ -3,7 +3,6 @@ package com.shinav.mathapp.question;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,15 +18,14 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
-import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.ApproachMapper;
-import com.shinav.mathapp.db.mapper.ApproachPartListMapper;
+import com.shinav.mathapp.db.mapper.ApproachPartMapper;
 import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
-import com.shinav.mathapp.db.model.Approach;
-import com.shinav.mathapp.db.model.ApproachPart;
-import com.shinav.mathapp.db.model.Question;
-import com.shinav.mathapp.db.model.StoryProgressPart;
+import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
@@ -43,7 +41,6 @@ import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +50,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class QuestionActivity extends InjectedActionBarActivity {
@@ -68,11 +64,16 @@ public class QuestionActivity extends InjectedActionBarActivity {
 
     @Inject Bus bus;
     @Inject Storyteller storyTeller;
-    @Inject SqlBrite db;
+
+    @Inject QuestionMapper questionMapper;
+    @Inject ApproachMapper approachMapper;
+    @Inject ApproachPartMapper approachPartMapper;
 
     @Inject QuestionApproachCardView questionApproachCardView;
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
+
+    @Inject StoryProgressPartMapper storyProgressPartMapper;
 
     private Question question;
 
@@ -93,84 +94,38 @@ public class QuestionActivity extends InjectedActionBarActivity {
         return new ActivityModule(this);
     }
 
-
     @Override protected void onResume() {
         super.onResume();
 
         final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        questionSubscription = db.createQuery(
-                Tables.Question.TABLE_NAME,
-                "SELECT * FROM " + Tables.Question.TABLE_NAME +
-                        " WHERE " + Tables.Question.KEY + " = ?"
-                , questionKey
-        )
-                .map(new QuestionMapper())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Question>() {
+        questionSubscription = questionMapper.getQuestionByKey(
+                questionKey, new Action1<Question>() {
 
                     @Override public void call(Question question) {
                         QuestionActivity.this.question = question;
-                        initToolbar();
-                        fetchApproach(questionKey);
-                    }
-                });
-    }
+                        initToolbar(question.getTitle());
 
-    private void fetchApproach(String questionKey) {
-        approachSubscription = db.createQuery(
-                Tables.Approach.TABLE_NAME,
-                "SELECT * FROM " + Tables.Approach.TABLE_NAME +
-                        " WHERE " + Tables.Approach.QUESTION_KEY + " = ?"
-                , questionKey
-        )
-                .map(new ApproachMapper())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Approach>() {
-                    @Override public void call(Approach approach) {
+                        approachSubscription = approachMapper.getApproachByQuestionKey(
+                                questionKey, new Action1<Approach>() {
 
-                        approachPartSubscription = db.createQuery(
-                                Tables.ApproachPart.TABLE_NAME,
-                                "SELECT * FROM " + Tables.ApproachPart.TABLE_NAME +
-                                        " WHERE " + Tables.ApproachPart.APPROACH_KEY + " = ?"
-                                , approach.getKey()
-                        )
-                                .map(new ApproachPartListMapper())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Action1<List<ApproachPart>>() {
-                                    @Override public void call(List<ApproachPart> approachParts) {
-                                        initViewPager(approachParts);
+                                    @Override public void call(Approach approach) {
+
+                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
+                                                approach.getKey(), new Action1<List<ApproachPart>>() {
+
+                                                    @Override public void call(List<ApproachPart> approachParts) {
+                                                        initViewPager(approachParts);
+                                                    }
+
+                                                });
+
                                     }
                                 });
 
                     }
                 });
     }
-
-//    private void testing() {
-//
-//        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-//
-//        String questionTable = Tables.Question.TABLE_NAME;
-//        String approachTable = Tables.Approach.TABLE_NAME;
-//        String approachPartTable = Tables.ApproachPart.TABLE_NAME;
-//
-//        Cursor c = db.query(
-//                "SELECT * FROM " + questionTable +
-//
-//                        " LEFT JOIN " + approachTable + " ON " +
-//                        questionTable + "." + Tables.Question.KEY + " = " +
-//                        approachTable + "." + Tables.Approach.QUESTION_KEY +
-//
-//                        " LEFT JOIN " + approachPartTable + " ON " +
-//                        approachTable + "." + Tables.Approach.KEY + " = " +
-//                        approachPartTable + "." + Tables.ApproachPart.APPROACH_KEY +
-//
-//                        " WHERE " + questionTable + "." + Tables.Question.KEY + " = ?"
-//                , questionKey
-//        );
-//
-//    }
 
     @Override protected void onPause() {
         super.onPause();
@@ -209,8 +164,8 @@ public class QuestionActivity extends InjectedActionBarActivity {
         overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
     }
 
-    private void initToolbar() {
-        toolbar.setTitle(question.getTitle());
+    private void initToolbar(String title) {
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -227,7 +182,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
         questionApproachCardView.setApproachParts(approachParts);
         cards.add(questionApproachCardView);
 
-        questionCardView.setQuestion(question);
+        questionCardView.setQuestionValue(question.getValue());
         cards.add(questionCardView);
 
         cardViewPager.setIndicator(viewPagerIndicator);
@@ -249,41 +204,38 @@ public class QuestionActivity extends InjectedActionBarActivity {
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
 
-        updateStoryProgressSubscription = db.createQuery(
-                Tables.StoryProgressPart.TABLE_NAME,
-                "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
-                        " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
-                , event.getQuestion().getKey()
-        )
-                .map(new StoryProgressPartMapper())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<StoryProgressPart>() {
+        updateStoryProgressSubscription = storyProgressPartMapper.getByQuestionKey(
+                question.getKey(), new Action1<StoryProgressPart>() {
+
                     @Override public void call(StoryProgressPart storyProgressPart) {
 
-                        ContentValues values = storyProgressPart.getContentValues();
-                        values.put(Tables.StoryProgressPart.GIVEN_ANSWER, event.getAnswer());
-
-                        db.update(
-                                Tables.StoryProgressPart.TABLE_NAME,
-                                values,
-                                "key=?",
-                                values.getAsString(Tables.StoryProgressPart.KEY)
-                        );
+                        storyProgressPart.setState(isCorrect(question, event.getAnswer()));
+                        storyProgressPartMapper.update(storyProgressPart);
 
                         // Create progress part for next question.
-                        String storyProgressKey = storyProgressPart.getStoryProgressKey();
-                        String nextQuestionKey = storyTeller.getNextQuestionKey();
+                        final String storyProgressKey = storyProgressPart.getStoryProgressKey();
+                        final String nextQuestionKey = storyTeller.getNextQuestionKey();
 
                         StoryProgressPart newStoryProgressPart = new StoryProgressPart();
 
                         newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-                        newStoryProgressPart.setGivenAnswer(null);
                         newStoryProgressPart.setQuestionKey(nextQuestionKey);
 
-                        db.insert(Tables.StoryProgressPart.TABLE_NAME, newStoryProgressPart.getContentValues());
-
+                        storyProgressPartMapper.insert(newStoryProgressPart);
                     }
                 });
+    }
+
+    private int isCorrect(Question question, String answer) {
+        int state;
+
+        if (question.getAnswer().equals(answer)) {
+            state = StoryProgressPart.STATE_PASS;
+        } else {
+            state = StoryProgressPart.STATE_FAIL;
+        }
+
+        return state;
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {

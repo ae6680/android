@@ -6,16 +6,22 @@ public abstract class FirebaseInterface {
         String QUESTIONS = "questions";
         String STORIES = "stories";
         String CONVERSATIONS = "conversations";
+        String APPROACHES = "approaches";
+        String APPROACH_PARTS = "approach_parts";
     }
 
     public interface Question {
         String ANSWER = "answer";
         String TITLE = "title";
         String VALUE = "value";
-        String APPROACHES = "approaches";
     }
 
     public interface Approach {
+        String QUESTION_KEY = "question_key";
+    }
+
+    public interface ApproachPart {
+        String APPROACH_KEY = "approach_key";
         String VALUE = "value";
         String POSITION = "position";
     }

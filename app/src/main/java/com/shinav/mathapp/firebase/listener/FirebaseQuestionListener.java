@@ -3,36 +3,26 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.model.ApproachPart;
-import com.shinav.mathapp.db.model.Question;
+import com.shinav.mathapp.db.mapper.QuestionMapper;
+import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
 public class FirebaseQuestionListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
-    private final SqlBrite db;
+    private final QuestionMapper questionMapper;
 
     @Inject
-    public FirebaseQuestionListener(
-            FirebaseParser firebaseParser,
-            SqlBrite db
-    ) {
+    public FirebaseQuestionListener(FirebaseParser firebaseParser, QuestionMapper questionMapper) {
         this.firebaseParser = firebaseParser;
-        this.db = db;
+        this.questionMapper = questionMapper;
     }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Question question = firebaseParser.parseQuestion(dataSnapshot);
-        db.insert(Tables.Question.TABLE_NAME, question.getContentValues());
-
-        db.insert(Tables.Approach.TABLE_NAME, question.getApproach().getContentValues());
-        for (ApproachPart part : question.getApproach().getApproachParts()) {
-            db.insert(Tables.ApproachPart.TABLE_NAME, part.getContentValues());
-        }
+        questionMapper.insert(question);
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {

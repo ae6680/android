@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.card.Card;
-import com.shinav.mathapp.db.model.Question;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.annotation.ForActivity;
@@ -28,7 +27,6 @@ public class QuestionCardView extends Card {
     @InjectView(R.id.answer_input) EditText answerField;
     @InjectView(R.id.submit_button) TextView submitButton;
 
-    private Question question;
     private final Bus bus;
 
     @Inject
@@ -58,9 +56,8 @@ public class QuestionCardView extends Card {
         addView(view);
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-        setQuestionText(question.getValue());
+    public void setQuestionValue(String questionValue) {
+        setQuestionText(questionValue);
     }
 
     private void setQuestionText(String value) {
@@ -70,7 +67,7 @@ public class QuestionCardView extends Card {
     @OnClick(R.id.submit_button)
     public void onSubmitClicked() {
         String answer = answerField.getText().toString();
-        bus.post(new OnAnswerSubmittedEvent(question, answer));
+        bus.post(new OnAnswerSubmittedEvent(answer));
     }
 
     public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {

@@ -1,16 +1,32 @@
 package com.shinav.mathapp.db.mapper;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.shinav.mathapp.db.model.Question;
+import com.shinav.mathapp.db.pojo.Question;
+import com.squareup.sqlbrite.SqlBrite;
+
+import javax.inject.Inject;
+
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class QuestionMapper implements rx.functions.Func1<Query, Question> {
+
+    private final SqlBrite db;
+
+    @Inject
+    public QuestionMapper(SqlBrite db) {
+        this.db = db;
+    }
 
     @Override public Question call(Query query) {
         Cursor c = query.run();
@@ -36,4 +52,30 @@ public class QuestionMapper implements rx.functions.Func1<Query, Question> {
         return question;
     }
 
+    public ContentValues getContentValues(Question question) {
+        ContentValues values = new ContentValues();
+
+        values.put(KEY, question.getKey());
+        values.put(VALUE, question.getValue());
+        values.put(TITLE, question.getTitle());
+        values.put(ANSWER, question.getAnswer());
+
+        return values;
+    }
+
+    public Subscription getQuestionByKey(String questionKey, Action1<Question> action) {
+        return db.createQuery(
+                TABLE_NAME,
+                "SELECT * FROM " + TABLE_NAME +
+                        " WHERE " + KEY + " = ?"
+                , questionKey
+        )
+                .map(this)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action);
+    }
+
+    public void insert(Question question) {
+        db.insert(TABLE_NAME, getContentValues(question));
+    }
 }

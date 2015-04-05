@@ -3,26 +3,26 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.mapper.StoryMapper;
-import com.shinav.mathapp.db.pojo.Story;
+import com.shinav.mathapp.db.mapper.ApproachPartMapper;
+import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.firebase.FirebaseParser;
 
 import javax.inject.Inject;
 
-public class FirebaseStoryListener implements ChildEventListener {
+public class FirebaseApproachPartListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
-    private final StoryMapper storyMapper;
+    private final ApproachPartMapper approachPartMapper;
 
     @Inject
-    public FirebaseStoryListener(FirebaseParser firebaseParser, StoryMapper storyMapper) {
+    public FirebaseApproachPartListener(FirebaseParser firebaseParser, ApproachPartMapper approachPartMapper) {
         this.firebaseParser = firebaseParser;
-        this.storyMapper = storyMapper;
+        this.approachPartMapper = approachPartMapper;
     }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Story story = firebaseParser.parseStory(dataSnapshot);
-        storyMapper.insert(story);
+        ApproachPart approachPart = firebaseParser.parseApproachPart(dataSnapshot);
+        approachPartMapper.insert(approachPart);
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -40,4 +40,5 @@ public class FirebaseStoryListener implements ChildEventListener {
     @Override public void onCancelled(FirebaseError firebaseError) {
 
     }
+
 }

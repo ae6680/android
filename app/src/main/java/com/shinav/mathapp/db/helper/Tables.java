@@ -73,7 +73,8 @@ public interface Tables {
         String STORY_PROGRESS_KEY = "story_progress_key";
 
         String QUESTION_KEY = "question_key";
-        String GIVEN_ANSWER = "given_answer";
+        String STATE = "state";
+        String TITLE = "title";
     }
 
 }

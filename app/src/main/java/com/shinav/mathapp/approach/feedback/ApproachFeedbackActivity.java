@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;

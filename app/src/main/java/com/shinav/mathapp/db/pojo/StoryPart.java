@@ -1,4 +1,4 @@
-package com.shinav.mathapp.db.model;
+package com.shinav.mathapp.db.pojo;
 
 public class StoryPart {
 
@@ -8,8 +8,6 @@ public class StoryPart {
     private int position;
     private String type;
     private String typeKey;
-
-    public StoryPart() {  }
 
     public String getKey() {
         return key;

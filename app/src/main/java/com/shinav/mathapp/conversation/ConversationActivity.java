@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.mapper.ConversationPartListMapper;
-import com.shinav.mathapp.db.model.ConversationPart;
+import com.shinav.mathapp.db.mapper.ConversationPartMapper;
+import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
@@ -56,7 +56,7 @@ public class ConversationActivity extends InjectedActivity {
                         " WHERE " + Tables.ConversationPart.CONVERSATION_KEY + " = ?"
                 , conversationKey
         )
-                .map(new ConversationPartListMapper())
+                .map(new ConversationPartMapper())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<ConversationPart>>() {
                     @Override public void call(List<ConversationPart> conversationParts) {

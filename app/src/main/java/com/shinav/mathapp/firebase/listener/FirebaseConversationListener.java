@@ -3,30 +3,29 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.model.Conversation;
+import com.shinav.mathapp.db.mapper.ConversationMapper;
+import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.firebase.FirebaseParser;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
 public class FirebaseConversationListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
-    private final SqlBrite db;
+    private final ConversationMapper conversationMapper;
 
     @Inject
     public FirebaseConversationListener(
             FirebaseParser firebaseParser,
-            SqlBrite db
+            ConversationMapper conversationMapper
     ) {
         this.firebaseParser = firebaseParser;
-        this.db = db;
+        this.conversationMapper = conversationMapper;
     }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Conversation conversation = firebaseParser.parseConversation(dataSnapshot);
-        db.insert(Tables.Conversation.TABLE_NAME, conversation.getContentValues());
+        conversationMapper.insert(conversation);
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {

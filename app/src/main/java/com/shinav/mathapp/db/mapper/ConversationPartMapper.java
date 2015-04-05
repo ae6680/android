@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
-import com.shinav.mathapp.db.model.ConversationPart;
+import com.shinav.mathapp.db.pojo.ConversationPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import static com.shinav.mathapp.db.helper.Tables.ConversationPart.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationPart.TYPING_DURATION;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class ConversationPartListMapper implements rx.functions.Func1<Query, List<ConversationPart>> {
+public class ConversationPartMapper implements rx.functions.Func1<Query, List<ConversationPart>> {
 
     @Override public List<ConversationPart> call(Query query) {
         Cursor c = query.run();

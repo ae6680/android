@@ -3,17 +3,13 @@ package com.shinav.mathapp.firebase;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.db.model.Approach;
-import com.shinav.mathapp.db.model.ApproachPart;
-import com.shinav.mathapp.db.model.Conversation;
-import com.shinav.mathapp.db.model.ConversationPart;
-import com.shinav.mathapp.db.model.Question;
-import com.shinav.mathapp.db.model.Story;
-import com.shinav.mathapp.db.model.StoryPart;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.Conversation;
+import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.Story;
+import com.shinav.mathapp.db.pojo.StoryPart;
 
 import javax.inject.Inject;
 
@@ -33,28 +29,13 @@ public class FirebaseParser {
 
         try {
             String answer = getString(dataSnapshot, FirebaseInterface.Question.ANSWER);
-            String value = getString(dataSnapshot, FirebaseInterface.Question.VALUE);
-            String title = getString(dataSnapshot, FirebaseInterface.Question.TITLE);
+            String value =  getString(dataSnapshot, FirebaseInterface.Question.VALUE);
+            String title =  getString(dataSnapshot, FirebaseInterface.Question.TITLE);
 
             question.setKey(dataSnapshot.getKey());
             question.setAnswer(answer);
             question.setValue(value);
             question.setTitle(title);
-
-            Approach approach = parseApproach(question.getKey());
-
-            DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
-
-            List<ApproachPart> approachParts = new ArrayList<>();
-            for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
-                ApproachPart approachPart = parseApproachPart(approachesSnapshot.child("approach-" + i));
-                approachPart.setApproachKey(approach.getKey());
-                approachParts.add(approachPart);
-            }
-
-            approach.setApproachParts(approachParts);
-
-            question.setApproach(approach);
 
             return question;
 
@@ -68,26 +49,49 @@ public class FirebaseParser {
         }
     }
 
-    private Approach parseApproach(String questionKey) {
+    public Approach parseApproach(DataSnapshot dataSnapshot) {
         Approach approach = new Approach();
 
-        approach.setKey(UUID.randomUUID().toString());
-        approach.setQuestionKey(questionKey);
+        try {
+            String key = dataSnapshot.getKey();
+            String questionKey = getString(dataSnapshot, FirebaseInterface.Approach.QUESTION_KEY);
 
-        return approach;
-    };
+            approach.setKey(key);
+            approach.setQuestionKey(questionKey);
 
-    private ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
+            return approach;
 
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Field or value not set");
+            Log.e(TAG, "Key : " + dataSnapshot.getKey());
+            Log.e(TAG, "Value : " + dataSnapshot.getValue());
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
         ApproachPart approachPart = new ApproachPart();
 
-        String position =  getString(dataSnapshot, FirebaseInterface.Approach.POSITION);
-        String value =     getString(dataSnapshot, FirebaseInterface.Approach.VALUE);
+        try {
+            String position =  getString(dataSnapshot, FirebaseInterface.ApproachPart.POSITION);
+            String value =     getString(dataSnapshot, FirebaseInterface.ApproachPart.VALUE);
 
-        approachPart.setPosition(Integer.parseInt(position));
-        approachPart.setValue(value);
+            approachPart.setKey(dataSnapshot.getKey());
+            approachPart.setPosition(Integer.parseInt(position));
+            approachPart.setValue(value);
 
-        return approachPart;
+            return approachPart;
+
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Field or value not set");
+            Log.e(TAG, "Key : " + dataSnapshot.getKey());
+            Log.e(TAG, "Value : " + dataSnapshot.getValue());
+            e.printStackTrace();
+
+            return null;
+        }
     }
 
     public Story parseStory(DataSnapshot dataSnapshot) {

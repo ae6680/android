@@ -10,7 +10,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachPartAdapter;
 import com.shinav.mathapp.card.Card;
-import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 
 import java.util.List;

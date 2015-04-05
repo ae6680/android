@@ -1,6 +1,6 @@
 package com.shinav.mathapp.approach;
 
-import com.shinav.mathapp.db.model.ApproachPart;
+import com.shinav.mathapp.db.pojo.ApproachPart;
 
 import org.junit.Before;
 import org.junit.Test;
