@@ -48,13 +48,12 @@ public class FirebaseChildRegisterer {
 
     public void register() {
         addChildEventListener(Nodes.QUESTIONS, firebaseQuestionListener);
-        addChildEventListener(Nodes.STORIES, firebaseStoryListener);
-        addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
-        addChildEventListener(Nodes.CONVERSATION_PARTS, firebaseConversationPartListener);
         addChildEventListener(Nodes.APPROACHES, firebaseApproachListener);
         addChildEventListener(Nodes.APPROACH_PARTS, firebaseApproachPartListener);
         addChildEventListener(Nodes.STORIES, firebaseStoryListener);
         addChildEventListener(Nodes.STORY_PARTS, firebaseStoryPartListener);
+        addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
+        addChildEventListener(Nodes.CONVERSATION_PARTS, firebaseConversationPartListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {

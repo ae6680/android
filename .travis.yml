@@ -1,0 +1,14 @@
+language: android
+
+android:
+  components:
+    - build-tools 21.1.2
+    - android-22
+
+sudo: false
+
+script: "./gradlew test"
+
+notifications:
+  email:
+    on_success: never
