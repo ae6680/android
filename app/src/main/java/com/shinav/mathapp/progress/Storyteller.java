@@ -8,19 +8,16 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.StoryPartMapper;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.StoryPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class Storyteller {
@@ -34,23 +31,15 @@ public class Storyteller {
     private List<StoryPart> storyParts;
 
     @Inject
-    public Storyteller(@ForActivity Context context, SqlBrite db) {
+    public Storyteller(@ForActivity Context context, StoryPartMapper storyPartMapper) {
         this.context = context;
-        String storyKey = "story-0";
+        String storyKey = "-Jm5qeuosdf";
 
-        db.createQuery(
-                Tables.StoryPart.TABLE_NAME,
-                "SELECT * FROM " + Tables.StoryPart.TABLE_NAME +
-                        " WHERE " + Tables.StoryPart.KEY + " = ?"
-                , storyKey
-        ).map(new StoryPartMapper())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<StoryPart>>() {
-                    @Override public void call(List<StoryPart> storyParts) {
-                        Storyteller.this.storyParts = storyParts;
-
-                    }
-                });
+        storyPartMapper.getByStoryKey(storyKey, new Action1<List<StoryPart>>() {
+            @Override public void call(List<StoryPart> storyParts) {
+                Storyteller.this.storyParts = storyParts;
+            }
+        });
     }
 
     public void current() {

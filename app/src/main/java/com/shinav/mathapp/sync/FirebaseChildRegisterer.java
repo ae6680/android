@@ -7,6 +7,7 @@ import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryPartListener;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,7 @@ public class FirebaseChildRegisterer {
     private final FirebaseConversationListener firebaseConversationListener;
     private final FirebaseApproachListener firebaseApproachListener;
     private final FirebaseApproachPartListener firebaseApproachPartListener;
+    private final FirebaseStoryPartListener firebaseStoryPartListener;
 
     @Inject
     public FirebaseChildRegisterer(
@@ -28,7 +30,8 @@ public class FirebaseChildRegisterer {
             FirebaseStoryListener firebaseStoryListener,
             FirebaseConversationListener firebaseConversationListener,
             FirebaseApproachListener firebaseApproachListener,
-            FirebaseApproachPartListener firebaseApproachPartListener
+            FirebaseApproachPartListener firebaseApproachPartListener,
+            FirebaseStoryPartListener firebaseStoryPartListener
     ) {
         this.firebase = firebase;
         this.firebaseQuestionListener = firebaseQuestionListener;
@@ -36,6 +39,7 @@ public class FirebaseChildRegisterer {
         this.firebaseConversationListener = firebaseConversationListener;
         this.firebaseApproachListener = firebaseApproachListener;
         this.firebaseApproachPartListener = firebaseApproachPartListener;
+        this.firebaseStoryPartListener = firebaseStoryPartListener;
     }
 
     public void register() {
@@ -44,6 +48,8 @@ public class FirebaseChildRegisterer {
         addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
         addChildEventListener(Nodes.APPROACHES, firebaseApproachListener);
         addChildEventListener(Nodes.APPROACH_PARTS, firebaseApproachPartListener);
+        addChildEventListener(Nodes.STORIES, firebaseStoryListener);
+        addChildEventListener(Nodes.STORY_PARTS, firebaseStoryPartListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {

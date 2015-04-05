@@ -1,5 +1,7 @@
 package com.shinav.mathapp.db.pojo;
 
+import android.text.TextUtils;
+
 public class StoryPart {
 
     private String key;
@@ -62,7 +64,7 @@ public class StoryPart {
     }
 
     public boolean isQuestion() {
-        return getType().equals("question");
+        return TextUtils.equals(getType(), "question");
     }
 
 }

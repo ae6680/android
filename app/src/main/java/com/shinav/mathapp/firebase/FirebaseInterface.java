@@ -5,6 +5,7 @@ public abstract class FirebaseInterface {
     public interface Nodes {
         String QUESTIONS = "questions";
         String STORIES = "stories";
+        String STORY_PARTS = "story_parts";
         String CONVERSATIONS = "conversations";
         String APPROACHES = "approaches";
         String APPROACH_PARTS = "approach_parts";
@@ -28,6 +29,7 @@ public abstract class FirebaseInterface {
 
     public interface StoryPart {
         String POSITION = "position";
+        String STORY_KEY = "story_key";
         String TYPE = "type";
         String TYPE_KEY = "typeKey";
     }

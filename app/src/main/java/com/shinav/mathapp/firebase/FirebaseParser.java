@@ -102,14 +102,17 @@ public class FirebaseParser {
         return story;
     }
 
-    private StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
+    public StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
         StoryPart storyPart = new StoryPart();
 
         try {
             String position = getString(dataSnapshot, FirebaseInterface.StoryPart.POSITION);
             String type =     getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE);
             String typeKey =  getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE_KEY);
+            String storyKey = getString(dataSnapshot, FirebaseInterface.StoryPart.STORY_KEY);
 
+            storyPart.setKey(dataSnapshot.getKey());
+            storyPart.setStoryKey(storyKey);
             storyPart.setPosition(Integer.parseInt(position));
             storyPart.setType(type);
             storyPart.setTypeKey(typeKey);
