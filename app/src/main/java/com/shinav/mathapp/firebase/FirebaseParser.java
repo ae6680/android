@@ -75,10 +75,12 @@ public class FirebaseParser {
         ApproachPart approachPart = new ApproachPart();
 
         try {
-            String position =  getString(dataSnapshot, FirebaseInterface.ApproachPart.POSITION);
-            String value =     getString(dataSnapshot, FirebaseInterface.ApproachPart.VALUE);
+            String approachKey = getString(dataSnapshot, FirebaseInterface.ApproachPart.APPROACH_KEY);
+            String position =    getString(dataSnapshot, FirebaseInterface.ApproachPart.POSITION);
+            String value =       getString(dataSnapshot, FirebaseInterface.ApproachPart.VALUE);
 
             approachPart.setKey(dataSnapshot.getKey());
+            approachPart.setApproachKey(approachKey);
             approachPart.setPosition(Integer.parseInt(position));
             approachPart.setValue(value);
 
