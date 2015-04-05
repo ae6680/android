@@ -227,8 +227,19 @@ public class QuestionActivity extends InjectedActionBarActivity {
                                 " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
                         , nextQuestionKey
                 );
+
                 if (!c2.moveToFirst()) {
                     StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+
+                    Cursor c3 = db.query(
+                            "SELECT * FROM " + Tables.Question.TABLE_NAME +
+                                    " WHERE " + Tables.Question.KEY + " = ?"
+                            , nextQuestionKey
+                    );
+                    if (c3.moveToFirst()) {
+                       newStoryProgressPart.setTitle(c3.getString(c3.getColumnIndex(Tables.Question.TITLE)));
+                    }
+                    c3.close();
 
                     newStoryProgressPart.setStoryProgressKey(storyProgressKey);
                     newStoryProgressPart.setQuestionKey(nextQuestionKey);
@@ -236,6 +247,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
                     storyProgressPartMapper.insert(newStoryProgressPart);
                 }
                 c2.close();
+
             }
         }
         c.close();
