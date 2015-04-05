@@ -2,9 +2,13 @@ package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
+import com.shinav.mathapp.firebase.listener.FirebaseApproachListener;
+import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseConversationPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryPartListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,15 +26,23 @@ public class FirebaseChildRegistererTest {
     public void setUp() throws Exception {
         firebase = Mockito.mock(Firebase.class);
 
-        when(firebase.child(Nodes.QUESTIONS)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.STORIES)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.STORY_PARTS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.CONVERSATION_PARTS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.QUESTIONS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.APPROACHES)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.APPROACH_PARTS)).thenReturn(Mockito.mock(Firebase.class));
 
         new FirebaseChildRegisterer(
                 firebase,
                 Mockito.mock(FirebaseQuestionListener.class),
                 Mockito.mock(FirebaseStoryListener.class),
-                Mockito.mock(FirebaseConversationListener.class)
+                Mockito.mock(FirebaseConversationListener.class),
+                Mockito.mock(FirebaseConversationPartListener.class),
+                Mockito.mock(FirebaseApproachListener.class),
+                Mockito.mock(FirebaseApproachPartListener.class),
+                Mockito.mock(FirebaseStoryPartListener.class)
         ).register();
     }
 
