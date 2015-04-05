@@ -19,12 +19,21 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".approach.ApproachActivity"/>
-        <activity android:name=".approach.feedback.ApproachFeedbackActivity"/>
+        <activity
+            android:name=".approach.ApproachActivity"
+            android:noHistory="true"/>
 
-        <activity android:name=".question.QuestionActivity"/>
+        <activity
+            android:name=".approach.feedback.ApproachFeedbackActivity"
+            android:noHistory="true" />
 
-        <activity android:name=".conversation.ConversationActivity"/>
+        <activity
+            android:name=".question.QuestionActivity"
+            android:noHistory="true" />
+
+        <activity
+            android:name=".conversation.ConversationActivity"
+            android:noHistory="true" />
 
     </application>
 

@@ -81,7 +81,6 @@ public class Storyteller {
 
     private void start(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(context, cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra(Storyteller.TYPE_KEY, typeKey);
         context.startActivity(intent);
 
