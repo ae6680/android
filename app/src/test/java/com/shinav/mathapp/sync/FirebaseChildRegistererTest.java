@@ -32,7 +32,6 @@ public class FirebaseChildRegistererTest {
         when(firebase.child(Nodes.CONVERSATION_PARTS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.QUESTIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.APPROACHES)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.APPROACH_PARTS)).thenReturn(Mockito.mock(Firebase.class));
 
         new FirebaseChildRegisterer(
                 firebase,
