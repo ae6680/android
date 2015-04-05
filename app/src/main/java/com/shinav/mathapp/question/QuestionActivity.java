@@ -3,6 +3,7 @@ package com.shinav.mathapp.question;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.ApproachMapper;
 import com.shinav.mathapp.db.mapper.ApproachPartMapper;
 import com.shinav.mathapp.db.mapper.QuestionMapper;
@@ -41,6 +43,7 @@ import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,22 +68,21 @@ public class QuestionActivity extends InjectedActionBarActivity {
     @Inject Bus bus;
     @Inject Storyteller storyTeller;
 
+    @Inject SqlBrite db;
     @Inject QuestionMapper questionMapper;
     @Inject ApproachMapper approachMapper;
     @Inject ApproachPartMapper approachPartMapper;
+    @Inject StoryProgressPartMapper storyProgressPartMapper;
 
     @Inject QuestionApproachCardView questionApproachCardView;
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
-
-    @Inject StoryProgressPartMapper storyProgressPartMapper;
 
     private Question question;
 
     private Subscription questionSubscription;
     private Subscription approachSubscription;
     private Subscription approachPartSubscription;
-    private Subscription updateStoryProgressSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,10 +134,6 @@ public class QuestionActivity extends InjectedActionBarActivity {
         questionSubscription.unsubscribe();
         approachSubscription.unsubscribe();
         approachPartSubscription.unsubscribe();
-
-        if (updateStoryProgressSubscription != null) {
-            updateStoryProgressSubscription.unsubscribe();
-        }
     }
 
     @Override public void onStart() {
@@ -207,26 +205,31 @@ public class QuestionActivity extends InjectedActionBarActivity {
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
 
-        updateStoryProgressSubscription = storyProgressPartMapper.getByQuestionKey(
-                question.getKey(), new Action1<StoryProgressPart>() {
+        Cursor c = db.query(
+                "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+                        " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+                , question.getKey()
+        );
+        if (c.moveToFirst()) {
 
-                    @Override public void call(StoryProgressPart storyProgressPart) {
+            StoryProgressPart storyProgressPart = storyProgressPartMapper.fromCursor(c);
 
-                        storyProgressPart.setState(isCorrect(question, event.getAnswer()));
-                        storyProgressPartMapper.update(storyProgressPart);
+            storyProgressPart.setState(isCorrect(question, event.getAnswer()));
+            storyProgressPartMapper.update(storyProgressPart);
 
-                        // Create progress part for next question.
-                        final String storyProgressKey = storyProgressPart.getStoryProgressKey();
-                        final String nextQuestionKey = storyTeller.getNextQuestionKey();
+            // Create progress part for next question.
+            final String storyProgressKey = storyProgressPart.getStoryProgressKey();
+            final String nextQuestionKey = storyTeller.getNextQuestionKey();
 
-                        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+            StoryProgressPart newStoryProgressPart = new StoryProgressPart();
 
-                        newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-                        newStoryProgressPart.setQuestionKey(nextQuestionKey);
+            newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+            newStoryProgressPart.setQuestionKey(nextQuestionKey);
 
-                        storyProgressPartMapper.insert(newStoryProgressPart);
-                    }
-                });
+            storyProgressPartMapper.insert(newStoryProgressPart);
+
+        }
+        c.close();
     }
 
     private int isCorrect(Question question, String answer) {
