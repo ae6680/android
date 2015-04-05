@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class ApproachFeedbackActivity extends Activity {
         setContentView(R.layout.activity_approach_feedback);
 
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
 
         approachParts = storyteller.getCurrentApproach();
 

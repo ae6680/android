@@ -16,6 +16,8 @@ import com.squareup.otto.Bus;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -29,6 +31,7 @@ public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgress
 
     private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
+    @Inject
     public StoryProgressPartAdapter(Bus bus) {
         this.bus = bus;
     }

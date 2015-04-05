@@ -34,6 +34,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -87,7 +88,9 @@ public class QuestionActivity extends ActionBarActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
 
         initCalculator();
     }

@@ -13,6 +13,7 @@ import com.shinav.mathapp.db.mapper.ConversationMapper;
 import com.shinav.mathapp.db.mapper.ConversationPartMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.List;
@@ -40,7 +41,9 @@ public class ConversationActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
     }
 
     @Override protected void onResume() {

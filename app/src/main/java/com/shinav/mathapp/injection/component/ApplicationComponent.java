@@ -1,7 +1,6 @@
 package com.shinav.mathapp.injection.component;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.firebase.FirebaseParser;
@@ -28,5 +27,4 @@ public interface ApplicationComponent {
     SqlBrite sqlBrite();
 
     void inject(FirebaseChildRegisterer firebaseChildRegisterer);
-    void inject(CalculatorFragment calculatorFragment);
 }

@@ -13,6 +13,7 @@ import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.Collections;
@@ -47,7 +48,9 @@ public class ApproachActivity extends ActionBarActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approach);
+
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
     }
 
     @Override protected void onResume() {
