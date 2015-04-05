@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -217,17 +218,25 @@ public class QuestionActivity extends InjectedActionBarActivity {
             storyProgressPart.setState(isCorrect(question, event.getAnswer()));
             storyProgressPartMapper.update(storyProgressPart);
 
-            // Create progress part for next question.
+            // Create progress part for next question if not there.
             final String storyProgressKey = storyProgressPart.getStoryProgressKey();
             final String nextQuestionKey = storyTeller.getNextQuestionKey();
+            if (!TextUtils.isEmpty(nextQuestionKey)) {
+                Cursor c2 = db.query(
+                        "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+                                " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+                        , nextQuestionKey
+                );
+                if (!c2.moveToFirst()) {
+                    StoryProgressPart newStoryProgressPart = new StoryProgressPart();
 
-            StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+                    newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+                    newStoryProgressPart.setQuestionKey(nextQuestionKey);
 
-            newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-            newStoryProgressPart.setQuestionKey(nextQuestionKey);
-
-            storyProgressPartMapper.insert(newStoryProgressPart);
-
+                    storyProgressPartMapper.insert(newStoryProgressPart);
+                }
+                c2.close();
+            }
         }
         c.close();
     }

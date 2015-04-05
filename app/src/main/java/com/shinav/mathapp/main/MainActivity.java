@@ -21,6 +21,7 @@ import com.shinav.mathapp.tab.TabsView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,6 +123,7 @@ public class MainActivity extends InjectedActionBarActivity {
         storyProgressSubscription = storyProgressPartMapper.getByStoryProgressKey(
                 storyProgressKey, new Action1<List<StoryProgressPart>>() {
                     @Override public void call(List<StoryProgressPart> storyProgressParts) {
+                        Collections.reverse(storyProgressParts);
                         storyProgressView.setStoryProgressParts(storyProgressParts);
                     }
                 });
