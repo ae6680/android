@@ -51,14 +51,6 @@ public class StoryPart {
         this.typeKey = typeKey;
     }
 
-    public boolean isApproach() {
-        return getType().equals("approach");
-    }
-
-    public boolean isApproachFeedback() {
-        return getType().equals("approachFeedback");
-    }
-
     public boolean isConversation() {
         return getType().equals("conversation");
     }

@@ -118,6 +118,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private void createConversationTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Conversation.TABLE_NAME + " ("
                         + Conversation.KEY + " TEXT,"
+                        + Conversation.TITLE + " TEXT,"
                         + " UNIQUE (" + Conversation.KEY + ") ON CONFLICT REPLACE)"
         );
 
@@ -132,6 +133,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + ConversationPart.DELAY + " INTEGER,"
                         + ConversationPart.TYPING_DURATION + " INTEGER,"
                         + ConversationPart.POSITION + " INTEGER,"
+                        + ConversationPart.ALIGNMENT + " INTEGER,"
                         + " UNIQUE (" + ConversationPart.KEY + ") ON CONFLICT REPLACE)"
         );
 

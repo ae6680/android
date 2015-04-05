@@ -47,6 +47,7 @@ public interface Tables {
     public interface Conversation {
         String TABLE_NAME = "conversation";
         String KEY = "key";
+        String TITLE = "title";
     }
 
     public interface ConversationPart {
@@ -57,8 +58,9 @@ public interface Tables {
 
         String MESSAGE = "message";
         String DELAY = "delay";
-        String TYPING_DURATION = "typingDuration";
+        String TYPING_DURATION = "typing_duration";
         String POSITION = "position";
+        String ALIGNMENT = "alignment";
     }
 
     public interface StoryProgress {

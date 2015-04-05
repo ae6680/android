@@ -7,13 +7,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.mapper.ConversationPartMapper;
 import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;
 
@@ -23,7 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class ConversationActivity extends InjectedActivity {
@@ -31,7 +28,7 @@ public class ConversationActivity extends InjectedActivity {
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
 
     @Inject Storyteller storyTeller;
-    @Inject SqlBrite db;
+    @Inject ConversationPartMapper conversationPartMapper;
 
     private Subscription conversationPartSubscription;
 
@@ -50,19 +47,11 @@ public class ConversationActivity extends InjectedActivity {
 
         String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        conversationPartSubscription = db.createQuery(
-                Tables.ConversationPart.TABLE_NAME,
-                "SELECT * FROM " + Tables.ConversationPart.TABLE_NAME +
-                        " WHERE " + Tables.ConversationPart.CONVERSATION_KEY + " = ?"
-                , conversationKey
-        )
-                .map(new ConversationPartMapper())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<ConversationPart>>() {
-                    @Override public void call(List<ConversationPart> conversationParts) {
-                        initConversation(conversationParts);
-                    }
-                });
+        conversationPartSubscription = conversationPartMapper.getByConversationKey(conversationKey, new Action1<List<ConversationPart>>() {
+            @Override public void call(List<ConversationPart> conversationParts) {
+                initConversation(conversationParts);
+            }
+        });
     }
 
     @Override protected void onPause() {

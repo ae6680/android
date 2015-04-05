@@ -40,7 +40,7 @@ public class ConversationPartView extends ButterKnifeLayout {
 
         int layout;
 
-        if (conversationPart.isLeft()) {
+        if (conversationPart.getAlignment() == 0) {
             layout = R.layout.conversation_list_item_left;
         } else {
             layout = R.layout.conversation_list_item_right;

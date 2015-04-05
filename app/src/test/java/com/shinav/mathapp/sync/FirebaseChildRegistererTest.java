@@ -1,6 +1,7 @@
 package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
+import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
@@ -9,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static com.shinav.mathapp.firebase.FirebaseInterface.Nodes;
+import static com.shinav.mathapp.firebase.FirebaseNodes.Nodes;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 

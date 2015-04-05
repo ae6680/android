@@ -4,10 +4,13 @@ public class ConversationPart {
 
     private String key;
 
+    private String conversationKey;
+
     private String message;
     private int position;
     private int delay;
     private int typingDuration;
+    private int alignment;
 
     public String getKey() {
         return key;
@@ -15,6 +18,14 @@ public class ConversationPart {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getConversationKey() {
+        return conversationKey;
+    }
+
+    public void setConversationKey(String conversationKey) {
+        this.conversationKey = conversationKey;
     }
 
     public String getMessage() {
@@ -49,8 +60,12 @@ public class ConversationPart {
         this.typingDuration = typingDuration;
     }
 
-    public boolean isLeft() {
-       return getPosition() == 0;
+    public int getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(int alignment) {
+        this.alignment = alignment;
     }
 
 }

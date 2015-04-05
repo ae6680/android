@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachActivity;
-import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.db.mapper.StoryPartMapper;
 import com.shinav.mathapp.db.pojo.ApproachPart;
@@ -65,13 +63,7 @@ public class Storyteller {
     }
 
     private void startBasedOnType(StoryPart storyPart) {
-        if (storyPart.isApproach()) {
-            start(ApproachActivity.class, storyPart.getTypeKey());
-
-        } else if (storyPart.isApproachFeedback()) {
-            start(ApproachFeedbackActivity.class, storyPart.getTypeKey());
-
-        } else if (storyPart.isQuestion()) {
+        if (storyPart.isQuestion()) {
             start(QuestionActivity.class, storyPart.getTypeKey());
 
         } else if (storyPart.isConversation()) {

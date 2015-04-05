@@ -1,8 +1,7 @@
 package com.shinav.mathapp.firebase;
 
-import android.util.Log;
-
 import com.firebase.client.DataSnapshot;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Conversation;
@@ -15,8 +14,6 @@ import javax.inject.Inject;
 
 public class FirebaseParser {
 
-    private static final String TAG = "FirebaseParser";
-
     @Inject
     public FirebaseParser() { }
 
@@ -27,73 +24,43 @@ public class FirebaseParser {
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
-        try {
-            String answer = getString(dataSnapshot, FirebaseInterface.Question.ANSWER);
-            String value =  getString(dataSnapshot, FirebaseInterface.Question.VALUE);
-            String title =  getString(dataSnapshot, FirebaseInterface.Question.TITLE);
+        String answer = getString(dataSnapshot, Tables.Question.ANSWER);
+        String value =  getString(dataSnapshot, Tables.Question.VALUE);
+        String title =  getString(dataSnapshot, Tables.Question.TITLE);
 
-            question.setKey(dataSnapshot.getKey());
-            question.setAnswer(answer);
-            question.setValue(value);
-            question.setTitle(title);
+        question.setKey(dataSnapshot.getKey());
+        question.setAnswer(answer);
+        question.setValue(value);
+        question.setTitle(title);
 
-            return question;
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
+        return question;
     }
 
     public Approach parseApproach(DataSnapshot dataSnapshot) {
         Approach approach = new Approach();
 
-        try {
-            String key = dataSnapshot.getKey();
-            String questionKey = getString(dataSnapshot, FirebaseInterface.Approach.QUESTION_KEY);
+        String key = dataSnapshot.getKey();
+        String questionKey = getString(dataSnapshot, Tables.Approach.QUESTION_KEY);
 
-            approach.setKey(key);
-            approach.setQuestionKey(questionKey);
+        approach.setKey(key);
+        approach.setQuestionKey(questionKey);
 
-            return approach;
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
+        return approach;
     }
 
     public ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
         ApproachPart approachPart = new ApproachPart();
 
-        try {
-            String approachKey = getString(dataSnapshot, FirebaseInterface.ApproachPart.APPROACH_KEY);
-            String position =    getString(dataSnapshot, FirebaseInterface.ApproachPart.POSITION);
-            String value =       getString(dataSnapshot, FirebaseInterface.ApproachPart.VALUE);
+        String approachKey = getString(dataSnapshot, Tables.ApproachPart.APPROACH_KEY);
+        String position =    getString(dataSnapshot, Tables.ApproachPart.POSITION);
+        String value =       getString(dataSnapshot, Tables.ApproachPart.VALUE);
 
-            approachPart.setKey(dataSnapshot.getKey());
-            approachPart.setApproachKey(approachKey);
-            approachPart.setPosition(Integer.parseInt(position));
-            approachPart.setValue(value);
+        approachPart.setKey(dataSnapshot.getKey());
+        approachPart.setApproachKey(approachKey);
+        approachPart.setPosition(Integer.parseInt(position));
+        approachPart.setValue(value);
 
-            return approachPart;
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
+        return approachPart;
     }
 
     public Story parseStory(DataSnapshot dataSnapshot) {
@@ -107,28 +74,18 @@ public class FirebaseParser {
     public StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
         StoryPart storyPart = new StoryPart();
 
-        try {
-            String position = getString(dataSnapshot, FirebaseInterface.StoryPart.POSITION);
-            String type =     getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE);
-            String typeKey =  getString(dataSnapshot, FirebaseInterface.StoryPart.TYPE_KEY);
-            String storyKey = getString(dataSnapshot, FirebaseInterface.StoryPart.STORY_KEY);
+        String position = getString(dataSnapshot, Tables.StoryPart.POSITION);
+        String type =     getString(dataSnapshot, Tables.StoryPart.TYPE);
+        String typeKey =  getString(dataSnapshot, Tables.StoryPart.TYPE_KEY);
+        String storyKey = getString(dataSnapshot, Tables.StoryPart.STORY_KEY);
 
-            storyPart.setKey(dataSnapshot.getKey());
-            storyPart.setStoryKey(storyKey);
-            storyPart.setPosition(Integer.parseInt(position));
-            storyPart.setType(type);
-            storyPart.setTypeKey(typeKey);
+        storyPart.setKey(dataSnapshot.getKey());
+        storyPart.setStoryKey(storyKey);
+        storyPart.setPosition(Integer.parseInt(position));
+        storyPart.setType(type);
+        storyPart.setTypeKey(typeKey);
 
-            storyPart.setKey(dataSnapshot.getKey());
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
+        storyPart.setKey(dataSnapshot.getKey());
 
         return storyPart;
     }
@@ -136,28 +93,33 @@ public class FirebaseParser {
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
+        String title = getString(dataSnapshot, Tables.Conversation.TITLE);
+
         conversation.setKey(dataSnapshot.getKey());
+        conversation.setTitle(title);
 
         return conversation;
     }
 
-    private ConversationPart parseConversationPart(DataSnapshot dataSnapshot, String parentKey) {
+    public ConversationPart parseConversationPart(DataSnapshot dataSnapshot) {
         ConversationPart conversationPart = new ConversationPart();
 
-        String position = getString(dataSnapshot, FirebaseInterface.ConversationPart.POSITION);
-        String message = getString(dataSnapshot, FirebaseInterface.ConversationPart.MESSAGE);
-        String delay = getString(dataSnapshot, FirebaseInterface.ConversationPart.DELAY);
-        String typingDuration = getString(dataSnapshot, FirebaseInterface.ConversationPart.TYPING_DURATION);
+        String conversation_key = getString(dataSnapshot, Tables.ConversationPart.CONVERSATION_KEY);
+        String message = getString(dataSnapshot, Tables.ConversationPart.MESSAGE);
+        String position = getString(dataSnapshot, Tables.ConversationPart.POSITION);
+        String delay = getString(dataSnapshot, Tables.ConversationPart.DELAY);
+        String typingDuration = getString(dataSnapshot, Tables.ConversationPart.TYPING_DURATION);
+        String alignment = getString(dataSnapshot, Tables.ConversationPart.ALIGNMENT);
 
-        conversationPart.setPosition(Integer.parseInt(position));
+        conversationPart.setKey(dataSnapshot.getKey());
+        conversationPart.setConversationKey(conversation_key);
         conversationPart.setMessage(message);
+        conversationPart.setPosition(Integer.parseInt(position));
         conversationPart.setDelay(Integer.parseInt(delay));
         conversationPart.setTypingDuration(Integer.parseInt(typingDuration));
-
-        conversationPart.setKey(parentKey + "-" + dataSnapshot.getKey());
+        conversationPart.setAlignment(Integer.parseInt(alignment));
 
         return conversationPart;
     }
-
 
 }
