@@ -18,17 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
+        <activity
+            android:name=".question.QuestionActivity"
+            android:noHistory="true" />
+
         <activity
             android:name=".approach.ApproachActivity"
             android:noHistory="true"/>
 
         <activity
             android:name=".approach.feedback.ApproachFeedbackActivity"
-            android:noHistory="true" />
-
-        <activity
-            android:name=".question.QuestionActivity"
             android:noHistory="true" />
 
         <activity
