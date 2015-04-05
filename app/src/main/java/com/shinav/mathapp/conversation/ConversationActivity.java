@@ -1,5 +1,6 @@
 package com.shinav.mathapp.conversation;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -12,8 +13,7 @@ import com.shinav.mathapp.db.mapper.ConversationMapper;
 import com.shinav.mathapp.db.mapper.ConversationPartMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
-import com.shinav.mathapp.injection.InjectedActivity;
-import com.shinav.mathapp.injection.module.ActivityModule;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.List;
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class ConversationActivity extends InjectedActivity {
+public class ConversationActivity extends Activity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
     @InjectView(R.id.conversation_title) TextView conversationTitle;
@@ -41,11 +41,9 @@ public class ConversationActivity extends InjectedActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        ButterKnife.inject(this);
-    }
 
-    @Override public ActivityModule getModules() {
-        return new ActivityModule(this);
+        ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
     }
 
     @Override protected void onResume() {

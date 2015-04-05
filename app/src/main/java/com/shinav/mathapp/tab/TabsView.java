@@ -6,13 +6,12 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.module.ViewModule;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import javax.inject.Inject;
 
 import butterknife.InjectView;
-import dagger.ObjectGraph;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 
@@ -41,7 +40,8 @@ public class TabsView extends ButterKnifeLayout {
     }
 
     private void init() {
-        ObjectGraph.create(new ViewModule()).inject(this);
+        ComponentFactory.getViewComponent().inject(this);
+
         inflate(R.layout.tabs_layout, this, true);
 
         tabListener =  new SimpleMaterialTabListener() {

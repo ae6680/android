@@ -4,19 +4,16 @@ import android.app.Application;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.injection.module.AndroidModule;
-
-import java.util.Arrays;
-import java.util.List;
-
-import dagger.ObjectGraph;
+import com.shinav.mathapp.injection.component.ApplicationComponent;
+import com.shinav.mathapp.injection.component.Dagger_ApplicationComponent;
+import com.shinav.mathapp.injection.module.ApplicationModule;
 
 public class MyApplication extends Application {
 
     public static int screenHeight;
     public static int screenWidth;
 
-    private ObjectGraph applicationGraph;
+    private static ApplicationComponent component;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -27,25 +24,21 @@ public class MyApplication extends Application {
 
         setupFirebase();
 
-        applicationGraph = ObjectGraph.create(getModules().toArray());
+        initializeComponent();
     }
 
     private void setupFirebase() {
         Firebase.setAndroidContext(this);
     }
 
-    protected List getModules() {
-        return Arrays.asList(
-                new AndroidModule(this)
-        );
+    protected void initializeComponent() {
+        component = Dagger_ApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    public ObjectGraph getApplicationGraph() {
-        return applicationGraph;
-    }
-
-    public <T> void inject(T instance) {
-        applicationGraph.inject(instance);
+    public static ApplicationComponent getComponent() {
+        return component;
     }
 
 }

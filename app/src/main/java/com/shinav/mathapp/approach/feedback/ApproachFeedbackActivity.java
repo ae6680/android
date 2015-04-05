@@ -1,5 +1,6 @@
 package com.shinav.mathapp.approach.feedback;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +9,7 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ApproachPart;
-import com.shinav.mathapp.injection.InjectedActivity;
-import com.shinav.mathapp.injection.module.ActivityModule;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ApproachFeedbackActivity extends InjectedActivity {
+public class ApproachFeedbackActivity extends Activity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
@@ -42,15 +42,12 @@ public class ApproachFeedbackActivity extends InjectedActivity {
         setContentView(R.layout.activity_approach_feedback);
 
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
 
         approachParts = storyteller.getCurrentApproach();
 
         initApproachListMine();
         initApproachListCorrect();
-    }
-
-    @Override public ActivityModule getModules() {
-        return new ActivityModule(this);
     }
 
     private void initApproachListMine() {

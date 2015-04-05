@@ -1,6 +1,7 @@
 package com.shinav.mathapp.calculator;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.InjectedFragment;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.squareup.otto.Bus;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class CalculatorFragment extends InjectedFragment {
+public class CalculatorFragment extends Fragment {
 
     @InjectView(R.id.calculator_results) RecyclerView calculatorResults;
 
@@ -62,7 +63,9 @@ public class CalculatorFragment extends InjectedFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calculator, container, false);
+
         ButterKnife.inject(this, view);
+        ComponentFactory.getViewComponent().inject(this);
 
         return view;
     }

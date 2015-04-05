@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -33,8 +34,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.InjectedActionBarActivity;
-import com.shinav.mathapp.injection.module.ActivityModule;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -56,7 +56,7 @@ import butterknife.InjectView;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class QuestionActivity extends InjectedActionBarActivity {
+public class QuestionActivity extends ActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
@@ -88,13 +88,11 @@ public class QuestionActivity extends InjectedActionBarActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
         ButterKnife.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
 
         initCalculator();
-    }
-
-    @Override public ActivityModule getModules() {
-        return new ActivityModule(this);
     }
 
     @Override protected void onResume() {
