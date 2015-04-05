@@ -5,9 +5,12 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.mapper.ConversationMapper;
 import com.shinav.mathapp.db.mapper.ConversationPartMapper;
+import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.injection.InjectedActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
@@ -26,11 +29,14 @@ import rx.functions.Action1;
 public class ConversationActivity extends InjectedActivity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
+    @InjectView(R.id.conversation_title) TextView conversationTitle;
 
     @Inject Storyteller storyTeller;
     @Inject ConversationPartMapper conversationPartMapper;
+    @Inject ConversationMapper conversationMapper;
 
     private Subscription conversationPartSubscription;
+    private Subscription conversationSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,12 @@ public class ConversationActivity extends InjectedActivity {
 
         String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
+        conversationSubscription = conversationMapper.getByKey(conversationKey, new Action1<Conversation>() {
+            @Override public void call(Conversation conversation) {
+                conversationTitle.setText(conversation.getTitle());
+            }
+        });
+
         conversationPartSubscription = conversationPartMapper.getByConversationKey(conversationKey, new Action1<List<ConversationPart>>() {
             @Override public void call(List<ConversationPart> conversationParts) {
                 initConversation(conversationParts);
@@ -56,6 +68,7 @@ public class ConversationActivity extends InjectedActivity {
 
     @Override protected void onPause() {
         super.onPause();
+        conversationSubscription.unsubscribe();
         conversationPartSubscription.unsubscribe();
     }
 

@@ -102,7 +102,7 @@ public class QuestionActivity extends InjectedActionBarActivity {
 
         final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        questionSubscription = questionMapper.getQuestionByKey(
+        questionSubscription = questionMapper.getByKey(
                 questionKey, new Action1<Question>() {
 
                     @Override public void call(Question question) {
@@ -117,7 +117,8 @@ public class QuestionActivity extends InjectedActionBarActivity {
                                         approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
                                                 approach.getKey(), new Action1<List<ApproachPart>>() {
 
-                                                    @Override public void call(List<ApproachPart> approachParts) {
+                                                    @Override
+                                                    public void call(List<ApproachPart> approachParts) {
                                                         initViewPager(approachParts);
                                                     }
 

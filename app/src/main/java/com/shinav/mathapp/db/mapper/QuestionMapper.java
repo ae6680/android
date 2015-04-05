@@ -63,7 +63,7 @@ public class QuestionMapper implements rx.functions.Func1<Query, Question> {
         return values;
     }
 
-    public Subscription getQuestionByKey(String questionKey, Action1<Question> action) {
+    public Subscription getByKey(String questionKey, Action1<Question> action) {
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
