@@ -3,8 +3,10 @@ package com.shinav.mathapp.question;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,24 +18,33 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.animation.SimpleAnimatorListener;
 import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
+import com.shinav.mathapp.card.Card;
+import com.shinav.mathapp.card.CardViewPager;
+import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.mapper.ApproachMapper;
+import com.shinav.mathapp.db.mapper.ApproachPartMapper;
+import com.shinav.mathapp.db.mapper.QuestionMapper;
+import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
+import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.ActivityModule;
 import com.shinav.mathapp.injection.InjectedActionBarActivity;
+import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
-import com.shinav.mathapp.question.cards.QuestionAnswerCardView;
-import com.shinav.mathapp.question.cards.QuestionApproachCardView;
-import com.shinav.mathapp.question.cards.QuestionCardView;
-import com.shinav.mathapp.question.cards.QuestionExplanationView;
-import com.shinav.mathapp.question.cards.QuestionNextCardView;
+import com.shinav.mathapp.question.card.QuestionAnswerCardView;
+import com.shinav.mathapp.question.card.QuestionApproachCardView;
+import com.shinav.mathapp.question.card.QuestionCardView;
+import com.shinav.mathapp.question.card.QuestionExplanationView;
+import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.repository.RealmRepository;
-import com.shinav.mathapp.view.Card;
-import com.shinav.mathapp.view.CardViewPager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,35 +53,43 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class QuestionActivity extends InjectedActionBarActivity {
 
     public static final String CALCULATOR_FRAGMENT = "CalculatorFragment";
 
+    @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.activity_container) RelativeLayout activityContainer;
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
     @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
-    private QuestionCardView questionCardView;
-    private Question question;
-    @InjectView(R.id.toolbar) Toolbar toolbar;
-
     @Inject Bus bus;
-    @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
+
+    @Inject SqlBrite db;
+    @Inject QuestionMapper questionMapper;
+    @Inject ApproachMapper approachMapper;
+    @Inject ApproachPartMapper approachPartMapper;
+    @Inject StoryProgressPartMapper storyProgressPartMapper;
+
+    @Inject QuestionApproachCardView questionApproachCardView;
+    @Inject QuestionCardView questionCardView;
+    @Inject QuestionNextCardView questionNextCardView;
+
+    private Question question;
+
+    private Subscription questionSubscription;
+    private Subscription approachSubscription;
+    private Subscription approachPartSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         ButterKnife.inject(this);
 
-//        String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
-        String questionKey = "question-1";
-        question = realmRepository.getQuestion(questionKey);
-
-        initToolbar();
-        initViewPager();
         initCalculator();
     }
 
@@ -78,14 +97,53 @@ public class QuestionActivity extends InjectedActionBarActivity {
         return new ActivityModule(this);
     }
 
-    @Override
-    public void onStart() {
+    @Override protected void onResume() {
+        super.onResume();
+
+        final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+
+        questionSubscription = questionMapper.getByKey(
+                questionKey, new Action1<Question>() {
+
+                    @Override public void call(Question question) {
+                        QuestionActivity.this.question = question;
+                        initToolbar(question.getTitle());
+
+                        approachSubscription = approachMapper.getApproachByQuestionKey(
+                                questionKey, new Action1<Approach>() {
+
+                                    @Override public void call(Approach approach) {
+
+                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
+                                                approach.getKey(), new Action1<List<ApproachPart>>() {
+
+                                                    @Override
+                                                    public void call(List<ApproachPart> approachParts) {
+                                                        initViewPager(approachParts);
+                                                    }
+
+                                                });
+
+                                    }
+                                });
+
+                    }
+                });
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        questionSubscription.unsubscribe();
+        approachSubscription.unsubscribe();
+        approachPartSubscription.unsubscribe();
+    }
+
+    @Override public void onStart() {
         super.onStart();
         bus.register(this);
     }
 
-    @Override
-    public void onStop() {
+    @Override public void onStop() {
         super.onStop();
         bus.unregister(this);
     }
@@ -104,14 +162,13 @@ public class QuestionActivity extends InjectedActionBarActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
     }
 
-    private void initToolbar() {
-        toolbar.setTitle(question.getTitle());
+    private void initToolbar(String title) {
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -122,15 +179,13 @@ public class QuestionActivity extends InjectedActionBarActivity {
         });
     }
 
-    private void initViewPager() {
+    private void initViewPager(List<ApproachPart> approachParts) {
         List<Card> cards = new ArrayList<>();
 
-        QuestionApproachCardView questionApproachCardView = new QuestionApproachCardView(this);
-        questionApproachCardView.setApproach(question.getApproach());
+        questionApproachCardView.setApproachParts(approachParts);
         cards.add(questionApproachCardView);
 
-        questionCardView = new QuestionCardView(this, bus);
-        questionCardView.setQuestion(question);
+        questionCardView.setQuestionValue(question.getValue());
         cards.add(questionCardView);
 
         cardViewPager.setIndicator(viewPagerIndicator);
@@ -143,11 +198,72 @@ public class QuestionActivity extends InjectedActionBarActivity {
                 .add(R.id.calculator_container, new CalculatorFragment(), CALCULATOR_FRAGMENT).commit();
     }
 
-    @Subscribe
-    public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
+    @Subscribe public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
         startAnimation(event.getAnswer());
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
+        updateStoryProgress(event);
+    }
+
+    private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
+
+        Cursor c = db.query(
+                "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+                        " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+                , question.getKey()
+        );
+        if (c.moveToFirst()) {
+
+            StoryProgressPart storyProgressPart = storyProgressPartMapper.fromCursor(c);
+
+            storyProgressPart.setState(isCorrect(question, event.getAnswer()));
+            storyProgressPartMapper.update(storyProgressPart);
+
+            // Create progress part for next question if not there.
+            final String storyProgressKey = storyProgressPart.getStoryProgressKey();
+            final String nextQuestionKey = storyTeller.getNextQuestionKey();
+            if (!TextUtils.isEmpty(nextQuestionKey)) {
+                Cursor c2 = db.query(
+                        "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+                                " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+                        , nextQuestionKey
+                );
+
+                if (!c2.moveToFirst()) {
+                    StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+
+                    Cursor c3 = db.query(
+                            "SELECT * FROM " + Tables.Question.TABLE_NAME +
+                                    " WHERE " + Tables.Question.KEY + " = ?"
+                            , nextQuestionKey
+                    );
+                    if (c3.moveToFirst()) {
+                       newStoryProgressPart.setTitle(c3.getString(c3.getColumnIndex(Tables.Question.TITLE)));
+                    }
+                    c3.close();
+
+                    newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+                    newStoryProgressPart.setQuestionKey(nextQuestionKey);
+
+                    storyProgressPartMapper.insert(newStoryProgressPart);
+                }
+                c2.close();
+
+            }
+        }
+        c.close();
+    }
+
+    private int isCorrect(Question question, String answer) {
+        int state;
+
+        if (question.getAnswer().equals(answer)) {
+            state = StoryProgressPart.STATE_PASS;
+        } else {
+            state = StoryProgressPart.STATE_FAIL;
+        }
+
+        return state;
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
@@ -210,7 +326,6 @@ public class QuestionActivity extends InjectedActionBarActivity {
             }
         });
 
-        final QuestionNextCardView questionNextCardView = new QuestionNextCardView(this, bus);
         questionNextCardView.setVisibility(View.GONE);
         activityContainer.addView(questionNextCardView);
 

@@ -1,15 +1,16 @@
 package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.firebase.listeners.FirebaseConversationListener;
-import com.shinav.mathapp.firebase.listeners.FirebaseQuestionListener;
-import com.shinav.mathapp.firebase.listeners.FirebaseStoryListener;
+import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
+import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static com.shinav.mathapp.firebase.FirebaseInterface.Nodes;
+import static com.shinav.mathapp.firebase.FirebaseNodes.Nodes;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 
@@ -25,7 +26,12 @@ public class FirebaseChildRegistererTest {
         when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.STORIES)).thenReturn(Mockito.mock(Firebase.class));
 
-        new FirebaseChildRegisterer(firebase).register();
+        new FirebaseChildRegisterer(
+                firebase,
+                Mockito.mock(FirebaseQuestionListener.class),
+                Mockito.mock(FirebaseStoryListener.class),
+                Mockito.mock(FirebaseConversationListener.class)
+        ).register();
     }
 
     @Test

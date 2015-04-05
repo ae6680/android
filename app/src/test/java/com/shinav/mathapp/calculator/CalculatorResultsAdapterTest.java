@@ -36,7 +36,7 @@ public class CalculatorResultsAdapterTest {
     public void testIncreaseItemsWhenAdded() throws Exception {
         int count = adapter.getItemCount();
 
-        adapter.addItem(new CalculatorEntry());
+        adapter.addItem(new CalculatorResultItem());
 
         assertThat(adapter.getItemCount(), is(count + 1));
     }

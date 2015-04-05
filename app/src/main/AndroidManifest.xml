@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".hub.HubActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,13 +18,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name=".approach.ApproachActivity"/>
-        <activity android:name=".approach.feedback.ApproachFeedbackActivity"/>
 
-        <activity android:name=".question.QuestionActivity"/>
+        <activity
+            android:name=".question.QuestionActivity"
+            android:noHistory="true" />
 
-        <activity android:name=".conversation.ConversationActivity"/>
+        <activity
+            android:name=".approach.ApproachActivity"
+            android:noHistory="true"/>
+
+        <activity
+            android:name=".approach.feedback.ApproachFeedbackActivity"
+            android:noHistory="true" />
+
+        <activity
+            android:name=".conversation.ConversationActivity"
+            android:noHistory="true" />
 
     </application>
 

@@ -5,14 +5,17 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.ActivityModule;
+import com.shinav.mathapp.db.mapper.ConversationMapper;
+import com.shinav.mathapp.db.mapper.ConversationPartMapper;
+import com.shinav.mathapp.db.pojo.Conversation;
+import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.injection.InjectedActivity;
+import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
-import com.shinav.mathapp.repository.RealmRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,31 +23,56 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class ConversationActivity extends InjectedActivity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
+    @InjectView(R.id.conversation_title) TextView conversationTitle;
 
-    @Inject RealmRepository realmRepository;
     @Inject Storyteller storyTeller;
+    @Inject ConversationPartMapper conversationPartMapper;
+    @Inject ConversationMapper conversationMapper;
+
+    private Subscription conversationPartSubscription;
+    private Subscription conversationSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         ButterKnife.inject(this);
-
-        initConversation();
     }
 
     @Override public ActivityModule getModules() {
         return new ActivityModule(this);
     }
 
-    private void initConversation() {
+    @Override protected void onResume() {
+        super.onResume();
 
         String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        final Conversation conversation = realmRepository.getConversation(conversationKey);
+        conversationSubscription = conversationMapper.getByKey(conversationKey, new Action1<Conversation>() {
+            @Override public void call(Conversation conversation) {
+                conversationTitle.setText(conversation.getTitle());
+            }
+        });
+
+        conversationPartSubscription = conversationPartMapper.getByConversationKey(conversationKey, new Action1<List<ConversationPart>>() {
+            @Override public void call(List<ConversationPart> conversationParts) {
+                initConversation(conversationParts);
+            }
+        });
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        conversationSubscription.unsubscribe();
+        conversationPartSubscription.unsubscribe();
+    }
+
+    private void initConversation(final List<ConversationPart> conversationParts) {
 
         final Handler handler = new Handler();
         Runnable showTypingMessageRunnable = new Runnable() {
@@ -53,14 +81,11 @@ public class ConversationActivity extends InjectedActivity {
 
             @Override public void run() {
 
-                final List<ConversationEntry> entries = new ArrayList<>(
-                        conversation.getConversationEntries());
+                ConversationPart conversationPart = conversationParts.get(counter);
 
-                ConversationEntry conversationEntry = entries.get(counter);
-
-                final ConversationEntryView view = new ConversationEntryView(
+                final ConversationPartView view = new ConversationPartView(
                         ConversationActivity.this,
-                        conversationEntry
+                        conversationPart
                 );
 
                 conversationContainer.addView(view);
@@ -77,13 +102,13 @@ public class ConversationActivity extends InjectedActivity {
 
                         view.showMessage();
 
-                        if (counter < entries.size()) {
-                            handler.postDelayed(parent, entries.get(counter).getDelay());
+                        if (counter < conversationParts.size()) {
+                            handler.postDelayed(parent, conversationParts.get(counter).getDelay());
                         }
                     }
                 };
 
-                handler.postDelayed(showMessageRunnable, conversationEntry.getTypingDuration());
+                handler.postDelayed(showMessageRunnable, conversationPart.getTypingDuration());
 
             }
         };

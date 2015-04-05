@@ -1,23 +1,18 @@
 package com.shinav.mathapp.firebase;
 
-import android.util.Log;
-
 import com.firebase.client.DataSnapshot;
-import com.shinav.mathapp.approach.Approach;
-import com.shinav.mathapp.approach.ApproachPart;
-import com.shinav.mathapp.conversation.Conversation;
-import com.shinav.mathapp.conversation.ConversationEntry;
-import com.shinav.mathapp.question.Question;
-import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryEntry;
+import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.Conversation;
+import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.Story;
+import com.shinav.mathapp.db.pojo.StoryPart;
 
 import javax.inject.Inject;
 
-import io.realm.RealmList;
-
 public class FirebaseParser {
-
-    private static final String TAG = "FirebaseParser";
 
     @Inject
     public FirebaseParser() { }
@@ -29,50 +24,41 @@ public class FirebaseParser {
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
-        try {
-            String answer = getString(dataSnapshot, FirebaseInterface.Question.ANSWER);
-            String value = getString(dataSnapshot, FirebaseInterface.Question.VALUE);
-            String title = getString(dataSnapshot, FirebaseInterface.Question.TITLE);
+        String answer = getString(dataSnapshot, Tables.Question.ANSWER);
+        String value =  getString(dataSnapshot, Tables.Question.VALUE);
+        String title =  getString(dataSnapshot, Tables.Question.TITLE);
 
-            question.setFirebaseKey(dataSnapshot.getKey());
-            question.setAnswer(answer);
-            question.setValue(value);
-            question.setTitle(title);
+        question.setKey(dataSnapshot.getKey());
+        question.setAnswer(answer);
+        question.setValue(value);
+        question.setTitle(title);
 
-            DataSnapshot approachesSnapshot = dataSnapshot.child(FirebaseInterface.Question.APPROACHES);
-
-            RealmList<ApproachPart> approachParts = new RealmList<>();
-            for (int i = 0; i < approachesSnapshot.getChildrenCount(); i++) {
-                approachParts.add(parseApproachPart(approachesSnapshot.child("approach-" + i)));
-            }
-
-            Approach approach = new Approach();
-            approach.setFirebaseKey(question.getFirebaseKey() + "-approaches");
-            approach.setApproachParts(approachParts);
-
-            question.setApproach(approach);
-
-            return question;
-
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
+        return question;
     }
 
-    private ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
+    public Approach parseApproach(DataSnapshot dataSnapshot) {
+        Approach approach = new Approach();
 
+        String key = dataSnapshot.getKey();
+        String questionKey = getString(dataSnapshot, Tables.Approach.QUESTION_KEY);
+
+        approach.setKey(key);
+        approach.setQuestionKey(questionKey);
+
+        return approach;
+    }
+
+    public ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
         ApproachPart approachPart = new ApproachPart();
 
-        String position =  getString(dataSnapshot, FirebaseInterface.Approach.POSITION);
-        String value =     getString(dataSnapshot, FirebaseInterface.Approach.VALUE);
+        String approachKey = getString(dataSnapshot, Tables.ApproachPart.APPROACH_KEY);
+        String position =    getString(dataSnapshot, Tables.ApproachPart.POSITION);
+        String value =       getString(dataSnapshot, Tables.ApproachPart.VALUE);
 
+        approachPart.setKey(dataSnapshot.getKey());
+        approachPart.setApproachKey(approachKey);
         approachPart.setPosition(Integer.parseInt(position));
-        approachPart.setText(value);
+        approachPart.setValue(value);
 
         return approachPart;
     }
@@ -80,76 +66,60 @@ public class FirebaseParser {
     public Story parseStory(DataSnapshot dataSnapshot) {
         Story story = new Story();
 
-        RealmList<StoryEntry> storyEntries = new RealmList<>();
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            storyEntries.add(parseStoryEntry(snapshot));
-        }
-
-        story.setStoryEntries(storyEntries);
-
-        story.setFirebaseKey(dataSnapshot.getKey());
+        story.setKey(dataSnapshot.getKey());
 
         return story;
     }
 
-    private StoryEntry parseStoryEntry(DataSnapshot dataSnapshot) {
-        StoryEntry storyEntry = new StoryEntry();
+    public StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
+        StoryPart storyPart = new StoryPart();
 
-        try {
-            String position = getString(dataSnapshot, FirebaseInterface.StoryEntry.POSITION);
-            String type =     getString(dataSnapshot, FirebaseInterface.StoryEntry.TYPE);
-            String typeKey =  getString(dataSnapshot, FirebaseInterface.StoryEntry.TYPE_KEY);
+        String position = getString(dataSnapshot, Tables.StoryPart.POSITION);
+        String type =     getString(dataSnapshot, Tables.StoryPart.TYPE);
+        String typeKey =  getString(dataSnapshot, Tables.StoryPart.TYPE_KEY);
+        String storyKey = getString(dataSnapshot, Tables.StoryPart.STORY_KEY);
 
-            storyEntry.setPosition(Integer.parseInt(position));
-            storyEntry.setType(type);
-            storyEntry.setTypeKey(typeKey);
+        storyPart.setKey(dataSnapshot.getKey());
+        storyPart.setStoryKey(storyKey);
+        storyPart.setPosition(Integer.parseInt(position));
+        storyPart.setType(type);
+        storyPart.setTypeKey(typeKey);
 
-            storyEntry.setFirebaseKey(dataSnapshot.getKey());
+        storyPart.setKey(dataSnapshot.getKey());
 
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Field or value not set");
-            Log.e(TAG, "Key : " + dataSnapshot.getKey());
-            Log.e(TAG, "Value : " + dataSnapshot.getValue());
-            e.printStackTrace();
-
-            return null;
-        }
-
-        return storyEntry;
+        return storyPart;
     }
 
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
-        RealmList<ConversationEntry> conversationEntries = new RealmList<>();
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            conversationEntries.add(parseConversationEntry(snapshot, dataSnapshot.getKey()));
-        }
+        String title = getString(dataSnapshot, Tables.Conversation.TITLE);
 
-        conversation.setConversationEntries(conversationEntries);
-
-        conversation.setFirebaseKey(dataSnapshot.getKey());
+        conversation.setKey(dataSnapshot.getKey());
+        conversation.setTitle(title);
 
         return conversation;
     }
 
-    private ConversationEntry parseConversationEntry(DataSnapshot dataSnapshot, String parentKey) {
-        ConversationEntry conversationEntry = new ConversationEntry();
+    public ConversationPart parseConversationPart(DataSnapshot dataSnapshot) {
+        ConversationPart conversationPart = new ConversationPart();
 
-        String position = getString(dataSnapshot, FirebaseInterface.ConversationEntry.POSITION);
-        String message = getString(dataSnapshot, FirebaseInterface.ConversationEntry.MESSAGE);
-        String delay = getString(dataSnapshot, FirebaseInterface.ConversationEntry.DELAY);
-        String typingDuration = getString(dataSnapshot, FirebaseInterface.ConversationEntry.TYPING_DURATION);
+        String conversation_key = getString(dataSnapshot, Tables.ConversationPart.CONVERSATION_KEY);
+        String message = getString(dataSnapshot, Tables.ConversationPart.MESSAGE);
+        String position = getString(dataSnapshot, Tables.ConversationPart.POSITION);
+        String delay = getString(dataSnapshot, Tables.ConversationPart.DELAY);
+        String typingDuration = getString(dataSnapshot, Tables.ConversationPart.TYPING_DURATION);
+        String alignment = getString(dataSnapshot, Tables.ConversationPart.ALIGNMENT);
 
-        conversationEntry.setPosition(Integer.parseInt(position));
-        conversationEntry.setMessage(message);
-        conversationEntry.setDelay(Integer.parseInt(delay));
-        conversationEntry.setTypingDuration(Integer.parseInt(typingDuration));
+        conversationPart.setKey(dataSnapshot.getKey());
+        conversationPart.setConversationKey(conversation_key);
+        conversationPart.setMessage(message);
+        conversationPart.setPosition(Integer.parseInt(position));
+        conversationPart.setDelay(Integer.parseInt(delay));
+        conversationPart.setTypingDuration(Integer.parseInt(typingDuration));
+        conversationPart.setAlignment(Integer.parseInt(alignment));
 
-        conversationEntry.setFirebaseKey(parentKey + "-" + dataSnapshot.getKey());
-
-        return conversationEntry;
+        return conversationPart;
     }
-
 
 }

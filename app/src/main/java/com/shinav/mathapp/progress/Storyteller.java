@@ -5,20 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachActivity;
-import com.shinav.mathapp.approach.ApproachPart;
-import com.shinav.mathapp.approach.feedback.ApproachFeedbackActivity;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.injection.ForActivity;
+import com.shinav.mathapp.db.mapper.StoryPartMapper;
+import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.StoryPart;
+import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.question.QuestionActivity;
-import com.shinav.mathapp.repository.RealmRepository;
-import com.shinav.mathapp.story.Story;
-import com.shinav.mathapp.story.StoryEntry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.functions.Action1;
 
 public class Storyteller {
 
@@ -28,52 +26,53 @@ public class Storyteller {
     private static List<ApproachPart> currentApproachPart;
 
     private final Context context;
-    private final Story story;
+    private List<StoryPart> storyParts;
 
     @Inject
-    public Storyteller(@ForActivity Context context, RealmRepository realmRepository) {
+    public Storyteller(@ForActivity Context context, StoryPartMapper storyPartMapper) {
         this.context = context;
-        story = realmRepository.getStory("story-0");
+        String storyKey = "-Jm5qeuosdf";
+
+        storyPartMapper.getByStoryKey(storyKey, new Action1<List<StoryPart>>() {
+            @Override public void call(List<StoryPart> storyParts) {
+                Storyteller.this.storyParts = storyParts;
+            }
+        });
+    }
+
+    public void current() {
+        startBasedOnType(storyParts.get(current));
     }
 
     public void next() {
-        List<StoryEntry> entries = new ArrayList<>();
-        entries.addAll(story.getStoryEntries());
-
-        if (current+1 < entries.size()) {
-            StoryEntry storyEntry = entries.get(current+1);
-            startBasedOnType(storyEntry);
+        if (current+1 < storyParts.size()) {
+            StoryPart storyPart = storyParts.get(current+1);
+            startBasedOnType(storyPart);
             current++;
         }
     }
 
-    public void current() {
-        List<StoryEntry> entries = new ArrayList<>();
-        entries.addAll(story.getStoryEntries());
-
-        StoryEntry storyEntry = entries.get(current);
-
-        startBasedOnType(storyEntry);
+    public String getNextQuestionKey() {
+        StoryPart storyPart = new StoryPart();
+        int counter = current;
+        while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
+            storyPart = storyParts.get(counter+1);
+            counter++;
+        }
+        return storyPart.getTypeKey();
     }
 
-    private void startBasedOnType(StoryEntry storyEntry) {
-        if (storyEntry.isApproach()) {
-            start(ApproachActivity.class, storyEntry.getTypeKey());
+    private void startBasedOnType(StoryPart storyPart) {
+        if (storyPart.isQuestion()) {
+            start(QuestionActivity.class, storyPart.getTypeKey());
 
-        } else if (storyEntry.isApproachFeedback()) {
-            start(ApproachFeedbackActivity.class, storyEntry.getTypeKey());
-
-        } else if (storyEntry.isQuestion()) {
-            start(QuestionActivity.class, storyEntry.getTypeKey());
-
-        } else if (storyEntry.isConversation()) {
-            start(ConversationActivity.class, storyEntry.getTypeKey());
+        } else if (storyPart.isConversation()) {
+            start(ConversationActivity.class, storyPart.getTypeKey());
         }
     }
 
     private void start(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(context, cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra(Storyteller.TYPE_KEY, typeKey);
         context.startActivity(intent);
 

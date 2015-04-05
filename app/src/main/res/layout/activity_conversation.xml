@@ -11,7 +11,6 @@
 
     <TextView
         android:id="@+id/conversation_title"
-        android:text="Vakantieplannen"
         android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"
         android:textColor="#fff"
