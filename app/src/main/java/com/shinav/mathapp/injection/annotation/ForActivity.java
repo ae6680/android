@@ -2,11 +2,11 @@ package com.shinav.mathapp.injection.annotation;
 
 import java.lang.annotation.Retention;
 
-import javax.inject.Qualifier;
+import javax.inject.Scope;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Qualifier
+@Scope
 @Retention(RUNTIME)
 public @interface ForActivity {
 }

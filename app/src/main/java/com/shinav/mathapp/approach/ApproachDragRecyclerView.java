@@ -8,15 +8,12 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ApproachPart;
-import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.view.DragSortRecycler;
 
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import dagger.ObjectGraph;
 
 public class ApproachDragRecyclerView extends RecyclerView {
 
@@ -41,7 +38,7 @@ public class ApproachDragRecyclerView extends RecyclerView {
 
     private void init() {
 
-        ObjectGraph.create(new ViewModule()).inject(this);
+//        ObjectGraph.create(new ViewModule()).inject(this);
 
         setAdapter(approachPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));

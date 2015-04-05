@@ -2,8 +2,10 @@ package com.shinav.mathapp.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.mapper.StoryProgressMapper;
 import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
@@ -11,8 +13,6 @@ import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
-import com.shinav.mathapp.injection.InjectedActionBarActivity;
-import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
 import com.shinav.mathapp.progress.Storyteller;
@@ -32,7 +32,7 @@ import butterknife.InjectView;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class MainActivity extends InjectedActionBarActivity {
+public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
@@ -51,16 +51,14 @@ public class MainActivity extends InjectedActionBarActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((MyApplication) getApplication()).getActivityComponent(this).inject(this);
         ButterKnife.inject(this);
 
         registerer.register();
 
         initToolbar();
         initTabs();
-    }
-
-    @Override public ActivityModule getModules() {
-        return new ActivityModule(this);
     }
 
     @Override public void onStart() {

@@ -1,6 +1,7 @@
 package com.shinav.mathapp.approach;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -12,8 +13,6 @@ import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.injection.InjectedActionBarActivity;
-import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.Collections;
@@ -27,7 +26,7 @@ import butterknife.OnClick;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class ApproachActivity extends InjectedActionBarActivity {
+public class ApproachActivity extends ActionBarActivity {
 
     @InjectView(R.id.approach_part_list) ApproachDragRecyclerView approachPartList;
     @InjectView(R.id.question_text) TextView questionText;
@@ -49,10 +48,6 @@ public class ApproachActivity extends InjectedActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approach);
         ButterKnife.inject(this);
-    }
-
-    @Override public ActivityModule getModules() {
-        return new ActivityModule(this);
     }
 
     @Override protected void onResume() {

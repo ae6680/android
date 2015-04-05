@@ -20,7 +20,7 @@ import dagger.Module;
         },
         complete = false,
         library = true,
-        addsTo = AndroidModule.class
+        addsTo = ApplicationModule.class
 )
 public class ViewModule {
 

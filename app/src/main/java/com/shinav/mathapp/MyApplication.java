@@ -1,22 +1,23 @@
 package com.shinav.mathapp;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.injection.module.AndroidModule;
-
-import java.util.Arrays;
-import java.util.List;
-
-import dagger.ObjectGraph;
+import com.shinav.mathapp.injection.component.ActivityComponent;
+import com.shinav.mathapp.injection.component.ApplicationComponent;
+import com.shinav.mathapp.injection.component.Dagger_ActivityComponent;
+import com.shinav.mathapp.injection.component.Dagger_ApplicationComponent;
+import com.shinav.mathapp.injection.module.ActivityModule;
+import com.shinav.mathapp.injection.module.ApplicationModule;
 
 public class MyApplication extends Application {
 
     public static int screenHeight;
     public static int screenWidth;
 
-    private ObjectGraph applicationGraph;
+    private ApplicationComponent component;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -27,25 +28,28 @@ public class MyApplication extends Application {
 
         setupFirebase();
 
-        applicationGraph = ObjectGraph.create(getModules().toArray());
+        initializeComponent();
     }
 
     private void setupFirebase() {
         Firebase.setAndroidContext(this);
     }
 
-    protected List getModules() {
-        return Arrays.asList(
-                new AndroidModule(this)
-        );
+    protected void initializeComponent() {
+        component = Dagger_ApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    public ObjectGraph getApplicationGraph() {
-        return applicationGraph;
+    public ApplicationComponent getComponent() {
+        return component;
     }
 
-    public <T> void inject(T instance) {
-        applicationGraph.inject(instance);
+    public ActivityComponent getActivityComponent(Context context) {
+        return Dagger_ActivityComponent.builder()
+                .applicationComponent(getComponent())
+                .activityModule(new ActivityModule(context))
+                .build();
     }
 
 }

@@ -5,11 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.injection.module.ViewModule;
-
 import javax.inject.Inject;
-
-import dagger.ObjectGraph;
 
 public class PracticeCardRecyclerView extends RecyclerView {
 
@@ -31,7 +27,7 @@ public class PracticeCardRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        ObjectGraph.create(new ViewModule()).inject(this);
+//        ObjectGraph.create(new ViewModule()).inject(this);
 
         setAdapter(practiceCardAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
