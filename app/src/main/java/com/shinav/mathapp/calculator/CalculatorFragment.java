@@ -65,7 +65,7 @@ public class CalculatorFragment extends Fragment {
         View view = inflater.inflate(R.layout.calculator, container, false);
 
         ButterKnife.inject(this, view);
-        ComponentFactory.getViewComponent().inject(this);
+        ComponentFactory.getViewComponent(view.getContext()).inject(this);
 
         return view;
     }

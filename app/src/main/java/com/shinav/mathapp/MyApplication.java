@@ -4,16 +4,13 @@ import android.app.Application;
 import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.injection.component.ApplicationComponent;
-import com.shinav.mathapp.injection.component.Dagger_ApplicationComponent;
-import com.shinav.mathapp.injection.module.ApplicationModule;
 
 public class MyApplication extends Application {
 
     public static int screenHeight;
     public static int screenWidth;
 
-    private static ApplicationComponent component;
+    private boolean mockMode = false;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -23,22 +20,17 @@ public class MyApplication extends Application {
         screenWidth = displayMetrics.widthPixels;
 
         setupFirebase();
-
-        initializeComponent();
     }
 
     private void setupFirebase() {
         Firebase.setAndroidContext(this);
     }
 
-    protected void initializeComponent() {
-        component = Dagger_ApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
+    public void setMockMode(boolean provideMocks) {
+        mockMode = provideMocks;
     }
 
-    public static ApplicationComponent getComponent() {
-        return component;
+    public boolean isMockMode() {
+        return mockMode;
     }
-
 }

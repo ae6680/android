@@ -20,21 +20,21 @@ public class StoryCardRecyclerView extends RecyclerView {
 
     public StoryCardRecyclerView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public StoryCardRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public StoryCardRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context);
     }
 
-    private void init() {
-        ComponentFactory.getViewComponent().inject(this);
+    private void init(Context context) {
+        ComponentFactory.getViewComponent(context).inject(this);
 
         setAdapter(storyProgressPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));

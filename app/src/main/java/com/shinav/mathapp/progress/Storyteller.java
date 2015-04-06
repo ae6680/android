@@ -22,15 +22,16 @@ public class Storyteller {
 
     public static final String TYPE_KEY = "type_key";
 
+    @Inject @ForActivity Context context;
+    @Inject StoryPartMapper storyPartMapper;
+
     private static int current = 0;
     private static List<ApproachPart> currentApproachPart;
 
-    private final Context context;
     private List<StoryPart> storyParts;
 
     @Inject
-    public Storyteller(@ForActivity Context context, StoryPartMapper storyPartMapper) {
-        this.context = context;
+    public Storyteller() {
         String storyKey = "-Jm5qeuosdf";
 
         storyPartMapper.getByStoryKey(storyKey, new Action1<List<StoryPart>>() {

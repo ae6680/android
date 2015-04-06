@@ -27,6 +27,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
@@ -37,9 +38,14 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+
+        // Firebase
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
+
+        // Espresso
+        exclude 'LICENSE.txt'
     }
     productFlavors {
     }
@@ -74,11 +80,26 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
     provided 'javax.annotation:javax.annotation-api:1.2'
 
-    // Test
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    // Instrumentation testing
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 
-    testCompile('org.robolectric:robolectric:2.4') {
+    // Mocks
+//    debugCompile('com.google.dexmaker:dexmaker-mockito:1.2') {
+//        exclude module: 'hamcrest-core'
+//    }
+
+//    debugCompile('com.google.dexmaker:dexmaker:1.2') {
+//        exclude module: 'hamcrest-core'
+//    }
+
+    debugCompile('org.mockito:mockito-core:1.10.19') {
+        exclude module: 'hamcrest-core'
+    }
+
+    // Unit testing
+    testCompile 'junit:junit:4.12'
+    testCompile('org.robolectric:robolectric:3.0-rc2') {
         exclude module: 'classworlds'
         exclude module: 'commons-logging'
         exclude module: 'httpclient'

@@ -28,4 +28,5 @@ public interface ActivityComponent {
     void inject(ApproachFeedbackActivity approachFeedbackActivity);
     void inject(QuestionActivity questionActivity);
     void inject(ApproachDragRecyclerView approachDragRecyclerView);
+
 }

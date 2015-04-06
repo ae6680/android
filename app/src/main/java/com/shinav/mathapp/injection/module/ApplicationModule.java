@@ -3,7 +3,6 @@ package com.shinav.mathapp.injection.module;
 import android.content.Context;
 
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
@@ -19,10 +18,10 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private final MyApplication application;
+    private final Context applicationContext;
 
-    public ApplicationModule(MyApplication application) {
-        this.application = application;
+    public ApplicationModule(Context applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     @Provides @Singleton Bus provideBus() {
@@ -46,7 +45,7 @@ public class ApplicationModule {
     }
 
     @Provides @ForApplication Context provideApplicationContext() {
-        return application.getApplicationContext();
+        return applicationContext;
     }
 
 }

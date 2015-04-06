@@ -24,21 +24,21 @@ public class ApproachDragRecyclerView extends RecyclerView {
 
     public ApproachDragRecyclerView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public ApproachDragRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public ApproachDragRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context);
     }
 
-    private void init() {
-        ComponentFactory.getViewComponent().inject(this);
+    private void init(Context context) {
+        ComponentFactory.getViewComponent(context).inject(this);
 
         setAdapter(approachPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));

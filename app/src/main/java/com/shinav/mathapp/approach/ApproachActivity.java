@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.mapper.ApproachMapper;
 import com.shinav.mathapp.db.mapper.ApproachPartMapper;
@@ -13,7 +14,7 @@ import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.Collections;
@@ -50,7 +51,9 @@ public class ApproachActivity extends ActionBarActivity {
         setContentView(R.layout.activity_approach);
 
         ButterKnife.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        ApproachActivityComponent component = ApproachActivityComponent.Initializer.init(
+                this, ((MyApplication) getApplication()).isMockMode());
+        component.inject(this);
     }
 
     @Override protected void onResume() {

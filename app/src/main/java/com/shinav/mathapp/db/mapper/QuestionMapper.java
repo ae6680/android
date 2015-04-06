@@ -21,12 +21,10 @@ import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class QuestionMapper implements rx.functions.Func1<Query, Question> {
 
-    private final SqlBrite db;
+    @Inject SqlBrite db;
 
     @Inject
-    public QuestionMapper(SqlBrite db) {
-        this.db = db;
-    }
+    public QuestionMapper() { }
 
     @Override public Question call(Query query) {
         Cursor c = query.run();

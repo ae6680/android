@@ -26,21 +26,21 @@ public class TabsView extends ButterKnifeLayout {
 
     public TabsView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public TabsView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public TabsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-        ComponentFactory.getViewComponent().inject(this);
+    private void init(Context context) {
+        ComponentFactory.getViewComponent(context).inject(this);
 
         inflate(R.layout.tabs_layout, this, true);
 
