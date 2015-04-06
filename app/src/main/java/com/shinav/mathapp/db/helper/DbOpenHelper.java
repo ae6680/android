@@ -17,6 +17,7 @@ import static com.shinav.mathapp.db.helper.Tables.Story;
 import static com.shinav.mathapp.db.helper.Tables.StoryPart;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
+import static com.shinav.mathapp.db.helper.Tables.Tutorial;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 
@@ -52,6 +53,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
         createStoryProgressTable(db);
         createStoryProgressPartTable(db);
+
+        createTutorialTable(db);
     }
 
     private void addMigrations() {
@@ -160,6 +163,16 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, StoryProgressPart.TABLE_NAME, StoryProgressPart.KEY);
+    }
+
+    private void createTutorialTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + Tutorial.TABLE_NAME + " ("
+                        + Tutorial.KEY + " TEXT,"
+                        + Tutorial.PERSPECTIVE + " TEXT,"
+                        + " UNIQUE (" + Tutorial.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, Tutorial.TABLE_NAME, Tutorial.KEY);
     }
 
     private void createIndex(SQLiteDatabase db, String tableName, String column) {

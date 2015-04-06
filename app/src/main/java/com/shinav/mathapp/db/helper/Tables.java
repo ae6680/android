@@ -79,4 +79,10 @@ public interface Tables {
         String TITLE = "title";
     }
 
+    public interface Tutorial {
+        String TABLE_NAME = "tutorial";
+        String KEY = "key";
+
+        String PERSPECTIVE = "perspective";
+    }
 }

@@ -9,6 +9,7 @@ import com.shinav.mathapp.firebase.listener.FirebaseConversationPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryPartListener;
+import com.shinav.mathapp.firebase.listener.FirebaseTutorialListener;
 
 import javax.inject.Inject;
 
@@ -24,6 +25,7 @@ public class FirebaseChildRegisterer {
     private final FirebaseApproachPartListener firebaseApproachPartListener;
     private final FirebaseStoryPartListener firebaseStoryPartListener;
     private final FirebaseConversationPartListener firebaseConversationPartListener;
+    private final FirebaseTutorialListener firebaseTutorialListener;
 
     @Inject
     public FirebaseChildRegisterer(
@@ -34,7 +36,8 @@ public class FirebaseChildRegisterer {
             FirebaseConversationPartListener firebaseConversationPartListener,
             FirebaseApproachListener firebaseApproachListener,
             FirebaseApproachPartListener firebaseApproachPartListener,
-            FirebaseStoryPartListener firebaseStoryPartListener
+            FirebaseStoryPartListener firebaseStoryPartListener,
+            FirebaseTutorialListener firebaseTutorialListener
     ) {
         this.firebase = firebase;
         this.firebaseQuestionListener = firebaseQuestionListener;
@@ -44,6 +47,7 @@ public class FirebaseChildRegisterer {
         this.firebaseApproachListener = firebaseApproachListener;
         this.firebaseApproachPartListener = firebaseApproachPartListener;
         this.firebaseStoryPartListener = firebaseStoryPartListener;
+        this.firebaseTutorialListener = firebaseTutorialListener;
     }
 
     public void register() {
@@ -54,6 +58,7 @@ public class FirebaseChildRegisterer {
         addChildEventListener(Nodes.STORY_PARTS, firebaseStoryPartListener);
         addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
         addChildEventListener(Nodes.CONVERSATION_PARTS, firebaseConversationPartListener);
+        addChildEventListener(Nodes.TUTORIALS, firebaseTutorialListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {

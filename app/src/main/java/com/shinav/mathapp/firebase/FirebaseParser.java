@@ -9,6 +9,7 @@ import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Story;
 import com.shinav.mathapp.db.pojo.StoryPart;
+import com.shinav.mathapp.db.pojo.Tutorial;
 
 import javax.inject.Inject;
 
@@ -120,6 +121,17 @@ public class FirebaseParser {
         conversationPart.setAlignment(Integer.parseInt(alignment));
 
         return conversationPart;
+    }
+
+    public Tutorial parseTutorial(DataSnapshot dataSnapshot) {
+        Tutorial tutorial = new Tutorial();
+
+        String perspective = getString(dataSnapshot, Tables.Tutorial.PERSPECTIVE);
+
+        tutorial.setKey(dataSnapshot.getKey());
+        tutorial.setPerspective(perspective);
+
+        return tutorial;
     }
 
 }
