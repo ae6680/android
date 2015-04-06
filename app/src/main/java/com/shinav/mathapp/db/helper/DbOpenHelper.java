@@ -18,6 +18,7 @@ import static com.shinav.mathapp.db.helper.Tables.StoryPart;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
 import static com.shinav.mathapp.db.helper.Tables.Tutorial;
+import static com.shinav.mathapp.db.helper.Tables.TutorialPart;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 
@@ -32,7 +33,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override public void onCreate(SQLiteDatabase db) {
         createTables(db);
-        addMigrations();
+        addMigrations(db);
     }
 
     @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -55,10 +56,10 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         createStoryProgressPartTable(db);
 
         createTutorialTable(db);
+        createTutorialPartTable(db);
     }
 
-    private void addMigrations() {
-
+    private void addMigrations(SQLiteDatabase db) {
     }
 
     private void createQuestionTable(SQLiteDatabase db) {
@@ -173,6 +174,19 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, Tutorial.TABLE_NAME, Tutorial.KEY);
+    }
+
+    private void createTutorialPartTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + TutorialPart.TABLE_NAME + " ("
+                        + TutorialPart.KEY + " TEXT,"
+                        + TutorialPart.TUTORIAL_KEY + " TEXT,"
+                        + TutorialPart.TYPE + " TEXT,"
+                        + TutorialPart.TYPE_KEY + " TEXT,"
+                        + TutorialPart.POSITION + " INTEGER,"
+                        + " UNIQUE (" + TutorialPart.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, TutorialPart.TABLE_NAME, TutorialPart.KEY);
     }
 
     private void createIndex(SQLiteDatabase db, String tableName, String column) {

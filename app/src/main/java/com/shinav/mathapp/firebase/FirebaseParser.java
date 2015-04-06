@@ -10,6 +10,7 @@ import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Story;
 import com.shinav.mathapp.db.pojo.StoryPart;
 import com.shinav.mathapp.db.pojo.Tutorial;
+import com.shinav.mathapp.db.pojo.TutorialPart;
 
 import javax.inject.Inject;
 
@@ -86,8 +87,6 @@ public class FirebaseParser {
         storyPart.setType(type);
         storyPart.setTypeKey(typeKey);
 
-        storyPart.setKey(dataSnapshot.getKey());
-
         return storyPart;
     }
 
@@ -106,11 +105,11 @@ public class FirebaseParser {
         ConversationPart conversationPart = new ConversationPart();
 
         String conversation_key = getString(dataSnapshot, Tables.ConversationPart.CONVERSATION_KEY);
-        String message = getString(dataSnapshot, Tables.ConversationPart.MESSAGE);
-        String position = getString(dataSnapshot, Tables.ConversationPart.POSITION);
-        String delay = getString(dataSnapshot, Tables.ConversationPart.DELAY);
-        String typingDuration = getString(dataSnapshot, Tables.ConversationPart.TYPING_DURATION);
-        String alignment = getString(dataSnapshot, Tables.ConversationPart.ALIGNMENT);
+        String message =          getString(dataSnapshot, Tables.ConversationPart.MESSAGE);
+        String position =         getString(dataSnapshot, Tables.ConversationPart.POSITION);
+        String delay =            getString(dataSnapshot, Tables.ConversationPart.DELAY);
+        String typingDuration =   getString(dataSnapshot, Tables.ConversationPart.TYPING_DURATION);
+        String alignment =        getString(dataSnapshot, Tables.ConversationPart.ALIGNMENT);
 
         conversationPart.setKey(dataSnapshot.getKey());
         conversationPart.setConversationKey(conversation_key);
@@ -132,6 +131,23 @@ public class FirebaseParser {
         tutorial.setPerspective(perspective);
 
         return tutorial;
+    }
+
+    public TutorialPart parseTutorialPart(DataSnapshot dataSnapshot) {
+        TutorialPart tutorialPart = new TutorialPart();
+
+        String tutorialKey = getString(dataSnapshot, Tables.TutorialPart.TUTORIAL_KEY);
+        String position =    getString(dataSnapshot, Tables.TutorialPart.POSITION);
+        String type =        getString(dataSnapshot, Tables.TutorialPart.TYPE);
+        String typeKey =     getString(dataSnapshot, Tables.TutorialPart.TYPE_KEY);
+
+        tutorialPart.setKey(dataSnapshot.getKey());
+        tutorialPart.setTutorialKey(tutorialKey);
+        tutorialPart.setPosition(Integer.parseInt(position));
+        tutorialPart.setType(type);
+        tutorialPart.setTypeKey(typeKey);
+
+        return tutorialPart;
     }
 
 }

@@ -41,7 +41,7 @@ public interface Tables {
 
         String POSITION = "position";
         String TYPE = "type";
-        String TYPE_KEY = "typeKey";
+        String TYPE_KEY = "type_key";
     }
 
     public interface Conversation {
@@ -85,4 +85,16 @@ public interface Tables {
 
         String PERSPECTIVE = "perspective";
     }
+
+    public interface TutorialPart {
+        String TABLE_NAME = "tutorial_part";
+        String KEY = "key";
+
+        String TUTORIAL_KEY = "tutorial_key";
+
+        String POSITION = "position";
+        String TYPE = "type";
+        String TYPE_KEY = "type_key";
+    }
+
 }

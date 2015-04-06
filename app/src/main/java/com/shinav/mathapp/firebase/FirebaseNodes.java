@@ -11,6 +11,7 @@ public abstract class FirebaseNodes {
         String APPROACHES = "approaches";
         String APPROACH_PARTS = "approach_parts";
         String TUTORIALS = "tutorials";
+        String TUTORIAL_PARTS = "tutorial_parts";
     }
 
 }
