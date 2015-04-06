@@ -28,5 +28,10 @@
     <color name="card_background">#FAFAFA</color>
     <color name="text_secondary">#A3A3A3</color>
 
+    <color name="gender_male_selected">#ff4e66ff</color>
+    <color name="gender_male_unselected">#ffc1c1c1</color>
+    <color name="gender_female_selected">#ffda9aff</color>
+    <color name="gender_female_unselected">#ffc1c1c1</color>
+
 
 </resources>

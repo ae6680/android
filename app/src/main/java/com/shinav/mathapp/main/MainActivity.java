@@ -18,12 +18,12 @@ import com.shinav.mathapp.main.storyProgress.StoryProgressView;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.tab.TabsView;
+import com.shinav.mathapp.tutorial.TutorialView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -32,10 +32,14 @@ import butterknife.InjectView;
 import rx.Subscription;
 import rx.functions.Action1;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
+    @InjectView(R.id.tutorial_view) TutorialView tutorialView;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -78,7 +82,9 @@ public class MainActivity extends ActionBarActivity {
 
     @Override protected void onPause() {
         super.onPause();
-        storyProgressSubscription.unsubscribe();
+        if (storyProgressSubscription != null) {
+            storyProgressSubscription.unsubscribe();
+        }
     }
 
     private void initToolbar() {
@@ -95,37 +101,44 @@ public class MainActivity extends ActionBarActivity {
 
         String storyProgressKey;
 
-        // For now
         List<StoryProgress> storyProgresses = storyProgressMapper.getAll();
-        if (!storyProgresses.isEmpty()) {
-            storyProgressKey = storyProgresses.get(0).getKey();
+
+        if (storyProgresses.isEmpty()) {
+
+            showTutorialLayout();
+
         } else {
-            StoryProgress storyProgress = new StoryProgress();
-            storyProgress.setKey(UUID.randomUUID().toString());
+            hideTutorialLayout();
 
-            String questionKey = "-Jm5gSBknl4_vzQLgxFB";
+            storyProgressKey = storyProgresses.get(0).getKey();
 
-            StoryProgressPart storyProgressPart = new StoryProgressPart();
-            storyProgressPart.setKey(UUID.randomUUID().toString());
-            storyProgressPart.setStoryProgressKey(storyProgress.getKey());
-            storyProgressPart.setQuestionKey(questionKey);
-            storyProgressPart.setState(StoryProgressPart.STATE_UNMADE);
-            storyProgressPart.setTitle("Title HOI");
+            storyProgressSubscription = storyProgressPartMapper.getByStoryProgressKey(
+                    storyProgressKey, new Action1<List<StoryProgressPart>>() {
+                        @Override public void call(List<StoryProgressPart> storyProgressParts) {
+                            Collections.reverse(storyProgressParts);
+                            storyProgressView.setStoryProgressParts(storyProgressParts);
+                        }
+                    });
 
-            storyProgressMapper.insert(storyProgress);
-            storyProgressPartMapper.insert(storyProgressPart);
-
-            storyProgressKey = storyProgress.getKey();
+//            StoryProgress storyProgress = new StoryProgress();
+//            storyProgress.setKey(UUID.randomUUID().toString());
+//
+//            storyProgressMapper.insert(storyProgress);
+//
+//            storyProgressKey = storyProgress.getKey();
         }
 
-        storyProgressSubscription = storyProgressPartMapper.getByStoryProgressKey(
-                storyProgressKey, new Action1<List<StoryProgressPart>>() {
-                    @Override public void call(List<StoryProgressPart> storyProgressParts) {
-                        Collections.reverse(storyProgressParts);
-                        storyProgressView.setStoryProgressParts(storyProgressParts);
-                    }
-                });
 
+    }
+
+    private void showTutorialLayout() {
+        tutorialView.setVisibility(VISIBLE);
+        tabsView.setVisibility(GONE);
+    }
+
+    private void hideTutorialLayout() {
+        tutorialView.setVisibility(GONE);
+        tabsView.setVisibility(VISIBLE);
     }
 
     @Subscribe public void onMakeQuestionButtonClicked(MakeQuestionButtonClicked event) {

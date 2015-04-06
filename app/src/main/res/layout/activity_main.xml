@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@drawable/background_bus_road"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@drawable/background_bus_road"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,7 +12,14 @@
 
     <com.shinav.mathapp.tab.TabsView
         android:id="@+id/tabs_view"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <com.shinav.mathapp.tutorial.TutorialView
+        android:id="@+id/tutorial_view"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
