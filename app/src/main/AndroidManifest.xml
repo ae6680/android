@@ -35,6 +35,12 @@
             android:name=".conversation.ConversationActivity"
             android:noHistory="true" />
 
+        <activity
+            android:name=".tutorial.TutorialConversationActivity"
+            android:noHistory="true" />
+
+        <service android:name=".tutorial.TutorialManagingService"/>
+
     </application>
 
 </manifest>

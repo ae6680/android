@@ -68,4 +68,24 @@ public class TutorialPartMapper implements rx.functions.Func1<Query, List<Tutori
         return values;
     }
 
+    public List<TutorialPart> getByTutorialKey(String tutorialKey) {
+        Cursor c = db.query(
+                "SELECT * FROM " + TABLE_NAME +
+                        " WHERE " + TUTORIAL_KEY + " = ?"
+                , tutorialKey
+        );
+
+        try {
+
+            List<TutorialPart> tutorialParts = new ArrayList<>(c.getCount());
+            while (c.moveToNext()) {
+                tutorialParts.add(fromCursor(c));
+            }
+            return tutorialParts;
+
+        } finally {
+            c.close();
+        }
+    }
+
 }

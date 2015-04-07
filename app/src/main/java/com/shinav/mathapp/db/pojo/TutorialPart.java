@@ -1,5 +1,7 @@
 package com.shinav.mathapp.db.pojo;
 
+import android.text.TextUtils;
+
 public class TutorialPart {
 
     private String key;
@@ -48,6 +50,14 @@ public class TutorialPart {
 
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
+    }
+
+    public boolean isConversation() {
+        return TextUtils.equals(getType(), "conversation");
+    }
+
+    public boolean isQuestion() {
+        return TextUtils.equals(getType(), "question");
     }
 
 }

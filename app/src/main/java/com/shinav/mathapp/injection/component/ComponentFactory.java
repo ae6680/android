@@ -24,7 +24,7 @@ public class ComponentFactory {
                 .build();
     }
 
-    private static ApplicationComponent getApplicationComponent(Context context) {
+    public static ApplicationComponent getApplicationComponent(Context context) {
         if (component == null) {
             component = Dagger_ApplicationComponent.builder()
                     .applicationModule(new ApplicationModule(context.getApplicationContext()))

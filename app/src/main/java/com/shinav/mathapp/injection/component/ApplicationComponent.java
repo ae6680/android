@@ -6,6 +6,7 @@ import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.shinav.mathapp.injection.module.ApplicationModule;
+import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.squareup.otto.Bus;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -27,4 +28,6 @@ public interface ApplicationComponent {
     SqlBrite sqlBrite();
 
     void inject(FirebaseChildRegisterer firebaseChildRegisterer);
+    void inject(TutorialManagingService tutorialManagingService);
+
 }

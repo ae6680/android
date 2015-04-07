@@ -10,6 +10,7 @@ import com.shinav.mathapp.main.storyProgress.StoryProgressPartAdapter;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.tab.TabsView;
+import com.shinav.mathapp.tutorial.TutorialView;
 
 import dagger.Component;
 
@@ -33,4 +34,5 @@ public interface ViewComponent {
     void inject(QuestionCardView questionCardView);
     void inject(QuestionNextCardView questionNextCardView);
     void inject(CalculatorFragment calculatorFragment);
+    void inject(TutorialView tutorialView);
 }

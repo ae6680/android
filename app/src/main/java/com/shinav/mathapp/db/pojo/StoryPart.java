@@ -52,7 +52,7 @@ public class StoryPart {
     }
 
     public boolean isConversation() {
-        return getType().equals("conversation");
+        return TextUtils.equals(getType(), "conversation");
     }
 
     public boolean isQuestion() {

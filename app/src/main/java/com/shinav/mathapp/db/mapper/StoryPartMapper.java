@@ -25,12 +25,10 @@ import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class StoryPartMapper implements rx.functions.Func1<Query, List<StoryPart>> {
 
-    private final SqlBrite db;
+    @Inject SqlBrite db;
 
     @Inject
-    public StoryPartMapper(SqlBrite db) {
-        this.db = db;
-    }
+    public StoryPartMapper() { }
 
     @Override public List<StoryPart> call(Query query) {
         Cursor c = query.run();

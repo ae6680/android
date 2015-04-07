@@ -11,6 +11,7 @@ import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
 import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
+import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
@@ -18,6 +19,7 @@ import com.shinav.mathapp.main.storyProgress.StoryProgressView;
 import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.tab.TabsView;
+import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.shinav.mathapp.tutorial.TutorialView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -146,6 +148,15 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra(Storyteller.TYPE_KEY, event.getQuestionFirebaseKey());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+    }
+
+    @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
+        Intent intent = new Intent(this, TutorialManagingService.class);
+
+        intent.setAction(TutorialManagingService.ACTION_START);
+        intent.putExtra(TutorialManagingService.EXTRA_PERSPECTIVE, event.getPerspective());
+
+        startService(intent);
     }
 
 }

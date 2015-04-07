@@ -55,4 +55,18 @@ public class TutorialMapper implements rx.functions.Func1<Query, Tutorial> {
         db.insert(TABLE_NAME, getContentValues(tutorial));
     }
 
+    public Tutorial getByPerspective(String perspective) {
+        Cursor c = db.query(
+                "SELECT * FROM " + TABLE_NAME +
+                        " WHERE " + PERSPECTIVE + " = ?"
+                , perspective
+        );
+
+        try {
+            return c.moveToFirst() ? fromCursor(c) : null;
+        } finally {
+            c.close();
+        }
+    }
+    
 }
