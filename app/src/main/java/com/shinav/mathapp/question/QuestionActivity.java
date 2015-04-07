@@ -53,8 +53,10 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.functions.Func2;
 
 public class QuestionActivity extends ActionBarActivity {
 
@@ -99,6 +101,34 @@ public class QuestionActivity extends ActionBarActivity {
         super.onResume();
 
         final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+
+
+        // This is kind of what is returned by SqlBrite.createQuery
+        Observable questionQuery = Observable.just(new SqlBrite.Query() {
+            @Override public Cursor run() {
+                return null;
+            }
+        });
+
+        Observable approachQuery = Observable.just(new SqlBrite.Query() {
+            @Override public Cursor run() {
+                return null;
+            }
+        });
+
+        Observable.combineLatest(questionQuery, approachQuery, new Func2<SqlBrite.Query, SqlBrite.Query, Question>() {
+            @Override public Question call(SqlBrite.Query qQuery, SqlBrite.Query aQuery) {
+
+                Cursor qCursor = qQuery.run();
+                // create question from cursor
+                Cursor aCursor = aQuery.run();
+                // set question.approaches from aQuery
+
+                // return complete question
+                return null;
+            }
+        });
+
 
         questionSubscription = questionMapper.getByKey(
                 questionKey, new Action1<Question>() {

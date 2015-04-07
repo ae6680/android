@@ -5,11 +5,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.mapper.TutorialMapper;
 import com.shinav.mathapp.db.mapper.TutorialPartMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.pojo.TutorialPart;
+import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
@@ -27,6 +27,7 @@ public class TutorialManagingService extends Service {
     public static final String ACTION_NEXT = "next";
     public static final String ACTION_START = "start";
 
+    @Inject FirebaseChildRegisterer registerer;
     @Inject TutorialPartMapper tutorialPartMapper;
     @Inject TutorialMapper tutorialMapper;
 
@@ -39,6 +40,8 @@ public class TutorialManagingService extends Service {
         super.onCreate();
 
         ComponentFactory.getApplicationComponent(this).inject(this);
+
+        registerer.register();
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -69,6 +72,8 @@ public class TutorialManagingService extends Service {
             currentPosition++;
             TutorialPart tutorialPart = tutorialParts.get(currentPosition);
             startBasedOnType(tutorialPart);
+        } else {
+            startMainActivity();
         }
     }
 
@@ -87,7 +92,12 @@ public class TutorialManagingService extends Service {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
 
-        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
+//        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
+
+    private void startMainActivity() {
+
+    }
+
 
 }

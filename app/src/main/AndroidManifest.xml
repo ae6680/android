@@ -31,13 +31,11 @@
             android:name=".approach.feedback.ApproachFeedbackActivity"
             android:noHistory="true" />
 
-        <activity
-            android:name=".conversation.ConversationActivity"
+        <activity android:name=".conversation.ConversationActivity"
             android:noHistory="true" />
 
-        <activity
-            android:name=".tutorial.TutorialConversationActivity"
-            android:noHistory="true" />
+        <activity android:name=".tutorial.TutorialConversationActivity"/>
+        <activity android:name=".tutorial.TutorialQuestionActivity"/>
 
         <service android:name=".tutorial.TutorialManagingService"/>
 
