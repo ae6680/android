@@ -18,7 +18,7 @@ public class ApproachMapper {
     @Inject
     public ApproachMapper() { }
 
-    public ContentValues getContentValues(Approach approach) {
+    private ContentValues getContentValues(Approach approach) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, approach.getKey());

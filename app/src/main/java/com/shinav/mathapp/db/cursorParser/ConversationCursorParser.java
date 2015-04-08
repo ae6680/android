@@ -1,0 +1,37 @@
+package com.shinav.mathapp.db.cursorParser;
+
+import android.database.Cursor;
+
+import com.shinav.mathapp.db.pojo.Conversation;
+
+import rx.functions.Func1;
+
+import static com.shinav.mathapp.db.helper.Tables.Conversation.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Conversation.TITLE;
+import static com.squareup.sqlbrite.SqlBrite.Query;
+
+public class ConversationCursorParser implements Func1<Query, Conversation> {
+
+    @Override public Conversation call(Query query) {
+        Cursor c = query.run();
+        try {
+            if (!c.moveToFirst()) {
+                return null;
+            }
+
+            return fromCursor(c);
+        } finally {
+            c.close();
+        }
+    }
+
+    private Conversation fromCursor(Cursor c) {
+        Conversation conversation = new Conversation();
+
+        conversation.setKey(c.getString(c.getColumnIndex(KEY)));
+        conversation.setTitle(c.getString(c.getColumnIndex(TITLE)));
+
+        return conversation;
+    }
+
+}

@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.dataMapper.ConversationMapper;
+import com.shinav.mathapp.db.cursorParser.ConversationCursorParser;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -16,8 +16,7 @@ public class ConversationRepository {
     @Inject SqlBrite db;
 
     @Inject
-    public ConversationRepository() {
-    }
+    public ConversationRepository() { }
 
     public Observable<Conversation> getByKey(String conversationKey) {
         return db.createQuery(
@@ -25,7 +24,7 @@ public class ConversationRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , conversationKey
-        ).map(new ConversationMapper());
+        ).map(new ConversationCursorParser());
     }
 
 }

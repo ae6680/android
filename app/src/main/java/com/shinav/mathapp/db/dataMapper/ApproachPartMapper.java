@@ -20,7 +20,7 @@ public class ApproachPartMapper {
     @Inject
     public ApproachPartMapper() { }
 
-    public ContentValues getContentValues(ApproachPart approachPart) {
+    private ContentValues getContentValues(ApproachPart approachPart) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, approachPart.getKey());

@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.dataMapper.ConversationPartMapper;
+import com.shinav.mathapp.db.cursorParser.ConversationPartCursorParser;
 import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -27,7 +27,7 @@ public class ConversationPartRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + CONVERSATION_KEY + " = ?"
                 , conversationKey
-        ).map(new ConversationPartMapper());
+        ).map(new ConversationPartCursorParser());
     }
 
 }
