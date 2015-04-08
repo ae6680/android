@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.mapper.ApproachMapper;
+import com.shinav.mathapp.db.cursorParser.ApproachCursorParser;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -25,7 +25,7 @@ public class ApproachRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_KEY + " = ?"
                 , questionKey
-        ).map(new ApproachMapper());
+        ).map(new ApproachCursorParser());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.mapper.ConversationMapper;
+import com.shinav.mathapp.db.dataMapper.ConversationMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.squareup.sqlbrite.SqlBrite;
 

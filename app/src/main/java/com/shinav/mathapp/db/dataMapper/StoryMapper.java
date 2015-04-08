@@ -1,4 +1,4 @@
-package com.shinav.mathapp.db.mapper;
+package com.shinav.mathapp.db.dataMapper;
 
 import android.content.ContentValues;
 

@@ -3,7 +3,7 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.mapper.TutorialMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.firebase.FirebaseParser;
 

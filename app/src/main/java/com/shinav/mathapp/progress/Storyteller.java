@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.db.mapper.StoryPartMapper;
+import com.shinav.mathapp.db.dataMapper.StoryPartMapper;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.StoryPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;

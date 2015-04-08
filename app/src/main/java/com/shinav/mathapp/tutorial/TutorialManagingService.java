@@ -5,8 +5,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.shinav.mathapp.db.mapper.TutorialMapper;
-import com.shinav.mathapp.db.mapper.TutorialPartMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialPartMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.pojo.TutorialPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;

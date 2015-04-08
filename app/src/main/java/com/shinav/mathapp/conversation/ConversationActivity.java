@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.mapper.ConversationMapper;
-import com.shinav.mathapp.db.mapper.ConversationPartMapper;
+import com.shinav.mathapp.db.dataMapper.ConversationMapper;
+import com.shinav.mathapp.db.dataMapper.ConversationPartMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.db.repository.ConversationPartRepository;

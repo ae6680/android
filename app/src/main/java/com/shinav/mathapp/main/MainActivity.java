@@ -6,8 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.mapper.StoryProgressMapper;
-import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
+import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
+import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
 import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;

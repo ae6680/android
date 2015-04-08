@@ -21,12 +21,11 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
+import com.shinav.mathapp.db.dataMapper.ApproachMapper;
+import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.mapper.ApproachMapper;
-import com.shinav.mathapp.db.mapper.ApproachPartMapper;
-import com.shinav.mathapp.db.mapper.QuestionMapper;
-import com.shinav.mathapp.db.mapper.StoryProgressPartMapper;
-import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
@@ -55,7 +54,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Subscription;
-import rx.functions.Action1;
 
 public class QuestionActivity extends ActionBarActivity {
 
@@ -111,33 +109,33 @@ public class QuestionActivity extends ActionBarActivity {
 //        });
 
 
-        questionSubscription = questionMapper.getByKey(
-                questionKey, new Action1<Question>() {
-
-                    @Override public void call(Question question) {
-                        QuestionActivity.this.question = question;
-                        initToolbar(question.getTitle());
-
-                        approachSubscription = approachMapper.getApproachByQuestionKey(
-                                questionKey, new Action1<Approach>() {
-
-                                    @Override public void call(Approach approach) {
-
-                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
-                                                approach.getKey(), new Action1<List<ApproachPart>>() {
-
-                                                    @Override
-                                                    public void call(List<ApproachPart> approachParts) {
-                                                        initViewPager(approachParts);
-                                                    }
-
-                                                });
-
-                                    }
-                                });
-
-                    }
-                });
+//        questionSubscription = questionMapper.getByKey(
+//                questionKey, new Action1<Question>() {
+//
+//                    @Override public void call(Question question) {
+//                        QuestionActivity.this.question = question;
+//                        initToolbar(question.getTitle());
+//
+//                        approachSubscription = approachMapper.getApproachByQuestionKey(
+//                                questionKey, new Action1<Approach>() {
+//
+//                                    @Override public void call(Approach approach) {
+//
+//                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
+//                                                approach.getKey(), new Action1<List<ApproachPart>>() {
+//
+//                                                    @Override
+//                                                    public void call(List<ApproachPart> approachParts) {
+//                                                        initViewPager(approachParts);
+//                                                    }
+//
+//                                                });
+//
+//                                    }
+//                                });
+//
+//                    }
+//                });
     }
 
     @Override protected void onPause() {

@@ -8,12 +8,10 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.mapper.ApproachMapper;
-import com.shinav.mathapp.db.mapper.ApproachPartMapper;
-import com.shinav.mathapp.db.mapper.QuestionMapper;
-import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.dataMapper.ApproachMapper;
+import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.pojo.ApproachPart;
-import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.progress.Storyteller;
 
@@ -26,7 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscription;
-import rx.functions.Action1;
 
 public class ApproachActivity extends ActionBarActivity {
 
@@ -61,33 +58,33 @@ public class ApproachActivity extends ActionBarActivity {
 
         final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        questionSubscription = questionMapper.getByKey(
-                questionKey, new Action1<Question>() {
-
-                    @Override public void call(Question question) {
-                        questionText.setText(question.getValue());
-                        initToolbar(question.getTitle());
-
-                        approachSubscription = approachMapper.getApproachByQuestionKey(
-                                questionKey, new Action1<Approach>() {
-
-                                    @Override public void call(Approach approach) {
-
-                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
-                                                approach.getKey(), new Action1<List<ApproachPart>>() {
-
-                                                    @Override
-                                                    public void call(List<ApproachPart> approachParts) {
-                                                        approachPartList.setApproachParts(approachParts);
-                                                    }
-
-                                                });
-
-                                    }
-                                });
-
-                    }
-                });
+//        questionSubscription = questionMapper.getByKey(
+//                questionKey, new Action1<Question>() {
+//
+//                    @Override public void call(Question question) {
+//                        questionText.setText(question.getValue());
+//                        initToolbar(question.getTitle());
+//
+//                        approachSubscription = approachMapper.getApproachByQuestionKey(
+//                                questionKey, new Action1<Approach>() {
+//
+//                                    @Override public void call(Approach approach) {
+//
+//                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
+//                                                approach.getKey(), new Action1<List<ApproachPart>>() {
+//
+//                                                    @Override
+//                                                    public void call(List<ApproachPart> approachParts) {
+//                                                        approachPartList.setApproachParts(approachParts);
+//                                                    }
+//
+//                                                });
+//
+//                                    }
+//                                });
+//
+//                    }
+//                });
     }
 
     @Override protected void onPause() {
