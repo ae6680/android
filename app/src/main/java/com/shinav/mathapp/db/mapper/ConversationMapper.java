@@ -20,11 +20,10 @@ import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ConversationMapper implements rx.functions.Func1<Query, Conversation> {
 
-    private final SqlBrite db;
+    @Inject SqlBrite db;
 
     @Inject
-    public ConversationMapper(SqlBrite db) {
-        this.db = db;
+    public ConversationMapper() {
     }
 
     @Override public Conversation call(Query query) {

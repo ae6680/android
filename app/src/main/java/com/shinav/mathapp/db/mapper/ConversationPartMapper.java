@@ -27,12 +27,10 @@ import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ConversationPartMapper implements rx.functions.Func1<Query, List<ConversationPart>> {
 
-    private final SqlBrite db;
+    @Inject SqlBrite db;
 
     @Inject
-    public ConversationPartMapper(SqlBrite db) {
-        this.db = db;
-    }
+    public ConversationPartMapper() { }
 
     @Override public List<ConversationPart> call(Query query) {
         Cursor c = query.run();

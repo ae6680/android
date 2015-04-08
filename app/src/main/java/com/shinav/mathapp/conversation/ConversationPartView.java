@@ -1,42 +1,49 @@
 package com.shinav.mathapp.conversation;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.event.ConversationMessageShown;
+import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
+import com.squareup.otto.Bus;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
-@SuppressLint("ViewConstructor")
 public class ConversationPartView extends ButterKnifeLayout {
 
     public static final String IS_TYPING_TEXT = "aan het typen";
     public static final int DELAY_MILLIS = 300;
 
     private ViewHolder holder;
-    private boolean showTyping = true;
     private ConversationPart conversationPart;
-    private Runnable runnable;
-    private Handler handler;
-    private Context context;
+
+    @Inject Bus bus;
 
     public ConversationPartView(Context context, ConversationPart conversationPart) {
         super(context);
-        init(context, conversationPart);
+        init(conversationPart);
     }
 
-    private void init(Context context, ConversationPart conversationPart) {
+    private void init(ConversationPart conversationPart) {
         this.conversationPart = conversationPart;
-        this.context = context;
+
+        ComponentFactory.getViewComponent(this.getContext()).inject(this);
 
         int layout;
 
@@ -51,53 +58,57 @@ public class ConversationPartView extends ButterKnifeLayout {
         holder =  new ViewHolder(view);
 
         addView(view);
-
-        initIsTyping();
     }
 
-    private void initIsTyping() {
+    public void startTyping() {
 
         holder.message.setText(IS_TYPING_TEXT);
 
-        handler = new Handler();
-        runnable = new Runnable() {
+        final Subscription typingSubscription = Observable.interval(DELAY_MILLIS, TimeUnit.MILLISECONDS).map(new Func1<Long, String>() {
 
-            public int counter = 0;
+            @Override public String call(Long aLong) {
 
-            @Override public void run() {
-                if (showTyping) {
+                String text = IS_TYPING_TEXT + "   ";
 
-                    String text = IS_TYPING_TEXT+"   ";
-                    if (counter == 0) {
-                        text = IS_TYPING_TEXT+".  ";
-                        counter++;
-                    } else if (counter == 1) {
-                        text = IS_TYPING_TEXT+".. ";
-                        counter++;
-                    } else if (counter == 2) {
-                        text = IS_TYPING_TEXT+"...";
-                        counter++;
-                    } else {
-                        counter = 0;
-                    }
-
-                    holder.message.setText(text);
-
-                    handler.postDelayed(this, DELAY_MILLIS);
+                switch ((int) (aLong % 3)) {
+                    case 0:
+                        text = IS_TYPING_TEXT + ".  ";
+                        break;
+                    case 1:
+                        text = IS_TYPING_TEXT + ".. ";
+                        break;
+                    case 2:
+                        text = IS_TYPING_TEXT + "...";
                 }
+
+                return text;
             }
-        };
-        runnable.run();
+
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override public void call(String text) {
+                        Log.d("HOI", "Message text :" + text);
+                        holder.message.setText(text);
+                    }
+                });
+
+        Observable<Long> timer = Observable.timer(conversationPart.getTypingDuration(), TimeUnit.MILLISECONDS);
+        timer
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override public void call(Long aLong) {
+                        typingSubscription.unsubscribe();
+                        showMessage();
+                    }
+                });
+
     }
 
     public void showMessage() {
-        showTyping = false;
-        handler.removeCallbacks(runnable);
-
         holder.message.setText(conversationPart.getMessage());
 
-        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-        holder.message.startAnimation(animation);
+        bus.post(new ConversationMessageShown(conversationPart.getPosition()));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

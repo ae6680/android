@@ -8,6 +8,8 @@ public class Question {
     private String title;
     private String answer;
 
+    private Approach approach;
+
     public String getKey() {
         return key;
     }
@@ -40,4 +42,11 @@ public class Question {
         this.answer = answer;
     }
 
+    public void setApproach(Approach approach) {
+        this.approach = approach;
+    }
+
+    public Approach getApproach() {
+        return approach;
+    }
 }

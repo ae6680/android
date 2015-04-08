@@ -2,9 +2,6 @@ package com.shinav.mathapp.conversation;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,17 +10,24 @@ import com.shinav.mathapp.db.mapper.ConversationMapper;
 import com.shinav.mathapp.db.mapper.ConversationPartMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.db.repository.ConversationPartRepository;
+import com.shinav.mathapp.db.repository.ConversationRepository;
+import com.shinav.mathapp.event.ConversationMessageShown;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Subscription;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class ConversationActivity extends Activity {
@@ -31,12 +35,15 @@ public class ConversationActivity extends Activity {
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
     @InjectView(R.id.conversation_title) TextView conversationTitle;
 
-    @Inject Storyteller storyTeller;
+    //    @Inject Storyteller storyTeller;
+    @Inject Bus bus;
     @Inject ConversationPartMapper conversationPartMapper;
     @Inject ConversationMapper conversationMapper;
 
-    private Subscription conversationPartSubscription;
-    private Subscription conversationSubscription;
+    @Inject ConversationRepository conversationRepository;
+    @Inject ConversationPartRepository conversationPartRepository;
+
+    private List<ConversationPart> conversationParts;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,73 +58,71 @@ public class ConversationActivity extends Activity {
 
         String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-        conversationSubscription = conversationMapper.getByKey(conversationKey, new Action1<Conversation>() {
+        conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
             @Override public void call(Conversation conversation) {
                 conversationTitle.setText(conversation.getTitle());
             }
         });
 
-        conversationPartSubscription = conversationPartMapper.getByConversationKey(conversationKey, new Action1<List<ConversationPart>>() {
+        conversationPartRepository.getByConversationKey(conversationKey).first().subscribe(new Action1<List<ConversationPart>>() {
             @Override public void call(List<ConversationPart> conversationParts) {
-                initConversation(conversationParts);
+
+                if (!conversationParts.isEmpty()) {
+                    ConversationActivity.this.conversationParts = conversationParts;
+                    startConversationPart(conversationParts.get(0));
+                }
+
             }
         });
+
     }
 
-    @Override protected void onPause() {
-        super.onPause();
-        conversationSubscription.unsubscribe();
-        conversationPartSubscription.unsubscribe();
+    @Override public void onStart() {
+        super.onStart();
+        bus.register(this);
     }
 
-    private void initConversation(final List<ConversationPart> conversationParts) {
+    @Override public void onStop() {
+        super.onStop();
+        bus.unregister(this);
+    }
 
-        final Handler handler = new Handler();
-        Runnable showTypingMessageRunnable = new Runnable() {
+    private void startConversationPart(final ConversationPart conversationPart) {
 
-            int counter = 0;
+        final ConversationPartView view = new ConversationPartView(
+                ConversationActivity.this,
+                conversationPart
+        );
 
-            @Override public void run() {
+        conversationContainer.addView(view);
 
-                ConversationPart conversationPart = conversationParts.get(counter);
+        Observable<Long> delayedTimer = Observable.timer(
+                conversationPart.getTypingDuration(),
+                TimeUnit.MILLISECONDS
+        );
 
-                final ConversationPartView view = new ConversationPartView(
-                        ConversationActivity.this,
-                        conversationPart
-                );
+        delayedTimer
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
 
-                conversationContainer.addView(view);
-
-                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), android.R.anim.fade_in);
-                view.startAnimation(animation);
-
-                counter++;
-
-                final Runnable parent = this;
-
-                Runnable showMessageRunnable = new Runnable() {
-                    @Override public void run() {
-
-                        view.showMessage();
-
-                        if (counter < conversationParts.size()) {
-                            handler.postDelayed(parent, conversationParts.get(counter).getDelay());
-                        }
+                    @Override public void call(Long aLong) {
+                        view.startTyping();
                     }
-                };
 
-                handler.postDelayed(showMessageRunnable, conversationPart.getTypingDuration());
+                });
+    }
 
-            }
-        };
+    @Subscribe public void onConversationMessageShown(ConversationMessageShown event) {
+        int nextPos = event.getPosition() + 1;
 
-        showTypingMessageRunnable.run();
-
+        if (nextPos < conversationParts.size()) {
+            startConversationPart(conversationParts.get(nextPos));
+        }
     }
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        storyTeller.next();
+//        storyTeller.next();
     }
 
 }

@@ -30,6 +30,7 @@ import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
+import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
@@ -53,10 +54,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
-import rx.functions.Func2;
 
 public class QuestionActivity extends ActionBarActivity {
 
@@ -81,6 +80,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
 
+    @Inject QuestionRepository questionRepository;
+
     private Question question;
 
     private Subscription questionSubscription;
@@ -102,32 +103,12 @@ public class QuestionActivity extends ActionBarActivity {
 
         final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
 
-
-        // This is kind of what is returned by SqlBrite.createQuery
-        Observable questionQuery = Observable.just(new SqlBrite.Query() {
-            @Override public Cursor run() {
-                return null;
-            }
-        });
-
-        Observable approachQuery = Observable.just(new SqlBrite.Query() {
-            @Override public Cursor run() {
-                return null;
-            }
-        });
-
-        Observable.combineLatest(questionQuery, approachQuery, new Func2<SqlBrite.Query, SqlBrite.Query, Question>() {
-            @Override public Question call(SqlBrite.Query qQuery, SqlBrite.Query aQuery) {
-
-                Cursor qCursor = qQuery.run();
-                // create question from cursor
-                Cursor aCursor = aQuery.run();
-                // set question.approaches from aQuery
-
-                // return complete question
-                return null;
-            }
-        });
+//        questionRepository.getByKey(questionKey, new Action1<Question>() {
+//            @Override public void call(Question question) {
+//                QuestionActivity.this.question = question;
+//                initToolbar(question.getTitle());
+//            }
+//        });
 
 
         questionSubscription = questionMapper.getByKey(

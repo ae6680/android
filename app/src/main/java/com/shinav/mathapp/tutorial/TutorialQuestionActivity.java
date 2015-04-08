@@ -17,4 +17,15 @@ public class TutorialQuestionActivity extends QuestionActivity {
 
     }
 
+    @Override public void onBackPressed() {
+
+        Intent intent = new Intent(this, TutorialManagingService.class);
+
+        intent.setAction(TutorialManagingService.ACTION_RESET);
+
+        startService(intent);
+
+        super.onBackPressed();
+    }
+
 }

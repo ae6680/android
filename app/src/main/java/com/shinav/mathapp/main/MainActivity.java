@@ -12,6 +12,7 @@ import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
+import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
@@ -43,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.tutorial_view) TutorialView tutorialView;
 
     @Inject Bus bus;
+    @Inject FirebaseChildRegisterer registerer;
 
     @Inject StoryProgressMapper storyProgressMapper;
     @Inject StoryProgressPartMapper storyProgressPartMapper;
@@ -61,6 +63,8 @@ public class MainActivity extends ActionBarActivity {
 
         initToolbar();
         initTabs();
+
+        registerer.register();
     }
 
     @Override public void onStart() {

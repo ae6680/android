@@ -9,7 +9,6 @@ import com.shinav.mathapp.db.mapper.TutorialMapper;
 import com.shinav.mathapp.db.mapper.TutorialPartMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.pojo.TutorialPart;
-import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.progress.Storyteller;
 
@@ -24,10 +23,10 @@ public class TutorialManagingService extends Service {
 
     public static final String EXTRA_PERSPECTIVE = "perspective";
 
-    public static final String ACTION_NEXT = "next";
     public static final String ACTION_START = "start";
+    public static final String ACTION_NEXT = "next";
+    public static final String ACTION_RESET = "reset";
 
-    @Inject FirebaseChildRegisterer registerer;
     @Inject TutorialPartMapper tutorialPartMapper;
     @Inject TutorialMapper tutorialMapper;
 
@@ -41,7 +40,6 @@ public class TutorialManagingService extends Service {
 
         ComponentFactory.getApplicationComponent(this).inject(this);
 
-        registerer.register();
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -56,10 +54,17 @@ public class TutorialManagingService extends Service {
                     break;
                 case ACTION_NEXT:
                     startNext();
+                    break;
+                case ACTION_RESET:
+                    reset();
             }
         }
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void reset() {
+        currentPosition = -1;
     }
 
     private void fetchTutorialForPerspective(String perspective) {
