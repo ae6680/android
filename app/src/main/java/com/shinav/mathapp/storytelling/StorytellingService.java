@@ -65,11 +65,15 @@ public class StorytellingService extends Service {
     }
 
     private void fetchStoryForPerspective(String perspective) {
-        Story story = storyRepository.getByPerspective(perspective);
+        storyRepository.getByPerspective(perspective).first().subscribe(new Action1<Story>() {
+            @Override public void call(Story story) {
 
-        storyPartRepository.getByStoryKey(story.getKey()).first().subscribe(new Action1<List<StoryPart>>() {
-            @Override public void call(List<StoryPart> storyParts) {
-                StorytellingService.this.storyParts = storyParts;
+                storyPartRepository.getByStoryKey(story.getKey()).first().subscribe(new Action1<List<StoryPart>>() {
+                    @Override public void call(List<StoryPart> storyParts) {
+                        StorytellingService.this.storyParts = storyParts;
+                    }
+                });
+
             }
         });
     }

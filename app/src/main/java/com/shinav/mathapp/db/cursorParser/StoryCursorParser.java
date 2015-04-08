@@ -4,9 +4,25 @@ import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.Story;
 
-import static com.shinav.mathapp.db.helper.Tables.Story.KEY;
+import rx.functions.Func1;
 
-public class StoryCursorParser {
+import static com.shinav.mathapp.db.helper.Tables.Story.KEY;
+import static com.squareup.sqlbrite.SqlBrite.Query;
+
+public class StoryCursorParser implements Func1<Query, Story> {
+
+    @Override public Story call(Query query) {
+        Cursor c = query.run();
+        try {
+            if (!c.moveToFirst()) {
+                return null;
+            }
+
+            return fromCursor(c);
+        } finally {
+            c.close();
+        }
+    }
 
     public Story fromCursor(Cursor c) {
         Story story = new Story();
@@ -15,4 +31,5 @@ public class StoryCursorParser {
 
         return story;
     }
+
 }
