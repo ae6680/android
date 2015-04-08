@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.cursorParser.QuestionCursorParser;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.Question;
 import com.squareup.sqlbrite.SqlBrite;
@@ -52,7 +52,7 @@ public class QuestionRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , questionKey
-        ).map(new QuestionMapper());
+        ).map(new QuestionCursorParser());
     }
 
 }
