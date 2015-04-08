@@ -7,6 +7,8 @@ import com.shinav.mathapp.db.pojo.ApproachPart;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.ApproachPart.APPROACH_KEY;
@@ -16,6 +18,9 @@ import static com.shinav.mathapp.db.helper.Tables.ApproachPart.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ApproachPartListCursorParser implements Func1<Query, List<ApproachPart>> {
+
+    @Inject
+    public ApproachPartListCursorParser() { }
 
     @Override public List<ApproachPart> call(Query query) {
         Cursor c = query.run();

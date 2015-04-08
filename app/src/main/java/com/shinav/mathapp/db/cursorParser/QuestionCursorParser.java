@@ -4,6 +4,8 @@ import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.Question;
 
+import javax.inject.Inject;
+
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
@@ -11,6 +13,9 @@ import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class QuestionCursorParser implements rx.functions.Func1<Query, Question> {
+
+    @Inject
+    public QuestionCursorParser() { }
 
     @Override public Question call(Query query) {
         Cursor c = query.run();

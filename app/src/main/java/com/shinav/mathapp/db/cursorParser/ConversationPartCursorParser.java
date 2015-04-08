@@ -7,6 +7,8 @@ import com.shinav.mathapp.db.pojo.ConversationPart;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.ConversationPart.ALIGNMENT;
@@ -19,6 +21,9 @@ import static com.shinav.mathapp.db.helper.Tables.ConversationPart.TYPING_DURATI
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ConversationPartCursorParser implements Func1<Query, List<ConversationPart>> {
+
+    @Inject
+    public ConversationPartCursorParser() { }
 
     @Override public List<ConversationPart> call(Query query) {
         Cursor c = query.run();

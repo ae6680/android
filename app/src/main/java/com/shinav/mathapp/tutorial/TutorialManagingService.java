@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.functions.Action1;
+
 public class TutorialManagingService extends Service {
 
     public static final String PERSPECTIVE_MALE = "male";
@@ -71,8 +73,19 @@ public class TutorialManagingService extends Service {
     }
 
     private void fetchTutorialForPerspective(String perspective) {
-        Tutorial tutorial = tutorialRepository.getByPerspective(perspective);
-        tutorialParts = tutorialPartRepository.getByTutorialKey(tutorial.getKey());
+        tutorialRepository.getByPerspective(perspective).first().subscribe(new Action1<Tutorial>() {
+
+            @Override public void call(Tutorial tutorial) {
+
+                tutorialPartRepository.getByTutorialKey(tutorial.getKey()).first().subscribe(new Action1<List<TutorialPart>>() {
+                    @Override public void call(List<TutorialPart> tutorialParts) {
+                        TutorialManagingService.this.tutorialParts = tutorialParts;
+                    }
+                });
+
+            }
+
+        });
     }
 
     private void startNext() {
