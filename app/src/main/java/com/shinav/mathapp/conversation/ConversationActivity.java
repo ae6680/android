@@ -50,19 +50,14 @@ public class ConversationActivity extends Activity {
 
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
-    }
-
-    @Override protected void onResume() {
-        super.onResume();
 
         String conversationKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
 
-        conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
-            @Override public void call(Conversation conversation) {
-                conversationTitle.setText(conversation.getTitle());
-            }
-        });
+        loadTitle(conversationKey);
+        startConversation(conversationKey);
+    }
 
+    private void startConversation(String conversationKey) {
         conversationPartRepository.getByConversationKey(conversationKey).first().subscribe(new Action1<List<ConversationPart>>() {
             @Override public void call(List<ConversationPart> conversationParts) {
 
@@ -73,7 +68,14 @@ public class ConversationActivity extends Activity {
 
             }
         });
+    }
 
+    private void loadTitle(String conversationKey) {
+        conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
+            @Override public void call(Conversation conversation) {
+                conversationTitle.setText(conversation.getTitle());
+            }
+        });
     }
 
     @Override public void onStart() {
