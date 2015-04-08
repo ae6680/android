@@ -30,7 +30,7 @@ public class TutorialManagingService extends Service {
 
     public static final String ACTION_START = "start";
     public static final String ACTION_NEXT = "next";
-    public static final String ACTION_RESET = "reset";
+    public static final String ACTION_BACK = "back";
 
     @Inject TutorialPartMapper tutorialPartMapper;
     @Inject TutorialMapper tutorialMapper;
@@ -61,16 +61,16 @@ public class TutorialManagingService extends Service {
                 case ACTION_NEXT:
                     startNext();
                     break;
-                case ACTION_RESET:
-                    reset();
+                case ACTION_BACK:
+                    back();
             }
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void reset() {
-        currentPosition = -1;
+    private void back() {
+        currentPosition--;
     }
 
     private void fetchTutorialForPerspective(String perspective) {

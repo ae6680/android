@@ -21,7 +21,7 @@ public class TutorialQuestionActivity extends QuestionActivity {
 
         Intent intent = new Intent(this, TutorialManagingService.class);
 
-        intent.setAction(TutorialManagingService.ACTION_RESET);
+        intent.setAction(TutorialManagingService.ACTION_BACK);
 
         startService(intent);
 

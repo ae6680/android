@@ -25,9 +25,12 @@ import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
 import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
+import com.shinav.mathapp.db.repository.ApproachPartRepository;
+import com.shinav.mathapp.db.repository.ApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
@@ -53,6 +56,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
 import rx.functions.Action1;
 
 public class QuestionActivity extends ActionBarActivity {
@@ -79,6 +83,8 @@ public class QuestionActivity extends ActionBarActivity {
 
     @Inject QuestionRepository questionRepository;
     @Inject StoryProgressPartRepository storyProgressPartRepository;
+    @Inject ApproachRepository approachRepository;
+    @Inject ApproachPartRepository approachPartRepository;
 
     private Question question;
 
@@ -89,49 +95,12 @@ public class QuestionActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
 
-        initCalculator();
-    }
-
-    @Override protected void onResume() {
-        super.onResume();
-
         final String questionKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
 
-//        questionRepository.getByKey(questionKey, new Action1<Question>() {
-//            @Override public void call(Question question) {
-//                QuestionActivity.this.question = question;
-//                initToolbar(question.getTitle());
-//            }
-//        });
+        loadQuestion(questionKey);
+        loadApproach(questionKey);
 
-
-//        questionSubscription = questionMapper.getByKey(
-//                questionKey, new Action1<Question>() {
-//
-//                    @Override public void call(Question question) {
-//                        QuestionActivity.this.question = question;
-//                        initToolbar(question.getTitle());
-//
-//                        approachSubscription = approachMapper.getApproachByQuestionKey(
-//                                questionKey, new Action1<Approach>() {
-//
-//                                    @Override public void call(Approach approach) {
-//
-//                                        approachPartSubscription = approachPartMapper.getApproachPartsByApproachKey(
-//                                                approach.getKey(), new Action1<List<ApproachPart>>() {
-//
-//                                                    @Override
-//                                                    public void call(List<ApproachPart> approachParts) {
-//                                                        initViewPager(approachParts);
-//                                                    }
-//
-//                                                });
-//
-//                                    }
-//                                });
-//
-//                    }
-//                });
+        initCalculator();
     }
 
     @Override public void onStart() {
@@ -161,6 +130,38 @@ public class QuestionActivity extends ActionBarActivity {
     @Override public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
+    }
+
+    private void loadQuestion(String questionKey) {
+        Observable<Question> questionObservable = questionRepository.
+                getByKey(questionKey).first();
+
+        questionObservable.subscribe(new Action1<Question>() {
+            @Override public void call(Question question) {
+                QuestionActivity.this.question = question;
+                initToolbar(question.getTitle());
+            }
+        });
+    }
+
+    private void loadApproach(String questionKey) {
+        Observable<Approach> approachObservable = approachRepository.
+                getApproachByQuestionKey(questionKey).first();
+
+        approachObservable.subscribe(new Action1<Approach>() {
+            @Override public void call(Approach approach) {
+
+                Observable<List<ApproachPart>> approachListObservable = approachPartRepository.
+                        getApproachPartsByApproachKey(approach.getKey()).first();
+
+                approachListObservable.subscribe(new Action1<List<ApproachPart>>() {
+                    @Override public void call(List<ApproachPart> approachParts) {
+                        initViewPager(approachParts);
+                    }
+                });
+
+            }
+        });
     }
 
     private void initToolbar(String title) {
@@ -206,7 +207,10 @@ public class QuestionActivity extends ActionBarActivity {
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
 
-        storyProgressPartRepository.getByQuestionKey(question.getKey()).first().subscribe(new Action1<StoryProgressPart>() {
+        Observable<StoryProgressPart> storyProgressPartObservable =
+                storyProgressPartRepository.getByQuestionKey(question.getKey()).first();
+
+        storyProgressPartObservable.subscribe(new Action1<StoryProgressPart>() {
 
             @Override public void call(StoryProgressPart storyProgressPart) {
                 storyProgressPart.setState(isCorrect(question, event.getAnswer()));
