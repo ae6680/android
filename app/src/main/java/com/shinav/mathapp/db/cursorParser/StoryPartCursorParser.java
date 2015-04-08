@@ -7,6 +7,8 @@ import com.shinav.mathapp.db.pojo.StoryPart;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.StoryPart.KEY;
@@ -17,6 +19,9 @@ import static com.shinav.mathapp.db.helper.Tables.StoryPart.TYPE_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class StoryPartCursorParser implements Func1<Query, List<StoryPart>> {
+
+    @Inject
+    public StoryPartCursorParser() { }
 
     @Override public List<StoryPart> call(Query query) {
         Cursor c = query.run();

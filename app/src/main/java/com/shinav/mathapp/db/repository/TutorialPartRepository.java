@@ -1,15 +1,14 @@
 package com.shinav.mathapp.db.repository;
 
-import android.database.Cursor;
-
-import com.shinav.mathapp.db.cursorParser.TutorialPartCursorParser;
+import com.shinav.mathapp.db.cursorParser.TutorialPartListCursorParser;
 import com.shinav.mathapp.db.pojo.TutorialPart;
 import com.squareup.sqlbrite.SqlBrite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.Observable;
 
 import static com.shinav.mathapp.db.helper.Tables.TutorialPart.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.TutorialPart.TUTORIAL_KEY;
@@ -17,31 +16,18 @@ import static com.shinav.mathapp.db.helper.Tables.TutorialPart.TUTORIAL_KEY;
 public class TutorialPartRepository {
 
     @Inject SqlBrite db;
-    @Inject TutorialPartCursorParser parser;
+    @Inject TutorialPartListCursorParser parser;
 
     @Inject
-    public TutorialPartRepository() {
-    }
+    public TutorialPartRepository() { }
 
-    public List<TutorialPart> getByTutorialKey(String tutorialKey) {
-        Cursor c = db.query(
+    public Observable<List<TutorialPart>> getByTutorialKey(String tutorialKey) {
+        return db.createQuery(
+                TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + TUTORIAL_KEY + " = ?"
                 , tutorialKey
-        );
-
-        try {
-
-            List<TutorialPart> tutorialParts = new ArrayList<>(c.getCount());
-            while (c.moveToNext()) {
-                tutorialParts.add(parser.fromCursor(c));
-            }
-            return tutorialParts;
-
-        } finally {
-            c.close();
-        }
-
+        ).map(parser);
     }
 
 }

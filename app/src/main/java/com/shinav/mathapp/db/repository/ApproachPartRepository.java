@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
+import com.shinav.mathapp.db.cursorParser.ApproachPartListCursorParser;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -16,10 +16,10 @@ import static com.shinav.mathapp.db.helper.Tables.ApproachPart.TABLE_NAME;
 public class ApproachPartRepository {
 
     @Inject SqlBrite db;
+    @Inject ApproachPartListCursorParser parser;
 
     @Inject
-    public ApproachPartRepository() {
-    }
+    public ApproachPartRepository() { }
 
     public Observable<List<ApproachPart>> getApproachPartsByApproachKey(String approachKey) {
         return db.createQuery(
@@ -27,7 +27,7 @@ public class ApproachPartRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + APPROACH_KEY + " = ?"
                 , approachKey
-        ).map(new ApproachPartMapper());
+        ).map(parser);
     }
 
 }

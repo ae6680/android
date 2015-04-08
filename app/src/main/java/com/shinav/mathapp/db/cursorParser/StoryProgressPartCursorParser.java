@@ -18,8 +18,7 @@ import static com.squareup.sqlbrite.SqlBrite.Query;
 public class StoryProgressPartCursorParser implements Func1<Query, StoryProgressPart> {
 
     @Inject
-    public StoryProgressPartCursorParser() {
-    }
+    public StoryProgressPartCursorParser() { }
 
     @Override public StoryProgressPart call(Query query) {
         Cursor c = query.run();

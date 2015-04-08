@@ -16,6 +16,7 @@ import static com.shinav.mathapp.db.helper.Tables.ConversationPart.TABLE_NAME;
 public class ConversationPartRepository {
 
     @Inject SqlBrite db;
+    @Inject ConversationPartCursorParser parser;
 
     @Inject
     public ConversationPartRepository() {
@@ -27,7 +28,7 @@ public class ConversationPartRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + CONVERSATION_KEY + " = ?"
                 , conversationKey
-        ).map(new ConversationPartCursorParser());
+        ).map(parser);
     }
 
 }

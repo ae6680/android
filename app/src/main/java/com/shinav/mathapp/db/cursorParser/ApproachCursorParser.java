@@ -4,6 +4,8 @@ import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.Approach;
 
+import javax.inject.Inject;
+
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.Approach.KEY;
@@ -11,6 +13,9 @@ import static com.shinav.mathapp.db.helper.Tables.Approach.QUESTION_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class ApproachCursorParser implements Func1<Query, Approach> {
+
+    @Inject
+    public ApproachCursorParser() { }
 
     @Override public Approach call(Query query) {
         Cursor c = query.run();

@@ -14,10 +14,10 @@ import static com.shinav.mathapp.db.helper.Tables.Approach.TABLE_NAME;
 public class ApproachRepository {
 
     @Inject SqlBrite db;
+    @Inject ApproachCursorParser parser;
 
     @Inject
-    public ApproachRepository() {
-    }
+    public ApproachRepository() { }
 
     public Observable<Approach> getApproachByQuestionKey(String questionKey) {
         return db.createQuery(
@@ -25,7 +25,7 @@ public class ApproachRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_KEY + " = ?"
                 , questionKey
-        ).map(new ApproachCursorParser());
+        ).map(parser);
     }
 
 }

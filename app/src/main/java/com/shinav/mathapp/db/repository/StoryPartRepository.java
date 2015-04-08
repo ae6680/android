@@ -16,6 +16,7 @@ import static com.shinav.mathapp.db.helper.Tables.StoryPart.TABLE_NAME;
 public class StoryPartRepository {
 
     @Inject SqlBrite db;
+    @Inject StoryPartCursorParser parser;
 
     @Inject
     public StoryPartRepository() {
@@ -27,7 +28,7 @@ public class StoryPartRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + STORY_KEY + " = ?"
                 , storyKey
-        ).map(new StoryPartCursorParser());
+        ).map(parser);
     }
 
 }
