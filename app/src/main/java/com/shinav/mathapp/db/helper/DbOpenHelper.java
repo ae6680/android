@@ -100,6 +100,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private void createStoryTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Story.TABLE_NAME + " ("
                         + Story.KEY + " TEXT,"
+                        + Story.PERSPECTIVE + " TEXT,"
                         + " UNIQUE (" + Story.KEY + ") ON CONFLICT REPLACE)"
         );
 

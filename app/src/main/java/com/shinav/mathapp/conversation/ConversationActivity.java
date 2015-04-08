@@ -8,13 +8,13 @@ import android.widget.TextView;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.ConversationMapper;
 import com.shinav.mathapp.db.dataMapper.ConversationPartMapper;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationPart;
 import com.shinav.mathapp.db.repository.ConversationPartRepository;
 import com.shinav.mathapp.db.repository.ConversationRepository;
 import com.shinav.mathapp.event.ConversationMessageShown;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.progress.Storyteller;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -35,7 +35,6 @@ public class ConversationActivity extends Activity {
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
     @InjectView(R.id.conversation_title) TextView conversationTitle;
 
-    //    @Inject Storyteller storyTeller;
     @Inject Bus bus;
     @Inject ConversationPartMapper conversationPartMapper;
     @Inject ConversationMapper conversationMapper;
@@ -56,7 +55,7 @@ public class ConversationActivity extends Activity {
     @Override protected void onResume() {
         super.onResume();
 
-        String conversationKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        String conversationKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
 
         conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
             @Override public void call(Conversation conversation) {

@@ -6,12 +6,28 @@ import com.shinav.mathapp.db.pojo.StoryProgress;
 
 import javax.inject.Inject;
 
-import static com.shinav.mathapp.db.helper.Tables.StoryProgress.KEY;
+import rx.functions.Func1;
 
-public class StoryProgressCursorParser {
+import static com.shinav.mathapp.db.helper.Tables.StoryProgress.KEY;
+import static com.squareup.sqlbrite.SqlBrite.Query;
+
+public class StoryProgressCursorParser implements Func1<Query, StoryProgress>{
 
     @Inject
     public StoryProgressCursorParser() { }
+
+    @Override public StoryProgress call(Query query) {
+        Cursor c = query.run();
+        try {
+            if (!c.moveToFirst()) {
+                return null;
+            }
+
+            return fromCursor(c);
+        } finally {
+            c.close();
+        }
+    }
 
     public StoryProgress fromCursor(Cursor c) {
         StoryProgress storyProgress = new StoryProgress();

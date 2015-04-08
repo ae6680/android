@@ -1,5 +1,6 @@
 package com.shinav.mathapp.approach;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +12,10 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.ApproachMapper;
 import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
 import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
-import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.storytelling.StorytellingService;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +25,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Subscription;
 
 public class ApproachActivity extends ActionBarActivity {
 
@@ -31,17 +32,11 @@ public class ApproachActivity extends ActionBarActivity {
     @InjectView(R.id.question_text) TextView questionText;
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
-    @Inject Storyteller storyteller;
-
     @Inject QuestionMapper questionMapper;
     @Inject ApproachMapper approachMapper;
     @Inject ApproachPartMapper approachPartMapper;
 
     private List<ApproachPart> approachParts = Collections.emptyList();
-
-    private Subscription questionSubscription;
-    private Subscription approachSubscription;
-    private Subscription approachPartSubscription;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +51,7 @@ public class ApproachActivity extends ActionBarActivity {
     @Override protected void onResume() {
         super.onResume();
 
-        final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        final String questionKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
 
 //        questionSubscription = questionMapper.getByKey(
 //                questionKey, new Action1<Question>() {
@@ -87,13 +82,6 @@ public class ApproachActivity extends ActionBarActivity {
 //                });
     }
 
-    @Override protected void onPause() {
-        super.onPause();
-        questionSubscription.unsubscribe();
-        approachSubscription.unsubscribe();
-        approachPartSubscription.unsubscribe();
-    }
-
     private void initToolbar(String title) {
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
@@ -108,8 +96,13 @@ public class ApproachActivity extends ActionBarActivity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        storyteller.setCurrentApproach(approachParts);
-        storyteller.next();
+//        storyteller.setCurrentApproach(approachParts);
+
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        intent.setAction(StorytellingService.ACTION_NEXT);
+
+        startService(intent);
     }
 
     @Override

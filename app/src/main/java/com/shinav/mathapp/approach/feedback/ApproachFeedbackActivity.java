@@ -1,6 +1,7 @@
 package com.shinav.mathapp.approach.feedback;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.storytelling.StorytellingService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +31,6 @@ public class ApproachFeedbackActivity extends Activity {
     @InjectView(R.id.approach_list_mine) RecyclerView approachListMine;
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
 
-    @Inject Storyteller storyteller;
     @Inject ApproachPartFeedbackAdapter approachFeedbackMineAdapter;
     @Inject ApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
 
@@ -44,7 +44,7 @@ public class ApproachFeedbackActivity extends Activity {
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
 
-        approachParts = storyteller.getCurrentApproach();
+//        approachParts = storyteller.getCurrentApproach();
 
         initApproachListMine();
         initApproachListCorrect();
@@ -94,7 +94,11 @@ public class ApproachFeedbackActivity extends Activity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        storyteller.next();
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        intent.setAction(StorytellingService.ACTION_NEXT);
+
+        startService(intent);
     }
 
     @Override

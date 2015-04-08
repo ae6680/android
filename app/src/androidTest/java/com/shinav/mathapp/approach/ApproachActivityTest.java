@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.injection.TestDependencyWrapper;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
-import com.shinav.mathapp.progress.Storyteller;
+import com.shinav.mathapp.storytelling.Storyteller;
 import com.shinav.mathapp.rule.ActivityRule;
 import com.shinav.mathapp.rule.DITestRule;
 

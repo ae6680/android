@@ -31,6 +31,8 @@ public interface Tables {
     public interface Story {
         String TABLE_NAME = "story";
         String KEY = "key";
+        
+        String PERSPECTIVE = "perspective";
     }
 
     public interface StoryPart {

@@ -7,10 +7,12 @@ import android.os.IBinder;
 
 import com.shinav.mathapp.db.dataMapper.TutorialMapper;
 import com.shinav.mathapp.db.dataMapper.TutorialPartMapper;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.pojo.TutorialPart;
+import com.shinav.mathapp.db.repository.TutorialPartRepository;
+import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.progress.Storyteller;
 
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class TutorialManagingService extends Service {
     @Inject TutorialPartMapper tutorialPartMapper;
     @Inject TutorialMapper tutorialMapper;
 
+    @Inject TutorialRepository tutorialRepository;
+    @Inject TutorialPartRepository tutorialPartRepository;
+
     private List<TutorialPart> tutorialParts;
     private int currentPosition = -1;
 
@@ -37,9 +42,7 @@ public class TutorialManagingService extends Service {
 
     @Override public void onCreate() {
         super.onCreate();
-
         ComponentFactory.getApplicationComponent(this).inject(this);
-
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -68,8 +71,8 @@ public class TutorialManagingService extends Service {
     }
 
     private void fetchTutorialForPerspective(String perspective) {
-        Tutorial tutorial = tutorialMapper.getByPerspective(perspective);
-        tutorialParts = tutorialPartMapper.getByTutorialKey(tutorial.getKey());
+        Tutorial tutorial = tutorialRepository.getByPerspective(perspective);
+        tutorialParts = tutorialPartRepository.getByTutorialKey(tutorial.getKey());
     }
 
     private void startNext() {
@@ -93,9 +96,9 @@ public class TutorialManagingService extends Service {
 
     private void startActivity(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(this, cls);
-        intent.putExtra(Storyteller.TYPE_KEY, typeKey);
+        intent.putExtra(Tables.StoryPart.TYPE_KEY, typeKey);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
+        startActivity(intent);
 
 //        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }

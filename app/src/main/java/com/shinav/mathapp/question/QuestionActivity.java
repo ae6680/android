@@ -3,6 +3,7 @@ package com.shinav.mathapp.question;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -35,13 +36,13 @@ import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionExplanationView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
+import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.sqlbrite.SqlBrite;
@@ -53,7 +54,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Subscription;
 
 public class QuestionActivity extends ActionBarActivity {
 
@@ -66,7 +66,6 @@ public class QuestionActivity extends ActionBarActivity {
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
 
     @Inject Bus bus;
-    @Inject Storyteller storyTeller;
 
     @Inject SqlBrite db;
     @Inject QuestionMapper questionMapper;
@@ -82,10 +81,6 @@ public class QuestionActivity extends ActionBarActivity {
 
     private Question question;
 
-    private Subscription questionSubscription;
-    private Subscription approachSubscription;
-    private Subscription approachPartSubscription;
-
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
@@ -99,7 +94,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Override protected void onResume() {
         super.onResume();
 
-        final String questionKey = getIntent().getStringExtra(Storyteller.TYPE_KEY);
+        final String questionKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
 
 //        questionRepository.getByKey(questionKey, new Action1<Question>() {
 //            @Override public void call(Question question) {
@@ -219,6 +214,7 @@ public class QuestionActivity extends ActionBarActivity {
                         " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
                 , question.getKey()
         );
+
         if (c.moveToFirst()) {
 
             StoryProgressPart storyProgressPart = storyProgressPartMapper.fromCursor(c);
@@ -274,7 +270,11 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
-        storyTeller.next();
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        intent.setAction(StorytellingService.ACTION_NEXT);
+
+        startService(intent);
     }
 
     @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {

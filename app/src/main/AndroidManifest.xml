@@ -32,12 +32,16 @@
             android:noHistory="true" />
 
         <activity android:name=".conversation.ConversationActivity"
-            android:noHistory="true" />
+                  android:noHistory="true" />
 
         <activity android:name=".tutorial.TutorialConversationActivity"/>
         <activity android:name=".tutorial.TutorialQuestionActivity"/>
 
-        <service android:name=".tutorial.TutorialManagingService"/>
+        <service android:name=".tutorial.TutorialManagingService"
+                 android:exported="false" />
+
+        <service android:name=".storytelling.StorytellingService"
+                 android:exported="false" />
 
     </application>
 

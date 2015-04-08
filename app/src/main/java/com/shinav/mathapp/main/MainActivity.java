@@ -8,15 +8,17 @@ import android.support.v7.widget.Toolbar;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
 import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
+import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
+import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
+import com.shinav.mathapp.db.repository.StoryProgressRepository;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
 import com.shinav.mathapp.main.storyProgress.StoryProgressView;
-import com.shinav.mathapp.progress.Storyteller;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.tab.TabsView;
 import com.shinav.mathapp.tutorial.TutorialManagingService;
@@ -31,7 +33,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Subscription;
 import rx.functions.Action1;
 
 import static android.view.View.GONE;
@@ -52,7 +53,8 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryProgressView storyProgressView;
     @Inject PracticeOverviewView practiceOverviewView;
 
-    private Subscription storyProgressSubscription;
+    @Inject StoryProgressRepository storyProgressRepository;
+    @Inject StoryProgressPartRepository storyProgressPartRepository;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,13 +84,6 @@ public class MainActivity extends ActionBarActivity {
         loadStoryProgress();
     }
 
-    @Override protected void onPause() {
-        super.onPause();
-        if (storyProgressSubscription != null) {
-            storyProgressSubscription.unsubscribe();
-        }
-    }
-
     private void initToolbar() {
         toolbar.setTitle(R.string.main_toolbar_title);
         setSupportActionBar(toolbar);
@@ -101,26 +96,28 @@ public class MainActivity extends ActionBarActivity {
 
     private void loadStoryProgress() {
 
-        String storyProgressKey;
+        storyProgressRepository.getFirst().first().subscribe(new Action1<StoryProgress>() {
 
-        List<StoryProgress> storyProgresses = storyProgressMapper.getAll();
+            @Override public void call(StoryProgress storyProgress) {
 
-        if (storyProgresses.isEmpty()) {
+                if (storyProgress == null) {
 
-            showTutorialLayout();
+                    showTutorialLayout();
 
-        } else {
-            hideTutorialLayout();
+                } else {
+                    hideTutorialLayout();
 
-            storyProgressKey = storyProgresses.get(0).getKey();
-
-            storyProgressSubscription = storyProgressPartMapper.getByStoryProgressKey(
-                    storyProgressKey, new Action1<List<StoryProgressPart>>() {
+                    storyProgressPartRepository.getByStoryProgressKey(storyProgress.getKey()).first().subscribe(new Action1<List<StoryProgressPart>>() {
                         @Override public void call(List<StoryProgressPart> storyProgressParts) {
                             Collections.reverse(storyProgressParts);
                             storyProgressView.setStoryProgressParts(storyProgressParts);
                         }
                     });
+
+                }
+            }
+
+        });
 
 //            StoryProgress storyProgress = new StoryProgress();
 //            storyProgress.setKey(UUID.randomUUID().toString());
@@ -128,8 +125,6 @@ public class MainActivity extends ActionBarActivity {
 //            storyProgressMapper.insert(storyProgress);
 //
 //            storyProgressKey = storyProgress.getKey();
-        }
-
 
     }
 
@@ -145,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Subscribe public void onMakeQuestionButtonClicked(MakeQuestionButtonClicked event) {
         Intent intent = new Intent(this, QuestionActivity.class);
-        intent.putExtra(Storyteller.TYPE_KEY, event.getQuestionFirebaseKey());
+        intent.putExtra(Tables.StoryPart.TYPE_KEY, event.getQuestionFirebaseKey());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
