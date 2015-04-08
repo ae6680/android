@@ -12,12 +12,10 @@ import static com.shinav.mathapp.db.helper.Tables.Story.TABLE_NAME;
 
 public class StoryMapper {
 
-    private final SqlBrite db;
+    @Inject SqlBrite db;
 
     @Inject
-    public StoryMapper(SqlBrite db) {
-        this.db = db;
-    }
+    public StoryMapper() { }
 
     public ContentValues getContentValues(Story story) {
         ContentValues values = new ContentValues();
