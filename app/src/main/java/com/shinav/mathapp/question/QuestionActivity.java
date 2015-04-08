@@ -4,11 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +29,7 @@ import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.db.repository.QuestionRepository;
+import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
@@ -54,6 +53,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.functions.Action1;
 
 public class QuestionActivity extends ActionBarActivity {
 
@@ -78,6 +78,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionNextCardView questionNextCardView;
 
     @Inject QuestionRepository questionRepository;
+    @Inject StoryProgressPartRepository storyProgressPartRepository;
 
     private Question question;
 
@@ -131,13 +132,6 @@ public class QuestionActivity extends ActionBarActivity {
 //
 //                    }
 //                });
-    }
-
-    @Override protected void onPause() {
-        super.onPause();
-        questionSubscription.unsubscribe();
-        approachSubscription.unsubscribe();
-        approachPartSubscription.unsubscribe();
     }
 
     @Override public void onStart() {
@@ -202,59 +196,57 @@ public class QuestionActivity extends ActionBarActivity {
 
     @Subscribe public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
         startAnimation(event.getAnswer());
+
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
+
         updateStoryProgress(event);
+        createNextProgressPart();
     }
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
 
-        Cursor c = db.query(
-                "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
-                        " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
-                , question.getKey()
-        );
+        storyProgressPartRepository.getByQuestionKey(question.getKey()).first().subscribe(new Action1<StoryProgressPart>() {
 
-        if (c.moveToFirst()) {
-
-            StoryProgressPart storyProgressPart = storyProgressPartMapper.fromCursor(c);
-
-            storyProgressPart.setState(isCorrect(question, event.getAnswer()));
-            storyProgressPartMapper.update(storyProgressPart);
-
-            // Create progress part for next question if not there.
-            final String storyProgressKey = storyProgressPart.getStoryProgressKey();
-            final String nextQuestionKey = storyTeller.getNextQuestionKey();
-            if (!TextUtils.isEmpty(nextQuestionKey)) {
-                Cursor c2 = db.query(
-                        "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
-                                " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
-                        , nextQuestionKey
-                );
-
-                if (!c2.moveToFirst()) {
-                    StoryProgressPart newStoryProgressPart = new StoryProgressPart();
-
-                    Cursor c3 = db.query(
-                            "SELECT * FROM " + Tables.Question.TABLE_NAME +
-                                    " WHERE " + Tables.Question.KEY + " = ?"
-                            , nextQuestionKey
-                    );
-                    if (c3.moveToFirst()) {
-                       newStoryProgressPart.setTitle(c3.getString(c3.getColumnIndex(Tables.Question.TITLE)));
-                    }
-                    c3.close();
-
-                    newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-                    newStoryProgressPart.setQuestionKey(nextQuestionKey);
-
-                    storyProgressPartMapper.insert(newStoryProgressPart);
-                }
-                c2.close();
-
+            @Override public void call(StoryProgressPart storyProgressPart) {
+                storyProgressPart.setState(isCorrect(question, event.getAnswer()));
+                storyProgressPartMapper.update(storyProgressPart);
             }
-        }
-        c.close();
+        });
+    }
+
+    private void createNextProgressPart() {
+
+//        final String storyProgressKey = storyProgressPart.getStoryProgressKey();
+//        final String nextQuestionKey = storyTeller.getNextQuestionKey();
+//        if (!TextUtils.isEmpty(nextQuestionKey)) {
+//            Cursor c2 = db.query(
+//                    "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
+//                            " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
+//                    , nextQuestionKey
+//            );
+//
+//            if (!c2.moveToFirst()) {
+//                StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+//
+//                Cursor c3 = db.query(
+//                        "SELECT * FROM " + Tables.Question.TABLE_NAME +
+//                                " WHERE " + Tables.Question.KEY + " = ?"
+//                        , nextQuestionKey
+//                );
+//                if (c3.moveToFirst()) {
+//                    newStoryProgressPart.setTitle(c3.getString(c3.getColumnIndex(Tables.Question.TITLE)));
+//                }
+//                c3.close();
+//
+//                newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+//                newStoryProgressPart.setQuestionKey(nextQuestionKey);
+//
+//                storyProgressPartMapper.insert(newStoryProgressPart);
+//            }
+//            c2.close();
+//        }
+
     }
 
     private int isCorrect(Question question, String answer) {

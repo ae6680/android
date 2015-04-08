@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
-import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.StoryProgress;
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
@@ -48,7 +47,6 @@ public class MainActivity extends ActionBarActivity {
     @Inject FirebaseChildRegisterer registerer;
 
     @Inject StoryProgressMapper storyProgressMapper;
-    @Inject StoryProgressPartMapper storyProgressPartMapper;
 
     @Inject StoryProgressView storyProgressView;
     @Inject PracticeOverviewView practiceOverviewView;
