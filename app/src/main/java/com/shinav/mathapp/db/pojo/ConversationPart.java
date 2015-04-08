@@ -2,6 +2,9 @@ package com.shinav.mathapp.db.pojo;
 
 public class ConversationPart {
 
+    public static final int ALIGNMENT_LEFT = 0;
+    public static final int ALIGNMENT_RIGHT = 1;
+
     private String key;
 
     private String conversationKey;

@@ -13,6 +13,7 @@ import com.shinav.mathapp.db.pojo.TutorialPart;
 import com.shinav.mathapp.db.repository.TutorialPartRepository;
 import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.main.MainActivity;
 
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class TutorialManagingService extends Service {
             TutorialPart tutorialPart = tutorialParts.get(currentPosition);
             startBasedOnType(tutorialPart);
         } else {
-            startMainActivity();
+            startActivity(MainActivity.class, null);
         }
     }
 
@@ -115,10 +116,5 @@ public class TutorialManagingService extends Service {
 
 //        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
-
-    private void startMainActivity() {
-
-    }
-
 
 }

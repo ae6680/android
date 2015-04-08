@@ -47,10 +47,12 @@ public class ConversationPartView extends ButterKnifeLayout {
 
         int layout;
 
-        if (conversationPart.getAlignment() == 0) {
-            layout = R.layout.conversation_list_item_left;
-        } else {
-            layout = R.layout.conversation_list_item_right;
+        switch (conversationPart.getAlignment()) {
+            case ConversationPart.ALIGNMENT_RIGHT:
+                layout = R.layout.conversation_list_item_right;
+                break;
+            default:
+                layout = R.layout.conversation_list_item_left;
         }
 
         View view = inflate(layout, this, false);
