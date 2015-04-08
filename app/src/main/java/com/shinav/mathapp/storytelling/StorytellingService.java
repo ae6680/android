@@ -11,8 +11,10 @@ import com.shinav.mathapp.db.pojo.Story;
 import com.shinav.mathapp.db.pojo.StoryPart;
 import com.shinav.mathapp.db.repository.StoryPartRepository;
 import com.shinav.mathapp.db.repository.StoryRepository;
+import com.shinav.mathapp.event.SendNextQuestionKey;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.QuestionActivity;
+import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -29,7 +31,9 @@ public class StorytellingService extends Service {
 
     public static final String ACTION_START = "start";
     public static final String ACTION_NEXT = "next";
+    public static final String ACTION_NEXT_KEY = "next_key";
 
+    @Inject Bus bus;
     @Inject StoryRepository storyRepository;
     @Inject StoryPartRepository storyPartRepository;
 
@@ -58,6 +62,8 @@ public class StorytellingService extends Service {
                 case ACTION_NEXT:
                     startNext();
                     break;
+                case ACTION_NEXT_KEY:
+                    sendNextQuestionKey();
             }
         }
 
@@ -76,6 +82,22 @@ public class StorytellingService extends Service {
 
             }
         });
+    }
+
+    private void sendNextQuestionKey() {
+        bus.post(new SendNextQuestionKey(getNextQuestionKey()));
+    }
+
+    public String getNextQuestionKey() {
+        StoryPart storyPart = new StoryPart();
+
+        int counter = currentPosition;
+        while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
+            storyPart = storyParts.get(counter+1);
+            counter++;
+        }
+
+        return storyPart.getTypeKey();
     }
 
     private void startNext() {
@@ -103,15 +125,5 @@ public class StorytellingService extends Service {
 
 //        ((Activity) context).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
-
-//    public String getNextQuestionKey() {
-//        StoryPart storyPart = new StoryPart();
-//        int counter = current;
-//        while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
-//            storyPart = storyParts.get(counter+1);
-//            counter++;
-//        }
-//        return storyPart.getTypeKey();
-//    }
 
 }

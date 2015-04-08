@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +39,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.event.SendNextQuestionKey;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -87,6 +90,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject ApproachPartRepository approachPartRepository;
 
     private Question question;
+    private String storyProgressKey;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +206,6 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView.setSubmitButtonEnabled(false);
 
         updateStoryProgress(event);
-        createNextProgressPart();
     }
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
@@ -215,42 +218,60 @@ public class QuestionActivity extends ActionBarActivity {
             @Override public void call(StoryProgressPart storyProgressPart) {
                 storyProgressPart.setState(isCorrect(question, event.getAnswer()));
                 storyProgressPartMapper.update(storyProgressPart);
+
+                storyProgressKey = storyProgressPart.getStoryProgressKey();
+                createNextStoryProgressPart();
             }
         });
     }
 
-    private void createNextProgressPart() {
+    private void createNextStoryProgressPart() {
+        requestNextQuestionKey();
+    }
 
-//        final String storyProgressKey = storyProgressPart.getStoryProgressKey();
-//        final String nextQuestionKey = storyTeller.getNextQuestionKey();
-//        if (!TextUtils.isEmpty(nextQuestionKey)) {
-//            Cursor c2 = db.query(
-//                    "SELECT * FROM " + Tables.StoryProgressPart.TABLE_NAME +
-//                            " WHERE " + Tables.StoryProgressPart.QUESTION_KEY + " = ?"
-//                    , nextQuestionKey
-//            );
-//
-//            if (!c2.moveToFirst()) {
-//                StoryProgressPart newStoryProgressPart = new StoryProgressPart();
-//
-//                Cursor c3 = db.query(
-//                        "SELECT * FROM " + Tables.Question.TABLE_NAME +
-//                                " WHERE " + Tables.Question.KEY + " = ?"
-//                        , nextQuestionKey
-//                );
-//                if (c3.moveToFirst()) {
-//                    newStoryProgressPart.setTitle(c3.getString(c3.getColumnIndex(Tables.Question.TITLE)));
-//                }
-//                c3.close();
-//
-//                newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-//                newStoryProgressPart.setQuestionKey(nextQuestionKey);
-//
-//                storyProgressPartMapper.insert(newStoryProgressPart);
-//            }
-//            c2.close();
-//        }
+    private void requestNextQuestionKey() {
+        Intent intent = new Intent(this, StorytellingService.class);
 
+        intent.setAction(StorytellingService.ACTION_NEXT_KEY);
+
+        startService(intent);
+    }
+
+    @Subscribe void onSendNextQuestionKey(SendNextQuestionKey event) {
+
+        final String nextQuestionKey = event.getNextQuestionKey();
+
+        if (!TextUtils.isEmpty(nextQuestionKey)) {
+
+            Observable<StoryProgressPart> storyProgressPartObservable =
+                    storyProgressPartRepository.getByQuestionKey(nextQuestionKey).first();
+
+            storyProgressPartObservable.subscribe(new Action1<StoryProgressPart>() {
+                @Override public void call(StoryProgressPart storyProgressPart) {
+                    if (storyProgressPart == null) {
+
+                        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
+
+                        Cursor c = db.query(
+                                "SELECT * FROM " + Tables.Question.TABLE_NAME +
+                                        " WHERE " + Tables.Question.KEY + " = ?"
+                                , nextQuestionKey
+                        );
+                        if (c.moveToFirst()) {
+                            newStoryProgressPart.setTitle(c.getString(c.getColumnIndex(Tables.Question.TITLE)));
+                        }
+                        c.close();
+
+                        newStoryProgressPart.setStoryProgressKey(storyProgressKey);
+                        newStoryProgressPart.setQuestionKey(nextQuestionKey);
+
+                        storyProgressPartMapper.insert(newStoryProgressPart);
+
+                    }
+                }
+            });
+
+        }
     }
 
     private int isCorrect(Question question, String answer) {
