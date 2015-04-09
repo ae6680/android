@@ -1,9 +1,9 @@
 package com.shinav.mathapp.event;
 
-public class ConversationMessageShown {
+public class ConversationMessageShownEvent {
     private final int position;
 
-    public ConversationMessageShown(int position) {
+    public ConversationMessageShownEvent(int position) {
         this.position = position;
     }
 

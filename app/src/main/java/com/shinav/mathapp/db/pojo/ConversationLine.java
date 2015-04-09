@@ -1,6 +1,8 @@
 package com.shinav.mathapp.db.pojo;
 
-public class ConversationPart {
+import android.support.annotation.NonNull;
+
+public class ConversationLine implements Comparable<ConversationLine> {
 
     public static final int ALIGNMENT_LEFT = 0;
     public static final int ALIGNMENT_RIGHT = 1;
@@ -9,7 +11,7 @@ public class ConversationPart {
 
     private String conversationKey;
 
-    private String message;
+    private String value;
     private int position;
     private int delay;
     private int typingDuration;
@@ -31,12 +33,12 @@ public class ConversationPart {
         this.conversationKey = conversationKey;
     }
 
-    public String getMessage() {
-        return message;
+    public String getValue() {
+        return value;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public int getPosition() {
@@ -69,6 +71,10 @@ public class ConversationPart {
 
     public void setAlignment(int alignment) {
         this.alignment = alignment;
+    }
+
+    @Override public int compareTo(@NonNull ConversationLine another) {
+        return (getPosition() - another.getPosition());
     }
 
 }

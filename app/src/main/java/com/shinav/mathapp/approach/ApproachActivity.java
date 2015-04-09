@@ -51,7 +51,7 @@ public class ApproachActivity extends ActionBarActivity {
     @Override protected void onResume() {
         super.onResume();
 
-        final String questionKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
+        final String questionKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
 //        questionSubscription = questionMapper.getByKey(
 //                questionKey, new Action1<Question>() {

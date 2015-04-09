@@ -5,7 +5,7 @@
                 android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/conversation_part_message"
+        android:id="@+id/conversation_line_value"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="@dimen/primary_margin"
         android:layout_centerVertical="true"

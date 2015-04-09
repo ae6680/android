@@ -6,18 +6,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.db.dataMapper.ConversationLineMapper;
 import com.shinav.mathapp.db.dataMapper.ConversationMapper;
-import com.shinav.mathapp.db.dataMapper.ConversationPartMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Conversation;
-import com.shinav.mathapp.db.pojo.ConversationPart;
-import com.shinav.mathapp.db.repository.ConversationPartRepository;
+import com.shinav.mathapp.db.pojo.ConversationLine;
+import com.shinav.mathapp.db.repository.ConversationLineRepository;
 import com.shinav.mathapp.db.repository.ConversationRepository;
-import com.shinav.mathapp.event.ConversationMessageShown;
+import com.shinav.mathapp.event.ConversationMessageShownEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,34 +37,39 @@ public class ConversationActivity extends Activity {
     @InjectView(R.id.conversation_title) TextView conversationTitle;
 
     @Inject Bus bus;
-    @Inject ConversationPartMapper conversationPartMapper;
+    @Inject ConversationLineMapper conversationLineMapper;
     @Inject ConversationMapper conversationMapper;
 
     @Inject ConversationRepository conversationRepository;
-    @Inject ConversationPartRepository conversationPartRepository;
+    @Inject ConversationLineRepository conversationLineRepository;
 
-    private List<ConversationPart> conversationParts;
+    private List<ConversationLine> conversationLines;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
         ButterKnife.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        inject();
 
-        String conversationKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
+        String conversationKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         loadTitle(conversationKey);
         startConversation(conversationKey);
     }
 
-    private void startConversation(String conversationKey) {
-        conversationPartRepository.getByConversationKey(conversationKey).first().subscribe(new Action1<List<ConversationPart>>() {
-            @Override public void call(List<ConversationPart> conversationParts) {
+    public void inject() {
+        ComponentFactory.getActivityComponent(this).inject(this);
+    }
 
-                if (!conversationParts.isEmpty()) {
-                    ConversationActivity.this.conversationParts = conversationParts;
-                    startConversationPart(conversationParts.get(0));
+    private void startConversation(String conversationKey) {
+        conversationLineRepository.getByConversationKey(conversationKey).first().subscribe(new Action1<List<ConversationLine>>() {
+            @Override public void call(List<ConversationLine> conversationLines) {
+
+                if (!conversationLines.isEmpty()) {
+                    Collections.sort(conversationLines);
+                    ConversationActivity.this.conversationLines = conversationLines;
+                    startConversationPart(conversationLines.get(0));
                 }
 
             }
@@ -88,17 +94,17 @@ public class ConversationActivity extends Activity {
         bus.unregister(this);
     }
 
-    private void startConversationPart(final ConversationPart conversationPart) {
+    private void startConversationPart(final ConversationLine conversationLine) {
 
-        final ConversationPartView view = new ConversationPartView(
+        final ConversationLineView view = new ConversationLineView(
                 ConversationActivity.this,
-                conversationPart
+                conversationLine
         );
 
         conversationContainer.addView(view);
 
         Observable<Long> delayedTimer = Observable.timer(
-                conversationPart.getTypingDuration(),
+                conversationLine.getTypingDuration(),
                 TimeUnit.MILLISECONDS
         );
 
@@ -113,11 +119,11 @@ public class ConversationActivity extends Activity {
                 });
     }
 
-    @Subscribe public void onConversationMessageShown(ConversationMessageShown event) {
+    @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {
         int nextPos = event.getPosition() + 1;
 
-        if (nextPos < conversationParts.size()) {
-            startConversationPart(conversationParts.get(nextPos));
+        if (nextPos < conversationLines.size()) {
+            startConversationPart(conversationLines.get(nextPos));
         }
     }
 

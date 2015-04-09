@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.pojo;
 
-public class Story {
+public class Storyboard {
 
     private String key;
 

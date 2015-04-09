@@ -2,15 +2,15 @@ package com.shinav.mathapp.db.pojo;
 
 import android.text.TextUtils;
 
-public class TutorialPart {
+public class TutorialFrame {
 
     private String key;
 
     private int position;
     private String tutorialKey;
 
-    private String type;
-    private String typeKey;
+    private String frameType;
+    private String frameTypeKey;
 
     public String getKey() {
         return key;
@@ -36,28 +36,28 @@ public class TutorialPart {
         this.tutorialKey = tutorialKey;
     }
 
-    public String getType() {
-        return type;
+    public String getFrameType() {
+        return frameType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setFrameType(String frameType) {
+        this.frameType = frameType;
     }
 
-    public String getTypeKey() {
-        return typeKey;
+    public String getFrameTypeKey() {
+        return frameTypeKey;
     }
 
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
+    public void setFrameTypeKey(String frameTypeKey) {
+        this.frameTypeKey = frameTypeKey;
     }
 
     public boolean isConversation() {
-        return TextUtils.equals(getType(), "conversation");
+        return TextUtils.equals(getFrameType(), "conversation");
     }
 
     public boolean isQuestion() {
-        return TextUtils.equals(getType(), "question");
+        return TextUtils.equals(getFrameType(), "question");
     }
 
 }

@@ -7,10 +7,10 @@ import android.os.IBinder;
 
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Story;
-import com.shinav.mathapp.db.pojo.StoryPart;
-import com.shinav.mathapp.db.repository.StoryPartRepository;
-import com.shinav.mathapp.db.repository.StoryRepository;
+import com.shinav.mathapp.db.pojo.Storyboard;
+import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
+import com.shinav.mathapp.db.repository.StoryboardRepository;
 import com.shinav.mathapp.event.SendNextQuestionKey;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.QuestionActivity;
@@ -34,10 +34,10 @@ public class StorytellingService extends Service {
     public static final String ACTION_NEXT_KEY = "next_key";
 
     @Inject Bus bus;
-    @Inject StoryRepository storyRepository;
-    @Inject StoryPartRepository storyPartRepository;
+    @Inject StoryboardRepository storyboardRepository;
+    @Inject StoryboardFrameRepository storyboardFrameRepository;
 
-    private List<StoryPart> storyParts;
+    private List<StoryboardFrame> storyboardFrames;
     private int currentPosition = -1;
 
     @Override public IBinder onBind(Intent intent) {
@@ -71,12 +71,12 @@ public class StorytellingService extends Service {
     }
 
     private void fetchStoryForPerspective(String perspective) {
-        storyRepository.getByPerspective(perspective).first().subscribe(new Action1<Story>() {
-            @Override public void call(Story story) {
+        storyboardRepository.getByPerspective(perspective).first().subscribe(new Action1<Storyboard>() {
+            @Override public void call(Storyboard storyboard) {
 
-                storyPartRepository.getByStoryKey(story.getKey()).first().subscribe(new Action1<List<StoryPart>>() {
-                    @Override public void call(List<StoryPart> storyParts) {
-                        StorytellingService.this.storyParts = storyParts;
+                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first().subscribe(new Action1<List<StoryboardFrame>>() {
+                    @Override public void call(List<StoryboardFrame> storyboardFrames) {
+                        StorytellingService.this.storyboardFrames = storyboardFrames;
                     }
                 });
 
@@ -89,37 +89,37 @@ public class StorytellingService extends Service {
     }
 
     public String getNextQuestionKey() {
-        StoryPart storyPart = new StoryPart();
+        StoryboardFrame storyboardFrame = new StoryboardFrame();
 
         int counter = currentPosition;
-        while (counter+1 < storyParts.size() && !storyPart.isQuestion()) {
-            storyPart = storyParts.get(counter+1);
+        while (counter+1 < storyboardFrames.size() && !storyboardFrame.isQuestion()) {
+            storyboardFrame = storyboardFrames.get(counter+1);
             counter++;
         }
 
-        return storyPart.getTypeKey();
+        return storyboardFrame.getFrameTypeKey();
     }
 
     private void startNext() {
-        if (currentPosition+1 < storyParts.size()) {
+        if (currentPosition+1 < storyboardFrames.size()) {
             currentPosition++;
-            StoryPart storyPart = storyParts.get(currentPosition);
-            startBasedOnType(storyPart);
+            StoryboardFrame storyboardFrame = storyboardFrames.get(currentPosition);
+            startBasedOnType(storyboardFrame);
         }
     }
 
-    private void startBasedOnType(StoryPart storyPart) {
-        if (storyPart.isQuestion()) {
-            start(QuestionActivity.class, storyPart.getTypeKey());
+    private void startBasedOnType(StoryboardFrame storyboardFrame) {
+        if (storyboardFrame.isQuestion()) {
+            start(QuestionActivity.class, storyboardFrame.getFrameTypeKey());
 
-        } else if (storyPart.isConversation()) {
-            start(ConversationActivity.class, storyPart.getTypeKey());
+        } else if (storyboardFrame.isConversation()) {
+            start(ConversationActivity.class, storyboardFrame.getFrameTypeKey());
         }
     }
 
     private void start(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(this, cls);
-        intent.putExtra(Tables.StoryPart.TYPE_KEY, typeKey);
+        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, typeKey);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 

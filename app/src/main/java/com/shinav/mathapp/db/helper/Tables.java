@@ -28,22 +28,22 @@ public interface Tables {
         String POSITION = "position";
     }
 
-    public interface Story {
-        String TABLE_NAME = "story";
+    public interface Storyboard {
+        String TABLE_NAME = "storyboard";
         String KEY = "key";
         
         String PERSPECTIVE = "perspective";
     }
 
-    public interface StoryPart {
-        String TABLE_NAME = "story_part";
+    public interface StoryboardFrame {
+        String TABLE_NAME = "storyboard_frame";
         String KEY = "key";
 
-        String STORY_KEY = "story_key";
+        String STORYBOARD_KEY = "storyboard_key";
 
         String POSITION = "position";
-        String TYPE = "type";
-        String TYPE_KEY = "type_key";
+        String FRAME_TYPE = "frame_type";
+        String FRAME_TYPE_KEY = "frame_type_key";
     }
 
     public interface Conversation {
@@ -52,13 +52,13 @@ public interface Tables {
         String TITLE = "title";
     }
 
-    public interface ConversationPart {
-        String TABLE_NAME = "conversation_part";
+    public interface ConversationLine {
+        String TABLE_NAME = "conversation_line";
         String KEY = "key";
 
         String CONVERSATION_KEY = "conversation_key";
 
-        String MESSAGE = "message";
+        String VALUE = "value";
         String DELAY = "delay";
         String TYPING_DURATION = "typing_duration";
         String POSITION = "position";
@@ -88,15 +88,15 @@ public interface Tables {
         String PERSPECTIVE = "perspective";
     }
 
-    public interface TutorialPart {
-        String TABLE_NAME = "tutorial_part";
+    public interface TutorialFrame {
+        String TABLE_NAME = "tutorial_frame";
         String KEY = "key";
 
         String TUTORIAL_KEY = "tutorial_key";
 
         String POSITION = "position";
-        String TYPE = "type";
-        String TYPE_KEY = "type_key";
+        String FRAME_TYPE = "frame_type";
+        String FRAME_TYPE_KEY = "frame_type_key";
     }
 
 }

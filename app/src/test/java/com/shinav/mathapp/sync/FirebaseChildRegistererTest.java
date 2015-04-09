@@ -4,11 +4,13 @@ import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.firebase.listener.FirebaseApproachListener;
 import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
+import com.shinav.mathapp.firebase.listener.FirebaseConversationLineListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
-import com.shinav.mathapp.firebase.listener.FirebaseConversationPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryPartListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryboardFrameListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
+import com.shinav.mathapp.firebase.listener.FirebaseTutorialFrameListener;
+import com.shinav.mathapp.firebase.listener.FirebaseTutorialListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,23 +28,27 @@ public class FirebaseChildRegistererTest {
     public void setUp() throws Exception {
         firebase = Mockito.mock(Firebase.class);
 
-        when(firebase.child(Nodes.STORIES)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.STORY_PARTS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.STORYBOARD)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.STORYBOARD_FRAMES)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.CONVERSATION_PARTS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.CONVERSATION_LINES)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.QUESTIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.APPROACHES)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.APPROACH_PARTS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.TUTORIALS)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.TUTORIAL_FRAMES)).thenReturn(Mockito.mock(Firebase.class));
 
         new FirebaseChildRegisterer(
                 firebase,
                 Mockito.mock(FirebaseQuestionListener.class),
-                Mockito.mock(FirebaseStoryListener.class),
+                Mockito.mock(FirebaseStoryboardListener.class),
                 Mockito.mock(FirebaseConversationListener.class),
-                Mockito.mock(FirebaseConversationPartListener.class),
+                Mockito.mock(FirebaseConversationLineListener.class),
                 Mockito.mock(FirebaseApproachListener.class),
                 Mockito.mock(FirebaseApproachPartListener.class),
-                Mockito.mock(FirebaseStoryPartListener.class)
+                Mockito.mock(FirebaseStoryboardFrameListener.class),
+                Mockito.mock(FirebaseTutorialListener.class),
+                Mockito.mock(FirebaseTutorialFrameListener.class)
         ).register();
     }
 
@@ -58,7 +64,7 @@ public class FirebaseChildRegistererTest {
 
     @Test
     public void testRegistersChildStory() throws Exception {
-        Mockito.verify(firebase.child(Nodes.STORIES)).addChildEventListener(isA(FirebaseStoryListener.class));
+        Mockito.verify(firebase.child(Nodes.STORYBOARD)).addChildEventListener(isA(FirebaseStoryboardListener.class));
     }
 
 }

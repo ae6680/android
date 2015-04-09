@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.ConversationPart;
-import com.shinav.mathapp.event.ConversationMessageShown;
+import com.shinav.mathapp.db.pojo.ConversationLine;
+import com.shinav.mathapp.event.ConversationMessageShownEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
@@ -25,30 +25,30 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class ConversationPartView extends ButterKnifeLayout {
+public class ConversationLineView extends ButterKnifeLayout {
 
     public static final String IS_TYPING_TEXT = "aan het typen";
-    public static final int DELAY_MILLIS = 300;
+    public static final int DELAY_MILLIS = 150;
 
     private ViewHolder holder;
-    private ConversationPart conversationPart;
+    private ConversationLine conversationLine;
 
     @Inject Bus bus;
 
-    public ConversationPartView(Context context, ConversationPart conversationPart) {
+    public ConversationLineView(Context context, ConversationLine conversationLine) {
         super(context);
-        init(conversationPart);
+        init(conversationLine);
     }
 
-    private void init(ConversationPart conversationPart) {
-        this.conversationPart = conversationPart;
+    private void init(ConversationLine conversationLine) {
+        this.conversationLine = conversationLine;
 
         ComponentFactory.getViewComponent(this.getContext()).inject(this);
 
         int layout;
 
-        switch (conversationPart.getAlignment()) {
-            case ConversationPart.ALIGNMENT_RIGHT:
+        switch (conversationLine.getAlignment()) {
+            case ConversationLine.ALIGNMENT_RIGHT:
                 layout = R.layout.conversation_list_item_right;
                 break;
             default:
@@ -64,7 +64,7 @@ public class ConversationPartView extends ButterKnifeLayout {
 
     public void startTyping() {
 
-        holder.message.setText(IS_TYPING_TEXT);
+        holder.line_value.setText(IS_TYPING_TEXT);
 
         final Subscription typingSubscription = Observable.interval(DELAY_MILLIS, TimeUnit.MILLISECONDS).map(new Func1<Long, String>() {
 
@@ -91,11 +91,11 @@ public class ConversationPartView extends ButterKnifeLayout {
                 .subscribe(new Action1<String>() {
                     @Override public void call(String text) {
                         Log.d("HOI", "Message text :" + text);
-                        holder.message.setText(text);
+                        holder.line_value.setText(text);
                     }
                 });
 
-        Observable<Long> timer = Observable.timer(conversationPart.getTypingDuration(), TimeUnit.MILLISECONDS);
+        Observable<Long> timer = Observable.timer(conversationLine.getTypingDuration(), TimeUnit.MILLISECONDS);
         timer
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
@@ -108,14 +108,13 @@ public class ConversationPartView extends ButterKnifeLayout {
     }
 
     public void showMessage() {
-        holder.message.setText(conversationPart.getMessage());
-
-        bus.post(new ConversationMessageShown(conversationPart.getPosition()));
+        holder.line_value.setText(conversationLine.getValue());
+        bus.post(new ConversationMessageShownEvent(conversationLine.getPosition()));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.conversation_part_message) TextView message;
+        @InjectView(R.id.conversation_line_value) TextView line_value;
 
         public ViewHolder(View itemView) {
             super(itemView);

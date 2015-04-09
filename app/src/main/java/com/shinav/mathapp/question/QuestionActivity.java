@@ -99,7 +99,7 @@ public class QuestionActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
 
-        final String questionKey = getIntent().getStringExtra(Tables.StoryPart.TYPE_KEY);
+        final String questionKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         loadQuestion(questionKey);
         loadApproach(questionKey);

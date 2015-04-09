@@ -5,12 +5,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.shinav.mathapp.db.dataMapper.TutorialFrameMapper;
 import com.shinav.mathapp.db.dataMapper.TutorialMapper;
-import com.shinav.mathapp.db.dataMapper.TutorialPartMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Tutorial;
-import com.shinav.mathapp.db.pojo.TutorialPart;
-import com.shinav.mathapp.db.repository.TutorialPartRepository;
+import com.shinav.mathapp.db.pojo.TutorialFrame;
+import com.shinav.mathapp.db.repository.TutorialFrameRepository;
 import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.main.MainActivity;
@@ -32,13 +32,13 @@ public class TutorialManagingService extends Service {
     public static final String ACTION_NEXT = "next";
     public static final String ACTION_BACK = "back";
 
-    @Inject TutorialPartMapper tutorialPartMapper;
+    @Inject TutorialFrameMapper tutorialFrameMapper;
     @Inject TutorialMapper tutorialMapper;
 
     @Inject TutorialRepository tutorialRepository;
-    @Inject TutorialPartRepository tutorialPartRepository;
+    @Inject TutorialFrameRepository tutorialFrameRepository;
 
-    private List<TutorialPart> tutorialParts;
+    private List<TutorialFrame> tutorialFrames;
     private int currentPosition = -1;
 
     @Override public IBinder onBind(Intent intent) { return null; }
@@ -78,9 +78,9 @@ public class TutorialManagingService extends Service {
 
             @Override public void call(Tutorial tutorial) {
 
-                tutorialPartRepository.getByTutorialKey(tutorial.getKey()).first().subscribe(new Action1<List<TutorialPart>>() {
-                    @Override public void call(List<TutorialPart> tutorialParts) {
-                        TutorialManagingService.this.tutorialParts = tutorialParts;
+                tutorialFrameRepository.getByTutorialKey(tutorial.getKey()).first().subscribe(new Action1<List<TutorialFrame>>() {
+                    @Override public void call(List<TutorialFrame> tutorialFrames) {
+                        TutorialManagingService.this.tutorialFrames = tutorialFrames;
                     }
                 });
 
@@ -90,27 +90,27 @@ public class TutorialManagingService extends Service {
     }
 
     private void startNext() {
-        if (currentPosition+1 < tutorialParts.size()) {
+        if (currentPosition+1 < tutorialFrames.size()) {
             currentPosition++;
-            TutorialPart tutorialPart = tutorialParts.get(currentPosition);
-            startBasedOnType(tutorialPart);
+            TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
+            startBasedOnType(tutorialFrame);
         } else {
             startActivity(MainActivity.class, null);
         }
     }
 
-    private void startBasedOnType(TutorialPart tutorialPart) {
-        if (tutorialPart.isQuestion()) {
-            startActivity(TutorialQuestionActivity.class, tutorialPart.getTypeKey());
+    private void startBasedOnType(TutorialFrame tutorialFrame) {
+        if (tutorialFrame.isQuestion()) {
+            startActivity(TutorialQuestionActivity.class, tutorialFrame.getFrameTypeKey());
 
-        } else if (tutorialPart.isConversation()) {
-            startActivity(TutorialConversationActivity.class, tutorialPart.getTypeKey());
+        } else if (tutorialFrame.isConversation()) {
+            startActivity(TutorialConversationActivity.class, tutorialFrame.getFrameTypeKey());
         }
     }
 
     private void startActivity(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(this, cls);
-        intent.putExtra(Tables.StoryPart.TYPE_KEY, typeKey);
+        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, typeKey);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 

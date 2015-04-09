@@ -3,15 +3,15 @@ package com.shinav.mathapp.firebase;
 public abstract class FirebaseNodes {
 
     public interface Nodes {
-        String STORIES = "stories";
-        String STORY_PARTS = "story_parts";
+        String STORYBOARD = "storyboards";
+        String STORYBOARD_FRAMES = "storyboard_frames";
         String CONVERSATIONS = "conversations";
-        String CONVERSATION_PARTS = "conversation_parts";
+        String CONVERSATION_LINES = "conversation_lines";
         String QUESTIONS = "questions";
         String APPROACHES = "approaches";
         String APPROACH_PARTS = "approach_parts";
         String TUTORIALS = "tutorials";
-        String TUTORIAL_PARTS = "tutorial_parts";
+        String TUTORIAL_FRAMES = "tutorial_frames";
     }
 
 }

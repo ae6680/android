@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class StoryProgressPartAdapterTest {
+public class StoryboardProgressPartAdapterTest {
 
     private StoryProgressPartAdapter adapter;
 

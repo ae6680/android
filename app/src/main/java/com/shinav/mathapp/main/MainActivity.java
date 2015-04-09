@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Subscribe public void onMakeQuestionButtonClicked(MakeQuestionButtonClicked event) {
         Intent intent = new Intent(this, QuestionActivity.class);
-        intent.putExtra(Tables.StoryPart.TYPE_KEY, event.getQuestionFirebaseKey());
+        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, event.getQuestionFirebaseKey());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }

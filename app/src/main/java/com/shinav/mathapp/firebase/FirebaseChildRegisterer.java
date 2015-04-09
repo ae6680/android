@@ -4,13 +4,13 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.listener.FirebaseApproachListener;
 import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
+import com.shinav.mathapp.firebase.listener.FirebaseConversationLineListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
-import com.shinav.mathapp.firebase.listener.FirebaseConversationPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryPartListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryboardFrameListener;
+import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
+import com.shinav.mathapp.firebase.listener.FirebaseTutorialFrameListener;
 import com.shinav.mathapp.firebase.listener.FirebaseTutorialListener;
-import com.shinav.mathapp.firebase.listener.FirebaseTutorialPartListener;
 
 import javax.inject.Inject;
 
@@ -20,50 +20,50 @@ public class FirebaseChildRegisterer {
 
     private final Firebase firebase;
     private final FirebaseQuestionListener firebaseQuestionListener;
-    private final FirebaseStoryListener firebaseStoryListener;
+    private final FirebaseStoryboardListener firebaseStoryboardListener;
     private final FirebaseConversationListener firebaseConversationListener;
     private final FirebaseApproachListener firebaseApproachListener;
     private final FirebaseApproachPartListener firebaseApproachPartListener;
-    private final FirebaseStoryPartListener firebaseStoryPartListener;
-    private final FirebaseConversationPartListener firebaseConversationPartListener;
+    private final FirebaseStoryboardFrameListener firebaseStoryboardFrameListener;
+    private final FirebaseConversationLineListener firebaseConversationLineListener;
     private final FirebaseTutorialListener firebaseTutorialListener;
-    private final FirebaseTutorialPartListener firebaseTutorialPartListener;
+    private final FirebaseTutorialFrameListener firebaseTutorialFrameListener;
 
     @Inject
     public FirebaseChildRegisterer(
             Firebase firebase,
             FirebaseQuestionListener firebaseQuestionListener,
-            FirebaseStoryListener firebaseStoryListener,
+            FirebaseStoryboardListener firebaseStoryboardListener,
             FirebaseConversationListener firebaseConversationListener,
-            FirebaseConversationPartListener firebaseConversationPartListener,
+            FirebaseConversationLineListener firebaseConversationLineListener,
             FirebaseApproachListener firebaseApproachListener,
             FirebaseApproachPartListener firebaseApproachPartListener,
-            FirebaseStoryPartListener firebaseStoryPartListener,
+            FirebaseStoryboardFrameListener firebaseStoryboardFrameListener,
             FirebaseTutorialListener firebaseTutorialListener,
-            FirebaseTutorialPartListener firebaseTutorialPartListener
+            FirebaseTutorialFrameListener firebaseTutorialFrameListener
     ) {
         this.firebase = firebase;
         this.firebaseQuestionListener = firebaseQuestionListener;
-        this.firebaseStoryListener = firebaseStoryListener;
+        this.firebaseStoryboardListener = firebaseStoryboardListener;
         this.firebaseConversationListener = firebaseConversationListener;
-        this.firebaseConversationPartListener = firebaseConversationPartListener;
+        this.firebaseConversationLineListener = firebaseConversationLineListener;
         this.firebaseApproachListener = firebaseApproachListener;
         this.firebaseApproachPartListener = firebaseApproachPartListener;
-        this.firebaseStoryPartListener = firebaseStoryPartListener;
+        this.firebaseStoryboardFrameListener = firebaseStoryboardFrameListener;
         this.firebaseTutorialListener = firebaseTutorialListener;
-        this.firebaseTutorialPartListener = firebaseTutorialPartListener;
+        this.firebaseTutorialFrameListener = firebaseTutorialFrameListener;
     }
 
     public void register() {
         addChildEventListener(Nodes.QUESTIONS, firebaseQuestionListener);
         addChildEventListener(Nodes.APPROACHES, firebaseApproachListener);
         addChildEventListener(Nodes.APPROACH_PARTS, firebaseApproachPartListener);
-        addChildEventListener(Nodes.STORIES, firebaseStoryListener);
-        addChildEventListener(Nodes.STORY_PARTS, firebaseStoryPartListener);
+        addChildEventListener(Nodes.STORYBOARD, firebaseStoryboardListener);
+        addChildEventListener(Nodes.STORYBOARD_FRAMES, firebaseStoryboardFrameListener);
         addChildEventListener(Nodes.CONVERSATIONS, firebaseConversationListener);
-        addChildEventListener(Nodes.CONVERSATION_PARTS, firebaseConversationPartListener);
+        addChildEventListener(Nodes.CONVERSATION_LINES, firebaseConversationLineListener);
         addChildEventListener(Nodes.TUTORIALS, firebaseTutorialListener);
-        addChildEventListener(Nodes.TUTORIAL_PARTS, firebaseTutorialPartListener);
+        addChildEventListener(Nodes.TUTORIAL_FRAMES, firebaseTutorialFrameListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {
