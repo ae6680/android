@@ -8,13 +8,6 @@ buildscript {
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
@@ -76,8 +69,8 @@ dependencies {
 
     // DI
     compile 'com.jakewharton:butterknife:6.0.0'
-    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
-    apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
+    compile 'com.google.dagger:dagger:2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0'
     provided 'javax.annotation:javax.annotation-api:1.2'
 
     // Instrumentation testing
