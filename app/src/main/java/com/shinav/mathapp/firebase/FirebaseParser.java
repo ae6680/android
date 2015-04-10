@@ -29,11 +29,13 @@ public class FirebaseParser {
         String answer = getString(dataSnapshot, Tables.Question.ANSWER);
         String value =  getString(dataSnapshot, Tables.Question.VALUE);
         String title =  getString(dataSnapshot, Tables.Question.TITLE);
+        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
 
         question.setKey(dataSnapshot.getKey());
         question.setAnswer(answer);
         question.setValue(value);
         question.setTitle(title);
+        question.setExplanation(explanation);
 
         return question;
     }

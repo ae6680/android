@@ -217,7 +217,7 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
 
-        updateStoryProgress(event);
+//        updateStoryProgress(event);
     }
 
     private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
@@ -336,7 +336,11 @@ public class QuestionActivity extends ActionBarActivity {
         anim1.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationEnd(Animator animation) {
                 List<Card> cards = new ArrayList<>();
-                cards.add(new QuestionExplanationView(QuestionActivity.this));
+
+                QuestionExplanationView explanationView = new QuestionExplanationView(QuestionActivity.this);
+                explanationView.setQuestion(question);
+
+                cards.add(explanationView);
                 cardViewPager.addCards(cards);
             }
         });

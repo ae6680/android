@@ -8,6 +8,7 @@ import com.squareup.sqlbrite.SqlBrite;
 import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.EXPLANATION;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
@@ -27,6 +28,7 @@ public class QuestionMapper {
         values.put(VALUE, question.getValue());
         values.put(TITLE, question.getTitle());
         values.put(ANSWER, question.getAnswer());
+        values.put(EXPLANATION, question.getExplanation());
 
         return values;
     }

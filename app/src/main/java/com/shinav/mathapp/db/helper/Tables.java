@@ -9,6 +9,7 @@ public interface Tables {
         String TITLE = "title";
         String VALUE = "value";
         String ANSWER = "answer";
+        String EXPLANATION = "explanation";
     }
 
     public interface Approach {

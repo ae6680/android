@@ -65,7 +65,10 @@ public class TutorialView extends ButterKnifeLayout {
         String perspective = null;
 
         if (maleButton.isSelected()) {
-            perspective = TutorialManagingService.PERSPECTIVE_MALE;
+//            perspective = TutorialManagingService.PERSPECTIVE_MALE;
+
+            // Hack for now because we have only female perspective content.
+            perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
         } else if (femaleButton.isSelected()) {
             perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
         }

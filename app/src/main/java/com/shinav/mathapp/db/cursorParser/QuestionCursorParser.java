@@ -7,6 +7,7 @@ import com.shinav.mathapp.db.pojo.Question;
 import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.EXPLANATION;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
@@ -37,6 +38,7 @@ public class QuestionCursorParser implements rx.functions.Func1<Query, Question>
         question.setValue(c.getString(c.getColumnIndex(VALUE)));
         question.setTitle(c.getString(c.getColumnIndex(TITLE)));
         question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
+        question.setExplanation(c.getString(c.getColumnIndex(EXPLANATION)));
 
         return question;
     }
