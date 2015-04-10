@@ -22,6 +22,7 @@ public class ConversationMapper {
 
         values.put(Tables.Conversation.KEY, conversation.getKey());
         values.put(Tables.Conversation.TITLE, conversation.getTitle());
+        values.put(Tables.Conversation.IMAGE_URL, conversation.getImageUrl());
 
         return values;
     }

@@ -3,6 +3,7 @@ package com.shinav.mathapp.conversation;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -18,6 +19,7 @@ import com.shinav.mathapp.event.ConversationMessageShownEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +40,7 @@ public class ConversationActivity extends ActionBarActivity {
 //    @InjectView(R.id.conversation_recycler_view) ConversationLineRecyclerView conversationLineRecyclerView;
     @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
     @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.conversation_screen) ImageView conversationScreen;
 
     @Inject Bus bus;
     @Inject ConversationLineMapper conversationLineMapper;
@@ -102,8 +105,18 @@ public class ConversationActivity extends ActionBarActivity {
             @Override public void call(Conversation conversation) {
                 toolbar.setTitle(conversation.getTitle());
                 setSupportActionBar(toolbar);
+                loadBackground(conversation);
             }
         });
+    }
+
+    private void loadBackground(Conversation conversation) {
+        Picasso.with(this)
+                .load(conversation.getImageUrl())
+                .centerCrop()
+                .fit()
+                .into(conversationScreen);
+        conversationScreen.setImageAlpha(50);
     }
 
     private void startConversationPart(final ConversationLine conversationLine) {
@@ -136,29 +149,6 @@ public class ConversationActivity extends ActionBarActivity {
 
                 });
     }
-
-//    private void startConversationPart(final ConversationLine conversationLine) {
-//
-////        Observable<Long> delayedTimer = Observable.timer(
-////                conversationLine.getTypingDuration(),
-////                TimeUnit.MILLISECONDS
-////        );
-////
-////        delayedTimer
-////                .observeOn(AndroidSchedulers.mainThread())
-////                .subscribe(new Action1<Long>() {
-////
-////                    @Override public void call(Long aLong) {
-////                        conversationLineRecyclerView.addConversationLine(conversationLine);
-////                    }
-////
-////                });
-//
-//        for (ConversationLine line : conversationLines) {
-//            conversationLineRecyclerView.addConversationLine(line);
-//        }
-//        conversationLineRecyclerView.getAdapter().notifyDataSetChanged();
-//    }
 
     @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {
         int nextPos = event.getPosition() + 1;

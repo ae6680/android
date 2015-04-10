@@ -4,6 +4,7 @@ public class Conversation {
 
     private String key;
     private String title;
+    private String imageUrl;
 
     public String getKey() {
         return key;
@@ -21,4 +22,11 @@ public class Conversation {
         this.title = title;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

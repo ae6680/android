@@ -95,10 +95,12 @@ public class FirebaseParser {
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
-        String title = getString(dataSnapshot, Tables.Conversation.TITLE);
+        String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
+        String image_url =  getString(dataSnapshot, Tables.Conversation.IMAGE_URL);
 
         conversation.setKey(dataSnapshot.getKey());
         conversation.setTitle(title);
+        conversation.setImageUrl(image_url);
 
         return conversation;
     }

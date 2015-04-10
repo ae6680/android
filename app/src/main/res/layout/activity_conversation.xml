@@ -3,11 +3,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <!--<RelativeLayout-->
-    <!--android:background="@drawable/background_bus_road"-->
-    <!--android:alpha="0.3"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"/>-->
+    <ImageView
+        android:id="@+id/conversation_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,15 +30,6 @@
             android:layout_height="wrap_content"/>
 
     </ScrollView>
-
-    <!--<com.shinav.mathapp.conversation.ConversationLineRecyclerView-->
-        <!--android:id="@+id/conversation_recycler_view"-->
-        <!--android:layout_below="@id/conversation_title"-->
-        <!--android:layout_above="@id/next_question_button"-->
-        <!--android:layout_marginStart="@dimen/primary_margin"-->
-        <!--android:layout_marginEnd="@dimen/primary_margin"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
 
     <TextView
         android:id="@+id/next_question_button"

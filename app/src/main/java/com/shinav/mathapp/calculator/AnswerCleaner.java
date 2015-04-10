@@ -20,7 +20,7 @@ public class AnswerCleaner {
     public String roundOnDecimals(String answer, int amountOfDecimals) {
 
         String[] splits = answer.split("\\.");
-        if (splits.length > 0) {
+        if (splits.length > 1) {
             String dotSplit = splits[1];
             int decimalRange = answer.length() - dotSplit.length() + amountOfDecimals;
             if (decimalRange < answer.length()) {
