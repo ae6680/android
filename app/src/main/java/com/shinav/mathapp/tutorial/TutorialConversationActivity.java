@@ -22,6 +22,10 @@ public class TutorialConversationActivity extends ConversationActivity {
         bus.unregister(this);
     }
 
+    @Override public void inject() {
+        ComponentFactory.getActivityComponent(this).inject(TutorialConversationActivity.this);
+    }
+
     @Override public void onSubmitClicked() {
 
         Intent intent = new Intent(this, TutorialManagingService.class);
@@ -41,10 +45,6 @@ public class TutorialConversationActivity extends ConversationActivity {
         startService(intent);
 
         super.onBackPressed();
-    }
-
-    @Override public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(TutorialConversationActivity.this);
     }
 
     @Override @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {

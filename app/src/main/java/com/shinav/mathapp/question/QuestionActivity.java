@@ -97,7 +97,7 @@ public class QuestionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_question);
 
         ButterKnife.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        inject();
 
         final String questionKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
@@ -109,12 +109,12 @@ public class QuestionActivity extends ActionBarActivity {
 
     @Override public void onStart() {
         super.onStart();
-        bus.register(this);
+        registerBus();
     }
 
     @Override public void onStop() {
         super.onStop();
-        bus.unregister(this);
+        unregisterBus();
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,6 +134,18 @@ public class QuestionActivity extends ActionBarActivity {
     @Override public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_right_from_outside, R.anim.slide_right_to_outside);
+    }
+
+    public void inject() {
+        ComponentFactory.getActivityComponent(this).inject(this);
+    }
+
+    public void registerBus() {
+        bus.register(this);
+    }
+
+    public void unregisterBus() {
+        bus.unregister(this);
     }
 
     private void loadQuestion(String questionKey) {
