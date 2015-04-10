@@ -27,14 +27,12 @@ import static android.view.View.VISIBLE;
 
 public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
 
-    private final Bus bus;
+    @Inject Bus bus;
 
     private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
 
     @Inject
-    public StoryProgressPartAdapter(Bus bus) {
-        this.bus = bus;
-    }
+    public StoryProgressPartAdapter() { }
 
     @Override
     public StoryProgressPartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

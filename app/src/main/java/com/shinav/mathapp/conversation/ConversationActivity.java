@@ -3,6 +3,7 @@ package com.shinav.mathapp.conversation;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
@@ -34,7 +35,9 @@ import rx.functions.Action1;
 public class ConversationActivity extends Activity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
+//    @InjectView(R.id.conversation_recycler_view) ConversationLineRecyclerView conversationLineRecyclerView;
     @InjectView(R.id.conversation_title) TextView conversationTitle;
+    @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
 
     @Inject Bus bus;
     @Inject ConversationLineMapper conversationLineMapper;
@@ -102,6 +105,12 @@ public class ConversationActivity extends Activity {
         );
 
         conversationContainer.addView(view);
+        conversationScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                conversationScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
 
         Observable<Long> delayedTimer = Observable.timer(
                 conversationLine.getTypingDuration(),
@@ -118,6 +127,29 @@ public class ConversationActivity extends Activity {
 
                 });
     }
+
+//    private void startConversationPart(final ConversationLine conversationLine) {
+//
+////        Observable<Long> delayedTimer = Observable.timer(
+////                conversationLine.getTypingDuration(),
+////                TimeUnit.MILLISECONDS
+////        );
+////
+////        delayedTimer
+////                .observeOn(AndroidSchedulers.mainThread())
+////                .subscribe(new Action1<Long>() {
+////
+////                    @Override public void call(Long aLong) {
+////                        conversationLineRecyclerView.addConversationLine(conversationLine);
+////                    }
+////
+////                });
+//
+//        for (ConversationLine line : conversationLines) {
+//            conversationLineRecyclerView.addConversationLine(line);
+//        }
+//        conversationLineRecyclerView.getAdapter().notifyDataSetChanged();
+//    }
 
     @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {
         int nextPos = event.getPosition() + 1;

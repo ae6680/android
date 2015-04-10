@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -15,30 +14,28 @@ import javax.inject.Inject;
 
 public class StoryCardRecyclerView extends RecyclerView {
 
-    @Inject Bus bus;
     @Inject StoryProgressPartAdapter storyProgressPartAdapter;
 
     public StoryCardRecyclerView(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public StoryCardRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public StoryCardRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
-        ComponentFactory.getViewComponent(context).inject(this);
+    private void init() {
+        ComponentFactory.getViewComponent(this.getContext()).inject(this);
 
         setAdapter(storyProgressPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
-
     }
 
     public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {

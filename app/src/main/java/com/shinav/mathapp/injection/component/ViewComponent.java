@@ -2,6 +2,7 @@ package com.shinav.mathapp.injection.component;
 
 import com.shinav.mathapp.approach.ApproachDragRecyclerView;
 import com.shinav.mathapp.calculator.CalculatorFragment;
+import com.shinav.mathapp.conversation.ConversationLineRecyclerView;
 import com.shinav.mathapp.conversation.ConversationLineView;
 import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
@@ -36,5 +37,6 @@ public interface ViewComponent {
     void inject(QuestionNextCardView questionNextCardView);
     void inject(CalculatorFragment calculatorFragment);
     void inject(TutorialView tutorialView);
+    void inject(ConversationLineRecyclerView conversationLineRecyclerView);
     void inject(ConversationLineView conversationLineView);
 }
