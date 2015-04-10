@@ -1,8 +1,9 @@
 package com.shinav.mathapp.db.pojo;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-public class TutorialFrame {
+public class TutorialFrame implements Comparable<TutorialFrame> {
 
     private String key;
 
@@ -60,4 +61,7 @@ public class TutorialFrame {
         return TextUtils.equals(getFrameType(), "question");
     }
 
+    @Override public int compareTo(@NonNull TutorialFrame another) {
+        return getPosition() - another.getPosition();
+    }
 }

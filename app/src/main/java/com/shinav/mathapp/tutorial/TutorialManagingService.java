@@ -13,8 +13,8 @@ import com.shinav.mathapp.db.pojo.TutorialFrame;
 import com.shinav.mathapp.db.repository.TutorialFrameRepository;
 import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.main.MainActivity;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,6 +80,7 @@ public class TutorialManagingService extends Service {
 
                 tutorialFrameRepository.getByTutorialKey(tutorial.getKey()).first().subscribe(new Action1<List<TutorialFrame>>() {
                     @Override public void call(List<TutorialFrame> tutorialFrames) {
+                        Collections.sort(tutorialFrames);
                         TutorialManagingService.this.tutorialFrames = tutorialFrames;
                     }
                 });
@@ -95,7 +96,7 @@ public class TutorialManagingService extends Service {
             TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
             startBasedOnType(tutorialFrame);
         } else {
-            startActivity(MainActivity.class, null);
+//            startActivity(MainActivity.class, null);
         }
     }
 
