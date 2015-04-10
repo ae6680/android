@@ -56,7 +56,6 @@ public class ConversationActivity extends ActionBarActivity {
         inject();
 
         String conversationKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
-        setSupportActionBar(toolbar);
 
         loadTitle(conversationKey);
         startConversation(conversationKey);
@@ -102,6 +101,7 @@ public class ConversationActivity extends ActionBarActivity {
         conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
             @Override public void call(Conversation conversation) {
                 toolbar.setTitle(conversation.getTitle());
+                setSupportActionBar(toolbar);
             }
         });
     }
