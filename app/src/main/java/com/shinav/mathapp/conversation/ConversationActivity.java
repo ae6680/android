@@ -1,10 +1,10 @@
 package com.shinav.mathapp.conversation;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.ConversationLineMapper;
@@ -32,12 +32,12 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public class ConversationActivity extends Activity {
+public class ConversationActivity extends ActionBarActivity {
 
     @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
 //    @InjectView(R.id.conversation_recycler_view) ConversationLineRecyclerView conversationLineRecyclerView;
-    @InjectView(R.id.conversation_title) TextView conversationTitle;
     @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
 
     @Inject Bus bus;
     @Inject ConversationLineMapper conversationLineMapper;
@@ -56,13 +56,32 @@ public class ConversationActivity extends Activity {
         inject();
 
         String conversationKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
+        setSupportActionBar(toolbar);
 
         loadTitle(conversationKey);
         startConversation(conversationKey);
     }
 
+    @Override public void onStart() {
+        super.onStart();
+        registerBus();
+    }
+
+    @Override public void onStop() {
+        super.onStop();
+        unregisterBus();
+    }
+
     public void inject() {
         ComponentFactory.getActivityComponent(this).inject(this);
+    }
+
+    public void registerBus() {
+        bus.register(this);
+    }
+
+    public void unregisterBus() {
+        bus.unregister(this);
     }
 
     private void startConversation(String conversationKey) {
@@ -82,19 +101,9 @@ public class ConversationActivity extends Activity {
     private void loadTitle(String conversationKey) {
         conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
             @Override public void call(Conversation conversation) {
-                conversationTitle.setText(conversation.getTitle());
+                toolbar.setTitle(conversation.getTitle());
             }
         });
-    }
-
-    @Override public void onStart() {
-        super.onStart();
-        bus.register(this);
-    }
-
-    @Override public void onStop() {
-        super.onStop();
-        bus.unregister(this);
     }
 
     private void startConversationPart(final ConversationLine conversationLine) {

@@ -14,13 +14,11 @@ public class TutorialConversationActivity extends ConversationActivity {
 
     @Inject Bus bus;
 
-    @Override public void onStart() {
-        super.onStart();
+    @Override public void registerBus() {
         bus.register(this);
     }
 
-    @Override public void onStop() {
-        super.onStop();
+    @Override public void unregisterBus() {
         bus.unregister(this);
     }
 
