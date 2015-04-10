@@ -16,6 +16,7 @@ public class ConversationLine implements Comparable<ConversationLine> {
     private int delay;
     private int typingDuration;
     private int alignment;
+    private String imageUrl;
 
     public String getKey() {
         return key;
@@ -71,6 +72,14 @@ public class ConversationLine implements Comparable<ConversationLine> {
 
     public void setAlignment(int alignment) {
         this.alignment = alignment;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override public int compareTo(@NonNull ConversationLine another) {

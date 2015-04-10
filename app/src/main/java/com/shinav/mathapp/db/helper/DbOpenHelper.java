@@ -136,6 +136,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Tables.ConversationLine.TYPING_DURATION + " INTEGER,"
                         + Tables.ConversationLine.POSITION + " INTEGER,"
                         + Tables.ConversationLine.ALIGNMENT + " INTEGER,"
+                        + Tables.ConversationLine.IMAGE_URL + " TEXT,"
                         + " UNIQUE (" + Tables.ConversationLine.KEY + ") ON CONFLICT REPLACE)"
         );
 

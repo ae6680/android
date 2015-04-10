@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
@@ -12,6 +13,7 @@ import com.shinav.mathapp.event.ConversationMessageShownEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,6 +60,12 @@ public class ConversationLineView extends ButterKnifeLayout {
         View view = inflate(layout, this, false);
 
         holder =  new ViewHolder(view);
+
+        Picasso.with(this.getContext())
+                .load(conversationLine.getImageUrl())
+                .centerCrop()
+                .fit()
+                .into(holder.image);
 
         addView(view);
     }
@@ -115,6 +123,7 @@ public class ConversationLineView extends ButterKnifeLayout {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.conversation_line_value) TextView line_value;
+        @InjectView(R.id.conversation_line_image) ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);

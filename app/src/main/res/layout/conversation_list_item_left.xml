@@ -6,8 +6,7 @@
               android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/conversation_part_image"
-        android:src="@drawable/bot"
+        android:id="@+id/conversation_line_image"
         android:layout_width="60dp"
         android:layout_height="60dp"/>
 

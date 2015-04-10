@@ -9,15 +9,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="@dimen/primary_margin"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/conversation_part_image"
+        android:layout_toStartOf="@id/conversation_line_image"
         android:textColor="#fff"
         android:gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ImageView
-        android:id="@+id/conversation_part_image"
-        android:src="@drawable/bot"
+        android:id="@+id/conversation_line_image"
         android:layout_alignParentEnd="true"
         android:layout_width="60dp"
         android:layout_height="60dp"/>

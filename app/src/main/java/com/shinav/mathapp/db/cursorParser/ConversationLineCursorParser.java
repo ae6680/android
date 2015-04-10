@@ -14,6 +14,7 @@ import rx.functions.Func1;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.ALIGNMENT;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.CONVERSATION_KEY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.DELAY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationLine.IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.KEY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.TYPING_DURATION;
@@ -48,6 +49,7 @@ public class ConversationLineCursorParser implements Func1<Query, List<Conversat
         conversationLine.setDelay(c.getInt(c.getColumnIndex(DELAY)));
         conversationLine.setTypingDuration(c.getInt(c.getColumnIndex(TYPING_DURATION)));
         conversationLine.setAlignment(c.getInt(c.getColumnIndex(ALIGNMENT)));
+        conversationLine.setImageUrl(c.getString(c.getColumnIndex(IMAGE_URL)));
 
         return conversationLine;
     }

@@ -64,6 +64,7 @@ public interface Tables {
         String TYPING_DURATION = "typing_duration";
         String POSITION = "position";
         String ALIGNMENT = "alignment";
+        String IMAGE_URL = "image_url";
     }
 
     public interface StoryProgress {

@@ -112,6 +112,7 @@ public class FirebaseParser {
         String delay =            getString(dataSnapshot, Tables.ConversationLine.DELAY);
         String typingDuration =   getString(dataSnapshot, Tables.ConversationLine.TYPING_DURATION);
         String alignment =        getString(dataSnapshot, Tables.ConversationLine.ALIGNMENT);
+        String image_url =        getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
 
         conversationLine.setKey(dataSnapshot.getKey());
         conversationLine.setConversationKey(conversation_key);
@@ -120,6 +121,7 @@ public class FirebaseParser {
         conversationLine.setDelay(Integer.parseInt(delay));
         conversationLine.setTypingDuration(Integer.parseInt(typingDuration));
         conversationLine.setAlignment(Integer.parseInt(alignment));
+        conversationLine.setImageUrl(image_url);
 
         return conversationLine;
     }

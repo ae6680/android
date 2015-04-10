@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.ALIGNMENT;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.CONVERSATION_KEY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.DELAY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationLine.IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.KEY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.TABLE_NAME;
@@ -33,6 +34,7 @@ public class ConversationLineMapper {
         values.put(TYPING_DURATION, conversationLine.getTypingDuration());
         values.put(CONVERSATION_KEY, conversationLine.getConversationKey());
         values.put(VALUE, conversationLine.getValue());
+        values.put(IMAGE_URL, conversationLine.getImageUrl());
 
         return values;
     }

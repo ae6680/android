@@ -34,7 +34,7 @@ public class TutorialQuestionActivity extends QuestionActivity {
         ComponentFactory.getActivityComponent(this).inject(TutorialQuestionActivity.this);
     }
 
-    @Override public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
+    @Override @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
 
         Intent intent = new Intent(this, TutorialManagingService.class);
 
