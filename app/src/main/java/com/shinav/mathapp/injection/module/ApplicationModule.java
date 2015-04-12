@@ -1,8 +1,10 @@
 package com.shinav.mathapp.injection.module;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.firebase.client.Firebase;
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
@@ -46,6 +48,10 @@ public class ApplicationModule {
 
     @Provides @ForApplication Context provideApplicationContext() {
         return applicationContext;
+    }
+
+    @Provides SharedPreferences provideSharedPreferences(@ForApplication Context context) {
+        return context.getSharedPreferences(MyApplication.PREF, Context.MODE_PRIVATE);
     }
 
 }

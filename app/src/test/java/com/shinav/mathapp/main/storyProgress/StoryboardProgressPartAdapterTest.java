@@ -1,7 +1,6 @@
 package com.shinav.mathapp.main.storyProgress;
 
-import com.shinav.mathapp.db.pojo.StoryProgressPart;
-import com.squareup.otto.Bus;
+import com.shinav.mathapp.db.pojo.StoryboardFrame;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,21 +19,21 @@ import static org.junit.Assert.assertThat;
 @Config(emulateSdk = 18, manifest = Config.NONE)
 public class StoryboardProgressPartAdapterTest {
 
-    private StoryProgressPartAdapter adapter;
+    private StoryboardFrameAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new StoryProgressPartAdapter(Mockito.mock(Bus.class));
+        adapter = new StoryboardFrameAdapter();
     }
 
     @Test
     public void testItemCountIsAmountOfQuestions() throws Exception {
-        List<StoryProgressPart> storyProgressParts = Arrays.asList(
-                Mockito.mock(StoryProgressPart.class),
-                Mockito.mock(StoryProgressPart.class)
+        List<StoryboardFrame> storyboardFrames = Arrays.asList(
+                Mockito.mock(StoryboardFrame.class),
+                Mockito.mock(StoryboardFrame.class)
         );
 
-        adapter.setStoryProgressParts(storyProgressParts);
+        adapter.setStoryboardFrames(storyboardFrames);
 
         assertThat(adapter.getItemCount(), is(2));
     }

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.StoryProgressPart;
+import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.squareup.otto.Bus;
@@ -22,54 +22,51 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
-public class StoryProgressPartAdapter extends RecyclerView.Adapter<StoryProgressPartAdapter.ViewHolder> {
+public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameAdapter.ViewHolder> {
 
     @Inject Bus bus;
 
-    private List<StoryProgressPart> storyProgressParts = Collections.emptyList();
+    private List<StoryboardFrame> storyboardFrames = Collections.emptyList();
 
     @Inject
-    public StoryProgressPartAdapter() { }
+    public StoryboardFrameAdapter() { }
 
     @Override
-    public StoryProgressPartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoryboardFrameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.story_list_item, parent, false);
+                .inflate(R.layout.storyboard_list_item, parent, false);
 
         return new ViewHolder(view);
     }
 
-    @Override public void onBindViewHolder(StoryProgressPartAdapter.ViewHolder holder, int position) {
-        StoryProgressPart storyProgressPart = storyProgressParts.get(position);
+    @Override public void onBindViewHolder(StoryboardFrameAdapter.ViewHolder holder, int position) {
+        StoryboardFrame storyboardFrame = storyboardFrames.get(position);
 
-        holder.setQuestionKey(storyProgressPart.getQuestionKey());
+        holder.setQuestionKey(storyboardFrame.getFrameTypeKey());
 
-        holder.title.setText(storyProgressPart.getTitle());
+        holder.title.setText(storyboardFrame.getFrameType());
 
-        switch (storyProgressPart.getState()) {
-            case StoryProgressPart.STATE_UNMADE:
-                holder.result.setText("Ongemaakt");
-                holder.seeQuestionButton.setVisibility(GONE);
-                break;
-            case StoryProgressPart.STATE_PASS:
-                holder.result.setText("Goed");
-                holder.seeQuestionButton.setVisibility(VISIBLE);
-                break;
-            case StoryProgressPart.STATE_FAIL:
-                holder.result.setText("Fout");
-                holder.seeQuestionButton.setVisibility(GONE);
-        }
+//        switch (storyProgressPart.getState()) {
+//            case StoryProgressPart.STATE_UNMADE:
+//                holder.result.setText("Ongemaakt");
+//                holder.seeQuestionButton.setVisibility(GONE);
+//                break;
+//            case StoryProgressPart.STATE_PASS:
+//                holder.result.setText("Goed");
+//                holder.seeQuestionButton.setVisibility(VISIBLE);
+//                break;
+//            case StoryProgressPart.STATE_FAIL:
+//                holder.result.setText("Fout");
+//                holder.seeQuestionButton.setVisibility(GONE);
+//        }
     }
 
     @Override public int getItemCount() {
-        return storyProgressParts.size();
+        return storyboardFrames.size();
     }
 
-    public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {
-        this.storyProgressParts = storyProgressParts;
+    public void setStoryboardFrames(List<StoryboardFrame> storyboardFrames) {
+        this.storyboardFrames = storyboardFrames;
         notifyDataSetChanged();
     }
 

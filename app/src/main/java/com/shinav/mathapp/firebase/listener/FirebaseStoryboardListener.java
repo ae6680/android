@@ -13,14 +13,11 @@ import timber.log.Timber;
 
 public class FirebaseStoryboardListener implements ChildEventListener {
 
-    private final FirebaseParser firebaseParser;
-    private final StoryboardMapper storyboardMapper;
+    @Inject FirebaseParser firebaseParser;
+    @Inject StoryboardMapper storyboardMapper;
 
     @Inject
-    public FirebaseStoryboardListener(FirebaseParser firebaseParser, StoryboardMapper storyboardMapper) {
-        this.firebaseParser = firebaseParser;
-        this.storyboardMapper = storyboardMapper;
-    }
+    public FirebaseStoryboardListener() { }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Storyboard storyboard = firebaseParser.parseStoryboard(dataSnapshot);

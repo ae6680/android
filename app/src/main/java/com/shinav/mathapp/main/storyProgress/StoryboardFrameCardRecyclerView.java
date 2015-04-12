@@ -5,28 +5,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.db.pojo.StoryProgressPart;
+import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class StoryCardRecyclerView extends RecyclerView {
+public class StoryboardFrameCardRecyclerView extends RecyclerView {
 
-    @Inject StoryProgressPartAdapter storyProgressPartAdapter;
+    @Inject StoryboardFrameAdapter storyboardFrameAdapter;
 
-    public StoryCardRecyclerView(Context context) {
+    public StoryboardFrameCardRecyclerView(Context context) {
         super(context);
         init();
     }
 
-    public StoryCardRecyclerView(Context context, AttributeSet attrs) {
+    public StoryboardFrameCardRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public StoryCardRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public StoryboardFrameCardRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -34,12 +34,12 @@ public class StoryCardRecyclerView extends RecyclerView {
     private void init() {
         ComponentFactory.getViewComponent(this.getContext()).inject(this);
 
-        setAdapter(storyProgressPartAdapter);
+        setAdapter(storyboardFrameAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
-    public void setStoryProgressParts(List<StoryProgressPart> storyProgressParts) {
-        storyProgressPartAdapter.setStoryProgressParts(storyProgressParts);
+    public void setStoryboardFrames(List<StoryboardFrame> storyboardFrames) {
+        storyboardFrameAdapter.setStoryboardFrames(storyboardFrames);
     }
 
 }

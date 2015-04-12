@@ -71,7 +71,10 @@ public class FirebaseParser {
     public Storyboard parseStoryboard(DataSnapshot dataSnapshot) {
         Storyboard storyboard = new Storyboard();
 
+        String perspective = getString(dataSnapshot, Tables.Storyboard.PERSPECTIVE);
+
         storyboard.setKey(dataSnapshot.getKey());
+        storyboard.setPerspective(perspective);
 
         return storyboard;
     }

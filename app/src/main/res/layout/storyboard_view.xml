@@ -3,8 +3,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.shinav.mathapp.main.storyProgress.StoryCardRecyclerView
-        android:id="@+id/story_card_recycler_view"
+    <com.shinav.mathapp.main.storyProgress.StoryboardFrameCardRecyclerView
+        android:id="@+id/storyboard_frame_card_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
