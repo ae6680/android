@@ -1,9 +1,13 @@
 package com.shinav.mathapp.db.pojo;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 public class TutorialFrame implements Comparable<TutorialFrame> {
+
+    public static final String CONVERSATION = "conversation";
+    public static final String APPROACH = "approach";
+    public static final String APPROACH_FEEDBACK = "approach_feedback";
+    public static final String QUESTION = "question";
 
     private String key;
 
@@ -51,14 +55,6 @@ public class TutorialFrame implements Comparable<TutorialFrame> {
 
     public void setFrameTypeKey(String frameTypeKey) {
         this.frameTypeKey = frameTypeKey;
-    }
-
-    public boolean isConversation() {
-        return TextUtils.equals(getFrameType(), "conversation");
-    }
-
-    public boolean isQuestion() {
-        return TextUtils.equals(getFrameType(), "question");
     }
 
     @Override public int compareTo(@NonNull TutorialFrame another) {

@@ -84,8 +84,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
 
-    @Inject QuestionRepository questionRepository;
     @Inject StoryProgressPartRepository storyProgressPartRepository;
+    @Inject QuestionRepository questionRepository;
     @Inject ApproachRepository approachRepository;
     @Inject ApproachPartRepository approachPartRepository;
 

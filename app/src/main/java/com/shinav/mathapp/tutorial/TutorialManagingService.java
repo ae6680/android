@@ -102,12 +102,21 @@ public class TutorialManagingService extends Service {
     }
 
     private void startBasedOnType(TutorialFrame tutorialFrame) {
-        if (tutorialFrame.isQuestion()) {
-            startActivity(TutorialQuestionActivity.class, tutorialFrame.getFrameTypeKey());
 
-        } else if (tutorialFrame.isConversation()) {
-            startActivity(TutorialConversationActivity.class, tutorialFrame.getFrameTypeKey());
+        switch (tutorialFrame.getFrameType()) {
+            case TutorialFrame.CONVERSATION:
+                startActivity(TutorialConversationActivity.class, tutorialFrame.getFrameTypeKey());
+                break;
+            case TutorialFrame.APPROACH:
+                startActivity(TutorialApproachActivity.class, tutorialFrame.getFrameTypeKey());
+                break;
+            case TutorialFrame.APPROACH_FEEDBACK:
+//                startActivity(TutorialApproachFeedbackActivity.class, tutorialFrame.getFrameTypeKey());
+                break;
+            case TutorialFrame.QUESTION:
+                startActivity(TutorialQuestionActivity.class, tutorialFrame.getFrameTypeKey());
         }
+
     }
 
     private void startActivity(Class<? extends Activity> cls, String typeKey) {

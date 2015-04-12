@@ -8,6 +8,7 @@ import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.question.QuestionActivity;
+import com.shinav.mathapp.tutorial.TutorialApproachActivity;
 import com.shinav.mathapp.tutorial.TutorialConversationActivity;
 import com.shinav.mathapp.tutorial.TutorialQuestionActivity;
 
@@ -28,6 +29,7 @@ public interface ActivityComponent {
 
     void inject(TutorialConversationActivity tutorialConversationActivity);
     void inject(TutorialQuestionActivity tutorialQuestionActivity);
+    void inject(TutorialApproachActivity tutorialApproachActivity);
 
     void inject(ConversationActivity conversationActivity);
 

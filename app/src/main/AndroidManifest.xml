@@ -36,6 +36,7 @@
 
         <activity android:name=".tutorial.TutorialConversationActivity"/>
         <activity android:name=".tutorial.TutorialQuestionActivity"/>
+        <activity android:name=".tutorial.TutorialApproachActivity"/>
 
         <service android:name=".tutorial.TutorialManagingService"
                  android:exported="false" />
