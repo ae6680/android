@@ -31,4 +31,17 @@ public class TutorialMapper {
         db.insert(TABLE_NAME, getContentValues(tutorial));
     }
 
+    public void update(Tutorial tutorial) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(tutorial),
+                KEY + " = ?",
+                tutorial.getKey()
+        );
+    }
+
+    public void delete(String tutorialKey) {
+        db.delete(TABLE_NAME, KEY + " = ?", tutorialKey);
+    }
+
 }

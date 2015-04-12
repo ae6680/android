@@ -19,12 +19,7 @@ public class TutorialFrameMapper {
     @Inject SqlBrite db;
 
     @Inject
-    public TutorialFrameMapper() {
-    }
-
-    public void insert(TutorialFrame tutorialFrame) {
-        db.insert(TABLE_NAME, getContentValues(tutorialFrame));
-    }
+    public TutorialFrameMapper() { }
 
     private ContentValues getContentValues(TutorialFrame tutorialFrame) {
         ContentValues values = new ContentValues();
@@ -36,6 +31,27 @@ public class TutorialFrameMapper {
         values.put(POSITION, tutorialFrame.getPosition());
 
         return values;
+    }
+
+    public void insert(TutorialFrame tutorialFrame) {
+        db.insert(TABLE_NAME, getContentValues(tutorialFrame));
+    }
+
+    public void update(TutorialFrame tutorialFrame) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(tutorialFrame),
+                KEY + " = ?",
+                tutorialFrame.getKey()
+        );
+    }
+
+    public void delete(String tutorialFrameKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                tutorialFrameKey
+        );
     }
 
 }

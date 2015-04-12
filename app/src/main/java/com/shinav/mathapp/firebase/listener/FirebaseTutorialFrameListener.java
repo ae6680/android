@@ -9,34 +9,38 @@ import com.shinav.mathapp.firebase.FirebaseParser;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FirebaseTutorialFrameListener implements ChildEventListener {
 
     @Inject FirebaseParser firebaseParser;
     @Inject TutorialFrameMapper tutorialFrameMapper;
 
     @Inject
-    public FirebaseTutorialFrameListener() {
-    }
+    public FirebaseTutorialFrameListener() { }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         TutorialFrame tutorialFrame = firebaseParser.parseTutorialFrame(dataSnapshot);
         tutorialFrameMapper.insert(tutorialFrame);
+
+        Timber.d("Firebase added a TutorialFrame");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        TutorialFrame tutorialFrame = firebaseParser.parseTutorialFrame(dataSnapshot);
+        tutorialFrameMapper.update(tutorialFrame);
 
+        Timber.d("Firebase changed a TutorialFrame");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+        tutorialFrameMapper.delete(dataSnapshot.getKey());
 
+        Timber.d("Firebase removed a TutorialFrame");
     }
 
-    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }
 
-    }
-
-    @Override public void onCancelled(FirebaseError firebaseError) {
-
-    }
+    @Override public void onCancelled(FirebaseError firebaseError) {  }
 
 }
