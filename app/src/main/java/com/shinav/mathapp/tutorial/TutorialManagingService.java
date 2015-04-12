@@ -13,6 +13,7 @@ import com.shinav.mathapp.db.pojo.TutorialFrame;
 import com.shinav.mathapp.db.repository.TutorialFrameRepository;
 import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.main.MainActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +97,7 @@ public class TutorialManagingService extends Service {
             TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
             startBasedOnType(tutorialFrame);
         } else {
-//            startActivity(MainActivity.class, null);
+            startActivity(MainActivity.class, null);
         }
     }
 

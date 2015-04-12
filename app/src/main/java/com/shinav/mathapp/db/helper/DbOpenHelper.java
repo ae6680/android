@@ -121,7 +121,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + Conversation.TABLE_NAME + " ("
                         + Conversation.KEY + " TEXT,"
                         + Conversation.TITLE + " TEXT,"
-                        + Tables.Conversation.IMAGE_URL + " TEXT,"
+                        + Conversation.BACKGROUND_IMAGE_URL + " TEXT,"
                         + " UNIQUE (" + Conversation.KEY + ") ON CONFLICT REPLACE)"
         );
 

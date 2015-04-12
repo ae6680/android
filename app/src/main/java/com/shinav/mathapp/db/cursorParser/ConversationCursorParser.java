@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import rx.functions.Func1;
 
-import static com.shinav.mathapp.db.helper.Tables.Conversation.IMAGE_URL;
+import static com.shinav.mathapp.db.helper.Tables.Conversation.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Conversation.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Conversation.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
@@ -36,7 +36,7 @@ public class ConversationCursorParser implements Func1<Query, Conversation> {
 
         conversation.setKey(c.getString(c.getColumnIndex(KEY)));
         conversation.setTitle(c.getString(c.getColumnIndex(TITLE)));
-        conversation.setImageUrl(c.getString(c.getColumnIndex(IMAGE_URL)));
+        conversation.setImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
 
         return conversation;
     }

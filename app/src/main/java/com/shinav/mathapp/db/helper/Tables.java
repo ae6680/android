@@ -51,7 +51,7 @@ public interface Tables {
         String TABLE_NAME = "conversation";
         String KEY = "key";
         String TITLE = "title";
-        String IMAGE_URL = "image_url";
+        String BACKGROUND_IMAGE_URL = "background_image_url";
     }
 
     public interface ConversationLine {

@@ -29,7 +29,8 @@ public class FirebaseParser {
         String answer = getString(dataSnapshot, Tables.Question.ANSWER);
         String value =  getString(dataSnapshot, Tables.Question.VALUE);
         String title =  getString(dataSnapshot, Tables.Question.TITLE);
-        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
+//        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
+        String explanation = "Explanation not yet implemented.";
 
         question.setKey(dataSnapshot.getKey());
         question.setAnswer(answer);
@@ -96,7 +97,7 @@ public class FirebaseParser {
         Conversation conversation = new Conversation();
 
         String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
-        String image_url =  getString(dataSnapshot, Tables.Conversation.IMAGE_URL);
+        String image_url =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
 
         conversation.setKey(dataSnapshot.getKey());
         conversation.setTitle(title);
