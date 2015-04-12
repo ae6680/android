@@ -37,4 +37,21 @@ public class QuestionMapper {
         db.insert(TABLE_NAME, getContentValues(question));
     }
 
+    public void update(Question question) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(question),
+                KEY + " = ?",
+                question.getKey()
+        );
+    }
+
+    public void delete(String questionKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                questionKey
+        );
+    }
+
 }

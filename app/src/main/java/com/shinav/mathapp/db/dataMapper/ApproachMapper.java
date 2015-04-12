@@ -31,4 +31,21 @@ public class ApproachMapper {
         db.insert(TABLE_NAME, getContentValues(approach));
     }
 
+    public void update(Approach approach) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(approach),
+                KEY + " = ?",
+                approach.getKey()
+        );
+    }
+
+    public void delete(String approachKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                approachKey
+        );
+    }
+
 }

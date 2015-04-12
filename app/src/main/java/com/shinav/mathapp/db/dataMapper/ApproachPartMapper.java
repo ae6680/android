@@ -35,4 +35,21 @@ public class ApproachPartMapper {
         db.insert(TABLE_NAME, getContentValues(approachPart));
     }
 
+    public void update(ApproachPart approachPart) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(approachPart),
+                KEY + " = ?",
+                approachPart.getKey()
+        );
+    }
+
+    public void delete(String approachPartKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                approachPartKey
+        );
+    }
+
 }

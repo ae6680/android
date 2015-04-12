@@ -9,6 +9,8 @@ import com.shinav.mathapp.firebase.FirebaseParser;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FirebaseApproachPartListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
@@ -23,22 +25,25 @@ public class FirebaseApproachPartListener implements ChildEventListener {
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         ApproachPart approachPart = firebaseParser.parseApproachPart(dataSnapshot);
         approachPartMapper.insert(approachPart);
+
+        Timber.d("Firebase added a ApproachPart");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        ApproachPart approachPart = firebaseParser.parseApproachPart(dataSnapshot);
+        approachPartMapper.update(approachPart);
 
+        Timber.d("Firebase changed a ApproachPart");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+        approachPartMapper.delete(dataSnapshot.getKey());
 
+        Timber.d("Firebase removed a ApproachPart");
     }
 
-    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }
 
-    }
-
-    @Override public void onCancelled(FirebaseError firebaseError) {
-
-    }
+    @Override public void onCancelled(FirebaseError firebaseError) {  }
 
 }
