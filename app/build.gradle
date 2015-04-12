@@ -57,6 +57,9 @@ dependencies {
     // Event Bus
     compile 'com.squareup:otto:1.3.5'
 
+    // Logging
+    compile 'com.jakewharton.timber:timber:2.7.1'
+
     // Expression calculator
     compile 'net.objecthunter:exp4j:0.4.4'
 

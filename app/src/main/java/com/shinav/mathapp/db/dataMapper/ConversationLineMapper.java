@@ -43,4 +43,21 @@ public class ConversationLineMapper {
         db.insert(TABLE_NAME, getContentValues(conversationLine));
     }
 
+    public void update(ConversationLine conversationLine) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(conversationLine),
+                KEY + " = ?",
+                conversationLine.getKey()
+        );
+    }
+
+    public void delete(String conversationLineKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                conversationLineKey
+        );
+    }
+
 }

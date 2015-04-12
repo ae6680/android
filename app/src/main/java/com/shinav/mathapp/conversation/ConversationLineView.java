@@ -2,7 +2,6 @@ package com.shinav.mathapp.conversation;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,7 +97,6 @@ public class ConversationLineView extends ButterKnifeLayout {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
                     @Override public void call(String text) {
-                        Log.d("HOI", "Message text :" + text);
                         holder.line_value.setText(text);
                     }
                 });

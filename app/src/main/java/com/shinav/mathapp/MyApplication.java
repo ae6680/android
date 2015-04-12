@@ -5,6 +5,8 @@ import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
 
+import timber.log.Timber;
+
 public class MyApplication extends Application {
 
     public static int screenHeight;
@@ -20,6 +22,10 @@ public class MyApplication extends Application {
         screenWidth = displayMetrics.widthPixels;
 
         setupFirebase();
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     private void setupFirebase() {
