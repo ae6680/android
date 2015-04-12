@@ -29,4 +29,21 @@ public class StoryboardMapper {
         db.insert(TABLE_NAME, getContentValues(storyboard));
     }
 
+    public void update(Storyboard storyboard) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(storyboard),
+                KEY + " = ?",
+                storyboard.getKey()
+        );
+    }
+
+    public void delete(String storyboardKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                storyboardKey
+        );
+    }
+
 }

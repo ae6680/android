@@ -9,6 +9,8 @@ import com.shinav.mathapp.firebase.FirebaseParser;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FirebaseStoryboardListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
@@ -23,21 +25,25 @@ public class FirebaseStoryboardListener implements ChildEventListener {
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Storyboard storyboard = firebaseParser.parseStoryboard(dataSnapshot);
         storyboardMapper.insert(storyboard);
+
+        Timber.d("Firebase added a Storyboard");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        Storyboard storyboard = firebaseParser.parseStoryboard(dataSnapshot);
+        storyboardMapper.update(storyboard);
 
+        Timber.d("Firebase changed a Storyboard");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+        storyboardMapper.delete(dataSnapshot.getKey());
 
+        Timber.d("Firebase removed a Storyboard");
     }
 
-    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }
 
-    }
+    @Override public void onCancelled(FirebaseError firebaseError) {  }
 
-    @Override public void onCancelled(FirebaseError firebaseError) {
-
-    }
 }

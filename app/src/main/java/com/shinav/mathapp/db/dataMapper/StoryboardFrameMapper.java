@@ -37,4 +37,21 @@ public class StoryboardFrameMapper {
         db.insert(TABLE_NAME, getContentValues(storyboardFrame));
     }
 
+    public void update(StoryboardFrame storyboardFrame) {
+        db.update(
+                TABLE_NAME,
+                getContentValues(storyboardFrame),
+                KEY + " = ?",
+                storyboardFrame.getKey()
+        );
+    }
+
+    public void delete(String storyboardFrameKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                storyboardFrameKey
+        );
+    }
+
 }
