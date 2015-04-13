@@ -39,7 +39,13 @@ public class Calculator {
 
     private String calculateEquation(String equation) {
         Expression expression = new ExpressionBuilder(equation).build();
-        return String.valueOf(expression.evaluate());
+        try {
+            return String.valueOf(expression.evaluate());
+        } catch (ArithmeticException e) {
+            // Division by zero!
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }

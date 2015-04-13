@@ -1,11 +1,15 @@
 package com.shinav.mathapp.injection.component;
 
+import android.content.SharedPreferences;
+
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.shinav.mathapp.injection.module.ApplicationModule;
+import com.shinav.mathapp.storytelling.StorytellingService;
+import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.squareup.otto.Bus;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -25,6 +29,9 @@ public interface ApplicationComponent {
     Firebase firebase();
     DbOpenHelper dbOpenHelper();
     SqlBrite sqlBrite();
+    SharedPreferences sharedPreferences();
 
     void inject(FirebaseChildRegisterer firebaseChildRegisterer);
+    void inject(TutorialManagingService tutorialManagingService);
+    void inject(StorytellingService storytellingService);
 }

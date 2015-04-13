@@ -8,6 +8,10 @@ import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.question.QuestionActivity;
+import com.shinav.mathapp.tutorial.TutorialApproachActivity;
+import com.shinav.mathapp.tutorial.TutorialApproachFeedbackActivity;
+import com.shinav.mathapp.tutorial.TutorialConversationActivity;
+import com.shinav.mathapp.tutorial.TutorialQuestionActivity;
 
 import dagger.Component;
 
@@ -23,10 +27,18 @@ import dagger.Component;
 public interface ActivityComponent {
 
     void inject(MainActivity mainActivity);
+
+    void inject(TutorialConversationActivity tutorialConversationActivity);
+    void inject(TutorialQuestionActivity tutorialQuestionActivity);
+    void inject(TutorialApproachActivity tutorialApproachActivity);
+    void inject(TutorialApproachFeedbackActivity tutorialApproachFeedbackActivity);
+
     void inject(ConversationActivity conversationActivity);
+
     void inject(ApproachActivity approachActivity);
-    void inject(ApproachFeedbackActivity approachFeedbackActivity);
-    void inject(QuestionActivity questionActivity);
     void inject(ApproachDragRecyclerView approachDragRecyclerView);
+    void inject(ApproachFeedbackActivity approachFeedbackActivity);
+
+    void inject(QuestionActivity questionActivity);
 
 }

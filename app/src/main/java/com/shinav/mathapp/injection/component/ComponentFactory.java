@@ -11,22 +11,22 @@ public class ComponentFactory {
     private static ApplicationComponent component;
 
     public static ActivityComponent getActivityComponent(Context context) {
-        return Dagger_ActivityComponent.builder()
+        return DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent(context.getApplicationContext()))
                 .activityModule(new ActivityModule(context))
                 .build();
     }
 
     public static ViewComponent getViewComponent(Context context) {
-        return Dagger_ViewComponent.builder()
+        return DaggerViewComponent.builder()
                 .applicationComponent(getApplicationComponent(context.getApplicationContext()))
                 .viewModule(new ViewModule())
                 .build();
     }
 
-    private static ApplicationComponent getApplicationComponent(Context context) {
+    public static ApplicationComponent getApplicationComponent(Context context) {
         if (component == null) {
-            component = Dagger_ApplicationComponent.builder()
+            component = DaggerApplicationComponent.builder()
                     .applicationModule(new ApplicationModule(context.getApplicationContext()))
                     .build();
         }

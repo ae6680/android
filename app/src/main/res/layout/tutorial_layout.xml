@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_marginStart="@dimen/primary_margin"
+                android:layout_marginEnd="@dimen/primary_margin"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/gender_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/gender_male_button"
+            android:text="Jongen"
+            android:textColor="#fff"
+            android:background="@drawable/gender_male"
+            android:layout_width="@dimen/gender_selector_item_dimen"
+            android:layout_height="@dimen/gender_selector_item_dimen"/>
+
+        <Button
+            android:id="@+id/gender_female_button"
+            android:text="Meisje"
+            android:textColor="#fff"
+            android:background="@drawable/gender_female"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/gender_selector_item_dimen"
+            android:layout_height="@dimen/gender_selector_item_dimen"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/start_tutorial_button"
+        style="@style/primary_button"
+        android:text="Start"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_below="@+id/gender_selector"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+

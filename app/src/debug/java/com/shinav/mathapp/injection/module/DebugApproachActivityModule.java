@@ -2,13 +2,12 @@ package com.shinav.mathapp.injection.module;
 
 import android.content.Context;
 
+import com.shinav.mathapp.db.dataMapper.ApproachMapper;
+import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
-import com.shinav.mathapp.db.mapper.ApproachMapper;
-import com.shinav.mathapp.db.mapper.ApproachPartMapper;
-import com.shinav.mathapp.db.mapper.QuestionMapper;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.injection.annotation.ForApplication;
-import com.shinav.mathapp.progress.Storyteller;
 import com.squareup.sqlbrite.SqlBrite;
 
 import org.mockito.Mockito;
@@ -35,14 +34,6 @@ public class DebugApproachActivityModule {
 
     @Provides @ForApplication Context provideApplicationContext() {
         return context.getApplicationContext();
-    }
-
-    @Provides Storyteller provideStoryteller() {
-        if (mockMode) {
-            return Mockito.mock(Storyteller.class);
-        } else {
-            return new Storyteller();
-        }
     }
 
     @Provides QuestionMapper provideQuestionMapper() {

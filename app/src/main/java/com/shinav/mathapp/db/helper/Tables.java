@@ -9,6 +9,7 @@ public interface Tables {
         String TITLE = "title";
         String VALUE = "value";
         String ANSWER = "answer";
+        String EXPLANATION = "explanation";
     }
 
     public interface Approach {
@@ -28,39 +29,63 @@ public interface Tables {
         String POSITION = "position";
     }
 
-    public interface Story {
-        String TABLE_NAME = "story";
+    public interface GivenApproach {
+        String TABLE_NAME = "given_approach";
         String KEY = "key";
+
+        String APPROACH_KEY = "approach_key";
+
+        String ARRANGEMENT = "arrangement";
+        String GIVEN_AT = "given_at";
     }
 
-    public interface StoryPart {
-        String TABLE_NAME = "story_part";
+    public interface GivenAnswer {
+        String TABLE_NAME = "given_answer";
         String KEY = "key";
 
-        String STORY_KEY = "story_key";
+        String QUESTION_KEY = "question_key";
+
+        String VALUE = "value";
+        String GIVEN_AT = "given_at";
+    }
+
+    public interface Storyboard {
+        String TABLE_NAME = "storyboard";
+        String KEY = "key";
+        
+        String PERSPECTIVE = "perspective";
+    }
+
+    public interface StoryboardFrame {
+        String TABLE_NAME = "storyboard_frame";
+        String KEY = "key";
+
+        String STORYBOARD_KEY = "storyboard_key";
 
         String POSITION = "position";
-        String TYPE = "type";
-        String TYPE_KEY = "typeKey";
+        String FRAME_TYPE = "frame_type";
+        String FRAME_TYPE_KEY = "frame_type_key";
     }
 
     public interface Conversation {
         String TABLE_NAME = "conversation";
         String KEY = "key";
         String TITLE = "title";
+        String BACKGROUND_IMAGE_URL = "background_image_url";
     }
 
-    public interface ConversationPart {
-        String TABLE_NAME = "conversation_part";
+    public interface ConversationLine {
+        String TABLE_NAME = "conversation_line";
         String KEY = "key";
 
         String CONVERSATION_KEY = "conversation_key";
 
-        String MESSAGE = "message";
+        String VALUE = "value";
         String DELAY = "delay";
         String TYPING_DURATION = "typing_duration";
         String POSITION = "position";
         String ALIGNMENT = "alignment";
+        String IMAGE_URL = "image_url";
     }
 
     public interface StoryProgress {
@@ -77,6 +102,24 @@ public interface Tables {
         String QUESTION_KEY = "question_key";
         String STATE = "state";
         String TITLE = "title";
+    }
+
+    public interface Tutorial {
+        String TABLE_NAME = "tutorial";
+        String KEY = "key";
+
+        String PERSPECTIVE = "perspective";
+    }
+
+    public interface TutorialFrame {
+        String TABLE_NAME = "tutorial_frame";
+        String KEY = "key";
+
+        String TUTORIAL_KEY = "tutorial_key";
+
+        String POSITION = "position";
+        String FRAME_TYPE = "frame_type";
+        String FRAME_TYPE_KEY = "frame_type_key";
     }
 
 }

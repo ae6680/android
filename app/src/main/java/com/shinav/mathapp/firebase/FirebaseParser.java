@@ -5,10 +5,12 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Conversation;
-import com.shinav.mathapp.db.pojo.ConversationPart;
+import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.db.pojo.Story;
-import com.shinav.mathapp.db.pojo.StoryPart;
+import com.shinav.mathapp.db.pojo.Storyboard;
+import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.pojo.Tutorial;
+import com.shinav.mathapp.db.pojo.TutorialFrame;
 
 import javax.inject.Inject;
 
@@ -27,11 +29,14 @@ public class FirebaseParser {
         String answer = getString(dataSnapshot, Tables.Question.ANSWER);
         String value =  getString(dataSnapshot, Tables.Question.VALUE);
         String title =  getString(dataSnapshot, Tables.Question.TITLE);
+//        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
+        String explanation = "Explanation not yet implemented.";
 
         question.setKey(dataSnapshot.getKey());
         question.setAnswer(answer);
         question.setValue(value);
         question.setTitle(title);
+        question.setExplanation(explanation);
 
         return question;
     }
@@ -63,63 +68,96 @@ public class FirebaseParser {
         return approachPart;
     }
 
-    public Story parseStory(DataSnapshot dataSnapshot) {
-        Story story = new Story();
+    public Storyboard parseStoryboard(DataSnapshot dataSnapshot) {
+        Storyboard storyboard = new Storyboard();
 
-        story.setKey(dataSnapshot.getKey());
+        String perspective = getString(dataSnapshot, Tables.Storyboard.PERSPECTIVE);
 
-        return story;
+        storyboard.setKey(dataSnapshot.getKey());
+        storyboard.setPerspective(perspective);
+
+        return storyboard;
     }
 
-    public StoryPart parseStoryPart(DataSnapshot dataSnapshot) {
-        StoryPart storyPart = new StoryPart();
+    public StoryboardFrame parseStoryboardFrame(DataSnapshot dataSnapshot) {
+        StoryboardFrame storyboardFrame = new StoryboardFrame();
 
-        String position = getString(dataSnapshot, Tables.StoryPart.POSITION);
-        String type =     getString(dataSnapshot, Tables.StoryPart.TYPE);
-        String typeKey =  getString(dataSnapshot, Tables.StoryPart.TYPE_KEY);
-        String storyKey = getString(dataSnapshot, Tables.StoryPart.STORY_KEY);
+        String position = getString(dataSnapshot, Tables.StoryboardFrame.POSITION);
+        String type =     getString(dataSnapshot, Tables.StoryboardFrame.FRAME_TYPE);
+        String typeKey =  getString(dataSnapshot, Tables.StoryboardFrame.FRAME_TYPE_KEY);
+        String storyKey = getString(dataSnapshot, Tables.StoryboardFrame.STORYBOARD_KEY);
 
-        storyPart.setKey(dataSnapshot.getKey());
-        storyPart.setStoryKey(storyKey);
-        storyPart.setPosition(Integer.parseInt(position));
-        storyPart.setType(type);
-        storyPart.setTypeKey(typeKey);
+        storyboardFrame.setKey(dataSnapshot.getKey());
+        storyboardFrame.setStoryboardKey(storyKey);
+        storyboardFrame.setPosition(Integer.parseInt(position));
+        storyboardFrame.setFrameType(type);
+        storyboardFrame.setFrameTypeKey(typeKey);
 
-        storyPart.setKey(dataSnapshot.getKey());
-
-        return storyPart;
+        return storyboardFrame;
     }
 
     public Conversation parseConversation(DataSnapshot dataSnapshot) {
         Conversation conversation = new Conversation();
 
-        String title = getString(dataSnapshot, Tables.Conversation.TITLE);
+        String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
+        String image_url =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
 
         conversation.setKey(dataSnapshot.getKey());
         conversation.setTitle(title);
+        conversation.setBackgroundImageUrl(image_url);
 
         return conversation;
     }
 
-    public ConversationPart parseConversationPart(DataSnapshot dataSnapshot) {
-        ConversationPart conversationPart = new ConversationPart();
+    public ConversationLine parseConversationLine(DataSnapshot dataSnapshot) {
+        ConversationLine conversationLine = new ConversationLine();
 
-        String conversation_key = getString(dataSnapshot, Tables.ConversationPart.CONVERSATION_KEY);
-        String message = getString(dataSnapshot, Tables.ConversationPart.MESSAGE);
-        String position = getString(dataSnapshot, Tables.ConversationPart.POSITION);
-        String delay = getString(dataSnapshot, Tables.ConversationPart.DELAY);
-        String typingDuration = getString(dataSnapshot, Tables.ConversationPart.TYPING_DURATION);
-        String alignment = getString(dataSnapshot, Tables.ConversationPart.ALIGNMENT);
+        String conversation_key = getString(dataSnapshot, Tables.ConversationLine.CONVERSATION_KEY);
+        String value =            getString(dataSnapshot, Tables.ConversationLine.VALUE);
+        String position =         getString(dataSnapshot, Tables.ConversationLine.POSITION);
+        String delay =            getString(dataSnapshot, Tables.ConversationLine.DELAY);
+        String typingDuration =   getString(dataSnapshot, Tables.ConversationLine.TYPING_DURATION);
+        String alignment =        getString(dataSnapshot, Tables.ConversationLine.ALIGNMENT);
+        String image_url =        getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
 
-        conversationPart.setKey(dataSnapshot.getKey());
-        conversationPart.setConversationKey(conversation_key);
-        conversationPart.setMessage(message);
-        conversationPart.setPosition(Integer.parseInt(position));
-        conversationPart.setDelay(Integer.parseInt(delay));
-        conversationPart.setTypingDuration(Integer.parseInt(typingDuration));
-        conversationPart.setAlignment(Integer.parseInt(alignment));
+        conversationLine.setKey(dataSnapshot.getKey());
+        conversationLine.setConversationKey(conversation_key);
+        conversationLine.setValue(value);
+        conversationLine.setPosition(Integer.parseInt(position));
+        conversationLine.setDelay(Integer.parseInt(delay));
+        conversationLine.setTypingDuration(Integer.parseInt(typingDuration));
+        conversationLine.setAlignment(Integer.parseInt(alignment));
+        conversationLine.setImageUrl(image_url);
 
-        return conversationPart;
+        return conversationLine;
+    }
+
+    public Tutorial parseTutorial(DataSnapshot dataSnapshot) {
+        Tutorial tutorial = new Tutorial();
+
+        String perspective = getString(dataSnapshot, Tables.Tutorial.PERSPECTIVE);
+
+        tutorial.setKey(dataSnapshot.getKey());
+        tutorial.setPerspective(perspective);
+
+        return tutorial;
+    }
+
+    public TutorialFrame parseTutorialFrame(DataSnapshot dataSnapshot) {
+        TutorialFrame tutorialFrame = new TutorialFrame();
+
+        String tutorialKey = getString(dataSnapshot, Tables.TutorialFrame.TUTORIAL_KEY);
+        String position =    getString(dataSnapshot, Tables.TutorialFrame.POSITION);
+        String frameType =        getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE);
+        String frameTypeKey =     getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE_KEY);
+
+        tutorialFrame.setKey(dataSnapshot.getKey());
+        tutorialFrame.setTutorialKey(tutorialKey);
+        tutorialFrame.setPosition(Integer.parseInt(position));
+        tutorialFrame.setFrameType(frameType);
+        tutorialFrame.setFrameTypeKey(frameTypeKey);
+
+        return tutorialFrame;
     }
 
 }

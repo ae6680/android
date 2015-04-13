@@ -1,6 +1,8 @@
 package com.shinav.mathapp.db.pojo;
 
-public class ApproachPart {
+import android.support.annotation.NonNull;
+
+public class ApproachPart implements Comparable<ApproachPart> {
 
     private String key;
     private String approachKey;
@@ -38,6 +40,10 @@ public class ApproachPart {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    @Override public int compareTo(@NonNull ApproachPart another) {
+        return getPosition() - another.getPosition();
     }
 
 }

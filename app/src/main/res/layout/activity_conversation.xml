@@ -3,32 +3,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:background="@drawable/background_bus_road"
-        android:alpha="0.3"
+    <ImageView
+        android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/conversation_title"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold"
-        android:textColor="#fff"
-        android:layout_marginTop="@dimen/primary_margin"
-        android:layout_marginBottom="@dimen/primary_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/toolbar_background"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:id="@+id/conversation_container"
-        android:orientation="vertical"
-        android:layout_below="@id/conversation_title"
+    <ScrollView
+        android:id="@+id/conversation_scroll_view"
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/next_question_button"
-        android:layout_marginStart="@dimen/primary_margin"
-        android:layout_marginEnd="@dimen/primary_margin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/conversation_container"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/primary_margin"
+            android:layout_marginEnd="@dimen/primary_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/next_question_button"
@@ -38,6 +39,5 @@
         android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

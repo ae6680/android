@@ -49,6 +49,10 @@ public class ApproachPartAdapter extends RecyclerView.Adapter<ApproachPartAdapte
         notifyDataSetChanged();
     }
 
+    public List<ApproachPart> getApproachParts() {
+        return approachParts;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.approach_part_number) TextView number;

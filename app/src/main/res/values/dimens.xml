@@ -23,5 +23,6 @@
     <dimen name="card_pager_margin">26dp</dimen>
 
     <dimen name="indicator_dimension">16dp</dimen>
+    <dimen name="gender_selector_item_dimen">125dp</dimen>
 
 </resources>

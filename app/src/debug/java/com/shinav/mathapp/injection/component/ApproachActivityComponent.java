@@ -25,7 +25,7 @@ public interface ApproachActivityComponent {
             DebugApproachActivityModule module =
                     new DebugApproachActivityModule(context, provideMocks);
 
-            return Dagger_ApproachActivityComponent.builder()
+            return DaggerApproachActivityComponent.builder()
                     .debugApproachActivityModule(module)
                     .build();
 

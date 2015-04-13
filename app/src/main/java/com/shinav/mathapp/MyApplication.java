@@ -5,7 +5,12 @@ import android.util.DisplayMetrics;
 
 import com.firebase.client.Firebase;
 
+import timber.log.Timber;
+
 public class MyApplication extends Application {
+
+    public static String PREF = "com.shinav.mathapp";
+    public static String PREF_PERSPECTIVE = PREF + ".perspective";
 
     public static int screenHeight;
     public static int screenWidth;
@@ -20,6 +25,10 @@ public class MyApplication extends Application {
         screenWidth = displayMetrics.widthPixels;
 
         setupFirebase();
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     private void setupFirebase() {
