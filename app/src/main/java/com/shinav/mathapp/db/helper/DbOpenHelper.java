@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import static com.shinav.mathapp.db.helper.Tables.Approach;
 import static com.shinav.mathapp.db.helper.Tables.ApproachPart;
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
+import static com.shinav.mathapp.db.helper.Tables.GivenApproach;
 import static com.shinav.mathapp.db.helper.Tables.Question;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
@@ -41,6 +42,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
         createApproachTable(db);
         createApproachPartTable(db);
+        createGivenApproachTable(db);
 
         createStoryboardTable(db);
         createStoryboardFrameTable(db);
@@ -56,6 +58,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void addMigrations(SQLiteDatabase db) {
+
     }
 
     private void createQuestionTable(SQLiteDatabase db) {
@@ -92,6 +95,18 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, ApproachPart.TABLE_NAME, ApproachPart.KEY);
+    }
+
+    private void createGivenApproachTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + GivenApproach.TABLE_NAME + " ("
+                        + GivenApproach.KEY + " TEXT,"
+                        + GivenApproach.APPROACH_KEY + " TEXT,"
+                        + GivenApproach.ORDER + " TEXT,"
+                        + GivenApproach.GIVEN_AT + " INTEGER"
+                        + " UNIQUE (" + GivenApproach.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, GivenApproach.TABLE_NAME, GivenApproach.KEY);
     }
 
     private void createStoryboardTable(SQLiteDatabase db) {

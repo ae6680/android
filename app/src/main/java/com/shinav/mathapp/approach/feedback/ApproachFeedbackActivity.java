@@ -13,9 +13,7 @@ import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.storytelling.StorytellingService;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,45 +49,39 @@ public class ApproachFeedbackActivity extends Activity {
     }
 
     private void initApproachListMine() {
-        approachListMine.setAdapter(approachFeedbackMineAdapter);
-        approachListMine.setLayoutManager(new LinearLayoutManager(this));
-
-        approachFeedbackMineAdapter.setApproachParts(approachParts);
-
-        // Set layout
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                MyApplication.screenWidth,
-                (int) (MyApplication.screenHeight * PERCENTAGE_HEIGHT)
-        );
+        RelativeLayout.LayoutParams layoutParams = getLayoutParams();
         layoutParams.addRule(RelativeLayout.BELOW, R.id.chosen_title);
-        approachListMine.setLayoutParams(layoutParams);
+
+        setupApproachList(approachListMine, approachFeedbackMineAdapter, layoutParams);
     }
 
     private void initApproachListCorrect() {
-        approachListCorrect.setAdapter(approachFeedbackCorrectAdapter);
-        approachListCorrect.setLayoutManager(new LinearLayoutManager(this));
+        Collections.sort(approachParts);
 
-        // Sort on approach position.
-        ArrayList<ApproachPart> sortedApproachParts = new ArrayList<>();
-        sortedApproachParts.addAll(approachParts);
-
-        Collections.sort(sortedApproachParts, new Comparator<ApproachPart>() {
-            public int compare(ApproachPart approachPart, ApproachPart approachPart2) {
-                String pos1 = String.valueOf(approachPart.getPosition());
-                String pos2 = String.valueOf(approachPart2.getPosition());
-                return pos1.compareTo(pos2);
-            }
-        });
-
-        approachFeedbackCorrectAdapter.setApproachParts(sortedApproachParts);
-
-        // Set layout
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                MyApplication.screenWidth,
-                (int) (MyApplication.screenHeight * PERCENTAGE_HEIGHT)
-        );
+        RelativeLayout.LayoutParams layoutParams = getLayoutParams();
         layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
-        approachListCorrect.setLayoutParams(layoutParams);
+
+        setupApproachList(approachListCorrect, approachFeedbackCorrectAdapter, layoutParams);
+    }
+
+    private RelativeLayout.LayoutParams getLayoutParams() {
+        return new RelativeLayout.LayoutParams(
+                    MyApplication.screenWidth,
+                    (int) (MyApplication.screenHeight * PERCENTAGE_HEIGHT)
+            );
+    }
+
+    private void setupApproachList(
+            RecyclerView approachList,
+            ApproachPartFeedbackAdapter approachPartAdapter,
+            RelativeLayout.LayoutParams layoutParams
+    ) {
+        approachList.setAdapter(approachPartAdapter);
+        approachList.setLayoutManager(new LinearLayoutManager(this));
+
+        approachPartAdapter.setApproachParts(approachParts);
+
+        approachList.setLayoutParams(layoutParams);
     }
 
     @OnClick(R.id.next_question_button)

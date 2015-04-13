@@ -6,7 +6,7 @@ import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.Approach.QUESTION_KEY;
 import static com.shinav.mathapp.db.helper.Tables.Approach.TABLE_NAME;
@@ -19,13 +19,13 @@ public class ApproachRepository {
     @Inject
     public ApproachRepository() { }
 
-    public Observable<Approach> getApproachByQuestionKey(String questionKey) {
-        return db.createQuery(
+    public void getApproach(String questionKey, Action1<Approach> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_KEY + " = ?"
                 , questionKey
-        ).map(parser);
+        ).map(parser).first().subscribe(action);
     }
 
 }

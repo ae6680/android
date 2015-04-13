@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.functions.Action1;
 
 public class StorytellingService extends Service {
@@ -71,15 +72,25 @@ public class StorytellingService extends Service {
     }
 
     private void fetchStoryForPerspective(String perspective) {
-        storyboardRepository.getByPerspective(perspective).first().subscribe(new Action1<Storyboard>() {
+
+        Observable<Storyboard> observable =
+                storyboardRepository.getByPerspective(perspective).first();
+
+        observable.subscribe(new Action1<Storyboard>() {
             @Override public void call(Storyboard storyboard) {
+                fetchStoryboardFrames(storyboard);
+            }
+        });
+    }
 
-                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first().subscribe(new Action1<List<StoryboardFrame>>() {
-                    @Override public void call(List<StoryboardFrame> storyboardFrames) {
-                        StorytellingService.this.storyboardFrames = storyboardFrames;
-                    }
-                });
+    private void fetchStoryboardFrames(Storyboard storyboard) {
 
+        Observable<List<StoryboardFrame>> observable =
+                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first();
+
+        observable.subscribe(new Action1<List<StoryboardFrame>>() {
+            @Override public void call(List<StoryboardFrame> storyboardFrames) {
+                StorytellingService.this.storyboardFrames = storyboardFrames;
             }
         });
     }

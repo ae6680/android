@@ -29,6 +29,16 @@ public interface Tables {
         String POSITION = "position";
     }
 
+    public interface GivenApproach {
+        String TABLE_NAME = "approach_part";
+        String KEY = "key";
+
+        String APPROACH_KEY = "approach_key";
+
+        String ORDER = "order";
+        String GIVEN_AT = "given_at";
+    }
+
     public interface Storyboard {
         String TABLE_NAME = "storyboard";
         String KEY = "key";

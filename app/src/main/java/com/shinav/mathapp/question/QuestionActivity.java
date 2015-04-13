@@ -99,7 +99,8 @@ public class QuestionActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         inject();
 
-        final String questionKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
+        final String questionKey =
+                getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         loadQuestion(questionKey);
         loadApproach(questionKey);
@@ -149,10 +150,8 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadQuestion(String questionKey) {
-        Observable<Question> questionObservable = questionRepository.
-                getByKey(questionKey).first();
+        questionRepository.get(questionKey, new Action1<Question>() {
 
-        questionObservable.subscribe(new Action1<Question>() {
             @Override public void call(Question question) {
                 QuestionActivity.this.question = question;
                 initToolbar(question.getTitle());
@@ -161,21 +160,19 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        Observable<Approach> approachObservable = approachRepository.
-                getApproachByQuestionKey(questionKey).first();
+        approachRepository.getApproach(questionKey, new Action1<Approach>() {
 
-        approachObservable.subscribe(new Action1<Approach>() {
             @Override public void call(Approach approach) {
+                loadApproachParts(approach.getKey());
+            }
+        });
+    }
 
-                Observable<List<ApproachPart>> approachListObservable = approachPartRepository.
-                        getApproachPartsByApproachKey(approach.getKey()).first();
+    private void loadApproachParts(String approachKey) {
+        approachPartRepository.getApproachParts(approachKey, new Action1<List<ApproachPart>>() {
 
-                approachListObservable.subscribe(new Action1<List<ApproachPart>>() {
-                    @Override public void call(List<ApproachPart> approachParts) {
-                        initViewPager(approachParts);
-                    }
-                });
-
+            @Override public void call(List<ApproachPart> approachParts) {
+                initViewPager(approachParts);
             }
         });
     }
