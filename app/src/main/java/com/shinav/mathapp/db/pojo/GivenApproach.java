@@ -4,7 +4,7 @@ public class GivenApproach {
 
     private String key;
     private String approachKey;
-    private String order;
+    private String arrangement;
     private int givenAt;
 
     public String getKey() {
@@ -23,12 +23,12 @@ public class GivenApproach {
         this.approachKey = approachKey;
     }
 
-    public String getOrder() {
-        return order;
+    public String getArrangement() {
+        return arrangement;
     }
 
-    public void setOrder(String order) {
-        this.order = order;
+    public void setArrangement(String arrangement) {
+        this.arrangement = arrangement;
     }
 
     public int getGivenAt() {

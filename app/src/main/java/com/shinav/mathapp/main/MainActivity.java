@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.shinav.mathapp.MyApplication;
@@ -30,6 +31,7 @@ import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.shinav.mathapp.tutorial.TutorialView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.tabs_view) TabsView tabsView;
     @InjectView(R.id.tutorial_view) TutorialView tutorialView;
     @InjectView(R.id.storyboard_progress) ProgressBar progressBar;
+    @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -74,6 +77,8 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
 
+        loadBackground("http://i.imgur.com/JfDNNOy.png");
+
         initToolbar();
         initTabs();
 
@@ -93,6 +98,14 @@ public class MainActivity extends ActionBarActivity {
     @Override protected void onResume() {
         super.onResume();
         loadStoryboardFrames();
+    }
+
+    private void loadBackground(String imageUrl) {
+        Picasso.with(this)
+                .load(imageUrl)
+                .centerCrop()
+                .fit()
+                .into(backgroundView);
     }
 
     private void loadStoryboardFrames() {

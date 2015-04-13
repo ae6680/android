@@ -101,8 +101,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + GivenApproach.TABLE_NAME + " ("
                         + GivenApproach.KEY + " TEXT,"
                         + GivenApproach.APPROACH_KEY + " TEXT,"
-                        + GivenApproach.ORDER + " TEXT,"
-                        + GivenApproach.GIVEN_AT + " INTEGER"
+                        + GivenApproach.ARRANGEMENT + " TEXT,"
+                        + GivenApproach.GIVEN_AT + " INTEGER,"
                         + " UNIQUE (" + GivenApproach.KEY + ") ON CONFLICT REPLACE)"
         );
 

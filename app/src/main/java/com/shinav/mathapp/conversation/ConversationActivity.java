@@ -40,7 +40,7 @@ public class ConversationActivity extends ActionBarActivity {
 //    @InjectView(R.id.conversation_recycler_view) ConversationLineRecyclerView conversationLineRecyclerView;
     @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
     @InjectView(R.id.toolbar) Toolbar toolbar;
-    @InjectView(R.id.conversation_screen) ImageView conversationScreen;
+    @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject Bus bus;
     @Inject ConversationLineMapper conversationLineMapper;
@@ -105,18 +105,18 @@ public class ConversationActivity extends ActionBarActivity {
             @Override public void call(Conversation conversation) {
                 toolbar.setTitle(conversation.getTitle());
                 setSupportActionBar(toolbar);
-                loadBackground(conversation);
+                loadBackground(conversation.getBackgroundImageUrl());
             }
         });
     }
 
-    private void loadBackground(Conversation conversation) {
+    private void loadBackground(String imageUrl) {
         Picasso.with(this)
-                .load(conversation.getImageUrl())
+                .load(imageUrl)
                 .centerCrop()
                 .fit()
-                .into(conversationScreen);
-        conversationScreen.setImageAlpha(50);
+                .into(backgroundView);
+        backgroundView.setImageAlpha(50);
     }
 
     private void startConversationPart(final ConversationLine conversationLine) {

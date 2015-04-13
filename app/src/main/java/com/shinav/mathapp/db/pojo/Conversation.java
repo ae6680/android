@@ -4,7 +4,7 @@ public class Conversation {
 
     private String key;
     private String title;
-    private String imageUrl;
+    private String backgroundImageUrl;
 
     public String getKey() {
         return key;
@@ -22,11 +22,11 @@ public class Conversation {
         this.title = title;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getBackgroundImageUrl() {
+        return backgroundImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setBackgroundImageUrl(String backgroundImageUrl) {
+        this.backgroundImageUrl = backgroundImageUrl;
     }
 }

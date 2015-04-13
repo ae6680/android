@@ -36,7 +36,7 @@ public class ConversationCursorParser implements Func1<Query, Conversation> {
 
         conversation.setKey(c.getString(c.getColumnIndex(KEY)));
         conversation.setTitle(c.getString(c.getColumnIndex(TITLE)));
-        conversation.setImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
+        conversation.setBackgroundImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
 
         return conversation;
     }

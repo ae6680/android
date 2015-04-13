@@ -24,7 +24,7 @@ public class ConversationMapper {
 
         values.put(KEY, conversation.getKey());
         values.put(TITLE, conversation.getTitle());
-        values.put(BACKGROUND_IMAGE_URL, conversation.getImageUrl());
+        values.put(BACKGROUND_IMAGE_URL, conversation.getBackgroundImageUrl());
 
         return values;
     }

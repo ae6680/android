@@ -104,7 +104,7 @@ public class FirebaseParser {
 
         conversation.setKey(dataSnapshot.getKey());
         conversation.setTitle(title);
-        conversation.setImageUrl(image_url);
+        conversation.setBackgroundImageUrl(image_url);
 
         return conversation;
     }

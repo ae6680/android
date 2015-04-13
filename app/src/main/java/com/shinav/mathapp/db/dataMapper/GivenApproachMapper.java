@@ -11,9 +11,9 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.APPROACH_KEY;
+import static com.shinav.mathapp.db.helper.Tables.GivenApproach.ARRANGEMENT;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.GIVEN_AT;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.KEY;
-import static com.shinav.mathapp.db.helper.Tables.GivenApproach.ORDER;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.TABLE_NAME;
 
 public class GivenApproachMapper {
@@ -28,7 +28,7 @@ public class GivenApproachMapper {
 
         values.put(KEY, UUID.randomUUID().toString());
         values.put(APPROACH_KEY, givenApproach.getApproachKey());
-        values.put(ORDER, givenApproach.getOrder());
+        values.put(ARRANGEMENT, givenApproach.getArrangement());
         values.put(GIVEN_AT, new Date().getTime());
 
         return values;

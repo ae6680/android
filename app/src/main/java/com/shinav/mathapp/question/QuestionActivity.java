@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -50,6 +51,7 @@ import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
@@ -71,6 +73,7 @@ public class QuestionActivity extends ActionBarActivity {
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
     @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
     @InjectView(R.id.calculator_container) RelativeLayout calculatorContainer;
+    @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject Bus bus;
 
@@ -155,6 +158,8 @@ public class QuestionActivity extends ActionBarActivity {
             @Override public void call(Question question) {
                 QuestionActivity.this.question = question;
                 initToolbar(question.getTitle());
+//                loadBackground(question.getBackgroundImageUrl());
+                loadBackground("http://i.imgur.com/JfDNNOy.png");
             }
         });
     }
@@ -187,6 +192,14 @@ public class QuestionActivity extends ActionBarActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void loadBackground(String imageUrl) {
+        Picasso.with(this)
+                .load(imageUrl)
+                .centerCrop()
+                .fit()
+                .into(backgroundView);
     }
 
     private void initViewPager(List<ApproachPart> approachParts) {

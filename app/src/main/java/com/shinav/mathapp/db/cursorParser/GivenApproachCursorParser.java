@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.APPROACH_KEY;
+import static com.shinav.mathapp.db.helper.Tables.GivenApproach.ARRANGEMENT;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.GIVEN_AT;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach.KEY;
-import static com.shinav.mathapp.db.helper.Tables.GivenApproach.ORDER;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class GivenApproachCursorParser implements Func1<Query, GivenApproach> {
@@ -22,7 +22,7 @@ public class GivenApproachCursorParser implements Func1<Query, GivenApproach> {
     @Override public GivenApproach call(Query query) {
         Cursor c = query.run();
         try {
-            if (!c.moveToFirst()) {
+            if (!c.moveToLast()) {
                 return null;
             }
 
@@ -37,7 +37,7 @@ public class GivenApproachCursorParser implements Func1<Query, GivenApproach> {
 
         givenApproach.setKey(c.getString(c.getColumnIndex(KEY)));
         givenApproach.setApproachKey(c.getString(c.getColumnIndex(APPROACH_KEY)));
-        givenApproach.setOrder(c.getString(c.getColumnIndex(ORDER)));
+        givenApproach.setArrangement(c.getString(c.getColumnIndex(ARRANGEMENT)));
         givenApproach.setGivenAt(c.getInt(c.getColumnIndex(GIVEN_AT)));
 
         return givenApproach;

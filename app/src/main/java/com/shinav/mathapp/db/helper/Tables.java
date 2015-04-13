@@ -30,12 +30,12 @@ public interface Tables {
     }
 
     public interface GivenApproach {
-        String TABLE_NAME = "approach_part";
+        String TABLE_NAME = "given_approach";
         String KEY = "key";
 
         String APPROACH_KEY = "approach_key";
 
-        String ORDER = "order";
+        String ARRANGEMENT = "arrangement";
         String GIVEN_AT = "given_at";
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
@@ -21,6 +22,7 @@ import com.shinav.mathapp.db.repository.ApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.storytelling.StorytellingService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class ApproachActivity extends ActionBarActivity {
     @InjectView(R.id.approach_part_list) ApproachDragRecyclerView approachPartList;
     @InjectView(R.id.question_text) TextView questionText;
     @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject QuestionRepository questionRepository;
     @Inject ApproachRepository approachRepository;
@@ -72,6 +75,8 @@ public class ApproachActivity extends ActionBarActivity {
             @Override public void call(Question question) {
                 questionText.setText(question.getValue());
                 initToolbar(question.getTitle());
+//                loadBackground(question.getBackgroundImageUrl());
+                loadBackground("http://i.imgur.com/JfDNNOy.png");
             }
         });
     }
@@ -107,6 +112,15 @@ public class ApproachActivity extends ActionBarActivity {
         });
     }
 
+    private void loadBackground(String imageUrl) {
+        Picasso.with(this)
+                .load(imageUrl)
+                .centerCrop()
+                .fit()
+                .into(backgroundView);
+        backgroundView.setImageAlpha(50);
+    }
+
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
         saveApproachForQuestion();
@@ -121,7 +135,7 @@ public class ApproachActivity extends ActionBarActivity {
 
         GivenApproach givenApproach = new GivenApproach();
         givenApproach.setApproachKey(approach.getKey());
-        givenApproach.setOrder(order);
+        givenApproach.setArrangement(order);
 
         givenApproachMapper.insert(givenApproach);
     }
