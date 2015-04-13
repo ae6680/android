@@ -4,11 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,24 +21,19 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
-import com.shinav.mathapp.db.dataMapper.ApproachMapper;
-import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
-import com.shinav.mathapp.db.dataMapper.QuestionMapper;
-import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
+import com.shinav.mathapp.db.dataMapper.GivenAnswerMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.db.pojo.StoryProgressPart;
 import com.shinav.mathapp.db.repository.ApproachPartRepository;
 import com.shinav.mathapp.db.repository.ApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.event.SendNextQuestionKey;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -52,7 +45,6 @@ import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +53,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observable;
 import rx.functions.Action1;
 
 public class QuestionActivity extends ActionBarActivity {
@@ -77,23 +68,17 @@ public class QuestionActivity extends ActionBarActivity {
 
     @Inject Bus bus;
 
-    @Inject SqlBrite db;
-    @Inject QuestionMapper questionMapper;
-    @Inject ApproachMapper approachMapper;
-    @Inject ApproachPartMapper approachPartMapper;
-    @Inject StoryProgressPartMapper storyProgressPartMapper;
-
     @Inject QuestionApproachCardView questionApproachCardView;
     @Inject QuestionCardView questionCardView;
     @Inject QuestionNextCardView questionNextCardView;
 
-    @Inject StoryProgressPartRepository storyProgressPartRepository;
     @Inject QuestionRepository questionRepository;
     @Inject ApproachRepository approachRepository;
     @Inject ApproachPartRepository approachPartRepository;
 
+    @Inject GivenAnswerMapper givenAnswerMapper;
+
     private Question question;
-    private String storyProgressKey;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,85 +212,16 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView.setAnswerFieldEnabled(false);
         questionCardView.setSubmitButtonEnabled(false);
 
-//        updateStoryProgress(event);
+        saveGivenAnswer(event.getAnswer());
     }
 
-    private void updateStoryProgress(final OnAnswerSubmittedEvent event) {
+    private void saveGivenAnswer(String answer) {
+        GivenAnswer givenAnswer = new GivenAnswer();
 
-        Observable<StoryProgressPart> storyProgressPartObservable =
-                storyProgressPartRepository.getByQuestionKey(question.getKey()).first();
+        givenAnswer.setQuestionKey(question.getKey());
+        givenAnswer.setValue(answer);
 
-        storyProgressPartObservable.subscribe(new Action1<StoryProgressPart>() {
-
-            @Override public void call(StoryProgressPart storyProgressPart) {
-                storyProgressPart.setState(isCorrect(question, event.getAnswer()));
-                storyProgressPartMapper.update(storyProgressPart);
-
-                storyProgressKey = storyProgressPart.getStoryProgressKey();
-                createNextStoryProgressPart();
-            }
-        });
-    }
-
-    private void createNextStoryProgressPart() {
-        requestNextQuestionKey();
-    }
-
-    private void requestNextQuestionKey() {
-        Intent intent = new Intent(this, StorytellingService.class);
-
-        intent.setAction(StorytellingService.ACTION_NEXT_KEY);
-
-        startService(intent);
-    }
-
-    @Subscribe void onSendNextQuestionKey(SendNextQuestionKey event) {
-
-        final String nextQuestionKey = event.getNextQuestionKey();
-
-        if (!TextUtils.isEmpty(nextQuestionKey)) {
-
-            Observable<StoryProgressPart> storyProgressPartObservable =
-                    storyProgressPartRepository.getByQuestionKey(nextQuestionKey).first();
-
-            storyProgressPartObservable.subscribe(new Action1<StoryProgressPart>() {
-                @Override public void call(StoryProgressPart storyProgressPart) {
-                    if (storyProgressPart == null) {
-
-                        StoryProgressPart newStoryProgressPart = new StoryProgressPart();
-
-                        Cursor c = db.query(
-                                "SELECT * FROM " + Tables.Question.TABLE_NAME +
-                                        " WHERE " + Tables.Question.KEY + " = ?"
-                                , nextQuestionKey
-                        );
-                        if (c.moveToFirst()) {
-                            newStoryProgressPart.setTitle(c.getString(c.getColumnIndex(Tables.Question.TITLE)));
-                        }
-                        c.close();
-
-                        newStoryProgressPart.setStoryProgressKey(storyProgressKey);
-                        newStoryProgressPart.setQuestionKey(nextQuestionKey);
-
-                        storyProgressPartMapper.insert(newStoryProgressPart);
-
-                    }
-                }
-            });
-
-        }
-    }
-
-    private int isCorrect(Question question, String answer) {
-        int state;
-
-        if (question.getAnswer().equals(answer)) {
-            state = StoryProgressPart.STATE_PASS;
-        } else {
-            state = StoryProgressPart.STATE_FAIL;
-        }
-
-        return state;
+        givenAnswerMapper.insert(givenAnswer);
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {

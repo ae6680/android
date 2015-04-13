@@ -39,6 +39,16 @@ public interface Tables {
         String GIVEN_AT = "given_at";
     }
 
+    public interface GivenAnswer {
+        String TABLE_NAME = "given_answer";
+        String KEY = "key";
+
+        String QUESTION_KEY = "question_key";
+
+        String VALUE = "value";
+        String GIVEN_AT = "given_at";
+    }
+
     public interface Storyboard {
         String TABLE_NAME = "storyboard";
         String KEY = "key";

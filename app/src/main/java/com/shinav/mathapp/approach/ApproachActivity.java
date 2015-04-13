@@ -123,11 +123,11 @@ public class ApproachActivity extends ActionBarActivity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-        saveApproachForQuestion();
+        saveGivenApproach();
         next();
     }
 
-    private void saveApproachForQuestion() {
+    private void saveGivenApproach() {
         List<ApproachPart> approachParts =
                 ((ApproachPartAdapter) approachPartList.getAdapter()).getApproachParts();
 

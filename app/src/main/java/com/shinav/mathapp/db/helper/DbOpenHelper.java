@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import static com.shinav.mathapp.db.helper.Tables.Approach;
 import static com.shinav.mathapp.db.helper.Tables.ApproachPart;
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
+import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
 import static com.shinav.mathapp.db.helper.Tables.GivenApproach;
 import static com.shinav.mathapp.db.helper.Tables.Question;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
@@ -39,6 +40,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     private void createTables(SQLiteDatabase db) {
         createQuestionTable(db);
+        createGivenAnswerTable(db);
 
         createApproachTable(db);
         createApproachPartTable(db);
@@ -107,6 +109,18 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, GivenApproach.TABLE_NAME, GivenApproach.KEY);
+    }
+
+    private void createGivenAnswerTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + GivenAnswer.TABLE_NAME + " ("
+                        + GivenAnswer.KEY + " TEXT,"
+                        + GivenAnswer.QUESTION_KEY + " TEXT,"
+                        + GivenAnswer.VALUE + " TEXT,"
+                        + GivenAnswer.GIVEN_AT + " INTEGER,"
+                        + " UNIQUE (" + GivenAnswer.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, GivenAnswer.TABLE_NAME, GivenAnswer.KEY);
     }
 
     private void createStoryboardTable(SQLiteDatabase db) {
