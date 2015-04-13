@@ -18,8 +18,7 @@ public class StoryProgressPartListCursorParser implements Func1<Query, List<Stor
     @Inject StoryProgressPartCursorParser parser;
 
     @Inject
-    public StoryProgressPartListCursorParser() {
-    }
+    public StoryProgressPartListCursorParser() { }
 
     @Override public List<StoryProgressPart> call(Query query) {
         Cursor c = query.run();

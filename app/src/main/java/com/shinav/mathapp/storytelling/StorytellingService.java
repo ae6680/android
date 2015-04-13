@@ -57,8 +57,6 @@ public class StorytellingService extends Service {
                 case ACTION_START:
                     fetchStoryForPerspective(
                             intent.getStringExtra(EXTRA_PERSPECTIVE));
-
-                    startNext();
                     break;
                 case ACTION_NEXT:
                     startNext();
@@ -131,6 +129,7 @@ public class StorytellingService extends Service {
     private void start(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, typeKey);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 

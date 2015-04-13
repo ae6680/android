@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main.storyProgress;
+package com.shinav.mathapp.main.storyboard;
 
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 
@@ -33,7 +33,7 @@ public class StoryboardProgressPartAdapterTest {
                 Mockito.mock(StoryboardFrame.class)
         );
 
-        adapter.setStoryboardFrames(storyboardFrames);
+        adapter.setListItems(storyboardFrames);
 
         assertThat(adapter.getItemCount(), is(2));
     }

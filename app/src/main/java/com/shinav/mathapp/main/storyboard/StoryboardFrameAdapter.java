@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main.storyProgress;
+package com.shinav.mathapp.main.storyboard;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.squareup.otto.Bus;
@@ -22,11 +21,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_FAIL;
+import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_PASS;
+import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_UNMADE;
+
 public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameAdapter.ViewHolder> {
 
     @Inject Bus bus;
 
-    private List<StoryboardFrame> storyboardFrames = Collections.emptyList();
+    private List<StoryboardListItem> listItems = Collections.emptyList();
 
     @Inject
     public StoryboardFrameAdapter() { }
@@ -40,40 +45,42 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     }
 
     @Override public void onBindViewHolder(StoryboardFrameAdapter.ViewHolder holder, int position) {
-        StoryboardFrame storyboardFrame = storyboardFrames.get(position);
+        StoryboardListItem listItem = listItems.get(position);
 
-        holder.setQuestionKey(storyboardFrame.getFrameTypeKey());
+        holder.setQuestionKey(listItem.getQuestionKey());
 
-        holder.title.setText(storyboardFrame.getFrameType());
+        holder.title.setText(listItem.getQuestionTitle());
+        holder.givenAnswer.setText(listItem.getLastGivenAnswer());
 
-//        switch (storyProgressPart.getState()) {
-//            case StoryProgressPart.STATE_UNMADE:
-//                holder.result.setText("Ongemaakt");
-//                holder.seeQuestionButton.setVisibility(GONE);
-//                break;
-//            case StoryProgressPart.STATE_PASS:
-//                holder.result.setText("Goed");
-//                holder.seeQuestionButton.setVisibility(VISIBLE);
-//                break;
-//            case StoryProgressPart.STATE_FAIL:
-//                holder.result.setText("Fout");
-//                holder.seeQuestionButton.setVisibility(GONE);
-//        }
+        switch (listItem.getState()) {
+            case STATE_UNMADE:
+                holder.state.setText("Ongemaakt");
+                holder.seeQuestionButton.setVisibility(GONE);
+                break;
+            case STATE_PASS:
+                holder.state.setText("Goed");
+                holder.seeQuestionButton.setVisibility(VISIBLE);
+                break;
+            case STATE_FAIL:
+                holder.state.setText("Fout");
+                holder.seeQuestionButton.setVisibility(GONE);
+        }
     }
 
     @Override public int getItemCount() {
-        return storyboardFrames.size();
+        return listItems.size();
     }
 
-    public void setStoryboardFrames(List<StoryboardFrame> storyboardFrames) {
-        this.storyboardFrames = storyboardFrames;
+    public void setListItems(List<StoryboardListItem> listItems) {
+        this.listItems = listItems;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.question_title) TextView title;
-        @InjectView(R.id.question_result) TextView result;
+        @InjectView(R.id.question_state) TextView state;
+        @InjectView(R.id.question_given_answer) TextView givenAnswer;
         @InjectView(R.id.see_question_button) Button seeQuestionButton;
         @InjectView(R.id.make_question_button) Button makeQuestionButton;
 

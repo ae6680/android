@@ -13,8 +13,10 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.db.repository.StoryProgressRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
@@ -24,8 +26,10 @@ import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.main.practice.PracticeOverviewView;
-import com.shinav.mathapp.main.storyProgress.StoryboardView;
+import com.shinav.mathapp.main.storyboard.StoryboardListItem;
+import com.shinav.mathapp.main.storyboard.StoryboardView;
 import com.shinav.mathapp.question.QuestionActivity;
+import com.shinav.mathapp.storytelling.StorytellingService;
 import com.shinav.mathapp.tab.TabsView;
 import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.shinav.mathapp.tutorial.TutorialView;
@@ -33,6 +37,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +68,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Inject StoryboardView storyboardView;
     @Inject PracticeOverviewView practiceOverviewView;
+
+    @Inject QuestionRepository questionRepository;
 
     @Inject StoryProgressRepository storyProgressRepository;
     @Inject StoryProgressPartRepository storyProgressPartRepository;
@@ -129,6 +136,7 @@ public class MainActivity extends ActionBarActivity {
         } else {
             hideTutorialLayout();
             loadStoryboard(perspective);
+            startStorytellingService(perspective);
         }
 
     }
@@ -150,7 +158,34 @@ public class MainActivity extends ActionBarActivity {
 
         observable.subscribe(new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
-                storyboardView.setStoryboardFrames(storyboardFrames);
+
+                List<String> questionKeys = new ArrayList<>();
+                for (StoryboardFrame storyboardFrame :storyboardFrames) {
+                    if (storyboardFrame.isQuestion()) {
+                        questionKeys.add(storyboardFrame.getFrameTypeKey());
+                    }
+                }
+
+                String questionKeysString = TextUtils.join("','", questionKeys);
+
+                questionRepository.getCollection(questionKeysString, new Action1<List<Question>>() {
+                    @Override public void call(List<Question> questions) {
+
+                        List<StoryboardListItem> listItems = new ArrayList<>();
+
+                        for (Question question : questions) {
+                            listItems.add(new StoryboardListItem(
+                                    question.getKey(),
+                                    question.getTitle(),
+                                    "11",
+                                    1
+                            ));
+                        }
+
+                        storyboardView.setListItems(listItems);
+                    }
+                });
+
             }
         });
     }
@@ -184,6 +219,15 @@ public class MainActivity extends ActionBarActivity {
 
         intent.setAction(TutorialManagingService.ACTION_START);
         intent.putExtra(TutorialManagingService.EXTRA_PERSPECTIVE, perspective);
+
+        startService(intent);
+    }
+
+    private void startStorytellingService(String perspective) {
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        intent.setAction(StorytellingService.ACTION_START);
+        intent.putExtra(StorytellingService.EXTRA_PERSPECTIVE, perspective);
 
         startService(intent);
     }

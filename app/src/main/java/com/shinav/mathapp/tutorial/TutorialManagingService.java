@@ -92,7 +92,7 @@ public class TutorialManagingService extends Service {
     }
 
     private void startNext() {
-        if (currentPosition+1 < tutorialFrames.size()) {
+        if (tutorialFrames != null && currentPosition+1 < tutorialFrames.size()) {
             currentPosition++;
             TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
             startBasedOnType(tutorialFrame);

@@ -1,11 +1,10 @@
-package com.shinav.mathapp.main.storyProgress;
+package com.shinav.mathapp.main.storyboard;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 
 import java.util.List;
@@ -38,8 +37,8 @@ public class StoryboardFrameCardRecyclerView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
-    public void setStoryboardFrames(List<StoryboardFrame> storyboardFrames) {
-        storyboardFrameAdapter.setStoryboardFrames(storyboardFrames);
+    public void setListItems(List<StoryboardListItem> listItems) {
+        storyboardFrameAdapter.setListItems(listItems);
     }
 
 }

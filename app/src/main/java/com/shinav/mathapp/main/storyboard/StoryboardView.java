@@ -1,10 +1,9 @@
-package com.shinav.mathapp.main.storyProgress;
+package com.shinav.mathapp.main.storyboard;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
@@ -39,8 +38,8 @@ public class StoryboardView extends ButterKnifeLayout {
         inflate(R.layout.storyboard_view, this, true);
     }
 
-    public void setStoryboardFrames(List<StoryboardFrame> storyboardFrames) {
-        storyboardFrameCardRecyclerView.setStoryboardFrames(storyboardFrames);
+    public void setListItems(List<StoryboardListItem> listItems) {
+        storyboardFrameCardRecyclerView.setListItems(listItems);
     }
 
 }
