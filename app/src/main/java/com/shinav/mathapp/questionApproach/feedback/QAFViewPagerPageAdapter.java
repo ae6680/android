@@ -34,9 +34,11 @@ public class QAFViewPagerPageAdapter extends RecyclerView.Adapter<QAFViewPagerPa
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.text.setText(getItem(position).getValue());
+        QuestionApproachPart item = getItem(position);
 
-        if (isCorrect(position)) {
+        holder.text.setText(item.getValue());
+
+        if (isCorrect(item)) {
             holder.resultIcon.setImageResource(R.drawable.pass_icon);
         } else {
             holder.resultIcon.setImageResource(R.drawable.fail_icon);
@@ -57,8 +59,9 @@ public class QAFViewPagerPageAdapter extends RecyclerView.Adapter<QAFViewPagerPa
         notifyDataSetChanged();
     }
 
-    public boolean isCorrect(int position) {
-        return position == getItem(position).getPosition();
+    public boolean isCorrect(QuestionApproachPart part) {
+        // If position is same as the last(correct) part.
+        return part.getPosition() == getItem(questionApproachParts.size() - 1).getPosition();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
