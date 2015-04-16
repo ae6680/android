@@ -11,32 +11,32 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class FirebaseApproachListener implements ChildEventListener {
+public class FirebaseQuestionApproachListener implements ChildEventListener {
 
     @Inject FirebaseParser firebaseParser;
     @Inject QuestionApproachMapper questionApproachMapper;
 
     @Inject
-    public FirebaseApproachListener() { }
+    public FirebaseQuestionApproachListener() { }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         QuestionApproach questionApproach = firebaseParser.parseApproach(dataSnapshot);
         questionApproachMapper.insert(questionApproach);
 
-        Timber.d("Firebase added a Approach");
+        Timber.d("Firebase added a QuestionApproach");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         QuestionApproach questionApproach = firebaseParser.parseApproach(dataSnapshot);
         questionApproachMapper.update(questionApproach);
 
-        Timber.d("Firebase changed a Approach");
+        Timber.d("Firebase changed a QuestionApproach");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
         questionApproachMapper.delete(dataSnapshot.getKey());
 
-        Timber.d("Firebase removed a Approach");
+        Timber.d("Firebase removed a QuestionApproach");
     }
 
     @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }

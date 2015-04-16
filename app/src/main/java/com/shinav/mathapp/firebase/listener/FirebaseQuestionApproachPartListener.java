@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class FirebaseApproachPartListener implements ChildEventListener {
+public class FirebaseQuestionApproachPartListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
     private final QuestionApproachPartMapper questionApproachPartMapper;
 
     @Inject
-    public FirebaseApproachPartListener(FirebaseParser firebaseParser, QuestionApproachPartMapper questionApproachPartMapper) {
+    public FirebaseQuestionApproachPartListener(FirebaseParser firebaseParser, QuestionApproachPartMapper questionApproachPartMapper) {
         this.firebaseParser = firebaseParser;
         this.questionApproachPartMapper = questionApproachPartMapper;
     }
@@ -26,20 +26,20 @@ public class FirebaseApproachPartListener implements ChildEventListener {
         QuestionApproachPart questionApproachPart = firebaseParser.parseApproachPart(dataSnapshot);
         questionApproachPartMapper.insert(questionApproachPart);
 
-        Timber.d("Firebase added a ApproachPart");
+        Timber.d("Firebase added a QuestionApproachPart");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         QuestionApproachPart questionApproachPart = firebaseParser.parseApproachPart(dataSnapshot);
         questionApproachPartMapper.update(questionApproachPart);
 
-        Timber.d("Firebase changed a ApproachPart");
+        Timber.d("Firebase changed a QuestionApproachPart");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
         questionApproachPartMapper.delete(dataSnapshot.getKey());
 
-        Timber.d("Firebase removed a ApproachPart");
+        Timber.d("Firebase removed a QuestionApproachPart");
     }
 
     @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }

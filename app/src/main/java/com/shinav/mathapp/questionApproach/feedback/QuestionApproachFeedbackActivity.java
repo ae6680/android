@@ -90,7 +90,7 @@ public class QuestionApproachFeedbackActivity extends Activity {
     }
 
     private void loadApproach(String questionKey) {
-        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
+        questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
                 loadApproachParts(questionApproach.getKey());

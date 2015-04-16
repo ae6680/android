@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.shinav.mathapp.MyApplication;
@@ -16,11 +15,13 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.db.repository.StoryProgressRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
+import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
@@ -35,7 +36,6 @@ import com.shinav.mathapp.tutorial.TutorialManagingService;
 import com.shinav.mathapp.tutorial.TutorialView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.tabs_view) TabsView tabsView;
     @InjectView(R.id.tutorial_view) TutorialView tutorialView;
     @InjectView(R.id.storyboard_progress) ProgressBar progressBar;
-    @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -70,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
     @Inject PracticeOverviewView practiceOverviewView;
 
     @Inject QuestionRepository questionRepository;
+    @Inject TutorialRepository tutorialRepository;
 
     @Inject StoryProgressRepository storyProgressRepository;
     @Inject StoryProgressPartRepository storyProgressPartRepository;
@@ -83,8 +83,6 @@ public class MainActivity extends ActionBarActivity {
 
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
-
-        loadBackground("http://i.imgur.com/JfDNNOy.png");
 
         initToolbar();
         initTabs();
@@ -107,21 +105,15 @@ public class MainActivity extends ActionBarActivity {
         loadStoryboardFrames();
     }
 
-    private void loadBackground(String imageUrl) {
-        Picasso.with(this)
-                .load(imageUrl)
-                .centerCrop()
-                .fit()
-                .into(backgroundView);
-    }
-
     private void loadStoryboardFrames() {
 
-        String chosenCharacter = sharedPreferences.getString(MyApplication.PREF_CHOSEN_CHARACTER, null);
+        int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
 
-        if (TextUtils.isEmpty(chosenCharacter)) {
+        if (characterResId == 0) {
 
             progressBar.setVisibility(VISIBLE);
+
+            toolbar.setTitle("Kies een karakter");
 
             // Wait 5 seconds to load the data the first time.
             Observable.timer(5000, TimeUnit.MILLISECONDS)
@@ -135,8 +127,8 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
             hideTutorialLayout();
-            loadStoryboard();
-            startStorytellingService(chosenCharacter);
+//            loadStoryboard();
+//            startStorytellingService();
         }
 
     }
@@ -150,6 +142,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadStoryboardFrames(Storyboard storyboard) {
+
         Observable<List<StoryboardFrame>> observable =
                 storyboardFrameRepository.getQuestionFrames(storyboard.getKey()).first();
 
@@ -157,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
 
                 List<String> questionKeys = new ArrayList<>();
-                for (StoryboardFrame storyboardFrame :storyboardFrames) {
+                for (StoryboardFrame storyboardFrame : storyboardFrames) {
                     if (storyboardFrame.isQuestion()) {
                         questionKeys.add(storyboardFrame.getFrameTypeKey());
                     }
@@ -233,7 +226,21 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
-        startTutorialManagingService(event.getPerspective());
+
+        tutorialRepository.getFirst(new Action1<Tutorial>() {
+            @Override public void call(Tutorial tutorial) {
+                startTutorialManagingService(tutorial.getKey());
+            }
+        });
+
+        saveChosenCharacter(event.getResourceId());
+    }
+
+    private void saveChosenCharacter(int resourceId) {
+        sharedPreferences.edit().putInt(
+                MyApplication.PREF_CHOSEN_CHARACTER,
+                resourceId
+        ).apply();
     }
 
 }

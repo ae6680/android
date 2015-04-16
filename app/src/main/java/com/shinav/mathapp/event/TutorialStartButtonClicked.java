@@ -1,14 +1,15 @@
 package com.shinav.mathapp.event;
 
 public class TutorialStartButtonClicked {
-    private final String perspective;
 
-    public TutorialStartButtonClicked(String perspective) {
-        this.perspective = perspective;
+    private final int resourceId;
+
+    public TutorialStartButtonClicked(int resourceId) {
+        this.resourceId = resourceId;
     }
 
-    public String getPerspective() {
-        return perspective;
+    public int getResourceId() {
+        return resourceId;
     }
-
+    
 }

@@ -19,7 +19,7 @@ public class QuestionApproachRepository {
     @Inject
     public QuestionApproachRepository() { }
 
-    public void getApproach(String questionKey, Action1<QuestionApproach> action) {
+    public void get(String questionKey, Action1<QuestionApproach> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

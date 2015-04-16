@@ -1,40 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_marginStart="@dimen/primary_margin"
-                android:layout_marginEnd="@dimen/primary_margin"
+                android:layout_gravity="center"
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/gender_selector"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/gender_male_button"
-            android:text="Jongen"
-            android:textColor="#fff"
-            android:background="@drawable/gender_male"
-            android:layout_width="@dimen/gender_selector_item_dimen"
-            android:layout_height="@dimen/gender_selector_item_dimen"/>
+        <LinearLayout
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/gender_female_button"
-            android:text="Meisje"
-            android:textColor="#fff"
-            android:background="@drawable/gender_female"
-            android:layout_alignParentEnd="true"
-            android:layout_width="@dimen/gender_selector_item_dimen"
-            android:layout_height="@dimen/gender_selector_item_dimen"/>
+            <ImageButton
+                android:id="@+id/main_female_1_button"
+                style="?android:borderlessButtonStyle"
+                android:layout_marginEnd="20dp"
+                android:tag="main_female_1"
+                android:background="@drawable/main_female_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+            <ImageButton
+                android:id="@+id/main_male_1_button"
+                style="?android:borderlessButtonStyle"
+                android:background="@drawable/main_male_1"
+                android:tag="main_male_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/main_female_2_button"
+                style="?android:borderlessButtonStyle"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/main_female_2"
+                android:tag="main_female_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageButton
+                android:id="@+id/main_male_2_button"
+                style="?android:borderlessButtonStyle"
+                android:background="@drawable/main_male_2"
+                android:tag="main_male_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/start_tutorial_button"
         style="@style/primary_button"
+        android:layout_marginTop="65dp"
         android:text="Start"
-        android:layout_marginTop="@dimen/primary_margin"
         android:layout_below="@+id/gender_selector"
         android:layout_centerHorizontal="true" />
 
