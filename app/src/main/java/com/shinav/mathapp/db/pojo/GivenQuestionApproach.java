@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.pojo;
 
-public class GivenApproach {
+public class GivenQuestionApproach {
 
     private String key;
     private String approachKey;

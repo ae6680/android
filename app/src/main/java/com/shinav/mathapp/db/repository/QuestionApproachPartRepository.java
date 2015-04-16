@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import rx.functions.Action1;
 
-import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.APPROACH_KEY;
+import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.QUESTION_APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.TABLE_NAME;
 
 public class QuestionApproachPartRepository {
@@ -25,7 +25,7 @@ public class QuestionApproachPartRepository {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
-                        " WHERE " + APPROACH_KEY + " = ?"
+                        " WHERE " + QUESTION_APPROACH_KEY + " = ?"
                 , approachKey
         ).map(parser).first().subscribe(action);
     }

@@ -23,17 +23,17 @@ public interface Tables {
         String TABLE_NAME = "question_approach_part";
         String KEY = "key";
 
-        String APPROACH_KEY = "approach_key";
+        String QUESTION_APPROACH_KEY = "question_approach_key";
 
         String VALUE = "value";
         String POSITION = "position";
     }
 
-    public interface GivenApproach {
-        String TABLE_NAME = "given_approach";
+    public interface GivenQuestionApproach {
+        String TABLE_NAME = "given_question_approach";
         String KEY = "key";
 
-        String APPROACH_KEY = "approach_key";
+        String QUESTION_APPROACH_KEY = "question_approach_key";
 
         String ARRANGEMENT = "arrangement";
         String GIVEN_AT = "given_at";

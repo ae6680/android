@@ -11,9 +11,9 @@ import javax.inject.Inject;
 
 import rx.functions.Func1;
 
-import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.POSITION;
+import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.QUESTION_APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
@@ -39,7 +39,7 @@ public class QuestionApproachPartListCursorParser implements Func1<Query, List<Q
         QuestionApproachPart questionApproachPart = new QuestionApproachPart();
 
         questionApproachPart.setKey(c.getString(c.getColumnIndex(KEY)));
-        questionApproachPart.setApproachKey(c.getString(c.getColumnIndex(APPROACH_KEY)));
+        questionApproachPart.setApproachKey(c.getString(c.getColumnIndex(QUESTION_APPROACH_KEY)));
         questionApproachPart.setPosition(c.getInt(c.getColumnIndex(POSITION)));
         questionApproachPart.setValue(c.getString(c.getColumnIndex(VALUE)));
 

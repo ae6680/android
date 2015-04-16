@@ -54,7 +54,7 @@ public class FirebaseParser {
     public com.shinav.mathapp.db.pojo.QuestionApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
         com.shinav.mathapp.db.pojo.QuestionApproachPart questionQuestionApproachPart = new com.shinav.mathapp.db.pojo.QuestionApproachPart();
 
-        String approachKey = getString(dataSnapshot, Tables.QuestionApproachPart.APPROACH_KEY);
+        String approachKey = getString(dataSnapshot, Tables.QuestionApproachPart.QUESTION_APPROACH_KEY);
         String position =    getString(dataSnapshot, Tables.QuestionApproachPart.POSITION);
         String value =       getString(dataSnapshot, Tables.QuestionApproachPart.VALUE);
 

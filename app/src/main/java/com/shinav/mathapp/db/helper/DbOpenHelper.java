@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
-import static com.shinav.mathapp.db.helper.Tables.GivenApproach;
 import static com.shinav.mathapp.db.helper.Tables.Question;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
@@ -88,7 +87,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private void createQuestionApproachPartTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tables.QuestionApproachPart.TABLE_NAME + " ("
                         + Tables.QuestionApproachPart.KEY + " TEXT,"
-                        + Tables.QuestionApproachPart.APPROACH_KEY + " TEXT,"
+                        + Tables.QuestionApproachPart.QUESTION_APPROACH_KEY + " TEXT,"
                         + Tables.QuestionApproachPart.VALUE + " TEXT,"
                         + Tables.QuestionApproachPart.POSITION + " INTEGER,"
                         + " UNIQUE (" + Tables.QuestionApproachPart.KEY + ") ON CONFLICT REPLACE)"
@@ -98,15 +97,15 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createGivenApproachTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + GivenApproach.TABLE_NAME + " ("
-                        + GivenApproach.KEY + " TEXT,"
-                        + GivenApproach.APPROACH_KEY + " TEXT,"
-                        + GivenApproach.ARRANGEMENT + " TEXT,"
-                        + GivenApproach.GIVEN_AT + " INTEGER,"
-                        + " UNIQUE (" + GivenApproach.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + Tables.GivenQuestionApproach.TABLE_NAME + " ("
+                        + Tables.GivenQuestionApproach.KEY + " TEXT,"
+                        + Tables.GivenQuestionApproach.QUESTION_APPROACH_KEY + " TEXT,"
+                        + Tables.GivenQuestionApproach.ARRANGEMENT + " TEXT,"
+                        + Tables.GivenQuestionApproach.GIVEN_AT + " INTEGER,"
+                        + " UNIQUE (" + Tables.GivenQuestionApproach.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, GivenApproach.TABLE_NAME, GivenApproach.KEY);
+        createIndex(db, Tables.GivenQuestionApproach.TABLE_NAME, Tables.GivenQuestionApproach.KEY);
     }
 
     private void createGivenAnswerTable(SQLiteDatabase db) {

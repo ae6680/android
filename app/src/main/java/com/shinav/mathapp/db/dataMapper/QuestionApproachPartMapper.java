@@ -7,9 +7,9 @@ import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
-import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.POSITION;
+import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.QUESTION_APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.VALUE;
 
@@ -24,7 +24,7 @@ public class QuestionApproachPartMapper {
         ContentValues values = new ContentValues();
 
         values.put(KEY, questionApproachPart.getKey());
-        values.put(APPROACH_KEY, questionApproachPart.getApproachKey());
+        values.put(QUESTION_APPROACH_KEY, questionApproachPart.getApproachKey());
         values.put(VALUE, questionApproachPart.getValue());
         values.put(POSITION, questionApproachPart.getPosition());
 

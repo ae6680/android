@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.dataMapper.GivenApproachMapper;
+import com.shinav.mathapp.db.dataMapper.GivenQuestionApproachMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.GivenApproach;
+import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
@@ -45,7 +45,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
     @Inject QuestionApproachRepository questionApproachRepository;
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
-    @Inject GivenApproachMapper givenApproachMapper;
+    @Inject GivenQuestionApproachMapper givenQuestionApproachMapper;
 
     private QuestionApproach questionApproach;
 
@@ -133,11 +133,11 @@ public class QuestionApproachActivity extends ActionBarActivity {
 
         String order = getOrder(questionApproachParts);
 
-        GivenApproach givenApproach = new GivenApproach();
-        givenApproach.setApproachKey(questionApproach.getKey());
-        givenApproach.setArrangement(order);
+        GivenQuestionApproach givenQuestionApproach = new GivenQuestionApproach();
+        givenQuestionApproach.setApproachKey(questionApproach.getKey());
+        givenQuestionApproach.setArrangement(order);
 
-        givenApproachMapper.insert(givenApproach);
+        givenQuestionApproachMapper.insert(givenQuestionApproach);
     }
 
     private String getOrder(List<QuestionApproachPart> questionApproachParts) {

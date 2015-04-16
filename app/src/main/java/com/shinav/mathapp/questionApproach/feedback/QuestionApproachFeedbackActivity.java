@@ -12,11 +12,11 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.GivenApproach;
+import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.db.repository.GivenApproachRepository;
+import com.shinav.mathapp.db.repository.GivenQuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
@@ -49,7 +49,7 @@ public class QuestionApproachFeedbackActivity extends Activity {
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
-    @Inject GivenApproachRepository givenApproachRepository;
+    @Inject GivenQuestionApproachRepository givenQuestionApproachRepository;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,19 +109,19 @@ public class QuestionApproachFeedbackActivity extends Activity {
     }
 
     private void loadGivenApproach(String approachKey, final List<QuestionApproachPart> questionApproachParts) {
-        givenApproachRepository.get(approachKey, new Action1<GivenApproach>() {
-            @Override public void call(GivenApproach givenApproach) {
+        givenQuestionApproachRepository.get(approachKey, new Action1<GivenQuestionApproach>() {
+            @Override public void call(GivenQuestionApproach givenQuestionApproach) {
                 List<QuestionApproachPart> arrangedQuestionApproachParts =
-                        sortOnGivenApproachArrangement(questionApproachParts, givenApproach);
+                        sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
 
                 initApproachListMine(arrangedQuestionApproachParts);
             }
         });
     }
 
-    private List<QuestionApproachPart> sortOnGivenApproachArrangement(final List<QuestionApproachPart> questionApproachParts, GivenApproach givenApproach) {
+    private List<QuestionApproachPart> sortOnGivenApproachArrangement(final List<QuestionApproachPart> questionApproachParts, GivenQuestionApproach givenQuestionApproach) {
 
-        final String[] arrangement = TextUtils.split(givenApproach.getArrangement(), ",");
+        final String[] arrangement = TextUtils.split(givenQuestionApproach.getArrangement(), ",");
 
         List<QuestionApproachPart> arrangedApproaches = new ArrayList<>();
 
