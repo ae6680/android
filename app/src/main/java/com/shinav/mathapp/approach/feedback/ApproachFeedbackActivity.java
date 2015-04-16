@@ -12,13 +12,13 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.GivenApproach;
 import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
 import com.shinav.mathapp.db.repository.GivenApproachRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.storytelling.StorytellingService;
@@ -47,7 +47,7 @@ public class ApproachFeedbackActivity extends Activity {
     @Inject ApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
     @Inject ApproachPartRepository approachPartRepository;
     @Inject GivenApproachRepository givenApproachRepository;
 
@@ -90,10 +90,10 @@ public class ApproachFeedbackActivity extends Activity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }

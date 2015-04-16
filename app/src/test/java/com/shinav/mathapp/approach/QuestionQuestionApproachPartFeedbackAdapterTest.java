@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class ApproachPartFeedbackAdapterTest {
+public class QuestionQuestionApproachPartFeedbackAdapterTest {
 
     private ApproachPartFeedbackAdapter adapter;
 

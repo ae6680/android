@@ -2,8 +2,8 @@ package com.shinav.mathapp.injection.module;
 
 import android.content.Context;
 
-import com.shinav.mathapp.db.dataMapper.ApproachMapper;
 import com.shinav.mathapp.db.dataMapper.ApproachPartMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionApproachMapper;
 import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.injection.annotation.ForActivity;
@@ -44,11 +44,11 @@ public class DebugApproachActivityModule {
         }
     }
 
-    @Provides ApproachMapper provideApproachMapper() {
+    @Provides QuestionApproachMapper provideApproachMapper() {
         if (mockMode) {
-            return Mockito.mock(ApproachMapper.class);
+            return Mockito.mock(QuestionApproachMapper.class);
         } else {
-            return new ApproachMapper();
+            return new QuestionApproachMapper();
         }
     }
 

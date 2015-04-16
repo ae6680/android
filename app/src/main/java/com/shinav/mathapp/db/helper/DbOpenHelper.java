@@ -8,7 +8,6 @@ import com.shinav.mathapp.injection.annotation.ForApplication;
 
 import javax.inject.Inject;
 
-import static com.shinav.mathapp.db.helper.Tables.Approach;
 import static com.shinav.mathapp.db.helper.Tables.ApproachPart;
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
@@ -78,13 +77,13 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createApproachTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Approach.TABLE_NAME + " ("
-                        + Approach.KEY + " TEXT,"
-                        + Approach.QUESTION_KEY + " TEXT,"
-                        + " UNIQUE (" + Approach.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + Tables.QuestionApproach.TABLE_NAME + " ("
+                        + Tables.QuestionApproach.KEY + " TEXT,"
+                        + Tables.QuestionApproach.QUESTION_KEY + " TEXT,"
+                        + " UNIQUE (" + Tables.QuestionApproach.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Approach.TABLE_NAME, Approach.KEY);
+        createIndex(db, Tables.QuestionApproach.TABLE_NAME, Tables.QuestionApproach.KEY);
     }
 
     private void createApproachPartTable(SQLiteDatabase db) {

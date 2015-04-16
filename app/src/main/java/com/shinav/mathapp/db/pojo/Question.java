@@ -9,7 +9,7 @@ public class Question {
     private String answer;
     private String explanation;
 
-    private Approach approach;
+    private QuestionApproach questionApproach;
 
     public String getKey() {
         return key;
@@ -43,12 +43,12 @@ public class Question {
         this.answer = answer;
     }
 
-    public void setApproach(Approach approach) {
-        this.approach = approach;
+    public void setQuestionApproach(QuestionApproach questionApproach) {
+        this.questionApproach = questionApproach;
     }
 
-    public Approach getApproach() {
-        return approach;
+    public QuestionApproach getQuestionApproach() {
+        return questionApproach;
     }
 
     public String getExplanation() {

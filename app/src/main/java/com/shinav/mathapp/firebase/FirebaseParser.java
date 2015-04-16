@@ -2,7 +2,6 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationLine;
@@ -41,16 +40,16 @@ public class FirebaseParser {
         return question;
     }
 
-    public Approach parseApproach(DataSnapshot dataSnapshot) {
-        Approach approach = new Approach();
+    public com.shinav.mathapp.db.pojo.QuestionApproach parseApproach(DataSnapshot dataSnapshot) {
+        com.shinav.mathapp.db.pojo.QuestionApproach questionQuestionApproach = new com.shinav.mathapp.db.pojo.QuestionApproach();
 
         String key = dataSnapshot.getKey();
-        String questionKey = getString(dataSnapshot, Tables.Approach.QUESTION_KEY);
+        String questionKey = getString(dataSnapshot, Tables.QuestionApproach.QUESTION_KEY);
 
-        approach.setKey(key);
-        approach.setQuestionKey(questionKey);
+        questionQuestionApproach.setKey(key);
+        questionQuestionApproach.setQuestionKey(questionKey);
 
-        return approach;
+        return questionQuestionApproach;
     }
 
     public ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {

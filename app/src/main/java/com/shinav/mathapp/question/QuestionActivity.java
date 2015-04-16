@@ -23,12 +23,12 @@ import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
 import com.shinav.mathapp.db.dataMapper.GivenAnswerMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
@@ -73,7 +73,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionNextCardView questionNextCardView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
     @Inject ApproachPartRepository approachPartRepository;
 
     @Inject GivenAnswerMapper givenAnswerMapper;
@@ -150,10 +150,10 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }

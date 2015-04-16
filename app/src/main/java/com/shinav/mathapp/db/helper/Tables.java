@@ -12,8 +12,8 @@ public interface Tables {
         String EXPLANATION = "explanation";
     }
 
-    public interface Approach {
-        String TABLE_NAME = "approach";
+    public interface QuestionApproach {
+        String TABLE_NAME = "question_approach";
         String KEY = "key";
 
         String QUESTION_KEY = "question_key";

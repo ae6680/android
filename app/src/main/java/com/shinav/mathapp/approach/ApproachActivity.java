@@ -13,12 +13,12 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.GivenApproachMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
 import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.GivenApproach;
 import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.storytelling.StorytellingService;
@@ -42,12 +42,12 @@ public class ApproachActivity extends ActionBarActivity {
     @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
     @Inject ApproachPartRepository approachPartRepository;
 
     @Inject GivenApproachMapper givenApproachMapper;
 
-    private Approach approach;
+    private QuestionApproach questionApproach;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +82,11 @@ public class ApproachActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                ApproachActivity.this.approach = approach;
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                ApproachActivity.this.questionApproach = questionApproach;
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }
@@ -134,7 +134,7 @@ public class ApproachActivity extends ActionBarActivity {
         String order = getOrder(approachParts);
 
         GivenApproach givenApproach = new GivenApproach();
-        givenApproach.setApproachKey(approach.getKey());
+        givenApproach.setApproachKey(questionApproach.getKey());
         givenApproach.setArrangement(order);
 
         givenApproachMapper.insert(givenApproach);
