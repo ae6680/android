@@ -25,6 +25,7 @@ import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -95,6 +96,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
         questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
             @Override public void call(List<QuestionApproachPart> questionApproachParts) {
+                Collections.shuffle(questionApproachParts);
                 approachPartList.setQuestionApproachParts(questionApproachParts);
             }
         });
