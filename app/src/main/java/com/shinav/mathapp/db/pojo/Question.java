@@ -9,8 +9,6 @@ public class Question {
     private String answer;
     private String explanation;
 
-    private QuestionApproach questionApproach;
-
     public String getKey() {
         return key;
     }
@@ -41,14 +39,6 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    public void setQuestionApproach(QuestionApproach questionApproach) {
-        this.questionApproach = questionApproach;
-    }
-
-    public QuestionApproach getQuestionApproach() {
-        return questionApproach;
     }
 
     public String getExplanation() {

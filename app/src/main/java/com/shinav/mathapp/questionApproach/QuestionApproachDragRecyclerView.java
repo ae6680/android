@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.DragSortRecycler;
 
@@ -16,23 +16,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ApproachDragRecyclerView extends RecyclerView {
+public class QuestionApproachDragRecyclerView extends RecyclerView {
 
-    @Inject ApproachPartAdapter approachPartAdapter;
+    @Inject QuestionApproachPartAdapter questionApproachPartAdapter;
 
-    private List<ApproachPart> approachParts = Collections.emptyList();
+    private List<QuestionApproachPart> questionApproachParts = Collections.emptyList();
 
-    public ApproachDragRecyclerView(Context context) {
+    public QuestionApproachDragRecyclerView(Context context) {
         super(context);
         init(context);
     }
 
-    public ApproachDragRecyclerView(Context context, AttributeSet attrs) {
+    public QuestionApproachDragRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public ApproachDragRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public QuestionApproachDragRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -40,7 +40,7 @@ public class ApproachDragRecyclerView extends RecyclerView {
     private void init(Context context) {
         ComponentFactory.getViewComponent(context).inject(this);
 
-        setAdapter(approachPartAdapter);
+        setAdapter(questionApproachPartAdapter);
         setLayoutManager(new LinearLayoutManager(this.getContext()));
         setItemAnimator(null);
 
@@ -53,8 +53,8 @@ public class ApproachDragRecyclerView extends RecyclerView {
         dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override public void onItemMoved(int from, int to) {
-                approachParts.add(to, approachParts.remove(from));
-                approachPartAdapter.setApproachParts(approachParts);
+                questionApproachParts.add(to, questionApproachParts.remove(from));
+                questionApproachPartAdapter.setQuestionApproachParts(questionApproachParts);
             }
         });
 
@@ -63,10 +63,10 @@ public class ApproachDragRecyclerView extends RecyclerView {
         setOnScrollListener(dragSortRecycler.getScrollListener());
     }
 
-    public void setApproachParts(List<ApproachPart> approachParts) {
-        this.approachParts = approachParts;
-        Collections.shuffle(approachParts);
-        approachPartAdapter.setApproachParts(approachParts);
+    public void setQuestionApproachParts(List<QuestionApproachPart> questionApproachParts) {
+        this.questionApproachParts = questionApproachParts;
+        Collections.shuffle(questionApproachParts);
+        questionApproachPartAdapter.setQuestionApproachParts(questionApproachParts);
     }
 
 }

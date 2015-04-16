@@ -2,7 +2,6 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.pojo.Question;
@@ -52,19 +51,19 @@ public class FirebaseParser {
         return questionQuestionApproach;
     }
 
-    public ApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
-        ApproachPart approachPart = new ApproachPart();
+    public com.shinav.mathapp.db.pojo.QuestionApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
+        com.shinav.mathapp.db.pojo.QuestionApproachPart questionQuestionApproachPart = new com.shinav.mathapp.db.pojo.QuestionApproachPart();
 
-        String approachKey = getString(dataSnapshot, Tables.ApproachPart.APPROACH_KEY);
-        String position =    getString(dataSnapshot, Tables.ApproachPart.POSITION);
-        String value =       getString(dataSnapshot, Tables.ApproachPart.VALUE);
+        String approachKey = getString(dataSnapshot, Tables.QuestionApproachPart.APPROACH_KEY);
+        String position =    getString(dataSnapshot, Tables.QuestionApproachPart.POSITION);
+        String value =       getString(dataSnapshot, Tables.QuestionApproachPart.VALUE);
 
-        approachPart.setKey(dataSnapshot.getKey());
-        approachPart.setApproachKey(approachKey);
-        approachPart.setPosition(Integer.parseInt(position));
-        approachPart.setValue(value);
+        questionQuestionApproachPart.setKey(dataSnapshot.getKey());
+        questionQuestionApproachPart.setApproachKey(approachKey);
+        questionQuestionApproachPart.setPosition(Integer.parseInt(position));
+        questionQuestionApproachPart.setValue(value);
 
-        return approachPart;
+        return questionQuestionApproachPart;
     }
 
     public Storyboard parseStoryboard(DataSnapshot dataSnapshot) {

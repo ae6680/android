@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.content.Intent;
 import android.support.test.runner.AndroidJUnit4;

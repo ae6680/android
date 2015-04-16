@@ -20,7 +20,7 @@ public class QuestionRepository {
 
     @Inject SqlBrite db;
     @Inject QuestionApproachRepository questionApproachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject QuestionCursorParser parser;
     @Inject QuestionListCursorParser listParser;

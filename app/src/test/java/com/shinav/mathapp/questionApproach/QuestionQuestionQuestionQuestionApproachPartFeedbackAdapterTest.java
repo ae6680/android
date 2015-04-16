@@ -1,7 +1,7 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
-import com.shinav.mathapp.approach.feedback.ApproachPartFeedbackAdapter;
-import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.questionApproach.feedback.QuestionApproachPartFeedbackAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,23 +16,23 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class QuestionQuestionApproachPartFeedbackAdapterTest {
+public class QuestionQuestionQuestionQuestionApproachPartFeedbackAdapterTest {
 
-    private ApproachPartFeedbackAdapter adapter;
+    private QuestionApproachPartFeedbackAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new ApproachPartFeedbackAdapter();
+        adapter = new QuestionApproachPartFeedbackAdapter();
     }
 
     @Test
     public void testCorrectWhenPositionEqualsItemPosition() throws Exception {
         int pos1 = 0;
 
-        ApproachPart approachPart = new ApproachPart();
-        approachPart.setPosition(pos1);
+        QuestionApproachPart questionApproachPart = new QuestionApproachPart();
+        questionApproachPart.setPosition(pos1);
 
-        adapter.setApproachParts(Arrays.asList(approachPart));
+        adapter.setQuestionApproachParts(Arrays.asList(questionApproachPart));
 
         assertThat(adapter.isCorrect(pos1), is(true));
     }
@@ -42,10 +42,10 @@ public class QuestionQuestionApproachPartFeedbackAdapterTest {
         int approachPosition = 1;
         int pos1 = 0;
 
-        ApproachPart approachPart = new ApproachPart();
-        approachPart.setPosition(approachPosition);
+        QuestionApproachPart questionApproachPart = new QuestionApproachPart();
+        questionApproachPart.setPosition(approachPosition);
 
-        adapter.setApproachParts(Arrays.asList(approachPart));
+        adapter.setQuestionApproachParts(Arrays.asList(questionApproachPart));
 
         assertThat(adapter.isCorrect(pos1), is(false));
     }

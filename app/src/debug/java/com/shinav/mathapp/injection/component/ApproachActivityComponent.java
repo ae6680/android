@@ -2,9 +2,9 @@ package com.shinav.mathapp.injection.component;
 
 import android.content.Context;
 
-import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.injection.TestDependencyWrapper;
 import com.shinav.mathapp.injection.module.DebugApproachActivityModule;
+import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 
 import javax.inject.Singleton;
 
@@ -16,7 +16,7 @@ import dagger.Component;
 @Singleton
 public interface ApproachActivityComponent {
 
-    void inject(ApproachActivity activity);
+    void inject(QuestionApproachActivity activity);
     void inject(TestDependencyWrapper wrapper);
 
     public final static class Initializer {

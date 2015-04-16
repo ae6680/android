@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.GivenApproachMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.GivenApproach;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
-import com.shinav.mathapp.db.repository.ApproachPartRepository;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
@@ -34,16 +34,16 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class ApproachActivity extends ActionBarActivity {
+public class QuestionApproachActivity extends ActionBarActivity {
 
-    @InjectView(R.id.approach_part_list) ApproachDragRecyclerView approachPartList;
+    @InjectView(R.id.approach_part_list) QuestionApproachDragRecyclerView approachPartList;
     @InjectView(R.id.question_text) TextView questionText;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject GivenApproachMapper givenApproachMapper;
 
@@ -85,17 +85,17 @@ public class ApproachActivity extends ActionBarActivity {
         questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
-                ApproachActivity.this.questionApproach = questionApproach;
+                QuestionApproachActivity.this.questionApproach = questionApproach;
                 loadApproachParts(questionApproach.getKey());
             }
         });
     }
 
     private void loadApproachParts(String approachKey) {
-        approachPartRepository.getApproachParts(approachKey, new Action1<List<ApproachPart>>() {
+        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
-            @Override public void call(List<ApproachPart> approachParts) {
-                approachPartList.setApproachParts(approachParts);
+            @Override public void call(List<QuestionApproachPart> questionApproachParts) {
+                approachPartList.setQuestionApproachParts(questionApproachParts);
             }
         });
     }
@@ -128,10 +128,10 @@ public class ApproachActivity extends ActionBarActivity {
     }
 
     private void saveGivenApproach() {
-        List<ApproachPart> approachParts =
-                ((ApproachPartAdapter) approachPartList.getAdapter()).getApproachParts();
+        List<QuestionApproachPart> questionApproachParts =
+                ((QuestionApproachPartAdapter) approachPartList.getAdapter()).getQuestionApproachParts();
 
-        String order = getOrder(approachParts);
+        String order = getOrder(questionApproachParts);
 
         GivenApproach givenApproach = new GivenApproach();
         givenApproach.setApproachKey(questionApproach.getKey());
@@ -140,10 +140,10 @@ public class ApproachActivity extends ActionBarActivity {
         givenApproachMapper.insert(givenApproach);
     }
 
-    private String getOrder(List<ApproachPart> approachParts) {
+    private String getOrder(List<QuestionApproachPart> questionApproachParts) {
         List<Integer> positions = new ArrayList<>();
-        for (ApproachPart approachPart : approachParts) {
-            positions.add(approachPart.getPosition());
+        for (QuestionApproachPart questionApproachPart : questionApproachParts) {
+            positions.add(questionApproachPart.getPosition());
         }
 
         return TextUtils.join(",", positions);

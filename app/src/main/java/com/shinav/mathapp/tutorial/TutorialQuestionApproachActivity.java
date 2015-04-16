@@ -2,10 +2,10 @@ package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
 
-import com.shinav.mathapp.approach.ApproachActivity;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 
-public class TutorialApproachActivity extends ApproachActivity {
+public class TutorialQuestionApproachActivity extends QuestionApproachActivity {
 
     @Override public void inject() {
         ComponentFactory.getActivityComponent(this).inject(this);

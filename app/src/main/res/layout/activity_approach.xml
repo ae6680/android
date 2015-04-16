@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <com.shinav.mathapp.approach.ApproachDragRecyclerView
+        <com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView
             android:id="@+id/approach_part_list"
             android:layout_above="@+id/next_question_button"
             android:overScrollMode="never"
