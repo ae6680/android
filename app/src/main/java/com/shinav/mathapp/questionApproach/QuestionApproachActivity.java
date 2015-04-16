@@ -82,7 +82,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
+        questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
                 QuestionApproachActivity.this.questionApproach = questionApproach;

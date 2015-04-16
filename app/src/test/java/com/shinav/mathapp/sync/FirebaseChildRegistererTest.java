@@ -2,10 +2,10 @@ package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
-import com.shinav.mathapp.firebase.listener.FirebaseApproachListener;
-import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationLineListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryboardFrameListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
@@ -44,8 +44,8 @@ public class FirebaseChildRegistererTest {
                 Mockito.mock(FirebaseStoryboardListener.class),
                 Mockito.mock(FirebaseConversationListener.class),
                 Mockito.mock(FirebaseConversationLineListener.class),
-                Mockito.mock(FirebaseApproachListener.class),
-                Mockito.mock(FirebaseApproachPartListener.class),
+                Mockito.mock(FirebaseQuestionApproachListener.class),
+                Mockito.mock(FirebaseQuestionApproachPartListener.class),
                 Mockito.mock(FirebaseStoryboardFrameListener.class),
                 Mockito.mock(FirebaseTutorialListener.class),
                 Mockito.mock(FirebaseTutorialFrameListener.class)

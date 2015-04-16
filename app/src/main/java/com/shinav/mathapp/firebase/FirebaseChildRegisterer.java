@@ -2,10 +2,10 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.firebase.listener.FirebaseApproachListener;
-import com.shinav.mathapp.firebase.listener.FirebaseApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationLineListener;
 import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachListener;
+import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryboardFrameListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
@@ -30,8 +30,8 @@ public class FirebaseChildRegisterer {
     @Inject FirebaseConversationLineListener firebaseConversationLineListener;
 
     @Inject FirebaseQuestionListener firebaseQuestionListener;
-    @Inject FirebaseApproachListener firebaseApproachListener;
-    @Inject FirebaseApproachPartListener firebaseApproachPartListener;
+    @Inject FirebaseQuestionApproachListener firebaseQuestionApproachListener;
+    @Inject FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener;
 
     @Inject
     public FirebaseChildRegisterer() { }
@@ -47,8 +47,8 @@ public class FirebaseChildRegisterer {
         addChildEventListener(Nodes.CONVERSATION_LINES, firebaseConversationLineListener);
 
         addChildEventListener(Nodes.QUESTIONS, firebaseQuestionListener);
-        addChildEventListener(Nodes.APPROACHES, firebaseApproachListener);
-        addChildEventListener(Nodes.APPROACH_PARTS, firebaseApproachPartListener);
+        addChildEventListener(Nodes.APPROACHES, firebaseQuestionApproachListener);
+        addChildEventListener(Nodes.APPROACH_PARTS, firebaseQuestionApproachPartListener);
     }
 
     private void addChildEventListener(String node, ChildEventListener listener) {

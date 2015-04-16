@@ -1,11 +1,13 @@
 package com.shinav.mathapp.conversation;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.event.ConversationMessageShownEvent;
@@ -35,6 +37,7 @@ public class ConversationLineView extends ButterKnifeLayout {
     private ConversationLine conversationLine;
 
     @Inject Bus bus;
+    @Inject SharedPreferences sharedPreferences;
 
     public ConversationLineView(Context context, ConversationLine conversationLine) {
         super(context);
@@ -60,11 +63,18 @@ public class ConversationLineView extends ButterKnifeLayout {
 
         holder =  new ViewHolder(view);
 
-        Picasso.with(this.getContext())
-                .load(conversationLine.getImageUrl())
-                .centerCrop()
-                .fit()
-                .into(holder.image);
+        if (conversationLine.getImageUrl().equals("main")) {
+
+            int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
+            holder.image.setImageResource(characterResId);
+
+        } else {
+            Picasso.with(this.getContext())
+                    .load(conversationLine.getImageUrl())
+                    .centerCrop()
+                    .fit()
+                    .into(holder.image);
+        }
 
         addView(view);
     }

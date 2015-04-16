@@ -31,7 +31,7 @@ public class QuestionRepository {
 //    public void get(String questionKey, Action1<Question> action) {
 //
 //        Observable<Question> questionObservable = get(questionKey);
-//        Observable<Approach> approachObservable = approachRepository.getApproach(questionKey);
+//        Observable<Approach> approachObservable = approachRepository.get(questionKey);
 //
 //        Observable.combineLatest(questionObservable, approachObservable, new Func2<Question, Approach, Question>() {
 //            @Override public Question call(Question question, Approach approach) {
@@ -44,10 +44,10 @@ public class QuestionRepository {
 //                .map(new Func1<Question, Object>() {
 //                    @Override public Question call(final Question question) {
 //
-//                        approachPartRepository.getApproachParts(question.getApproach().getKey()).first().map(new Func1<List<ApproachPart>, Object>() {
+//                        approachPartRepository.getApproachParts(question.get().getKey()).first().map(new Func1<List<ApproachPart>, Object>() {
 //                            @Override public Object call(List<ApproachPart> approachParts) {
 //
-//                                question.getApproach().setApproachParts(approachParts);
+//                                question.get().setApproachParts(approachParts);
 //
 //                                return null;
 //                            }

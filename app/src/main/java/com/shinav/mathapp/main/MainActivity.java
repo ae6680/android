@@ -15,11 +15,13 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
 import com.shinav.mathapp.db.repository.StoryProgressRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
+import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.event.MakeQuestionButtonClicked;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
@@ -67,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
     @Inject PracticeOverviewView practiceOverviewView;
 
     @Inject QuestionRepository questionRepository;
+    @Inject TutorialRepository tutorialRepository;
 
     @Inject StoryProgressRepository storyProgressRepository;
     @Inject StoryProgressPartRepository storyProgressPartRepository;
@@ -104,9 +107,9 @@ public class MainActivity extends ActionBarActivity {
 
     private void loadStoryboardFrames() {
 
-        String chosenCharacter = sharedPreferences.getString(MyApplication.PREF_CHOSEN_CHARACTER, null);
+        int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
 
-        if (TextUtils.isEmpty(chosenCharacter)) {
+        if (characterResId == 0) {
 
             progressBar.setVisibility(VISIBLE);
 
@@ -124,8 +127,8 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
             hideTutorialLayout();
-            loadStoryboard();
-            startStorytellingService(chosenCharacter);
+//            loadStoryboard();
+//            startStorytellingService();
         }
 
     }
@@ -139,6 +142,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadStoryboardFrames(Storyboard storyboard) {
+
         Observable<List<StoryboardFrame>> observable =
                 storyboardFrameRepository.getQuestionFrames(storyboard.getKey()).first();
 
@@ -222,7 +226,21 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
-        startTutorialManagingService(event.getPerspective());
+
+        tutorialRepository.getFirst(new Action1<Tutorial>() {
+            @Override public void call(Tutorial tutorial) {
+                startTutorialManagingService(tutorial.getKey());
+            }
+        });
+
+        saveChosenCharacter(event.getResourceId());
+    }
+
+    private void saveChosenCharacter(int resourceId) {
+        sharedPreferences.edit().putInt(
+                MyApplication.PREF_CHOSEN_CHARACTER,
+                resourceId
+        ).apply();
     }
 
 }

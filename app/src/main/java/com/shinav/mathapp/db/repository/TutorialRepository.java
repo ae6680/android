@@ -19,6 +19,14 @@ public class TutorialRepository {
     @Inject
     public TutorialRepository() { }
 
+    public void getFirst(Action1<Tutorial> action) {
+        db.createQuery(
+                TABLE_NAME,
+                "SELECT * FROM " + TABLE_NAME +
+                        " LIMIT 1"
+        ).map(parser).first().subscribe(action);
+    }
+
     public void get(String tutorialKey, Action1<Tutorial> action) {
         db.createQuery(
                 TABLE_NAME,
