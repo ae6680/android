@@ -4,7 +4,7 @@ public class Tutorial {
 
     private String key;
 
-    private String perspective;
+    private String title;
 
     public String getKey() {
         return key;
@@ -14,11 +14,11 @@ public class Tutorial {
         this.key = key;
     }
 
-    public String getPerspective() {
-        return perspective;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPerspective(String perspective) {
-        this.perspective = perspective;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

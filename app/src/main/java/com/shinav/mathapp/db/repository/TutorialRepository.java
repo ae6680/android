@@ -6,9 +6,9 @@ import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import rx.functions.Action1;
 
-import static com.shinav.mathapp.db.helper.Tables.Tutorial.PERSPECTIVE;
+import static com.shinav.mathapp.db.helper.Tables.Tutorial.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Tutorial.TABLE_NAME;
 
 public class TutorialRepository {
@@ -19,13 +19,13 @@ public class TutorialRepository {
     @Inject
     public TutorialRepository() { }
 
-    public Observable<Tutorial> getByPerspective(String perspective) {
-        return db.createQuery(
+    public void get(String tutorialKey, Action1<Tutorial> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
-                        " WHERE " + PERSPECTIVE + " = ?"
-                , perspective
-        ).map(parser);
-    };
+                        " WHERE " + KEY + " = ?"
+                , tutorialKey
+        ).map(parser).first().subscribe(action);
+    }
 
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.Storyboard.KEY;
-import static com.shinav.mathapp.db.helper.Tables.Storyboard.PERSPECTIVE;
+import static com.shinav.mathapp.db.helper.Tables.Storyboard.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class StoryboardCursorParser implements Func1<Query, Storyboard> {
@@ -34,7 +34,7 @@ public class StoryboardCursorParser implements Func1<Query, Storyboard> {
         Storyboard storyboard = new Storyboard();
 
         storyboard.setKey(c.getString(c.getColumnIndex(KEY)));
-        storyboard.setPerspective(c.getString(c.getColumnIndex(PERSPECTIVE)));
+        storyboard.setTitle((c.getString(c.getColumnIndex(TITLE))));
 
         return storyboard;
     }

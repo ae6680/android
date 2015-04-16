@@ -10,7 +10,7 @@ import timber.log.Timber;
 public class MyApplication extends Application {
 
     public static String PREF = "com.shinav.mathapp";
-    public static String PREF_PERSPECTIVE = PREF + ".perspective";
+    public static String PREF_CHOSEN_CHARACTER = PREF + ".chosen_character";
 
     public static int screenHeight;
     public static int screenWidth;

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach.feedback;
+package com.shinav.mathapp.questionApproach.feedback;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +12,13 @@ import android.widget.RelativeLayout;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
-import com.shinav.mathapp.db.pojo.ApproachPart;
-import com.shinav.mathapp.db.pojo.GivenApproach;
+import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
-import com.shinav.mathapp.db.repository.GivenApproachRepository;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.repository.GivenQuestionApproachRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.storytelling.StorytellingService;
@@ -35,7 +35,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class ApproachFeedbackActivity extends Activity {
+public class QuestionApproachFeedbackActivity extends Activity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
@@ -43,13 +43,13 @@ public class ApproachFeedbackActivity extends Activity {
     @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
     @InjectView(R.id.background_view) ImageView backgroundView;
 
-    @Inject ApproachPartFeedbackAdapter approachFeedbackMineAdapter;
-    @Inject ApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
+    @Inject QuestionApproachPartFeedbackAdapter approachFeedbackMineAdapter;
+    @Inject QuestionApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
-    @Inject GivenApproachRepository givenApproachRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
+    @Inject GivenQuestionApproachRepository givenQuestionApproachRepository;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,56 +90,56 @@ public class ApproachFeedbackActivity extends Activity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }
 
     private void loadApproachParts(final String approachKey) {
-        approachPartRepository.getApproachParts(approachKey, new Action1<List<ApproachPart>>() {
+        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
-            @Override public void call(List<ApproachPart> approachParts) {
-                loadGivenApproach(approachKey, approachParts);
-                initApproachListCorrect(approachParts);
+            @Override public void call(List<QuestionApproachPart> questionApproachParts) {
+                loadGivenApproach(approachKey, questionApproachParts);
+                initApproachListCorrect(questionApproachParts);
             }
         });
     }
 
-    private void loadGivenApproach(String approachKey, final List<ApproachPart> approachParts) {
-        givenApproachRepository.get(approachKey, new Action1<GivenApproach>() {
-            @Override public void call(GivenApproach givenApproach) {
-                List<ApproachPart> arrangedApproachParts =
-                        sortOnGivenApproachArrangement(approachParts, givenApproach);
+    private void loadGivenApproach(String approachKey, final List<QuestionApproachPart> questionApproachParts) {
+        givenQuestionApproachRepository.get(approachKey, new Action1<GivenQuestionApproach>() {
+            @Override public void call(GivenQuestionApproach givenQuestionApproach) {
+                List<QuestionApproachPart> arrangedQuestionApproachParts =
+                        sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
 
-                initApproachListMine(arrangedApproachParts);
+                initApproachListMine(arrangedQuestionApproachParts);
             }
         });
     }
 
-    private List<ApproachPart> sortOnGivenApproachArrangement(final List<ApproachPart> approachParts, GivenApproach givenApproach) {
+    private List<QuestionApproachPart> sortOnGivenApproachArrangement(final List<QuestionApproachPart> questionApproachParts, GivenQuestionApproach givenQuestionApproach) {
 
-        final String[] arrangement = TextUtils.split(givenApproach.getArrangement(), ",");
+        final String[] arrangement = TextUtils.split(givenQuestionApproach.getArrangement(), ",");
 
-        List<ApproachPart> arrangedApproaches = new ArrayList<>();
+        List<QuestionApproachPart> arrangedApproaches = new ArrayList<>();
 
         for (int i = 0; i < arrangement.length; i++) {
             int index = Integer.parseInt(arrangement[i]);
 
             // Don't go out of bounds if amount changed since last attempt.
-            if (index < approachParts.size()) {
-                arrangedApproaches.add(approachParts.get(index));
+            if (index < questionApproachParts.size()) {
+                arrangedApproaches.add(questionApproachParts.get(index));
             }
         }
 
         return arrangedApproaches;
     }
 
-    private void initApproachListMine(List<ApproachPart> approachParts) {
+    private void initApproachListMine(List<QuestionApproachPart> questionApproachParts) {
 
-        approachFeedbackMineAdapter.setApproachParts(approachParts);
+        approachFeedbackMineAdapter.setQuestionApproachParts(questionApproachParts);
 
         RelativeLayout.LayoutParams layoutParams = getLayoutParams();
         layoutParams.addRule(RelativeLayout.BELOW, R.id.chosen_title);
@@ -147,10 +147,10 @@ public class ApproachFeedbackActivity extends Activity {
         setupApproachList(approachListMine, approachFeedbackMineAdapter, layoutParams);
     }
 
-    private void initApproachListCorrect(List<ApproachPart> approachParts) {
-        Collections.sort(approachParts);
+    private void initApproachListCorrect(List<QuestionApproachPart> questionApproachParts) {
+        Collections.sort(questionApproachParts);
 
-        approachFeedbackCorrectAdapter.setApproachParts(approachParts);
+        approachFeedbackCorrectAdapter.setQuestionApproachParts(questionApproachParts);
 
         RelativeLayout.LayoutParams layoutParams = getLayoutParams();
         layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
@@ -167,7 +167,7 @@ public class ApproachFeedbackActivity extends Activity {
 
     private void setupApproachList(
             RecyclerView approachList,
-            ApproachPartFeedbackAdapter approachPartAdapter,
+            QuestionApproachPartFeedbackAdapter approachPartAdapter,
             RelativeLayout.LayoutParams layoutParams
     ) {
         approachList.setAdapter(approachPartAdapter);

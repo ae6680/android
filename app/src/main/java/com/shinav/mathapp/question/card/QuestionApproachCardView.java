@@ -8,10 +8,10 @@ import android.widget.RelativeLayout;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachPartAdapter;
 import com.shinav.mathapp.card.Card;
-import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
+import com.shinav.mathapp.questionApproach.QuestionApproachPartAdapter;
 
 import java.util.List;
 
@@ -37,17 +37,17 @@ public class QuestionApproachCardView extends Card {
         addView(view);
     }
 
-    public void setApproachParts(List<ApproachPart> approachParts) {
-        initApproachList(approachParts);
+    public void setApproachParts(List<QuestionApproachPart> questionApproachParts) {
+        initApproachList(questionApproachParts);
     }
 
-    private void initApproachList(List<ApproachPart> approachParts) {
-        ApproachPartAdapter approachPartAdapter = new ApproachPartAdapter();
+    private void initApproachList(List<QuestionApproachPart> questionApproachParts) {
+        QuestionApproachPartAdapter questionApproachPartAdapter = new QuestionApproachPartAdapter();
 
-        approachList.setAdapter(approachPartAdapter);
+        approachList.setAdapter(questionApproachPartAdapter);
         approachList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        approachPartAdapter.setApproachParts(approachParts);
+        questionApproachPartAdapter.setQuestionApproachParts(questionApproachParts);
 
         // Set layout
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(

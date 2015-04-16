@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
@@ -62,18 +61,18 @@ public class TutorialView extends ButterKnifeLayout {
 
     @OnClick(R.id.start_tutorial_button)
     public void onTutorialStartButtonClicked() {
-        String perspective = null;
+//        String perspective = null;
 
-        if (maleButton.isSelected()) {
+//        if (maleButton.isSelected()) {
 //            perspective = TutorialManagingService.PERSPECTIVE_MALE;
 
             // Hack for now because we have only female perspective content.
-            perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
-        } else if (femaleButton.isSelected()) {
-            perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
-        }
+//            perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
+//        } else if (femaleButton.isSelected()) {
+//            perspective = TutorialManagingService.PERSPECTIVE_FEMALE;
+//        }
 
-        bus.post(new TutorialStartButtonClicked(perspective));
+//        bus.post(new TutorialStartButtonClicked(perspective));
     }
 
 }

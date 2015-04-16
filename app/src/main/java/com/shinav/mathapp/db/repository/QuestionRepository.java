@@ -19,8 +19,8 @@ import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 public class QuestionRepository {
 
     @Inject SqlBrite db;
-    @Inject ApproachRepository approachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject QuestionCursorParser parser;
     @Inject QuestionListCursorParser listParser;

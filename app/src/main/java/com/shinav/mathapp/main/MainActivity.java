@@ -117,9 +117,9 @@ public class MainActivity extends ActionBarActivity {
 
     private void loadStoryboardFrames() {
 
-        String perspective = sharedPreferences.getString(MyApplication.PREF_PERSPECTIVE, null);
+        String chosenCharacter = sharedPreferences.getString(MyApplication.PREF_CHOSEN_CHARACTER, null);
 
-        if (TextUtils.isEmpty(perspective)) {
+        if (TextUtils.isEmpty(chosenCharacter)) {
 
             progressBar.setVisibility(VISIBLE);
 
@@ -135,17 +135,14 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
             hideTutorialLayout();
-            loadStoryboard(perspective);
-            startStorytellingService(perspective);
+            loadStoryboard();
+            startStorytellingService(chosenCharacter);
         }
 
     }
 
-    private void loadStoryboard(String perspective) {
-        Observable<Storyboard> storyboardObservable =
-                storyboardRepository.getByPerspective(perspective);
-
-        storyboardObservable.subscribe(new Action1<Storyboard>() {
+    private void loadStoryboard() {
+        storyboardRepository.getFirst(new Action1<Storyboard>() {
             @Override public void call(Storyboard storyboard) {
                 loadStoryboardFrames(storyboard);
             }
@@ -210,24 +207,20 @@ public class MainActivity extends ActionBarActivity {
         tabsView.setVisibility(VISIBLE);
     }
 
-    private void savePerspectiveInSharedPreferences(String perspective) {
-        sharedPreferences.edit().putString(MyApplication.PREF_PERSPECTIVE, perspective).apply();
-    }
-
-    private void startTutorialManagingService(String perspective) {
+    private void startTutorialManagingService(String tutorialKey) {
         Intent intent = new Intent(this, TutorialManagingService.class);
 
         intent.setAction(TutorialManagingService.ACTION_START);
-        intent.putExtra(TutorialManagingService.EXTRA_PERSPECTIVE, perspective);
+        intent.putExtra(TutorialManagingService.EXTRA_TUTORIAL_KEY, tutorialKey);
 
         startService(intent);
     }
 
-    private void startStorytellingService(String perspective) {
+    private void startStorytellingService(String storyboardKey) {
         Intent intent = new Intent(this, StorytellingService.class);
 
         intent.setAction(StorytellingService.ACTION_START);
-        intent.putExtra(StorytellingService.EXTRA_PERSPECTIVE, perspective);
+        intent.putExtra(StorytellingService.EXTRA_STORYBOARD_KEY, storyboardKey);
 
         startService(intent);
     }
@@ -240,7 +233,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
-        savePerspectiveInSharedPreferences(event.getPerspective());
         startTutorialManagingService(event.getPerspective());
     }
 

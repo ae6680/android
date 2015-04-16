@@ -1,6 +1,6 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
-import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +16,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class ApproachPartAdapterTest {
+public class QuestionQuestionQuestionQuestionQuestionApproachPartAdapterTest {
 
-    private ApproachPartAdapter adapter;
+    private QuestionApproachPartAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new ApproachPartAdapter();
+        adapter = new QuestionApproachPartAdapter();
     }
 
     @Test
@@ -32,24 +32,24 @@ public class ApproachPartAdapterTest {
 
     @Test
     public void testItemCountIsAmountOfApproachEntries() throws Exception {
-        List<ApproachPart> approachEntries = Arrays.asList(
-                new ApproachPart(),
-                new ApproachPart()
+        List<QuestionApproachPart> approachEntries = Arrays.asList(
+                new QuestionApproachPart(),
+                new QuestionApproachPart()
         );
 
-        adapter.setApproachParts(approachEntries);
+        adapter.setQuestionApproachParts(approachEntries);
 
         assertThat(adapter.getItemCount(), is(2));
     }
 
     @Test
     public void testGetItemReturnsApproachEntryBasedOnPosition() throws Exception {
-        List<ApproachPart> approachEntries = Arrays.asList(
-                new ApproachPart(),
-                new ApproachPart()
+        List<QuestionApproachPart> approachEntries = Arrays.asList(
+                new QuestionApproachPart(),
+                new QuestionApproachPart()
         );
 
-        adapter.setApproachParts(approachEntries);
+        adapter.setQuestionApproachParts(approachEntries);
 
         assertThat(adapter.getItem(1), is(approachEntries.get(1)));
     }

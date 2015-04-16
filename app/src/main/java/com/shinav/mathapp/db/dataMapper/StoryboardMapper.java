@@ -8,8 +8,8 @@ import com.squareup.sqlbrite.SqlBrite;
 import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Storyboard.KEY;
-import static com.shinav.mathapp.db.helper.Tables.Storyboard.PERSPECTIVE;
 import static com.shinav.mathapp.db.helper.Tables.Storyboard.TABLE_NAME;
+import static com.shinav.mathapp.db.helper.Tables.Storyboard.TITLE;
 
 public class StoryboardMapper {
 
@@ -22,7 +22,7 @@ public class StoryboardMapper {
         ContentValues values = new ContentValues();
 
         values.put(KEY, storyboard.getKey());
-        values.put(PERSPECTIVE, storyboard.getPerspective());
+        values.put(TITLE, storyboard.getTitle());
 
         return values;
     }

@@ -1,12 +1,9 @@
 package com.shinav.mathapp.db.pojo;
 
-import java.util.List;
-
-public class Approach {
+public class QuestionApproach {
 
     private String key;
     private String questionKey;
-    private List<ApproachPart> approachParts;
 
     public String getKey() {
         return key;
@@ -22,10 +19,6 @@ public class Approach {
 
     public void setQuestionKey(String questionKey) {
         this.questionKey = questionKey;
-    }
-
-    public void setApproachParts(List<ApproachPart> approachParts) {
-        this.approachParts = approachParts;
     }
 
 }

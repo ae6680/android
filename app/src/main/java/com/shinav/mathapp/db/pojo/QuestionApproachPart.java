@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.pojo;
 
 import android.support.annotation.NonNull;
 
-public class ApproachPart implements Comparable<ApproachPart> {
+public class QuestionApproachPart implements Comparable<QuestionApproachPart> {
 
     private String key;
     private String approachKey;
@@ -42,7 +42,7 @@ public class ApproachPart implements Comparable<ApproachPart> {
         this.position = position;
     }
 
-    @Override public int compareTo(@NonNull ApproachPart another) {
+    @Override public int compareTo(@NonNull QuestionApproachPart another) {
         return getPosition() - another.getPosition();
     }
 

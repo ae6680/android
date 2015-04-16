@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.dataMapper.GivenApproachMapper;
+import com.shinav.mathapp.db.dataMapper.GivenQuestionApproachMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
-import com.shinav.mathapp.db.pojo.ApproachPart;
-import com.shinav.mathapp.db.pojo.GivenApproach;
+import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.storytelling.StorytellingService;
@@ -34,20 +34,20 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class ApproachActivity extends ActionBarActivity {
+public class QuestionApproachActivity extends ActionBarActivity {
 
-    @InjectView(R.id.approach_part_list) ApproachDragRecyclerView approachPartList;
+    @InjectView(R.id.approach_part_list) QuestionApproachDragRecyclerView approachPartList;
     @InjectView(R.id.question_text) TextView questionText;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
-    @Inject GivenApproachMapper givenApproachMapper;
+    @Inject GivenQuestionApproachMapper givenQuestionApproachMapper;
 
-    private Approach approach;
+    private QuestionApproach questionApproach;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +82,20 @@ public class ApproachActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                ApproachActivity.this.approach = approach;
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                QuestionApproachActivity.this.questionApproach = questionApproach;
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }
 
     private void loadApproachParts(String approachKey) {
-        approachPartRepository.getApproachParts(approachKey, new Action1<List<ApproachPart>>() {
+        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
-            @Override public void call(List<ApproachPart> approachParts) {
-                approachPartList.setApproachParts(approachParts);
+            @Override public void call(List<QuestionApproachPart> questionApproachParts) {
+                approachPartList.setQuestionApproachParts(questionApproachParts);
             }
         });
     }
@@ -128,22 +128,22 @@ public class ApproachActivity extends ActionBarActivity {
     }
 
     private void saveGivenApproach() {
-        List<ApproachPart> approachParts =
-                ((ApproachPartAdapter) approachPartList.getAdapter()).getApproachParts();
+        List<QuestionApproachPart> questionApproachParts =
+                ((QuestionApproachPartAdapter) approachPartList.getAdapter()).getQuestionApproachParts();
 
-        String order = getOrder(approachParts);
+        String order = getOrder(questionApproachParts);
 
-        GivenApproach givenApproach = new GivenApproach();
-        givenApproach.setApproachKey(approach.getKey());
-        givenApproach.setArrangement(order);
+        GivenQuestionApproach givenQuestionApproach = new GivenQuestionApproach();
+        givenQuestionApproach.setApproachKey(questionApproach.getKey());
+        givenQuestionApproach.setArrangement(order);
 
-        givenApproachMapper.insert(givenApproach);
+        givenQuestionApproachMapper.insert(givenQuestionApproach);
     }
 
-    private String getOrder(List<ApproachPart> approachParts) {
+    private String getOrder(List<QuestionApproachPart> questionApproachParts) {
         List<Integer> positions = new ArrayList<>();
-        for (ApproachPart approachPart : approachParts) {
-            positions.add(approachPart.getPosition());
+        for (QuestionApproachPart questionApproachPart : questionApproachParts) {
+            positions.add(questionApproachPart.getPosition());
         }
 
         return TextUtils.join(",", positions);

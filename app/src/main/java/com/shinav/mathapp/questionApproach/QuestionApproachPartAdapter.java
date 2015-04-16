@@ -1,4 +1,4 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.ApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,12 +17,12 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ApproachPartAdapter extends RecyclerView.Adapter<ApproachPartAdapter.ViewHolder> {
+public class QuestionApproachPartAdapter extends RecyclerView.Adapter<QuestionApproachPartAdapter.ViewHolder> {
 
-    List<ApproachPart> approachParts = Collections.emptyList();
+    List<QuestionApproachPart> questionApproachParts = Collections.emptyList();
 
     @Inject
-    public ApproachPartAdapter() { }
+    public QuestionApproachPartAdapter() { }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -36,21 +36,21 @@ public class ApproachPartAdapter extends RecyclerView.Adapter<ApproachPartAdapte
         holder.text.setText(getItem(position).getValue());
     }
 
-    public ApproachPart getItem(int position) {
-        return approachParts.get(position);
+    public QuestionApproachPart getItem(int position) {
+        return questionApproachParts.get(position);
     }
 
     @Override public int getItemCount() {
-        return approachParts.size();
+        return questionApproachParts.size();
     }
 
-    public void setApproachParts(List<ApproachPart> approachParts) {
-        this.approachParts = approachParts;
+    public void setQuestionApproachParts(List<QuestionApproachPart> questionApproachParts) {
+        this.questionApproachParts = questionApproachParts;
         notifyDataSetChanged();
     }
 
-    public List<ApproachPart> getApproachParts() {
-        return approachParts;
+    public List<QuestionApproachPart> getQuestionApproachParts() {
+        return questionApproachParts;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

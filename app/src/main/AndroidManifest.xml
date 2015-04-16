@@ -23,11 +23,11 @@
             android:noHistory="true" />
 
         <activity
-            android:name=".approach.ApproachActivity"
+            android:name=".questionApproach.QuestionApproachActivity"
             android:noHistory="true"/>
 
         <activity
-            android:name=".approach.feedback.ApproachFeedbackActivity"
+            android:name=".questionApproach.feedback.QuestionApproachFeedbackActivity"
             android:noHistory="true" />
 
         <activity android:name=".conversation.ConversationActivity"
@@ -35,8 +35,8 @@
 
         <activity android:name=".tutorial.TutorialConversationActivity"/>
         <activity android:name=".tutorial.TutorialQuestionActivity"/>
-        <activity android:name=".tutorial.TutorialApproachActivity"/>
-        <activity android:name=".tutorial.TutorialApproachFeedbackActivity"/>
+        <activity android:name=".tutorial.TutorialQuestionApproachActivity"/>
+        <activity android:name=".tutorial.TutorialQuestionApproachFeedbackActivity"/>
 
         <service android:name=".tutorial.TutorialManagingService"
                  android:exported="false" />

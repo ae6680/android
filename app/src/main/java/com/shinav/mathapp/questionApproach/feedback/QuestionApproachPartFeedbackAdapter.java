@@ -1,17 +1,17 @@
-package com.shinav.mathapp.approach.feedback;
+package com.shinav.mathapp.questionApproach.feedback;
 
 import android.content.res.Resources;
 import android.view.View;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.approach.ApproachPartAdapter;
+import com.shinav.mathapp.questionApproach.QuestionApproachPartAdapter;
 
 import javax.inject.Inject;
 
-public class ApproachPartFeedbackAdapter extends ApproachPartAdapter {
+public class QuestionApproachPartFeedbackAdapter extends QuestionApproachPartAdapter {
 
     @Inject
-    public ApproachPartFeedbackAdapter() { }
+    public QuestionApproachPartFeedbackAdapter() { }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
 

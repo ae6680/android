@@ -12,28 +12,28 @@ public interface Tables {
         String EXPLANATION = "explanation";
     }
 
-    public interface Approach {
-        String TABLE_NAME = "approach";
+    public interface QuestionApproach {
+        String TABLE_NAME = "question_approach";
         String KEY = "key";
 
         String QUESTION_KEY = "question_key";
     }
 
-    public interface ApproachPart {
-        String TABLE_NAME = "approach_part";
+    public interface QuestionApproachPart {
+        String TABLE_NAME = "question_approach_part";
         String KEY = "key";
 
-        String APPROACH_KEY = "approach_key";
+        String QUESTION_APPROACH_KEY = "question_approach_key";
 
         String VALUE = "value";
         String POSITION = "position";
     }
 
-    public interface GivenApproach {
-        String TABLE_NAME = "given_approach";
+    public interface GivenQuestionApproach {
+        String TABLE_NAME = "given_question_approach";
         String KEY = "key";
 
-        String APPROACH_KEY = "approach_key";
+        String QUESTION_APPROACH_KEY = "question_approach_key";
 
         String ARRANGEMENT = "arrangement";
         String GIVEN_AT = "given_at";
@@ -53,7 +53,7 @@ public interface Tables {
         String TABLE_NAME = "storyboard";
         String KEY = "key";
         
-        String PERSPECTIVE = "perspective";
+        String TITLE = "title";
     }
 
     public interface StoryboardFrame {
@@ -108,7 +108,7 @@ public interface Tables {
         String TABLE_NAME = "tutorial";
         String KEY = "key";
 
-        String PERSPECTIVE = "perspective";
+        String TITLE = "title";
     }
 
     public interface TutorialFrame {

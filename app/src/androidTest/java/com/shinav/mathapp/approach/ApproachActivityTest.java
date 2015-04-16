@@ -1,9 +1,9 @@
-package com.shinav.mathapp.approach;
+package com.shinav.mathapp.questionApproach;
 
 import android.content.Intent;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.shinav.mathapp.db.pojo.Approach;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.injection.TestDependencyWrapper;
 import com.shinav.mathapp.injection.component.ApproachActivityComponent;
 import com.shinav.mathapp.storytelling.Storyteller;
@@ -54,14 +54,14 @@ public class ApproachActivityTest {
 
     @Test public void testApproachSetKey() throws Exception {
 
-        Approach approach = new Approach();
-        approach.setKey("hoi");
+        QuestionApproach questionApproach = new QuestionApproach();
+        questionApproach.setKey("hoi");
 
         when(dependencies.questionMapper.getByKey(any(String.class), any(Action1.class))
         )
                 .thenReturn(Mockito.mock(Subscription.class));
 
-        assertEquals("hoi", approach.getKey());
+        assertEquals("hoi", questionApproach.getKey());
     }
 
 }

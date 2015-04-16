@@ -23,12 +23,12 @@ import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
 import com.shinav.mathapp.db.dataMapper.GivenAnswerMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Approach;
-import com.shinav.mathapp.db.pojo.ApproachPart;
 import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
-import com.shinav.mathapp.db.repository.ApproachPartRepository;
-import com.shinav.mathapp.db.repository.ApproachRepository;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
+import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
@@ -73,8 +73,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionNextCardView questionNextCardView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ApproachRepository approachRepository;
-    @Inject ApproachPartRepository approachPartRepository;
+    @Inject QuestionApproachRepository questionApproachRepository;
+    @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject GivenAnswerMapper givenAnswerMapper;
 
@@ -150,19 +150,19 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        approachRepository.getApproach(questionKey, new Action1<Approach>() {
+        questionApproachRepository.getApproach(questionKey, new Action1<QuestionApproach>() {
 
-            @Override public void call(Approach approach) {
-                loadApproachParts(approach.getKey());
+            @Override public void call(QuestionApproach questionApproach) {
+                loadApproachParts(questionApproach.getKey());
             }
         });
     }
 
     private void loadApproachParts(String approachKey) {
-        approachPartRepository.getApproachParts(approachKey, new Action1<List<ApproachPart>>() {
+        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
-            @Override public void call(List<ApproachPart> approachParts) {
-                initViewPager(approachParts);
+            @Override public void call(List<QuestionApproachPart> questionApproachParts) {
+                initViewPager(questionApproachParts);
             }
         });
     }
@@ -187,10 +187,10 @@ public class QuestionActivity extends ActionBarActivity {
                 .into(backgroundView);
     }
 
-    private void initViewPager(List<ApproachPart> approachParts) {
+    private void initViewPager(List<QuestionApproachPart> questionApproachParts) {
         List<Card> cards = new ArrayList<>();
 
-        questionApproachCardView.setApproachParts(approachParts);
+        questionApproachCardView.setApproachParts(questionApproachParts);
         cards.add(questionApproachCardView);
 
         questionCardView.setQuestionValue(question.getValue());
