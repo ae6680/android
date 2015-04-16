@@ -3,7 +3,7 @@ package com.shinav.mathapp.db.pojo;
 public class Storyboard {
 
     private String key;
-    private String perspective;
+    private String title;
 
     public String getKey() {
         return key;
@@ -13,11 +13,12 @@ public class Storyboard {
         this.key = key;
     }
 
-    public void setPerspective(String perspective) {
-        this.perspective = perspective;
+    public String getTitle() {
+        return title;
     }
 
-    public String getPerspective() {
-        return perspective;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
 }

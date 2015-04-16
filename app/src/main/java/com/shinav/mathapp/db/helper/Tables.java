@@ -53,7 +53,7 @@ public interface Tables {
         String TABLE_NAME = "storyboard";
         String KEY = "key";
         
-        String PERSPECTIVE = "perspective";
+        String TITLE = "title";
     }
 
     public interface StoryboardFrame {
@@ -108,7 +108,7 @@ public interface Tables {
         String TABLE_NAME = "tutorial";
         String KEY = "key";
 
-        String PERSPECTIVE = "perspective";
+        String TITLE = "title";
     }
 
     public interface TutorialFrame {

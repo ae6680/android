@@ -69,10 +69,10 @@ public class FirebaseParser {
     public Storyboard parseStoryboard(DataSnapshot dataSnapshot) {
         Storyboard storyboard = new Storyboard();
 
-        String perspective = getString(dataSnapshot, Tables.Storyboard.PERSPECTIVE);
+        String title = getString(dataSnapshot, Tables.Storyboard.TITLE);
 
         storyboard.setKey(dataSnapshot.getKey());
-        storyboard.setPerspective(perspective);
+        storyboard.setTitle(title);
 
         return storyboard;
     }
@@ -133,10 +133,10 @@ public class FirebaseParser {
     public Tutorial parseTutorial(DataSnapshot dataSnapshot) {
         Tutorial tutorial = new Tutorial();
 
-        String perspective = getString(dataSnapshot, Tables.Tutorial.PERSPECTIVE);
+        String title = getString(dataSnapshot, Tables.Tutorial.TITLE);
 
         tutorial.setKey(dataSnapshot.getKey());
-        tutorial.setPerspective(perspective);
+        tutorial.setTitle(title);
 
         return tutorial;
     }

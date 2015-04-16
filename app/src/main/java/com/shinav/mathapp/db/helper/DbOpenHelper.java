@@ -123,7 +123,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private void createStoryboardTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tables.Storyboard.TABLE_NAME + " ("
                         + Tables.Storyboard.KEY + " TEXT,"
-                        + Tables.Storyboard.PERSPECTIVE + " TEXT,"
+                        + Tables.Storyboard.TITLE + " TEXT,"
                         + " UNIQUE (" + Tables.Storyboard.KEY + ") ON CONFLICT REPLACE)"
         );
 
@@ -195,7 +195,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private void createTutorialTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tutorial.TABLE_NAME + " ("
                         + Tutorial.KEY + " TEXT,"
-                        + Tutorial.PERSPECTIVE + " TEXT,"
+                        + Tutorial.TITLE + " TEXT,"
                         + " UNIQUE (" + Tutorial.KEY + ") ON CONFLICT REPLACE)"
         );
 

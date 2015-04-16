@@ -7,7 +7,6 @@ import android.os.IBinder;
 
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
@@ -25,10 +24,7 @@ import rx.functions.Action1;
 
 public class StorytellingService extends Service {
 
-    public static final String PERSPECTIVE_MALE = "male";
-    public static final String PERSPECTIVE_FEMALE = "female";
-
-    public static final String EXTRA_PERSPECTIVE = "perspective";
+    public static final String EXTRA_STORYBOARD_KEY = "extra_storyboard_key";
 
     public static final String ACTION_START = "start";
     public static final String ACTION_NEXT = "next";
@@ -55,8 +51,7 @@ public class StorytellingService extends Service {
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
                 case ACTION_START:
-                    fetchStoryForPerspective(
-                            intent.getStringExtra(EXTRA_PERSPECTIVE));
+                    fetchStoryboardFrames(intent.getStringExtra(EXTRA_STORYBOARD_KEY));
                     break;
                 case ACTION_NEXT:
                     startNext();
@@ -69,22 +64,10 @@ public class StorytellingService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void fetchStoryForPerspective(String perspective) {
-
-        Observable<Storyboard> observable =
-                storyboardRepository.getByPerspective(perspective).first();
-
-        observable.subscribe(new Action1<Storyboard>() {
-            @Override public void call(Storyboard storyboard) {
-                fetchStoryboardFrames(storyboard);
-            }
-        });
-    }
-
-    private void fetchStoryboardFrames(Storyboard storyboard) {
+    private void fetchStoryboardFrames(String storyboardKey) {
 
         Observable<List<StoryboardFrame>> observable =
-                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first();
+                storyboardFrameRepository.getByStoryboardKey(storyboardKey).first();
 
         observable.subscribe(new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
@@ -118,11 +101,14 @@ public class StorytellingService extends Service {
     }
 
     private void startBasedOnType(StoryboardFrame storyboardFrame) {
+
+        String frameTypeKey = storyboardFrame.getFrameTypeKey();
+
         if (storyboardFrame.isQuestion()) {
-            start(QuestionActivity.class, storyboardFrame.getFrameTypeKey());
+            start(QuestionActivity.class, frameTypeKey);
 
         } else if (storyboardFrame.isConversation()) {
-            start(ConversationActivity.class, storyboardFrame.getFrameTypeKey());
+            start(ConversationActivity.class, frameTypeKey);
         }
     }
 

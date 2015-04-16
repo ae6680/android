@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.Tutorial.KEY;
-import static com.shinav.mathapp.db.helper.Tables.Tutorial.PERSPECTIVE;
+import static com.shinav.mathapp.db.helper.Tables.Tutorial.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
 public class TutorialCursorParser implements Func1<Query, Tutorial> {
@@ -34,7 +34,7 @@ public class TutorialCursorParser implements Func1<Query, Tutorial> {
         Tutorial tutorial = new Tutorial();
 
         tutorial.setKey(c.getString(c.getColumnIndex(KEY)));
-        tutorial.setPerspective(c.getString(c.getColumnIndex(PERSPECTIVE)));
+        tutorial.setTitle(c.getString(c.getColumnIndex(TITLE)));
 
         return tutorial;
     }
