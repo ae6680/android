@@ -25,7 +25,7 @@
     <!--android:layout_above="@+id/chosen_step"-->
 
     <TextView
-        android:id="@+id/chosen_step"
+        android:id="@+id/selected_part_text_view"
         android:text="Stap 1"
         android:textSize="22sp"
         android:textColor="@color/text_tertiair"

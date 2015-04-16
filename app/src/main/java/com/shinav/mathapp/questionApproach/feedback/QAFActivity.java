@@ -31,6 +31,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
+import static android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+
 public class QAFActivity extends Activity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
@@ -38,6 +40,7 @@ public class QAFActivity extends Activity {
     @InjectView(R.id.background_view) ImageView backgroundView;
     @InjectView(R.id.feedback_view_pager) QAFViewPager viewPager;
     @InjectView(R.id.question_text) TextView questionTextView;
+    @InjectView(R.id.selected_part_text_view) TextView selectedPartTextView;
 
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
@@ -124,6 +127,12 @@ public class QAFActivity extends Activity {
                 arrangedQuestionApproachParts,
                 questionApproachParts
         );
+
+        viewPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
+            @Override public void onPageSelected(int position) {
+                selectedPartTextView.setText("Stap " + (position + 1));
+            }
+        });
     }
 
     private List<QuestionApproachPart> sortOnGivenApproachArrangement(final List<QuestionApproachPart> questionApproachParts, GivenQuestionApproach givenQuestionApproach) {
