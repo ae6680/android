@@ -20,9 +20,9 @@
         android:layout_below="@+id/toolbar"
         android:layout_margin="16dp"
         android:textSize="@dimen/text_size_normal"
-        android:layout_above="@id/chosen_step"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <!--android:layout_above="@+id/chosen_step"-->
 
     <TextView
         android:id="@+id/chosen_step"
@@ -31,17 +31,16 @@
         android:textColor="@color/text_tertiair"
         android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/approach_list_step"
+        android:layout_above="@+id/feedback_view_pager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/approach_list_step"
+    <com.shinav.mathapp.questionApproach.feedback.QAFViewPager
+        android:id="@+id/feedback_view_pager"
+        android:layout_above="@+id/step_indicator_container"
         android:overScrollMode="never"
-        android:layout_above="@id/step_indicator_container"
-        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:id="@+id/step_indicator_container"

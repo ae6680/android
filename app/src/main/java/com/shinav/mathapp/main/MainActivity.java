@@ -109,6 +109,8 @@ public class MainActivity extends ActionBarActivity {
 
         int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
 
+        characterResId = 0;
+
         if (characterResId == 0) {
 
             progressBar.setVisibility(VISIBLE);

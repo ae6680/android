@@ -1,7 +1,7 @@
 package com.shinav.mathapp.questionApproach;
 
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.questionApproach.feedback.QuestionApproachPartFeedbackAdapter;
+import com.shinav.mathapp.questionApproach.feedback.QAFViewPagerPageAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +16,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18, manifest = Config.NONE)
-public class QuestionQuestionQuestionQuestionApproachPartFeedbackAdapterTest {
+public class QuestionQuestionQuestionQAFViewPagerPageAdapterTest {
 
-    private QuestionApproachPartFeedbackAdapter adapter;
+    private QAFViewPagerPageAdapter adapter;
 
     @Before
     public void setUp() throws Exception {
-        adapter = new QuestionApproachPartFeedbackAdapter();
+        adapter = new QAFViewPagerPageAdapter();
     }
 
     @Test

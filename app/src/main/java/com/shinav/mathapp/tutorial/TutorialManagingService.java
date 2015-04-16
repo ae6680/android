@@ -104,7 +104,7 @@ public class TutorialManagingService extends Service {
                 startActivity(TutorialQuestionApproachActivity.class, frameTypeKey);
                 break;
             case TutorialFrame.APPROACH_FEEDBACK:
-                startActivity(TutorialQuestionApproachFeedbackActivity.class, frameTypeKey);
+                startActivity(TutorialQAFActivity.class, frameTypeKey);
                 break;
             case TutorialFrame.QUESTION:
                 startActivity(TutorialQuestionActivity.class, frameTypeKey);

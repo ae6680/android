@@ -3,13 +3,10 @@ package com.shinav.mathapp.questionApproach.feedback;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
@@ -25,7 +22,6 @@ import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,16 +31,13 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class QuestionApproachFeedbackActivity extends Activity {
+public class QAFActivity extends Activity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
-    @InjectView(R.id.approach_list_mine) RecyclerView approachListMine;
-    @InjectView(R.id.approach_list_correct) RecyclerView approachListCorrect;
     @InjectView(R.id.background_view) ImageView backgroundView;
-
-    @Inject QuestionApproachPartFeedbackAdapter approachFeedbackMineAdapter;
-    @Inject QuestionApproachPartFeedbackAdapter approachFeedbackCorrectAdapter;
+    @InjectView(R.id.feedback_view_pager) QAFViewPager viewPager;
+    @InjectView(R.id.question_text) TextView questionTextView;
 
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
@@ -63,7 +56,7 @@ public class QuestionApproachFeedbackActivity extends Activity {
                 getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         loadQuestion(questionKey);
-        loadApproach(questionKey);
+        fetchQuestionApproach(questionKey);
     }
 
     public void inject() {
@@ -76,6 +69,8 @@ public class QuestionApproachFeedbackActivity extends Activity {
             @Override public void call(Question question) {
 //                loadBackground(question.getBackgroundImageUrl());
                 loadBackground("http://i.imgur.com/JfDNNOy.png");
+
+                questionTextView.setText(question.getValue());
             }
         });
     }
@@ -89,34 +84,46 @@ public class QuestionApproachFeedbackActivity extends Activity {
         backgroundView.setImageAlpha(50);
     }
 
-    private void loadApproach(String questionKey) {
+    private void fetchQuestionApproach(String questionKey) {
         questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
-                loadApproachParts(questionApproach.getKey());
+                fetchQuestionApproachParts(questionApproach.getKey());
             }
         });
     }
 
-    private void loadApproachParts(final String approachKey) {
+    private void fetchQuestionApproachParts(final String approachKey) {
         questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
 
             @Override public void call(List<QuestionApproachPart> questionApproachParts) {
-                loadGivenApproach(approachKey, questionApproachParts);
-                initApproachListCorrect(questionApproachParts);
+                fetchGivenQuestionApproach(approachKey, questionApproachParts);
             }
         });
     }
 
-    private void loadGivenApproach(String approachKey, final List<QuestionApproachPart> questionApproachParts) {
+    private void fetchGivenQuestionApproach(
+            String approachKey,
+            final List<QuestionApproachPart> questionApproachParts)
+    {
         givenQuestionApproachRepository.get(approachKey, new Action1<GivenQuestionApproach>() {
             @Override public void call(GivenQuestionApproach givenQuestionApproach) {
                 List<QuestionApproachPart> arrangedQuestionApproachParts =
                         sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
 
-                initApproachListMine(arrangedQuestionApproachParts);
+                initViewPager(questionApproachParts, arrangedQuestionApproachParts);
             }
         });
+    }
+
+    private void initViewPager(
+            List<QuestionApproachPart> questionApproachParts,
+            List<QuestionApproachPart> arrangedQuestionApproachParts) {
+
+        viewPager.setupQuestionApproachParts(
+                arrangedQuestionApproachParts,
+                questionApproachParts
+        );
     }
 
     private List<QuestionApproachPart> sortOnGivenApproachArrangement(final List<QuestionApproachPart> questionApproachParts, GivenQuestionApproach givenQuestionApproach) {
@@ -137,46 +144,8 @@ public class QuestionApproachFeedbackActivity extends Activity {
         return arrangedApproaches;
     }
 
-    private void initApproachListMine(List<QuestionApproachPart> questionApproachParts) {
-
-        approachFeedbackMineAdapter.setQuestionApproachParts(questionApproachParts);
-
-        RelativeLayout.LayoutParams layoutParams = getLayoutParams();
-        layoutParams.addRule(RelativeLayout.BELOW, R.id.chosen_title);
-
-        setupApproachList(approachListMine, approachFeedbackMineAdapter, layoutParams);
-    }
-
-    private void initApproachListCorrect(List<QuestionApproachPart> questionApproachParts) {
-        Collections.sort(questionApproachParts);
-
-        approachFeedbackCorrectAdapter.setQuestionApproachParts(questionApproachParts);
-
-        RelativeLayout.LayoutParams layoutParams = getLayoutParams();
-        layoutParams.addRule(RelativeLayout.ABOVE, R.id.next_question_button);
-
-        setupApproachList(approachListCorrect, approachFeedbackCorrectAdapter, layoutParams);
-    }
-
-    private RelativeLayout.LayoutParams getLayoutParams() {
-        return new RelativeLayout.LayoutParams(
-                    MyApplication.screenWidth,
-                    (int) (MyApplication.screenHeight * PERCENTAGE_HEIGHT)
-            );
-    }
-
-    private void setupApproachList(
-            RecyclerView approachList,
-            QuestionApproachPartFeedbackAdapter approachPartAdapter,
-            RelativeLayout.LayoutParams layoutParams
-    ) {
-        approachList.setAdapter(approachPartAdapter);
-        approachList.setLayoutManager(new LinearLayoutManager(this));
-        approachList.setLayoutParams(layoutParams);
-    }
-
     @OnClick(R.id.next_question_button)
-    public void onSubmitClicked() {
+    public void onNextClicked() {
         next();
     }
 
