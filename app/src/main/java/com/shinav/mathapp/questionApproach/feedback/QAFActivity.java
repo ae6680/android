@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
@@ -44,6 +45,7 @@ public class QAFActivity extends ActionBarActivity {
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
     @InjectView(R.id.feedback_view_pager) QAFViewPager viewPager;
+    @InjectView(R.id.indicator_container) LinearLayout indicatorContainer;
     @InjectView(R.id.question_text) TextView questionTextView;
     @InjectView(R.id.selected_part_text_view) TextView selectedPartTextView;
 
@@ -143,6 +145,8 @@ public class QAFActivity extends ActionBarActivity {
     private void initViewPager(
             List<QuestionApproachPart> questionApproachParts,
             List<QuestionApproachPart> arrangedQuestionApproachParts) {
+
+        viewPager.setIndicatorContainer(indicatorContainer);
 
         viewPager.setupQuestionApproachParts(
                 arrangedQuestionApproachParts,
