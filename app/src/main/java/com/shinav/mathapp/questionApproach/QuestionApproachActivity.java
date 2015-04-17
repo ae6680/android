@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,7 +75,10 @@ public class QuestionApproachActivity extends ActionBarActivity {
         questionRepository.get(questionKey, new Action1<Question>() {
 
             @Override public void call(Question question) {
+
                 questionText.setText(question.getValue());
+                questionText.setMovementMethod(new ScrollingMovementMethod());
+
                 initToolbar(question.getTitle());
 //                loadBackground(question.getBackgroundImageUrl());
                 loadBackground("http://i.imgur.com/JfDNNOy.png");

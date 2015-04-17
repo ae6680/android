@@ -1,9 +1,12 @@
 package com.shinav.mathapp.questionApproach.feedback;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,10 +37,11 @@ import rx.functions.Action1;
 
 import static android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 
-public class QAFActivity extends Activity {
+public class QAFActivity extends ActionBarActivity {
 
     public static final float PERCENTAGE_HEIGHT = 0.38f;
 
+    @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
     @InjectView(R.id.feedback_view_pager) QAFViewPager viewPager;
     @InjectView(R.id.question_text) TextView questionTextView;
@@ -71,10 +75,25 @@ public class QAFActivity extends Activity {
         questionRepository.get(questionKey, new Action1<Question>() {
 
             @Override public void call(Question question) {
+                initToolbar(question.getTitle());
+
 //                loadBackground(question.getBackgroundImageUrl());
                 loadBackground("http://i.imgur.com/JfDNNOy.png");
 
                 questionTextView.setText(question.getValue());
+                questionTextView.setMovementMethod(new ScrollingMovementMethod());
+            }
+        });
+    }
+
+    private void initToolbar(String title) {
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
