@@ -8,61 +8,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <RelativeLayout
-        android:paddingStart="@dimen/activity_gutter"
-        android:paddingEnd="@dimen/activity_gutter"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/toolbar_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/chosen_title"
-            android:text="Gekozen"
-            android:textSize="22sp"
-            android:textColor="@color/text_tertiair"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <TextView
+        style="@style/card"
+        android:id="@+id/question_text"
+        android:padding="@dimen/primary_margin"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/selected_part_text_view"
+        android:layout_margin="@dimen/primary_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/approach_list_mine"
-            android:layout_marginTop="16dp"
-            android:overScrollMode="never"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/selected_part_text_view"
+        android:text="Stap 1"
+        android:textSize="22sp"
+        android:textColor="@color/text_tertiair"
+        android:scrollbars="vertical"
+        android:maxLines="18"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/feedback_view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/correct_title"
-            android:text="Correct"
-            android:textSize="22sp"
-            android:textColor="@color/text_tertiair"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_above="@+id/approach_list_correct"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <com.shinav.mathapp.questionApproach.feedback.QAFViewPager
+        android:id="@+id/feedback_view_pager"
+        android:layout_above="@+id/indicator_container"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/approach_list_correct"
-            android:layout_alignParentBottom="true"
-            android:layout_above="@+id/next_question_button"
-            android:layout_marginTop="16dp"
-            android:overScrollMode="never"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/indicator_container"
+        android:layout_above="@id/next_question_button"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/next_question_button"
-            style="@style/primary_button"
-            android:text="Door naar de vraag."
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/next_question_button"
+        style="@style/primary_button"
+        android:text="@string/question_approach_feedback_next_button"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

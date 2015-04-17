@@ -10,6 +10,8 @@ import com.shinav.mathapp.main.storyboard.StoryboardFrameCardRecyclerView;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
+import com.shinav.mathapp.questionApproach.feedback.QAFViewPager;
+import com.shinav.mathapp.questionApproach.feedback.QAFViewPagerPage;
 import com.shinav.mathapp.tab.TabsView;
 import com.shinav.mathapp.tutorial.TutorialView;
 
@@ -37,4 +39,7 @@ public interface ViewComponent {
     void inject(CalculatorFragment calculatorFragment);
     void inject(TutorialView tutorialView);
     void inject(ConversationLineView conversationLineView);
+
+    void inject(QAFViewPagerPage qafViewPagerPage);
+    void inject(QAFViewPager qafViewPager);
 }

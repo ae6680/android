@@ -3,6 +3,7 @@ package com.shinav.mathapp.question.card;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -62,6 +63,7 @@ public class QuestionCardView extends Card {
 
     private void setQuestionText(String value) {
         questionBody.setText(value);
+        questionBody.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @OnClick(R.id.submit_button)

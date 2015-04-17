@@ -6,11 +6,15 @@
         android:id="@+id/question"
         android:padding="16dp"
         android:textSize="@dimen/text_size_normal"
+        android:scrollbars="vertical"
+        android:maxLines="18"
+        android:layout_above="@+id/question_card_footer"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:id="@+id/question_card_footer"
         android:layout_alignParentBottom="true"
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"

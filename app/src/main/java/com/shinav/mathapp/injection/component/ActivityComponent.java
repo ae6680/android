@@ -7,11 +7,11 @@ import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
-import com.shinav.mathapp.questionApproach.feedback.QuestionApproachFeedbackActivity;
+import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
 import com.shinav.mathapp.tutorial.TutorialConversationActivity;
+import com.shinav.mathapp.tutorial.TutorialQAFActivity;
 import com.shinav.mathapp.tutorial.TutorialQuestionActivity;
 import com.shinav.mathapp.tutorial.TutorialQuestionApproachActivity;
-import com.shinav.mathapp.tutorial.TutorialQuestionApproachFeedbackActivity;
 
 import dagger.Component;
 
@@ -31,13 +31,13 @@ public interface ActivityComponent {
     void inject(TutorialConversationActivity tutorialConversationActivity);
     void inject(TutorialQuestionActivity tutorialQuestionActivity);
     void inject(TutorialQuestionApproachActivity tutorialApproachActivity);
-    void inject(TutorialQuestionApproachFeedbackActivity tutorialApproachFeedbackActivity);
+    void inject(TutorialQAFActivity tutorialApproachFeedbackActivity);
 
     void inject(ConversationActivity conversationActivity);
 
     void inject(QuestionApproachActivity questionApproachActivity);
     void inject(QuestionApproachDragRecyclerView questionApproachDragRecyclerView);
-    void inject(QuestionApproachFeedbackActivity questionApproachFeedbackActivity);
+    void inject(QAFActivity QAFActivity);
 
     void inject(QuestionActivity questionActivity);
 
