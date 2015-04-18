@@ -5,6 +5,8 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.pojo.Question;
+import com.shinav.mathapp.db.pojo.QuestionApproach;
+import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.db.pojo.Tutorial;
@@ -29,18 +31,20 @@ public class FirebaseParser {
         String title =  getString(dataSnapshot, Tables.Question.TITLE);
 //        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
         String explanation = "Explanation not yet implemented.";
+        String annexImageUrl = getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
 
         question.setKey(dataSnapshot.getKey());
         question.setAnswer(answer);
         question.setValue(value);
         question.setTitle(title);
         question.setExplanation(explanation);
+        question.setAnnexImageUrl(annexImageUrl);
 
         return question;
     }
 
-    public com.shinav.mathapp.db.pojo.QuestionApproach parseApproach(DataSnapshot dataSnapshot) {
-        com.shinav.mathapp.db.pojo.QuestionApproach questionQuestionApproach = new com.shinav.mathapp.db.pojo.QuestionApproach();
+    public QuestionApproach parseApproach(DataSnapshot dataSnapshot) {
+        QuestionApproach questionQuestionApproach = new QuestionApproach();
 
         String key = dataSnapshot.getKey();
         String questionKey = getString(dataSnapshot, Tables.QuestionApproach.QUESTION_KEY);
@@ -51,8 +55,8 @@ public class FirebaseParser {
         return questionQuestionApproach;
     }
 
-    public com.shinav.mathapp.db.pojo.QuestionApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
-        com.shinav.mathapp.db.pojo.QuestionApproachPart questionQuestionApproachPart = new com.shinav.mathapp.db.pojo.QuestionApproachPart();
+    public QuestionApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
+        QuestionApproachPart questionQuestionApproachPart = new QuestionApproachPart();
 
         String approachKey = getString(dataSnapshot, Tables.QuestionApproachPart.QUESTION_APPROACH_KEY);
         String position =    getString(dataSnapshot, Tables.QuestionApproachPart.POSITION);

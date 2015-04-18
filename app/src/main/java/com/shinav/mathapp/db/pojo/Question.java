@@ -8,6 +8,7 @@ public class Question {
     private String title;
     private String answer;
     private String explanation;
+    private String annexImageUrl;
 
     public String getKey() {
         return key;
@@ -47,5 +48,13 @@ public class Question {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public String getAnnexImageUrl() {
+        return annexImageUrl;
+    }
+
+    public void setAnnexImageUrl(String annexImageUrl) {
+        this.annexImageUrl = annexImageUrl;
     }
 }
