@@ -108,6 +108,11 @@ public class QuestionActivity extends ActionBarActivity {
         unregisterBus();
     }
 
+    @Override protected void onPause() {
+        super.onPause();
+        onCalculatorResultAreaClicked(null);
+    }
+
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.question_menu, menu);
         return true;
