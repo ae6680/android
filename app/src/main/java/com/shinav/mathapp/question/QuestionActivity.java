@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
@@ -195,6 +197,14 @@ public class QuestionActivity extends ActionBarActivity {
 
         questionCardView.setQuestionValue(question.getValue());
         cards.add(questionCardView);
+
+        if (!TextUtils.isEmpty(question.getAnnexImageUrl())) {
+            QuestionAnnexCardView questionAnnexCardView =
+                    new QuestionAnnexCardView(this);
+
+            questionAnnexCardView.setAnnexImageUrl(question.getAnnexImageUrl());
+            cards.add(questionAnnexCardView);
+        }
 
         cardViewPager.setIndicator(viewPagerIndicator);
         cardViewPager.setCards(cards);

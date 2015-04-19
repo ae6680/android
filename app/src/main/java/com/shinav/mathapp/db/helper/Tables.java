@@ -10,6 +10,7 @@ public interface Tables {
         String VALUE = "value";
         String ANSWER = "answer";
         String EXPLANATION = "explanation";
+        String ANNEX_IMAGE_URL = "annex_image_url";
     }
 
     public interface QuestionApproach {
