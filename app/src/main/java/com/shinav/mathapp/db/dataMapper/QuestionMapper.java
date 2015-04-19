@@ -7,6 +7,7 @@ import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
+import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.EXPLANATION;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
@@ -29,6 +30,7 @@ public class QuestionMapper {
         values.put(TITLE, question.getTitle());
         values.put(ANSWER, question.getAnswer());
         values.put(EXPLANATION, question.getExplanation());
+        values.put(ANNEX_IMAGE_URL, question.getAnnexImageUrl());
 
         return values;
     }
