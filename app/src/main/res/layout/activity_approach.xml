@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/drag_info"
-        android:text="Sleep in de juiste volgorde."
+        android:text="@string/drag_info"
         android:textColor="@color/text_tertiair"
         android:layout_marginBottom="@dimen/default_quarter_margin"
         android:layout_centerHorizontal="true"
@@ -48,15 +48,14 @@
         android:layout_above="@+id/next_question_button"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/next_question_button"
         style="@style/primary_button"
-        android:text="Bevestig"
-        android:layout_marginBottom="8dp"
+        android:text="@string/submit"
+        android:layout_marginBottom="@dimen/default_half_margin"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

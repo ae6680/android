@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.card.Card;
+import com.shinav.mathapp.card.CardViewPager;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
@@ -22,6 +23,8 @@ import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.question.card.QuestionAnnexCardView;
+import com.shinav.mathapp.questionApproach.QuestionSimpleCardView;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.picasso.Picasso;
 
@@ -44,15 +47,17 @@ public class QAFActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
+    @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
+    @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
     @InjectView(R.id.feedback_view_pager) QAFViewPager viewPager;
     @InjectView(R.id.indicator_container) LinearLayout indicatorContainer;
-    @InjectView(R.id.question_text) TextView questionTextView;
     @InjectView(R.id.selected_part_text_view) TextView selectedPartTextView;
 
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
     @Inject GivenQuestionApproachRepository givenQuestionApproachRepository;
+    @Inject QuestionSimpleCardView questionSimpleCardView;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +87,7 @@ public class QAFActivity extends ActionBarActivity {
 //                loadBackground(question.getBackgroundImageUrl());
                 loadBackground("http://i.imgur.com/JfDNNOy.png");
 
-                questionTextView.setText(question.getValue());
-                questionTextView.setMovementMethod(new ScrollingMovementMethod());
+                initQuestionViewPager(question);
             }
         });
     }
@@ -137,12 +141,31 @@ public class QAFActivity extends ActionBarActivity {
                 List<QuestionApproachPart> arrangedQuestionApproachParts =
                         sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
 
-                initViewPager(questionApproachParts, arrangedQuestionApproachParts);
+                initQuestionApproachPartsViewPager(questionApproachParts, arrangedQuestionApproachParts);
             }
         });
     }
 
-    private void initViewPager(
+    private void initQuestionViewPager(Question question) {
+        List<Card> cards = new ArrayList<>();
+
+        questionSimpleCardView.setQuestionValue(question.getValue());
+        cards.add(questionSimpleCardView);
+
+        if (!TextUtils.isEmpty(question.getAnnexImageUrl())) {
+            QuestionAnnexCardView questionAnnexCardView =
+                    new QuestionAnnexCardView(this);
+
+            questionAnnexCardView.setAnnexImageUrl(question.getAnnexImageUrl());
+            cards.add(questionAnnexCardView);
+        }
+
+        cardViewPager.setIndicator(viewPagerIndicator);
+        cardViewPager.setCards(cards);
+        cardViewPager.setCurrentItem(0);
+    }
+
+    private void initQuestionApproachPartsViewPager(
             List<QuestionApproachPart> questionApproachParts,
             List<QuestionApproachPart> arrangedQuestionApproachParts) {
 

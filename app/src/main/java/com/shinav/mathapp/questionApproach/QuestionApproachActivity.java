@@ -138,7 +138,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
 
         cardViewPager.setIndicator(viewPagerIndicator);
         cardViewPager.setCards(cards);
-        cardViewPager.setCurrentItem(1);
+        cardViewPager.setCurrentItem(0);
     }
 
     private void loadBackground(String imageUrl) {
