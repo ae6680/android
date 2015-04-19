@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/explanation_body"
-        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/default_margin"
         android:layout_below="@id/explanation_title"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/primary_margin"
+        android:layout_margin="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

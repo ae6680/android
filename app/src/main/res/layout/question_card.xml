@@ -4,8 +4,7 @@
 
     <TextView
         android:id="@+id/question"
-        android:padding="@dimen/primary_margin"
-        android:textSize="@dimen/text_size_normal"
+        android:padding="@dimen/default_half_margin"
         android:scrollbars="vertical"
         android:maxLines="18"
         android:layout_centerHorizontal="true"

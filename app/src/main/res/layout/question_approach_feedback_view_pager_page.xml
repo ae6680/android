@@ -9,8 +9,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/qaf_recycler_view"
         android:overScrollMode="never"
-        android:layout_marginStart="@dimen/primary_margin"
-        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"

@@ -2,7 +2,6 @@ package com.shinav.mathapp.questionApproach;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
@@ -10,6 +9,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.DragSortRecycler;
+import com.shinav.mathapp.view.WrappedLinearLayoutManager;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class QuestionApproachDragRecyclerView extends RecyclerView {
         ComponentFactory.getViewComponent(context).inject(this);
 
         setAdapter(questionApproachPartAdapter);
-        setLayoutManager(new LinearLayoutManager(this.getContext()));
+        setLayoutManager(new WrappedLinearLayoutManager(this.getContext()));
         setItemAnimator(null);
 
         setupDragSortRecycler();
@@ -49,7 +49,7 @@ public class QuestionApproachDragRecyclerView extends RecyclerView {
 
     private void setupDragSortRecycler() {
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
-        dragSortRecycler.setViewHandleId(R.id.approach_list_item);
+        dragSortRecycler.setViewHandleId(R.id.question_approach_list_item);
         dragSortRecycler.setFloatingBgColor(Color.parseColor("#ffffff"));
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override public void onItemMoved(int from, int to) {
@@ -65,7 +65,6 @@ public class QuestionApproachDragRecyclerView extends RecyclerView {
 
     public void setQuestionApproachParts(List<QuestionApproachPart> questionApproachParts) {
         this.questionApproachParts = questionApproachParts;
-        Collections.shuffle(questionApproachParts);
         questionApproachPartAdapter.setQuestionApproachParts(questionApproachParts);
     }
 

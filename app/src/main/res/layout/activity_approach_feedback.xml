@@ -17,11 +17,11 @@
     <TextView
         style="@style/card"
         android:id="@+id/question_text"
-        android:padding="@dimen/primary_margin"
+        android:padding="@dimen/default_margin"
         android:textSize="@dimen/text_size_normal"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/selected_part_text_view"
-        android:layout_margin="@dimen/primary_margin"
+        android:layout_margin="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

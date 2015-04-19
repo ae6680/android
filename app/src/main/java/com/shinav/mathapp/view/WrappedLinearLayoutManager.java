@@ -6,13 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class WrappedLayoutManager extends LinearLayoutManager {
+public class WrappedLinearLayoutManager extends LinearLayoutManager {
 
-    public WrappedLayoutManager(Context context) {
+    public WrappedLinearLayoutManager(Context context) {
         super(context);
     }
 
-    public WrappedLayoutManager(Context context, int orientation, boolean reverseLayout) {
+    public WrappedLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
     }
 

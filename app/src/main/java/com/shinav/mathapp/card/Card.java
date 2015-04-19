@@ -4,13 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 public class Card extends ButterKnifeLayout {
-
-    public static final float PERCENTAGE_HEIGHT_OF_SCREEN = 0.45F;
 
     public Card(Context context) {
         super(context);
@@ -24,18 +21,10 @@ public class Card extends ButterKnifeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private int calculateHeight() {
-        return (int) Math.floor(MyApplication.screenHeight * PERCENTAGE_HEIGHT_OF_SCREEN);
-    }
-
-    public int getDefaultCardHeight() {
-        return calculateHeight();
-    }
-
     public void setLayoutParamsForViewPager(View view) {
         LayoutParams params = new LayoutParams(
                 LayoutParams.MATCH_PARENT,
-                getDefaultCardHeight()
+                LayoutParams.MATCH_PARENT
         );
 
         params.leftMargin = getResources().getDimensionPixelSize(R.dimen.card_pager_margin);
@@ -43,6 +32,5 @@ public class Card extends ButterKnifeLayout {
 
         view.setLayoutParams(params);
     }
-
 
 }
