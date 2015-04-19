@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:padding="6dp"
-                style="@style/card">
+                style="@style/view_pager_card">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/approach_part_list"

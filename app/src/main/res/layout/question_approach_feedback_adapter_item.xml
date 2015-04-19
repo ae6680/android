@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/question_approach_list_item"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="8dp"
+                android:background="@color/approach_list_item_background"
+                android:layout_marginBottom="@dimen/default_half_margin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/approach_list_item_height">
+                android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/number_container"
-        android:layout_width="@dimen/approach_list_item_height"
-        android:background="#fff"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/result_icon"
-            android:layout_margin="8dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/pass_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/result_icon"
+        android:layout_marginStart="@dimen/default_half_margin"
+        android:layout_marginEnd="@dimen/default_half_margin"
+        android:layout_centerVertical="true"
+        android:background="@drawable/pass_icon"
+        android:layout_width="@dimen/approach_list_item_number_circle_diameter"
+        android:layout_height="@dimen/approach_list_item_number_circle_diameter"/>
 
     <TextView
         android:id="@+id/question_approach_part_text"
-        android:layout_toEndOf="@id/number_container"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@id/result_icon"
+        android:layout_margin="@dimen/default_half_margin"
         android:gravity="center_vertical"
-        android:text="Reken uit hoeveel minuten je nog hebt per vraag."
-        android:maxLines="2"
+        android:lines="2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

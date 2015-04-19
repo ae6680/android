@@ -8,7 +8,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
-import com.shinav.mathapp.view.WrappedLayoutManager;
+import com.shinav.mathapp.view.WrappedLinearLayoutManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +43,7 @@ public class QAFViewPagerPage extends ButterKnifeLayout {
         inflate(R.layout.question_approach_feedback_view_pager_page, this, true);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new WrappedLayoutManager(this.getContext()));
+        recyclerView.setLayoutManager(new WrappedLinearLayoutManager(this.getContext()));
     }
 
     public void setParts(QuestionApproachPart givenPart, QuestionApproachPart correctPart) {

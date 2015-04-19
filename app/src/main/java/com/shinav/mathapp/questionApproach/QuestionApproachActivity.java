@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.card.Card;
+import com.shinav.mathapp.card.CardViewPager;
 import com.shinav.mathapp.db.dataMapper.GivenQuestionApproachMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
@@ -21,7 +21,8 @@ import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.injection.component.ApproachActivityComponent;
+import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.picasso.Picasso;
 
@@ -38,14 +39,17 @@ import rx.functions.Action1;
 
 public class QuestionApproachActivity extends ActionBarActivity {
 
-    @InjectView(R.id.approach_part_list) QuestionApproachDragRecyclerView approachPartList;
-    @InjectView(R.id.question_text) TextView questionText;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
+    @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;
+    @InjectView(R.id.view_pager_indicator_container) LinearLayout viewPagerIndicator;
+    @InjectView(R.id.approach_part_list) QuestionApproachDragRecyclerView approachPartList;
 
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
+
+    @Inject QuestionSimpleCardView questionSimpleCardView;
 
     @Inject GivenQuestionApproachMapper givenQuestionApproachMapper;
 
@@ -66,9 +70,10 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     public void inject() {
-        ApproachActivityComponent component = ApproachActivityComponent.Initializer.init(
-                this, ((MyApplication) getApplication()).isMockMode());
-        component.inject(this);
+//        ApproachActivityComponent component = ApproachActivityComponent.Initializer.init(
+//                this, ((MyApplication) getApplication()).isMockMode());
+//        component.inject(this);
+        ComponentFactory.getActivityComponent(this).inject(this);
     }
 
     private void loadQuestion(String questionKey) {
@@ -76,12 +81,11 @@ public class QuestionApproachActivity extends ActionBarActivity {
 
             @Override public void call(Question question) {
 
-                questionText.setText(question.getValue());
-                questionText.setMovementMethod(new ScrollingMovementMethod());
-
                 initToolbar(question.getTitle());
 //                loadBackground(question.getBackgroundImageUrl());
                 loadBackground("http://i.imgur.com/JfDNNOy.png");
+
+                initViewPager(question);
             }
         });
     }
@@ -118,13 +122,33 @@ public class QuestionApproachActivity extends ActionBarActivity {
         });
     }
 
+    private void initViewPager(Question question) {
+        List<Card> cards = new ArrayList<>();
+
+        questionSimpleCardView.setQuestionValue(question.getValue());
+        cards.add(questionSimpleCardView);
+
+        if (!TextUtils.isEmpty(question.getAnnexImageUrl())) {
+            QuestionAnnexCardView questionAnnexCardView =
+                    new QuestionAnnexCardView(this);
+
+            questionAnnexCardView.setAnnexImageUrl(question.getAnnexImageUrl());
+            cards.add(questionAnnexCardView);
+        }
+
+        cardViewPager.setIndicator(viewPagerIndicator);
+        cardViewPager.setCards(cards);
+        cardViewPager.setCurrentItem(0);
+    }
+
     private void loadBackground(String imageUrl) {
         Picasso.with(this)
                 .load(imageUrl)
                 .centerCrop()
                 .fit()
                 .into(backgroundView);
-        backgroundView.setImageAlpha(50);
+        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
+        backgroundView.setImageAlpha(imageAlpha);
     }
 
     @OnClick(R.id.next_question_button)

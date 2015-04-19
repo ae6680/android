@@ -55,8 +55,8 @@ public class QuestionApproachPartAdapter extends RecyclerView.Adapter<QuestionAp
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.approach_part_number) TextView number;
-        @InjectView(R.id.approach_part_text) TextView text;
+        @InjectView(R.id.question_approach_part_number) TextView number;
+        @InjectView(R.id.question_approach_part_text) TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -24,8 +24,8 @@
         <LinearLayout
             android:id="@+id/conversation_container"
             android:orientation="vertical"
-            android:layout_marginStart="@dimen/primary_margin"
-            android:layout_marginEnd="@dimen/primary_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

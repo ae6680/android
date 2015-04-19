@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/conversation_line_value"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/conversation_line_image"
         android:textColor="#fff"

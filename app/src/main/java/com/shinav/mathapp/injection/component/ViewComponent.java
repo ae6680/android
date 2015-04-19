@@ -7,6 +7,7 @@ import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.main.practice.PracticeCardRecyclerView;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameCardRecyclerView;
+import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
@@ -42,4 +43,6 @@ public interface ViewComponent {
 
     void inject(QAFViewPagerPage qafViewPagerPage);
     void inject(QAFViewPager qafViewPager);
+
+    void inject(QuestionApproachCardView questionApproachCardView);
 }

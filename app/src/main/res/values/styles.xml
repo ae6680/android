@@ -29,9 +29,10 @@
     <style name="primary_button">
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:textColor">#fff</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:background">@drawable/ok_rounded</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -50,6 +51,16 @@
         <item name="android:background">@drawable/card_default</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="view_pager_card">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/card_default</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/default_half_margin</item>
+        <item name="android:layout_marginStart">@dimen/card_pager_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_pager_margin</item>
     </style>
 
 </resources>
