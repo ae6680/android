@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
             toolbar.setTitle("Kies een karakter");
 
             // Wait 5 seconds to load the data the first time.
-            Observable.timer(5000, TimeUnit.MILLISECONDS)
+            Observable.timer(0, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Long>() {
                         @Override public void call(Long aLong) {

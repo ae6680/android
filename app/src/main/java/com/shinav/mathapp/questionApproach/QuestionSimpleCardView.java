@@ -25,9 +25,6 @@ public class QuestionSimpleCardView extends Card {
 
     private void init() {
         View view = inflate(R.layout.question_simple_card, this, false);
-
-        setLayoutParamsForViewPager(view);
-
         addView(view);
     }
 

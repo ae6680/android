@@ -18,16 +18,18 @@
     <com.shinav.mathapp.card.CardViewPager
         android:id="@+id/card_view_pager"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/default_quarter_margin"
         android:layout_below="@id/toolbar"
-        android:layout_marginTop="22dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_above="@+id/view_pager_indicator_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:id="@+id/view_pager_indicator_container"
         android:orientation="horizontal"
-        android:layout_below="@id/card_view_pager"
-        android:layout_marginTop="4dp"
+        android:layout_above="@+id/calculator_container"
+        android:layout_marginTop="@dimen/default_half_margin"
+        android:layout_marginBottom="@dimen/default_half_margin"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -36,6 +38,6 @@
         android:id="@+id/calculator_container"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="220dp"/>
 
 </RelativeLayout>

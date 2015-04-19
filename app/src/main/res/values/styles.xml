@@ -53,4 +53,14 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="view_pager_card">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/card_default</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/default_half_margin</item>
+        <item name="android:layout_marginStart">@dimen/card_pager_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_pager_margin</item>
+    </style>
+
 </resources>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                style="@style/card">
+                style="@style/view_pager_card">
 
     <TextView
         android:id="@+id/explanation_title"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="@dimen/default_half_margin"
         style="@style/title"
         android:text="@string/explanation_title" />
 
@@ -15,6 +15,6 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/default_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

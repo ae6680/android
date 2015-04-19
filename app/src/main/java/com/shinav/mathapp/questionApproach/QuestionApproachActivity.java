@@ -147,7 +147,8 @@ public class QuestionApproachActivity extends ActionBarActivity {
                 .centerCrop()
                 .fit()
                 .into(backgroundView);
-        backgroundView.setImageAlpha(50);
+        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
+        backgroundView.setImageAlpha(imageAlpha);
     }
 
     @OnClick(R.id.next_question_button)

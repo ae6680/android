@@ -1,7 +1,6 @@
 package com.shinav.mathapp.question.card;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.shinav.mathapp.R;
@@ -20,15 +19,12 @@ public class QuestionAnnexCardView extends Card {
     }
 
     public void init() {
-        View view = inflate(R.layout.question_annex_card, this, false);
-        setLayoutParamsForViewPager(view);
-        addView(view);
+        inflate(R.layout.question_annex_card, this, true);
     }
 
     public void setAnnexImageUrl(String imageUrl) {
         Picasso.with(this.getContext())
                 .load(imageUrl)
-                .fit()
                 .into(imageView);
     }
 

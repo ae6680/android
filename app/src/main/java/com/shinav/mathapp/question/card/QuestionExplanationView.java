@@ -1,7 +1,6 @@
 package com.shinav.mathapp.question.card;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
@@ -20,11 +19,7 @@ public class QuestionExplanationView extends Card {
     }
 
     private void init() {
-        View view = inflate(R.layout.question_explanantion_card, this, false);
-
-        setLayoutParamsForViewPager(view);
-
-        addView(view);
+        inflate(R.layout.question_explanantion_card, this, true);
     }
 
     public void setQuestion(Question question) {

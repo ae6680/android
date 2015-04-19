@@ -110,7 +110,8 @@ public class QAFActivity extends ActionBarActivity {
                 .centerCrop()
                 .fit()
                 .into(backgroundView);
-        backgroundView.setImageAlpha(50);
+        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
+        backgroundView.setImageAlpha(imageAlpha);
     }
 
     private void fetchQuestionApproach(String questionKey) {

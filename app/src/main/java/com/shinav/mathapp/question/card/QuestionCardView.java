@@ -38,10 +38,7 @@ public class QuestionCardView extends Card {
     }
 
     private void init() {
-
-        View view = inflate(R.layout.question_card, this, false);
-
-        setLayoutParamsForViewPager(view);
+        inflate(R.layout.question_card, this, true);
 
         submitButton.setEnabled(false);
         answerField.addTextChangedListener(new AnswerTextWatcher());
@@ -53,8 +50,6 @@ public class QuestionCardView extends Card {
                 return true;
             }
         });
-
-        addView(view);
     }
 
     public void setQuestionValue(String questionValue) {

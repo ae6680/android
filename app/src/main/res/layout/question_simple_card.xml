@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                style="@style/card">
+                style="@style/view_pager_card"
+                android:padding="0dp">
 
     <TextView
         android:id="@+id/question_text"
-        android:paddingTop="@dimen/default_half_margin"
-        android:paddingBottom="@dimen/default_half_margin"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="@dimen/default_margin"
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:scrollbars="vertical"

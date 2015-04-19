@@ -81,6 +81,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject GivenAnswerMapper givenAnswerMapper;
 
     private Question question;
+    private int moveToIndex = 0;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,6 +193,8 @@ public class QuestionActivity extends ActionBarActivity {
                 .centerCrop()
                 .fit()
                 .into(backgroundView);
+        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
+        backgroundView.setImageAlpha(imageAlpha);
     }
 
     private void initViewPager(List<QuestionApproachPart> questionApproachParts) {
@@ -282,6 +285,8 @@ public class QuestionActivity extends ActionBarActivity {
                 explanationView.setQuestion(question);
 
                 cards.add(explanationView);
+                moveToIndex = cardViewPager.getChildCount();
+
                 cardViewPager.addCards(cards);
             }
         });
@@ -327,7 +332,7 @@ public class QuestionActivity extends ActionBarActivity {
 
         anim7.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationEnd(Animator animation) {
-                cardViewPager.setCurrentItem(2);
+                cardViewPager.setCurrentItem(moveToIndex);
             }
         });
 
