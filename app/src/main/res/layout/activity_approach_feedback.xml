@@ -27,7 +27,7 @@
         android:id="@+id/view_pager_indicator_container"
         android:orientation="horizontal"
         android:layout_above="@+id/selected_part_text_view"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/default_quarter_margin"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

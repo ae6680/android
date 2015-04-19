@@ -32,7 +32,8 @@
     <color name="gender_male_unselected">#ffc1c1c1</color>
     <color name="gender_female_selected">#ffda9aff</color>
     <color name="gender_female_unselected">#ffc1c1c1</color>
-    <color name="approach_list_item_background">#FFFFFF</color>
+
+    <color name="approach_list_item_background">@color/card_background</color>
 
 
 </resources>
