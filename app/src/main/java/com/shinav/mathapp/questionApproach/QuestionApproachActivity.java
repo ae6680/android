@@ -24,7 +24,6 @@ import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.storytelling.StorytellingService;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +51,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
     @Inject QuestionSimpleCardView questionSimpleCardView;
 
     @Inject GivenQuestionApproachMapper givenQuestionApproachMapper;
+    @Inject BackgroundLoader backgroundLoader;
 
     private QuestionApproach questionApproach;
 
@@ -82,8 +82,11 @@ public class QuestionApproachActivity extends ActionBarActivity {
             @Override public void call(Question question) {
 
                 initToolbar(question.getTitle());
-//                loadBackground(question.getBackgroundImageUrl());
-                loadBackground("http://i.imgur.com/JfDNNOy.png");
+
+                backgroundLoader.loadBackground(
+                        backgroundView,
+                        question.getBackgroundImageUrl()
+                );
 
                 initViewPager(question);
             }
@@ -139,16 +142,6 @@ public class QuestionApproachActivity extends ActionBarActivity {
         cardViewPager.setIndicator(viewPagerIndicator);
         cardViewPager.setCards(cards);
         cardViewPager.setCurrentItem(0);
-    }
-
-    private void loadBackground(String imageUrl) {
-        Picasso.with(this)
-                .load(imageUrl)
-                .centerCrop()
-                .fit()
-                .into(backgroundView);
-        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
-        backgroundView.setImageAlpha(imageAlpha);
     }
 
     @OnClick(R.id.next_question_button)

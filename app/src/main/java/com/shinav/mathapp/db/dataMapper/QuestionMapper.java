@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.EXPLANATION;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
@@ -31,6 +32,7 @@ public class QuestionMapper {
         values.put(ANSWER, question.getAnswer());
         values.put(EXPLANATION, question.getExplanation());
         values.put(ANNEX_IMAGE_URL, question.getAnnexImageUrl());
+        values.put(BACKGROUND_IMAGE_URL, question.getBackgroundImageUrl());
 
         return values;
     }

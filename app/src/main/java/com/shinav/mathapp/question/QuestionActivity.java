@@ -43,10 +43,10 @@ import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionExplanationView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
+import com.shinav.mathapp.questionApproach.BackgroundLoader;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +79,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject GivenAnswerMapper givenAnswerMapper;
+    @Inject BackgroundLoader backgroundLoader;
 
     private Question question;
     private int moveToIndex = 0;
@@ -151,8 +152,11 @@ public class QuestionActivity extends ActionBarActivity {
             @Override public void call(Question question) {
                 QuestionActivity.this.question = question;
                 initToolbar(question.getTitle());
-//                loadBackground(question.getBackgroundImageUrl());
-                loadBackground("http://i.imgur.com/JfDNNOy.png");
+
+                backgroundLoader.loadBackground(
+                        backgroundView,
+                        question.getBackgroundImageUrl()
+                );
             }
         });
     }
@@ -185,16 +189,6 @@ public class QuestionActivity extends ActionBarActivity {
                 onBackPressed();
             }
         });
-    }
-
-    private void loadBackground(String imageUrl) {
-        Picasso.with(this)
-                .load(imageUrl)
-                .centerCrop()
-                .fit()
-                .into(backgroundView);
-        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
-        backgroundView.setImageAlpha(imageAlpha);
     }
 
     private void initViewPager(List<QuestionApproachPart> questionApproachParts) {

@@ -24,9 +24,9 @@ import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
+import com.shinav.mathapp.questionApproach.BackgroundLoader;
 import com.shinav.mathapp.questionApproach.QuestionSimpleCardView;
 import com.shinav.mathapp.storytelling.StorytellingService;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +58,7 @@ public class QAFActivity extends ActionBarActivity {
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
     @Inject GivenQuestionApproachRepository givenQuestionApproachRepository;
     @Inject QuestionSimpleCardView questionSimpleCardView;
+    @Inject BackgroundLoader backgroundLoader;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +85,10 @@ public class QAFActivity extends ActionBarActivity {
             @Override public void call(Question question) {
                 initToolbar(question.getTitle());
 
-//                loadBackground(question.getBackgroundImageUrl());
-                loadBackground("http://i.imgur.com/JfDNNOy.png");
+                backgroundLoader.loadBackground(
+                        backgroundView,
+                        question.getBackgroundImageUrl()
+                );
 
                 initQuestionViewPager(question);
             }
@@ -102,16 +105,6 @@ public class QAFActivity extends ActionBarActivity {
                 onBackPressed();
             }
         });
-    }
-
-    private void loadBackground(String imageUrl) {
-        Picasso.with(this)
-                .load(imageUrl)
-                .centerCrop()
-                .fit()
-                .into(backgroundView);
-        int imageAlpha = getResources().getInteger(R.integer.background_image_alpha);
-        backgroundView.setImageAlpha(imageAlpha);
     }
 
     private void fetchQuestionApproach(String questionKey) {

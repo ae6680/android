@@ -17,5 +17,6 @@
     <string name="question_approach_feedback_next_button">Door naar de vraag.</string>
     <string name="submit">Bevestig</string>
     <string name="drag_info">Sleep in de juiste volgorde.</string>
+    <string name="choose_character">Kies een karakter</string>
 
 </resources>
