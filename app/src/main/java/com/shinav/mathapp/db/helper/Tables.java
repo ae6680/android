@@ -51,6 +51,17 @@ public interface Tables {
         String GIVEN_AT = "given_at";
     }
 
+    public interface QuestionExplanation {
+        String TABLE_NAME = "question_explanation";
+        String KEY = "key";
+
+        String QUESTION_KEY = "question_key";
+
+        String TEXT = "text";
+        String IMAGE_URL = "image_url";
+        String POSITION = "position";
+    }
+
     public interface Storyboard {
         String TABLE_NAME = "storyboard";
         String KEY = "key";

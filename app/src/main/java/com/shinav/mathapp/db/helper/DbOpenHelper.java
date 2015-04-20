@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
 import static com.shinav.mathapp.db.helper.Tables.Question;
+import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
 import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
 import static com.shinav.mathapp.db.helper.Tables.Tutorial;
@@ -43,6 +44,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         createQuestionApproachPartTable(db);
         createGivenApproachTable(db);
 
+        createQuestionExplanationTable(db);
+
         createStoryboardTable(db);
         createStoryboardFrameTable(db);
 
@@ -67,7 +70,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Question.TITLE + " TEXT,"
                         + Question.VALUE + " TEXT,"
                         + Question.ANSWER + " TEXT,"
-                        + Question.EXPLANATION + " TEXT,"
                         + Question.ANNEX_IMAGE_URL + " TEXT,"
                         + Question.BACKGROUND_IMAGE_URL + " TEXT,"
                         + " UNIQUE (" + Question.KEY + ") ON CONFLICT REPLACE)"
@@ -120,6 +122,19 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, GivenAnswer.TABLE_NAME, GivenAnswer.KEY);
+    }
+
+    private void createQuestionExplanationTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + QuestionExplanation.TABLE_NAME + " ("
+                        + QuestionExplanation.KEY + " TEXT,"
+                        + QuestionExplanation.QUESTION_KEY + " TEXT,"
+                        + QuestionExplanation.TEXT + " TEXT,"
+                        + QuestionExplanation.IMAGE_URL + " TEXT,"
+                        + QuestionExplanation.POSITION + " INTEGER,"
+                        + " UNIQUE (" + QuestionExplanation.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, QuestionExplanation.TABLE_NAME, QuestionExplanation.KEY);
     }
 
     private void createStoryboardTable(SQLiteDatabase db) {
