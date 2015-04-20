@@ -115,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
 
             progressBar.setVisibility(VISIBLE);
 
-            toolbar.setTitle("Kies een karakter");
+            toolbar.setTitle(getResources().getString(R.string.choose_character));
 
             // Wait 5 seconds to load the data the first time.
             Observable.timer(0, TimeUnit.MILLISECONDS)

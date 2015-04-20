@@ -10,6 +10,7 @@ public interface Tables {
         String VALUE = "value";
         String ANSWER = "answer";
         String EXPLANATION = "explanation";
+        String BACKGROUND_IMAGE_URL = "background_image_url";
         String ANNEX_IMAGE_URL = "annex_image_url";
     }
 

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.EXPLANATION;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
@@ -41,6 +42,7 @@ public class QuestionCursorParser implements rx.functions.Func1<Query, Question>
         question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
         question.setExplanation(c.getString(c.getColumnIndex(EXPLANATION)));
         question.setAnnexImageUrl(c.getString(c.getColumnIndex(ANNEX_IMAGE_URL)));
+        question.setBackgroundImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
 
         return question;
     }

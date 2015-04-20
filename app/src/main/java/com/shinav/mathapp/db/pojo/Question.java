@@ -9,6 +9,7 @@ public class Question {
     private String answer;
     private String explanation;
     private String annexImageUrl;
+    private String backgroundImageUrl;
 
     public String getKey() {
         return key;
@@ -56,5 +57,13 @@ public class Question {
 
     public void setAnnexImageUrl(String annexImageUrl) {
         this.annexImageUrl = annexImageUrl;
+    }
+
+    public String getBackgroundImageUrl() {
+        return backgroundImageUrl;
+    }
+
+    public void setBackgroundImageUrl(String backgroundImageUrl) {
+        this.backgroundImageUrl = backgroundImageUrl;
     }
 }
