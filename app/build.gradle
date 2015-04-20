@@ -1,11 +1,24 @@
+apply plugin: 'com.parse'
+
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://maven.parse.com/repo'
+        }
     }
 
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.parse.tools:gradle:1.1'
     }
+}
+
+parse {
+    applicationId "RUZsBvbCf40vqU4UeStD8HpiLUJak5siuDpxUMGa"
+    masterKey "Yae3JNQnM7reN0qrtZiDJWZO2beb9os7vupPVFSG"
+    // This makes it automatic. Otherwise you would have to run e.g. gradlew parseUploadSymbolsRelease.
+    uploadSymbols true
 }
 
 apply plugin: 'com.android.application'
@@ -25,7 +38,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -77,6 +90,13 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0'
     apt 'com.google.dagger:dagger-compiler:2.0'
     provided 'javax.annotation:javax.annotation-api:1.2'
+
+    // Parse CrashReporting
+    dependencies {
+        compile 'com.parse.bolts:bolts-android:1.1.4'
+        compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+        compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
+    }
 
     // Instrumentation testing
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
