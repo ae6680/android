@@ -1,6 +1,8 @@
 package com.shinav.mathapp.db.pojo;
 
-public class QuestionExplanation {
+import android.support.annotation.NonNull;
+
+public class QuestionExplanation implements Comparable<QuestionExplanation> {
 
     private String key;
     private String questionKey;
@@ -46,6 +48,10 @@ public class QuestionExplanation {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    @Override public int compareTo(@NonNull QuestionExplanation another) {
+        return (getPosition() - another.getPosition());
     }
 
 }

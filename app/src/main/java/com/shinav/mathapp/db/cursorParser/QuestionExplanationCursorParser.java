@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.shinav.mathapp.db.pojo.QuestionExplanation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +31,9 @@ public class QuestionExplanationCursorParser implements Func1<Query, List<Questi
             while (c.moveToNext()) {
                 questionExplanations.add(fromCursor(c));
             }
+
+            Collections.sort(questionExplanations);
+
             return questionExplanations;
         } finally {
             c.close();
