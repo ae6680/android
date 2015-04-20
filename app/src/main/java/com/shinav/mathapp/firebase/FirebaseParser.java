@@ -29,8 +29,6 @@ public class FirebaseParser {
         String answer = getString(dataSnapshot, Tables.Question.ANSWER);
         String value =  getString(dataSnapshot, Tables.Question.VALUE);
         String title =  getString(dataSnapshot, Tables.Question.TITLE);
-//        String explanation = getString(dataSnapshot, Tables.Question.EXPLANATION);
-        String explanation = "Explanation not yet implemented.";
         String annexImageUrl = getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
         String backgroundImageUrl = getString(dataSnapshot, Tables.Question.BACKGROUND_IMAGE_URL);
 
@@ -38,7 +36,6 @@ public class FirebaseParser {
         question.setAnswer(answer);
         question.setValue(value);
         question.setTitle(title);
-        question.setExplanation(explanation);
         question.setAnnexImageUrl(annexImageUrl);
         question.setBackgroundImageUrl(backgroundImageUrl);
 
