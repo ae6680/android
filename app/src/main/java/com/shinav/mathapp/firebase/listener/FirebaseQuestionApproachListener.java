@@ -20,14 +20,14 @@ public class FirebaseQuestionApproachListener implements ChildEventListener {
     public FirebaseQuestionApproachListener() { }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        QuestionApproach questionApproach = firebaseParser.parseApproach(dataSnapshot);
+        QuestionApproach questionApproach = firebaseParser.parseQuestionApproach(dataSnapshot);
         questionApproachMapper.insert(questionApproach);
 
         Timber.d("Firebase added a QuestionApproach");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        QuestionApproach questionApproach = firebaseParser.parseApproach(dataSnapshot);
+        QuestionApproach questionApproach = firebaseParser.parseQuestionApproach(dataSnapshot);
         questionApproachMapper.update(questionApproach);
 
         Timber.d("Firebase changed a QuestionApproach");

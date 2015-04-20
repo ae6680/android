@@ -19,8 +19,7 @@ public class ConversationLineRepository {
     @Inject ConversationLineCursorParser parser;
 
     @Inject
-    public ConversationLineRepository() {
-    }
+    public ConversationLineRepository() { }
 
     public Observable<List<ConversationLine>> getByConversationKey(String conversationKey) {
         return db.createQuery(

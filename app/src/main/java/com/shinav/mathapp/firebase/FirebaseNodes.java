@@ -13,8 +13,9 @@ public abstract class FirebaseNodes {
         String CONVERSATION_LINES = "conversation_lines";
 
         String QUESTIONS = "questions";
-        String APPROACHES = "question_approaches";
-        String APPROACH_PARTS = "question_approach_parts";
+        String QUESTION_APPROACHES = "question_approaches";
+        String QUESTION_APPROACH_PARTS = "question_approach_parts";
+        String QUESTION_EXPLANATIONS = "question_explanations";
     }
 
 }

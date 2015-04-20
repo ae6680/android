@@ -7,6 +7,7 @@ import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionExplanation;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.db.pojo.Tutorial;
@@ -42,31 +43,47 @@ public class FirebaseParser {
         return question;
     }
 
-    public QuestionApproach parseApproach(DataSnapshot dataSnapshot) {
-        QuestionApproach questionQuestionApproach = new QuestionApproach();
+    public QuestionApproach parseQuestionApproach(DataSnapshot dataSnapshot) {
+        QuestionApproach questionApproach = new QuestionApproach();
 
-        String key = dataSnapshot.getKey();
         String questionKey = getString(dataSnapshot, Tables.QuestionApproach.QUESTION_KEY);
 
-        questionQuestionApproach.setKey(key);
-        questionQuestionApproach.setQuestionKey(questionKey);
+        questionApproach.setKey(dataSnapshot.getKey());
+        questionApproach.setQuestionKey(questionKey);
 
-        return questionQuestionApproach;
+        return questionApproach;
     }
 
-    public QuestionApproachPart parseApproachPart(DataSnapshot dataSnapshot) {
-        QuestionApproachPart questionQuestionApproachPart = new QuestionApproachPart();
+    public QuestionApproachPart parseQuestionApproachPart(DataSnapshot dataSnapshot) {
+        QuestionApproachPart questionApproachPart = new QuestionApproachPart();
 
         String approachKey = getString(dataSnapshot, Tables.QuestionApproachPart.QUESTION_APPROACH_KEY);
         String position =    getString(dataSnapshot, Tables.QuestionApproachPart.POSITION);
         String value =       getString(dataSnapshot, Tables.QuestionApproachPart.VALUE);
 
-        questionQuestionApproachPart.setKey(dataSnapshot.getKey());
-        questionQuestionApproachPart.setApproachKey(approachKey);
-        questionQuestionApproachPart.setPosition(Integer.parseInt(position));
-        questionQuestionApproachPart.setValue(value);
+        questionApproachPart.setKey(dataSnapshot.getKey());
+        questionApproachPart.setApproachKey(approachKey);
+        questionApproachPart.setPosition(Integer.parseInt(position));
+        questionApproachPart.setValue(value);
 
-        return questionQuestionApproachPart;
+        return questionApproachPart;
+    }
+
+    public QuestionExplanation parseQuestionExplanation(DataSnapshot dataSnapshot) {
+        QuestionExplanation questionExplanation = new QuestionExplanation();
+
+        String questionKey = getString(dataSnapshot, Tables.QuestionExplanation.QUESTION_KEY);
+        String text = getString(dataSnapshot, Tables.QuestionExplanation.TEXT);
+        String imageUrl = getString(dataSnapshot, Tables.QuestionExplanation.IMAGE_URL);
+        String position = getString(dataSnapshot, Tables.QuestionExplanation.POSITION);
+
+        questionExplanation.setKey(dataSnapshot.getKey());
+        questionExplanation.setQuestionKey(questionKey);
+        questionExplanation.setText(text);
+        questionExplanation.setImageUrl(imageUrl);
+        questionExplanation.setPosition(Integer.parseInt(position));
+
+        return questionExplanation;
     }
 
     public Storyboard parseStoryboard(DataSnapshot dataSnapshot) {
@@ -147,10 +164,10 @@ public class FirebaseParser {
     public TutorialFrame parseTutorialFrame(DataSnapshot dataSnapshot) {
         TutorialFrame tutorialFrame = new TutorialFrame();
 
-        String tutorialKey = getString(dataSnapshot, Tables.TutorialFrame.TUTORIAL_KEY);
-        String position =    getString(dataSnapshot, Tables.TutorialFrame.POSITION);
-        String frameType =        getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE);
-        String frameTypeKey =     getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE_KEY);
+        String tutorialKey =    getString(dataSnapshot, Tables.TutorialFrame.TUTORIAL_KEY);
+        String position =       getString(dataSnapshot, Tables.TutorialFrame.POSITION);
+        String frameType =      getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE);
+        String frameTypeKey =   getString(dataSnapshot, Tables.TutorialFrame.FRAME_TYPE_KEY);
 
         tutorialFrame.setKey(dataSnapshot.getKey());
         tutorialFrame.setTutorialKey(tutorialKey);

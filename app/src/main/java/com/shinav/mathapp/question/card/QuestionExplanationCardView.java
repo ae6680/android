@@ -8,11 +8,11 @@ import com.shinav.mathapp.card.Card;
 
 import butterknife.InjectView;
 
-public class QuestionExplanationView extends Card {
+public class QuestionExplanationCardView extends Card {
 
     @InjectView(R.id.explanation_body) TextView explanationBody;
 
-    public QuestionExplanationView(Context context) {
+    public QuestionExplanationCardView(Context context) {
         super(context);
         init();
     }
@@ -21,7 +21,7 @@ public class QuestionExplanationView extends Card {
         inflate(R.layout.question_explanantion_card, this, true);
     }
 
-    public void setQuestion(String explanationText) {
+    public void setExplanationText(String explanationText) {
         explanationBody.setText(explanationText);
     }
 
