@@ -7,7 +7,6 @@ public class Question {
     private String value;
     private String title;
     private String answer;
-    private String explanation;
     private String annexImageUrl;
     private String backgroundImageUrl;
 
@@ -41,14 +40,6 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
     }
 
     public String getAnnexImageUrl() {

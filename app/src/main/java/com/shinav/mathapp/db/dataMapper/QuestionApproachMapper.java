@@ -40,11 +40,11 @@ public class QuestionApproachMapper {
         );
     }
 
-    public void delete(String approachKey) {
+    public void delete(String questionApproachKey) {
         db.delete(
                 TABLE_NAME,
                 KEY + " = ?",
-                approachKey
+                questionApproachKey
         );
     }
 

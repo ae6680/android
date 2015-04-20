@@ -28,8 +28,10 @@ import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
+import com.shinav.mathapp.db.pojo.QuestionExplanation;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
+import com.shinav.mathapp.db.repository.QuestionExplanationRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
@@ -40,7 +42,7 @@ import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
-import com.shinav.mathapp.question.card.QuestionExplanationView;
+import com.shinav.mathapp.question.card.QuestionExplanationCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.questionApproach.BackgroundLoader;
@@ -77,6 +79,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionRepository questionRepository;
     @Inject QuestionApproachRepository questionApproachRepository;
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
+    @Inject QuestionExplanationRepository questionExplanationRepository;
 
     @Inject GivenAnswerMapper givenAnswerMapper;
     @Inject BackgroundLoader backgroundLoader;
@@ -273,15 +276,26 @@ public class QuestionActivity extends ActionBarActivity {
 
         anim1.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationEnd(Animator animation) {
-                List<Card> cards = new ArrayList<>();
 
-                QuestionExplanationView explanationView = new QuestionExplanationView(QuestionActivity.this);
-                explanationView.setQuestion(question);
+                questionExplanationRepository.get(question.getKey(), new Action1<List<QuestionExplanation>>() {
+                    @Override public void call(List<QuestionExplanation> questionExplanations) {
+                        List<Card> cards = new ArrayList<>();
 
-                cards.add(explanationView);
-                moveToIndex = cardViewPager.getChildCount();
+                        for (QuestionExplanation questionExplanation : questionExplanations) {
 
-                cardViewPager.addCards(cards);
+                            QuestionExplanationCardView explanationView =
+                                    new QuestionExplanationCardView(QuestionActivity.this);
+                            explanationView.setExplanationText(questionExplanation.getText());
+                            explanationView.setExplanationImageUrl(questionExplanation.getImageUrl());
+
+                            cards.add(explanationView);
+                        }
+
+                        moveToIndex = cardViewPager.getChildCount();
+                        cardViewPager.addCards(cards);
+                    }
+                });
+
             }
         });
 

@@ -3,17 +3,17 @@
                 style="@style/view_pager_card">
 
     <TextView
-        android:id="@+id/explanation_title"
-        android:layout_marginTop="@dimen/default_half_margin"
-        style="@style/title"
-        android:text="@string/explanation_title" />
-
-    <TextView
         android:id="@+id/explanation_body"
-        android:layout_marginTop="@dimen/default_margin"
-        android:layout_below="@id/explanation_title"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/default_margin"
+        android:paddingTop="@dimen/default_half_margin"
+        android:paddingBottom="@dimen/default_half_margin"
+        android:paddingStart="@dimen/default_half_margin"
+        android:paddingEnd="@dimen/default_half_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/explanation_image"
+        android:layout_below="@id/explanation_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

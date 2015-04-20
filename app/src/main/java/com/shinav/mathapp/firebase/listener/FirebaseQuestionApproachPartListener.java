@@ -23,14 +23,14 @@ public class FirebaseQuestionApproachPartListener implements ChildEventListener 
     }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        QuestionApproachPart questionApproachPart = firebaseParser.parseApproachPart(dataSnapshot);
+        QuestionApproachPart questionApproachPart = firebaseParser.parseQuestionApproachPart(dataSnapshot);
         questionApproachPartMapper.insert(questionApproachPart);
 
         Timber.d("Firebase added a QuestionApproachPart");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        QuestionApproachPart questionApproachPart = firebaseParser.parseApproachPart(dataSnapshot);
+        QuestionApproachPart questionApproachPart = firebaseParser.parseQuestionApproachPart(dataSnapshot);
         questionApproachPartMapper.update(questionApproachPart);
 
         Timber.d("Firebase changed a QuestionApproachPart");
