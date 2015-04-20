@@ -286,6 +286,7 @@ public class QuestionActivity extends ActionBarActivity {
                             QuestionExplanationCardView explanationView =
                                     new QuestionExplanationCardView(QuestionActivity.this);
                             explanationView.setExplanationText(questionExplanation.getText());
+                            explanationView.setExplanationImageUrl(questionExplanation.getImageUrl());
 
                             cards.add(explanationView);
                         }
