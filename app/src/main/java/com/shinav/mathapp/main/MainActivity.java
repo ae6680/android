@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
 
-import com.parse.ParseAnalytics;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
@@ -85,7 +84,6 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         ComponentFactory.getActivityComponent(this).inject(this);
 
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
         registerer.register();
 
         initToolbar();

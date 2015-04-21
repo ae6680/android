@@ -3,13 +3,11 @@ package com.shinav.mathapp;
 import android.app.Application;
 import android.util.DisplayMetrics;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
-import com.parse.Parse;
-import com.parse.ParseCrashReporting;
-import com.parse.ParseInstallation;
-import com.parse.ParseUser;
-import com.shinav.mathapp.reporting.ParseTree;
+import com.shinav.mathapp.reporting.CrashlyticsTree;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 public class MyApplication extends Application {
@@ -34,30 +32,9 @@ public class MyApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
-            Timber.plant(new ParseTree());
-            ParseCrashReporting.enable(this);
+            Timber.plant(new CrashlyticsTree());
+            Fabric.with(this, new Crashlytics());
         }
-
-        // Testing crash reporting
-//        Timber.plant(new ParseTree());
-//        ParseCrashReporting.enable(this);
-
-        setupParse();
-
-        // Testing crash reporting
-//        Timber.e("Message", "HOI");
-//        throw new RuntimeException("Test Exception!");
-    }
-
-    private void setupParse() {
-        Parse.initialize(
-                this,
-                getString(R.string.parse_application_id),
-                getString(R.string.parse_client_key)
-        );
-        ParseUser.enableAutomaticUser();
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.saveInBackground();
     }
 
     private void setupFirebase() {

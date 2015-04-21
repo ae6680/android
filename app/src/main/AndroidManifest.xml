@@ -2,7 +2,6 @@
           package="com.shinav.mathapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -47,6 +46,9 @@
         <service android:name=".storytelling.StorytellingService"
                  android:exported="false" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="468b2fb60fa46e4790b3e10de9b2ed175956feef" />
     </application>
 
 </manifest>
