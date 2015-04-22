@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.MyApplication;
+import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
 import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
@@ -35,7 +36,7 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton Firebase provideFirebase() {
-        return new Firebase("https://arithmetic-exam-app.firebaseio.com/");
+        return new Firebase(applicationContext.getResources().getString(R.string.firebase_url));
     }
 
     @Provides @Singleton DbOpenHelper provideDbOpenHelper(@ForApplication Context context) {
