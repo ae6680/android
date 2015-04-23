@@ -12,7 +12,6 @@ import com.shinav.mathapp.injection.component.ComponentFactory;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,7 +59,6 @@ public class TutorialView extends ButterKnifeLayout {
         ComponentFactory.getViewComponent(this.getContext()).inject(this);
 
         inflate(R.layout.tutorial_layout, this, true);
-        setVisibility(GONE);
 
         for (View view : characterButtons) {
             view.setSelected(true);
@@ -103,20 +101,7 @@ public class TutorialView extends ButterKnifeLayout {
                     break;
             }
 
-//            int resourceId = getResId(tag, Drawable.class);
-
             bus.post(new TutorialStartButtonClicked(resourceId));
-        }
-
-    }
-
-    public int getResId(String resourceName, Class<?> c) {
-        try {
-            Field idField = c.getDeclaredField(resourceName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            throw new RuntimeException("No resource ID found for: "
-                    + resourceName + " / " + c, e);
         }
     }
 

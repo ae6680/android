@@ -1,71 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical"
-                style="@style/card"
+                android:id="@+id/storyboard_frame_list_item"
+                android:layout_marginStart="@dimen/default_quarter_margin"
+                android:layout_marginEnd="@dimen/default_quarter_margin"
+                android:layout_marginTop="@dimen/default_quarter_margin"
+                android:layout_marginBottom="@dimen/default_quarter_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/info"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
+    <RelativeLayout
+        android:id="@+id/image_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="220dp">
 
-        <TextView
-            android:id="@+id/question_title"
-            android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_size_normal"
-            android:text="Text"
-            android:layout_marginBottom="8dp"
+        <ImageView
+            android:id="@+id/background_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/state"
+            android:layout_centerInParent="true"
+            android:background="@drawable/question_progress_state_closed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/question_given_answer"
-            android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_size_normal"
-            android:lines="1"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/question_state"
-            android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_size_normal"
-            android:lines="1"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/see_question_button"
-        style="?android:attr/borderlessButtonStyle"
-        android:text="BEKIJK"
-        android:textColor="@color/text_primary"
-        android:textSize="@dimen/text_size_normal"
-        android:layout_below="@+id/info"
-        android:layout_marginStart="10dp"
-        android:layout_width="75dp"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/make_question_button"
-        style="?android:attr/borderlessButtonStyle"
-        android:text="MAAK"
-        android:textColor="@color/text_primary"
-        android:textSize="@dimen/text_size_normal"
-        android:layout_toEndOf="@+id/see_question_button"
-        android:layout_below="@id/info"
-        android:layout_width="70dp"
-        android:layout_height="50dp"/>
+    <TextView
+        android:id="@+id/title"
+        android:textSize="@dimen/text_size_medium"
+        android:textColor="@color/text_tertiair"
+        android:layout_marginTop="@dimen/default_quarter_margin"
+        android:layout_below="@+id/image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

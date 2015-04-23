@@ -11,21 +11,21 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class StoryboardFrameCardRecyclerView extends RecyclerView {
+public class StoryboardFrameRecyclerView extends RecyclerView {
 
     @Inject StoryboardFrameAdapter storyboardFrameAdapter;
 
-    public StoryboardFrameCardRecyclerView(Context context) {
+    public StoryboardFrameRecyclerView(Context context) {
         super(context);
         init();
     }
 
-    public StoryboardFrameCardRecyclerView(Context context, AttributeSet attrs) {
+    public StoryboardFrameRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public StoryboardFrameCardRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public StoryboardFrameRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -37,8 +37,8 @@ public class StoryboardFrameCardRecyclerView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
-    public void setListItems(List<StoryboardListItem> listItems) {
-        storyboardFrameAdapter.setListItems(listItems);
+    public void setListItems(List<StoryboardFrameListItem> storyboardFrameListItems) {
+        storyboardFrameAdapter.setListItems(storyboardFrameListItems);
     }
 
 }

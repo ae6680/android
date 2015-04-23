@@ -15,25 +15,18 @@ import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
-import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.db.repository.StoryProgressPartRepository;
-import com.shinav.mathapp.db.repository.StoryProgressRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
-import com.shinav.mathapp.db.repository.TutorialRepository;
-import com.shinav.mathapp.event.MakeQuestionButtonClicked;
-import com.shinav.mathapp.event.TutorialStartButtonClicked;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.ComponentFactory;
-import com.shinav.mathapp.main.practice.PracticeOverviewView;
-import com.shinav.mathapp.main.storyboard.StoryboardListItem;
+import com.shinav.mathapp.main.storyboard.StoryboardFrameListItem;
+import com.shinav.mathapp.main.storyboard.StoryboardFrameListItemClicked;
 import com.shinav.mathapp.main.storyboard.StoryboardView;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.shinav.mathapp.tab.TabsView;
-import com.shinav.mathapp.tutorial.TutorialManagingService;
-import com.shinav.mathapp.tutorial.TutorialView;
+import com.shinav.mathapp.tutorial.TutorialActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -56,8 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
-    @InjectView(R.id.tutorial_view) TutorialView tutorialView;
-    @InjectView(R.id.storyboard_progress) ProgressBar progressBar;
+    @InjectView(R.id.progress) ProgressBar progressBar;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -66,13 +58,8 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryProgressMapper storyProgressMapper;
 
     @Inject StoryboardView storyboardView;
-    @Inject PracticeOverviewView practiceOverviewView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject TutorialRepository tutorialRepository;
-
-    @Inject StoryProgressRepository storyProgressRepository;
-    @Inject StoryProgressPartRepository storyProgressPartRepository;
 
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
@@ -100,6 +87,12 @@ public class MainActivity extends ActionBarActivity {
         bus.unregister(this);
     }
 
+//   Temporary to reset tutorial
+//    @Override protected void onDestroy() {
+//        sharedPreferences.edit().clear().apply();
+//        super.onDestroy();
+//    }
+
     @Override protected void onResume() {
         super.onResume();
         loadStoryboardFrames();
@@ -108,8 +101,6 @@ public class MainActivity extends ActionBarActivity {
     private void loadStoryboardFrames() {
 
         int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
-
-        characterResId = 0;
 
         if (characterResId == 0) {
 
@@ -123,13 +114,12 @@ public class MainActivity extends ActionBarActivity {
                     .subscribe(new Action1<Long>() {
                         @Override public void call(Long aLong) {
                             progressBar.setVisibility(GONE);
-                            showTutorialLayout();
+                            showTutorial();
                         }
                     });
 
         } else {
-            hideTutorialLayout();
-//            loadStoryboard();
+            loadStoryboard();
 //            startStorytellingService();
         }
 
@@ -163,15 +153,31 @@ public class MainActivity extends ActionBarActivity {
                 questionRepository.getCollection(questionKeysString, new Action1<List<Question>>() {
                     @Override public void call(List<Question> questions) {
 
-                        List<StoryboardListItem> listItems = new ArrayList<>();
+                        List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
-                        for (Question question : questions) {
-                            listItems.add(new StoryboardListItem(
-                                    question.getKey(),
-                                    question.getTitle(),
-                                    "11",
-                                    1
-                            ));
+//                        for (final Question question : questions) {
+                        for (int i = 0; i < 50; i++) {
+                            final Question question = questions.get(0);
+
+                            listItems.add(new StoryboardFrameListItem() {
+
+                                        @Override public String getKey() {
+                                            return question.getKey();
+                                        }
+
+                                        @Override public String getTitle() {
+                                            return question.getTitle();
+                                        }
+
+                                        @Override public int getState() {
+                                            return -1;
+                                        }
+
+                                        @Override public String getBackgroundImage() {
+                                            return question.getBackgroundImageUrl();
+                                        }
+                                    }
+                            );
                         }
 
                         storyboardView.setListItems(listItems);
@@ -189,26 +195,12 @@ public class MainActivity extends ActionBarActivity {
 
     private void initTabs() {
         tabsView.addTab(getResources().getString(R.string.main_tab_1), storyboardView);
-//        tabsView.addTab(getResources().getString(R.string.main_tab_2), practiceOverviewView);
     }
 
-    private void showTutorialLayout() {
-        tutorialView.setVisibility(VISIBLE);
-        tabsView.setVisibility(GONE);
-    }
-
-    private void hideTutorialLayout() {
-        tutorialView.setVisibility(GONE);
-        tabsView.setVisibility(VISIBLE);
-    }
-
-    private void startTutorialManagingService(String tutorialKey) {
-        Intent intent = new Intent(this, TutorialManagingService.class);
-
-        intent.setAction(TutorialManagingService.ACTION_START);
-        intent.putExtra(TutorialManagingService.EXTRA_TUTORIAL_KEY, tutorialKey);
-
-        startService(intent);
+    private void showTutorial() {
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void startStorytellingService(String storyboardKey) {
@@ -220,29 +212,11 @@ public class MainActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    @Subscribe public void onMakeQuestionButtonClicked(MakeQuestionButtonClicked event) {
+    @Subscribe public void onMakeQuestionButtonClicked(StoryboardFrameListItemClicked event) {
         Intent intent = new Intent(this, QuestionActivity.class);
-        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, event.getQuestionFirebaseKey());
+        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, event.getKey());
         startActivity(intent);
         overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
-    }
-
-    @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
-
-        tutorialRepository.getFirst(new Action1<Tutorial>() {
-            @Override public void call(Tutorial tutorial) {
-                startTutorialManagingService(tutorial.getKey());
-            }
-        });
-
-        saveChosenCharacter(event.getResourceId());
-    }
-
-    private void saveChosenCharacter(int resourceId) {
-        sharedPreferences.edit().putInt(
-                MyApplication.PREF_CHOSEN_CHARACTER,
-                resourceId
-        ).apply();
     }
 
 }

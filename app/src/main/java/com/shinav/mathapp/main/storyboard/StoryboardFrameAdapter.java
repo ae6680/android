@@ -4,13 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.MakeQuestionButtonClicked;
-import com.shinav.mathapp.event.SeeQuestionButtonClicked;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,23 +21,20 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_FAIL;
-import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_PASS;
-import static com.shinav.mathapp.main.storyboard.StoryboardListItem.STATE_UNMADE;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_FAIL;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPEN;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_PASS;
 
 public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameAdapter.ViewHolder> {
 
     @Inject Bus bus;
 
-    private List<StoryboardListItem> listItems = Collections.emptyList();
+    private List<StoryboardFrameListItem> listItems = Collections.emptyList();
 
-    @Inject
-    public StoryboardFrameAdapter() { }
+    @Inject public StoryboardFrameAdapter() { }
 
-    @Override
-    public StoryboardFrameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public StoryboardFrameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.storyboard_list_item, parent, false);
 
@@ -45,64 +42,69 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     }
 
     @Override public void onBindViewHolder(StoryboardFrameAdapter.ViewHolder holder, int position) {
-        StoryboardListItem listItem = listItems.get(position);
+        StoryboardFrameListItem listItem = listItems.get(position);
 
-        holder.setQuestionKey(listItem.getQuestionKey());
+        holder.setKey(listItem.getKey());
 
-        holder.title.setText(listItem.getQuestionTitle());
-        holder.givenAnswer.setText(listItem.getLastGivenAnswer());
-
-        switch (listItem.getState()) {
-            case STATE_UNMADE:
-                holder.state.setText("Ongemaakt");
-                holder.seeQuestionButton.setVisibility(GONE);
-                break;
-            case STATE_PASS:
-                holder.state.setText("Goed");
-                holder.seeQuestionButton.setVisibility(VISIBLE);
-                break;
-            case STATE_FAIL:
-                holder.state.setText("Fout");
-                holder.seeQuestionButton.setVisibility(GONE);
-        }
+        setTitle(holder.title, listItem.getTitle());
+        setState(holder, listItem.getState());
+        setBackgroundImage(holder.background, listItem.getBackgroundImage());
     }
 
     @Override public int getItemCount() {
         return listItems.size();
     }
 
-    public void setListItems(List<StoryboardListItem> listItems) {
+    private void setTitle(TextView title, String text) {
+        title.setText(text);
+    }
+
+    private void setState(ViewHolder holder, int state) {
+        switch (state) {
+            case STATE_CLOSED:
+                holder.background.setImageAlpha(100);
+                break;
+            case STATE_OPEN:
+                holder.background.setImageAlpha(100);
+                break;
+            case STATE_PASS:
+                break;
+            case STATE_FAIL:
+        }
+    }
+
+    private void setBackgroundImage(ImageView background, String imageUrl) {
+        Picasso.with(background.getContext())
+                .load(imageUrl)
+                .fit()
+                .into(background);
+    }
+
+    public void setListItems(List<StoryboardFrameListItem> listItems) {
         this.listItems = listItems;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.question_title) TextView title;
-        @InjectView(R.id.question_state) TextView state;
-        @InjectView(R.id.question_given_answer) TextView givenAnswer;
-        @InjectView(R.id.see_question_button) Button seeQuestionButton;
-        @InjectView(R.id.make_question_button) Button makeQuestionButton;
+        @InjectView(R.id.title) TextView title;
+        @InjectView(R.id.state) ImageButton state;
+        @InjectView(R.id.background_view) ImageView background;
 
-        private String questionKey;
+        private String key;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
 
-        public void setQuestionKey(String questionKey) {
-            this.questionKey = questionKey;
+        public void setKey(String key) {
+            this.key = key;
         }
 
-        @OnClick(R.id.see_question_button)
-        public void onSeeQuestionButtonClicked() {
-            bus.post(new SeeQuestionButtonClicked(questionKey));
-        }
-
-        @OnClick(R.id.make_question_button)
-        public void onMakeQuestionButtonClicked() {
-            bus.post(new MakeQuestionButtonClicked(questionKey));
+        @OnClick(R.id.storyboard_frame_list_item)
+        public void onStoryboardFrameListItemClicked() {
+            bus.post(new StoryboardFrameListItemClicked(key));
         }
 
     }

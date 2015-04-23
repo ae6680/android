@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import rx.functions.Func1;
 
-import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
+import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
@@ -39,7 +39,7 @@ public class QuestionListCursorParser implements Func1<Query, List<Question>> {
 
         question.setKey(c.getString(c.getColumnIndex(KEY)));
         question.setTitle(c.getString(c.getColumnIndex(TITLE)));
-        question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
+        question.setBackgroundImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
 
         return question;
     }

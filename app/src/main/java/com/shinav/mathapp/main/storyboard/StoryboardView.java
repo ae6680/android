@@ -15,8 +15,8 @@ import butterknife.InjectView;
 
 public class StoryboardView extends ButterKnifeLayout {
 
-    @InjectView(R.id.storyboard_frame_card_recycler_view)
-    StoryboardFrameCardRecyclerView storyboardFrameCardRecyclerView;
+    @InjectView(R.id.storyboard_frame_recycler_view)
+    StoryboardFrameRecyclerView storyboardFrameRecyclerView;
 
     @Inject
     public StoryboardView(@ForActivity Context context) {
@@ -38,8 +38,8 @@ public class StoryboardView extends ButterKnifeLayout {
         inflate(R.layout.storyboard_view, this, true);
     }
 
-    public void setListItems(List<StoryboardListItem> listItems) {
-        storyboardFrameCardRecyclerView.setListItems(listItems);
+    public void setListItems(List<StoryboardFrameListItem> listItems) {
+        storyboardFrameRecyclerView.setListItems(listItems);
     }
 
 }
