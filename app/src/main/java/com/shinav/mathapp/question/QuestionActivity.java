@@ -23,6 +23,7 @@ import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
 import com.shinav.mathapp.db.dataMapper.GivenAnswerMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
@@ -81,6 +82,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
     @Inject QuestionExplanationRepository questionExplanationRepository;
 
+    @Inject QuestionMapper questionMapper;
     @Inject GivenAnswerMapper givenAnswerMapper;
     @Inject BackgroundLoader backgroundLoader;
 
@@ -228,6 +230,7 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView.setSubmitButtonEnabled(false);
 
         saveGivenAnswer(event.getAnswer());
+        updateProgressState(event.getAnswer());
     }
 
     private void saveGivenAnswer(String answer) {
@@ -237,6 +240,17 @@ public class QuestionActivity extends ActionBarActivity {
         givenAnswer.setValue(answer);
 
         givenAnswerMapper.insert(givenAnswer);
+    }
+
+    private void updateProgressState(String answer) {
+        if (answer.equals(question.getAnswer())) {
+            question.setProgressState(Question.STATE_PASSED);
+        } else {
+            question.setProgressState(Question.STATE_FAILED);
+        }
+        question.setTitle("HOI");
+
+        questionMapper.update(question);
     }
 
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {

@@ -72,6 +72,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Question.ANSWER + " TEXT,"
                         + Question.ANNEX_IMAGE_URL + " TEXT,"
                         + Question.BACKGROUND_IMAGE_URL + " TEXT,"
+                        + Question.PROGRESS_STATE + " INTEGER,"
                         + " UNIQUE (" + Question.KEY + ") ON CONFLICT REPLACE)"
         );
 
@@ -93,7 +94,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Tables.QuestionApproachPart.KEY + " TEXT,"
                         + Tables.QuestionApproachPart.QUESTION_APPROACH_KEY + " TEXT,"
                         + Tables.QuestionApproachPart.VALUE + " TEXT,"
-                        + Tables.QuestionApproachPart.POSITION + " INTEGER,"
+                        + Tables.QuestionApproachPart.POSITION + " INTEGER NOT NULL DEFAULT(0),"
                         + " UNIQUE (" + Tables.QuestionApproachPart.KEY + ") ON CONFLICT REPLACE)"
         );
 

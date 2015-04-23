@@ -2,6 +2,11 @@ package com.shinav.mathapp.db.pojo;
 
 public class Question {
 
+    public static final int STATE_CLOSED = 0;
+    public static final int STATE_OPENED = 1;
+    public static final int STATE_PASSED = 2;
+    public static final int STATE_FAILED = 3;
+
     private String key;
 
     private String value;
@@ -9,6 +14,7 @@ public class Question {
     private String answer;
     private String annexImageUrl;
     private String backgroundImageUrl;
+    private int progressState;
 
     public String getKey() {
         return key;
@@ -56,5 +62,13 @@ public class Question {
 
     public void setBackgroundImageUrl(String backgroundImageUrl) {
         this.backgroundImageUrl = backgroundImageUrl;
+    }
+
+    public int getProgressState() {
+        return progressState;
+    }
+
+    public void setProgressState(int progressState) {
+        this.progressState = progressState;
     }
 }

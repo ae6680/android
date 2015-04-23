@@ -22,6 +22,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Question question = firebaseParser.parseQuestion(dataSnapshot);
         questionMapper.insert(question);
+
         Timber.d("Firebase added a Question");
     }
 

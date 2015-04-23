@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
             toolbar.setTitle(getResources().getString(R.string.choose_character));
 
             // Wait 5 seconds to load the data the first time.
-            Observable.timer(0, TimeUnit.MILLISECONDS)
+            Observable.timer(5000, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Long>() {
                         @Override public void call(Long aLong) {
@@ -155,28 +155,26 @@ public class MainActivity extends ActionBarActivity {
 
                         List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
-//                        for (final Question question : questions) {
-                        for (int i = 0; i < 50; i++) {
-                            final Question question = questions.get(0);
+                        for (final Question question : questions) {
 
                             listItems.add(new StoryboardFrameListItem() {
 
-                                        @Override public String getKey() {
-                                            return question.getKey();
-                                        }
+                                              @Override public String getKey() {
+                                                  return question.getKey();
+                                              }
 
-                                        @Override public String getTitle() {
-                                            return question.getTitle();
-                                        }
+                                              @Override public String getTitle() {
+                                                  return question.getTitle();
+                                              }
 
-                                        @Override public int getState() {
-                                            return -1;
-                                        }
+                                              @Override public int getState() {
+                                                  return question.getProgressState();
+                                              }
 
-                                        @Override public String getBackgroundImage() {
-                                            return question.getBackgroundImageUrl();
-                                        }
-                                    }
+                                              @Override public String getBackgroundImage() {
+                                                  return question.getBackgroundImageUrl();
+                                              }
+                                          }
                             );
                         }
 

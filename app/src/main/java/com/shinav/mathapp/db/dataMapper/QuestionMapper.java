@@ -11,6 +11,7 @@ import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Question.PROGRESS_STATE;
 import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
@@ -31,6 +32,7 @@ public class QuestionMapper {
         values.put(ANSWER, question.getAnswer());
         values.put(ANNEX_IMAGE_URL, question.getAnnexImageUrl());
         values.put(BACKGROUND_IMAGE_URL, question.getBackgroundImageUrl());
+        values.put(PROGRESS_STATE, question.getProgressState());
 
         return values;
     }

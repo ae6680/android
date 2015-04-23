@@ -13,6 +13,7 @@ import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Question.PROGRESS_STATE;
 import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 
@@ -74,7 +75,11 @@ public class QuestionRepository {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT " +
-                        KEY + ", " + TITLE + ", " + BACKGROUND_IMAGE_URL + " FROM " + TABLE_NAME +
+                        KEY + ", " +
+                        TITLE + ", " +
+                        BACKGROUND_IMAGE_URL + ", " +
+                        PROGRESS_STATE +
+                        " FROM " + TABLE_NAME +
                         " WHERE " + KEY + " IN ('" + questionKeys + "')"
         ).map(listParser).first().subscribe(action);
     }

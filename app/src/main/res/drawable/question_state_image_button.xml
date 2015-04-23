@@ -3,6 +3,10 @@
           xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        app:state_closed="true"
+        android:drawable="@drawable/question_progress_state_closed"/>
+
+    <item
         app:state_opened="true"
         android:drawable="@drawable/question_progress_state_opened"/>
 
@@ -13,9 +17,5 @@
     <item
         app:state_failed="true"
         android:drawable="@drawable/question_progress_state_failed"/>
-
-    <item
-        app:state_closed="true"
-        android:drawable="@drawable/question_progress_state_closed"/>
 
 </selector>
