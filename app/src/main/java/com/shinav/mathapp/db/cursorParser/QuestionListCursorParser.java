@@ -25,11 +25,11 @@ public class QuestionListCursorParser implements Func1<Query, List<Question>> {
     @Override public List<Question> call(Query query) {
         Cursor c = query.run();
         try {
-            List<Question> storyProgressParts = new ArrayList<>(c.getCount());
+            List<Question> questions = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
-                storyProgressParts.add(fromCursor(c));
+                questions.add(fromCursor(c));
             }
-            return storyProgressParts;
+            return questions;
         } finally {
             c.close();
         }

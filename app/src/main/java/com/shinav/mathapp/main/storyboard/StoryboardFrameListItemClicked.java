@@ -2,14 +2,14 @@ package com.shinav.mathapp.main.storyboard;
 
 public class StoryboardFrameListItemClicked {
 
-    private final String key;
+    private final String frameTypeKey;
 
-    public StoryboardFrameListItemClicked(String key) {
-        this.key = key;
+    public StoryboardFrameListItemClicked(String frameTypeKey) {
+        this.frameTypeKey = frameTypeKey;
     }
 
-    public String getKey() {
-        return key;
+    public String getFrameTypeKey() {
+        return frameTypeKey;
     }
 
 }

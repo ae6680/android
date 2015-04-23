@@ -31,7 +31,7 @@ public class ConversationCursorParser implements Func1<Query, Conversation> {
         }
     }
 
-    private Conversation fromCursor(Cursor c) {
+    public Conversation fromCursor(Cursor c) {
         Conversation conversation = new Conversation();
 
         conversation.setKey(c.getString(c.getColumnIndex(KEY)));

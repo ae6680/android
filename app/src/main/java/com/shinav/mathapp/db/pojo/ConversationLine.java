@@ -83,7 +83,7 @@ public class ConversationLine implements Comparable<ConversationLine> {
     }
 
     @Override public int compareTo(@NonNull ConversationLine another) {
-        return (getPosition() - another.getPosition());
+        return getPosition() - another.getPosition();
     }
 
 }

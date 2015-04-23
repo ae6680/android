@@ -23,10 +23,10 @@ import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.questionApproach.BackgroundLoader;
 import com.shinav.mathapp.questionApproach.QuestionSimpleCardView;
-import com.shinav.mathapp.storytelling.StorytellingService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -201,11 +201,8 @@ public class QAFActivity extends ActionBarActivity {
     }
 
     public void next() {
-        Intent intent = new Intent(this, StorytellingService.class);
-
-        intent.setAction(StorytellingService.ACTION_NEXT);
-
-        startService(intent);
+        Intent intent = getIntent().setClass(this, QuestionActivity.class);
+        startActivity(intent);
     }
 
     @Override

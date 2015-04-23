@@ -255,7 +255,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
         Intent intent = new Intent(this, StorytellingService.class);
 
-        intent.setAction(StorytellingService.ACTION_NEXT);
+        intent.setAction(StorytellingService.ACTION_NEXT_FROM);
+        intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, question.getKey());
 
         startService(intent);
     }

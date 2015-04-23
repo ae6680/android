@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
@@ -29,39 +30,6 @@ public class QuestionRepository {
     @Inject
     public QuestionRepository() { }
 
-//    public void get(String questionKey, Action1<Question> action) {
-//
-//        Observable<Question> questionObservable = get(questionKey);
-//        Observable<Approach> approachObservable = approachRepository.get(questionKey);
-//
-//        Observable.combineLatest(questionObservable, approachObservable, new Func2<Question, Approach, Question>() {
-//            @Override public Question call(Question question, Approach approach) {
-//
-//                question.setApproach(approach);
-//
-//                return question;
-//            }
-//        })
-//                .map(new Func1<Question, Object>() {
-//                    @Override public Question call(final Question question) {
-//
-//                        approachPartRepository.getApproachParts(question.get().getKey()).first().map(new Func1<List<ApproachPart>, Object>() {
-//                            @Override public Object call(List<ApproachPart> approachParts) {
-//
-//                                question.get().setApproachParts(approachParts);
-//
-//                                return null;
-//                            }
-//                        });
-//
-//                        return question;
-//
-//                    }
-//                })
-//                .subscribe(action);
-//
-//    }
-
     public void get(String questionKey, Action1<Question> action) {
         db.createQuery(
                 TABLE_NAME,
@@ -71,8 +39,8 @@ public class QuestionRepository {
         ).map(parser).first().subscribe(action);
     }
 
-    public void getCollection(String questionKeys, Action1<List<Question>> action) {
-        db.createQuery(
+    public Observable<List<Question>> getCollection(String questionKeys) {
+        return db.createQuery(
                 TABLE_NAME,
                 "SELECT " +
                         KEY + ", " +
@@ -81,6 +49,6 @@ public class QuestionRepository {
                         PROGRESS_STATE +
                         " FROM " + TABLE_NAME +
                         " WHERE " + KEY + " IN ('" + questionKeys + "')"
-        ).map(listParser).first().subscribe(action);
+        ).map(listParser).first();
     }
 }
