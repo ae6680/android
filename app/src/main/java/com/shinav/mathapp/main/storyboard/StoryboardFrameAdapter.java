@@ -76,7 +76,6 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     private void setBackgroundImage(ImageView background, String imageUrl) {
         Picasso.with(background.getContext())
                 .load(imageUrl)
-                .fit()
                 .into(background);
     }
 

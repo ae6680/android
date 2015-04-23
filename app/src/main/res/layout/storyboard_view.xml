@@ -5,11 +5,8 @@
 
     <com.shinav.mathapp.main.storyboard.StoryboardFrameRecyclerView
         android:id="@+id/storyboard_frame_recycler_view"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:paddingTop="@dimen/default_margin"
-        android:paddingBottom="@dimen/default_margin"
-        android:clipToPadding="true"
+        android:padding="@dimen/default_margin"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
