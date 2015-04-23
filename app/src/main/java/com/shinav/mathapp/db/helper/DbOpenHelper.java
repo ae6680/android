@@ -94,7 +94,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Tables.QuestionApproachPart.KEY + " TEXT,"
                         + Tables.QuestionApproachPart.QUESTION_APPROACH_KEY + " TEXT,"
                         + Tables.QuestionApproachPart.VALUE + " TEXT,"
-                        + Tables.QuestionApproachPart.POSITION + " INTEGER NOT NULL DEFAULT(0),"
+                        + Tables.QuestionApproachPart.POSITION + " INTEGER,"
                         + " UNIQUE (" + Tables.QuestionApproachPart.KEY + ") ON CONFLICT REPLACE)"
         );
 

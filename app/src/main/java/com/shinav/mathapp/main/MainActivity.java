@@ -87,12 +87,6 @@ public class MainActivity extends ActionBarActivity {
         bus.unregister(this);
     }
 
-//   Temporary to reset tutorial
-//    @Override protected void onDestroy() {
-//        sharedPreferences.edit().clear().apply();
-//        super.onDestroy();
-//    }
-
     @Override protected void onResume() {
         super.onResume();
         loadStoryboardFrames();
@@ -135,10 +129,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void loadStoryboardFrames(Storyboard storyboard) {
 
-        Observable<List<StoryboardFrame>> observable =
-                storyboardFrameRepository.getQuestionFrames(storyboard.getKey()).first();
-
-        observable.subscribe(new Action1<List<StoryboardFrame>>() {
+        storyboardFrameRepository.getQuestionFrames(storyboard.getKey(), new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
 
                 List<String> questionKeys = new ArrayList<>();
@@ -210,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    @Subscribe public void onMakeQuestionButtonClicked(StoryboardFrameListItemClicked event) {
+    @Subscribe public void onStoryboardFrameListItemClicked(StoryboardFrameListItemClicked event) {
         Intent intent = new Intent(this, QuestionActivity.class);
         intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, event.getKey());
         startActivity(intent);

@@ -248,7 +248,6 @@ public class QuestionActivity extends ActionBarActivity {
         } else {
             question.setProgressState(Question.STATE_FAILED);
         }
-        question.setTitle("HOI");
 
         questionMapper.update(question);
     }

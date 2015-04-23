@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.FRAME_TYPE;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.STORYBOARD_KEY;
@@ -25,23 +25,23 @@ public class StoryboardFrameRepository {
     @Inject
     public StoryboardFrameRepository() { }
 
-    public Observable<List<StoryboardFrame>> getByStoryboardKey(String storyboardKey) {
-        return db.createQuery(
+    public void getByStoryboardKey(String storyboardKey, Action1<List<StoryboardFrame>> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + STORYBOARD_KEY + " = ?",
                 storyboardKey
-        ).map(parser);
+        ).map(parser).first().subscribe(action);
     }
 
-    public Observable<List<StoryboardFrame>> getQuestionFrames(String storyboardKey) {
-        return db.createQuery(
+    public void getQuestionFrames(String storyboardKey, Action1<List<StoryboardFrame>> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + STORYBOARD_KEY + " = ?" +
                         " AND " + FRAME_TYPE + " = ?"
                 , storyboardKey
                 , FRAME_TYPE_QUESTION
-        ).map(parser);
+        ).map(parser).first().subscribe(action);
     }
 }
