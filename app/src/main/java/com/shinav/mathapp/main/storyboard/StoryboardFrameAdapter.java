@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +21,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_FAIL;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPEN;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_PASS;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_FAILED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_PASSED;
 
 public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameAdapter.ViewHolder> {
 
@@ -62,14 +61,21 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     private void setState(ViewHolder holder, int state) {
         switch (state) {
             case STATE_CLOSED:
+                holder.state.setClosed(true);
                 holder.background.setImageAlpha(100);
                 break;
-            case STATE_OPEN:
+            case STATE_OPENED:
+                holder.state.setOpened(true);
                 holder.background.setImageAlpha(100);
                 break;
-            case STATE_PASS:
+            case STATE_PASSED:
+                holder.state.setPassed(true);
+                holder.background.setImageAlpha(255);
                 break;
-            case STATE_FAIL:
+            case STATE_FAILED:
+                holder.state.setFailed(true);
+                holder.background.setImageAlpha(255);
+                break;
         }
     }
 
@@ -87,7 +93,7 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.title) TextView title;
-        @InjectView(R.id.state) ImageButton state;
+        @InjectView(R.id.state) QuestionStateImageButton state;
         @InjectView(R.id.background_view) ImageView background;
 
         private String key;
