@@ -24,8 +24,13 @@ import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_C
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_FAILED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_PASSED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CONVERSATION;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
-public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameAdapter.ViewHolder> {
+public class StoryboardFrameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static final int VIEW_TYPE_CONVERSATION = 0;
+    public static final int VIEW_TYPE_QUESTION = 1;
 
     @Inject Bus bus;
 
@@ -33,50 +38,111 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
     @Inject public StoryboardFrameAdapter() { }
 
-    @Override public StoryboardFrameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.storyboard_list_item, parent, false);
+    @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new ViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view;
+
+        switch (viewType) {
+            case VIEW_TYPE_QUESTION:
+                view = inflater.inflate(R.layout.storyboard_list_item_question, parent, false);
+                return new QuestionViewHolder(view);
+            case VIEW_TYPE_CONVERSATION:
+                view = inflater.inflate(R.layout.storyboard_list_item_conversation, parent, false);
+                return new ConversationViewHolder(view);
+        }
+
+        return null;
     }
 
-    @Override public void onBindViewHolder(StoryboardFrameAdapter.ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         StoryboardFrameListItem listItem = listItems.get(position);
 
-        holder.setKey(listItem.getKey());
+        switch (listItem.getType()) {
+            case TYPE_QUESTION:
+                QuestionViewHolder questionHolder = (QuestionViewHolder) holder;
 
-        setTitle(holder.title, listItem.getTitle());
-        setState(holder, listItem.getState());
-        setBackgroundImage(holder.background, listItem.getBackgroundImage());
+                questionHolder.setKey(listItem.getKey());
+                setTitle(questionHolder.title, listItem.getTitle());
+                setBackgroundImage(questionHolder.background, listItem.getBackgroundImage());
+
+                setQuestionState(questionHolder, listItem.getState());
+
+                break;
+            case TYPE_CONVERSATION:
+                ConversationViewHolder conversationHolder = (ConversationViewHolder) holder;
+
+                conversationHolder.setKey(listItem.getKey());
+                setTitle(conversationHolder.title, listItem.getTitle());
+                setBackgroundImage(conversationHolder.background, listItem.getBackgroundImage());
+
+                setConversationState(conversationHolder, listItem.getState());
+        }
+
     }
 
     @Override public int getItemCount() {
         return listItems.size();
     }
 
+    @Override public int getItemViewType(int position) {
+        StoryboardFrameListItem listItem = listItems.get(position);
+
+        switch (listItem.getType()) {
+            case TYPE_QUESTION:
+                return VIEW_TYPE_QUESTION;
+            case TYPE_CONVERSATION:
+                return VIEW_TYPE_CONVERSATION;
+        }
+
+        return super.getItemViewType(position);
+    }
+
+
     private void setTitle(TextView title, String text) {
         title.setText(text);
     }
 
-    private void setState(ViewHolder holder, int state) {
+    private void setQuestionState(QuestionViewHolder holder, int state) {
         switch (state) {
             case STATE_CLOSED:
                 holder.state.setClosed(true);
-                holder.background.setImageAlpha(100);
+                showBackgroundDarkened(holder.background);
                 break;
             case STATE_OPENED:
                 holder.state.setOpened(true);
-                holder.background.setImageAlpha(100);
+                showBackgroundDarkened(holder.background);
                 break;
             case STATE_PASSED:
                 holder.state.setPassed(true);
-                holder.background.setImageAlpha(255);
+                showBackgroundLightened(holder.background);
                 break;
             case STATE_FAILED:
                 holder.state.setFailed(true);
-                holder.background.setImageAlpha(255);
+                showBackgroundLightened(holder.background);
                 break;
         }
+    }
+
+    private void setConversationState(ConversationViewHolder holder, int state) {
+        switch (state) {
+            case STATE_CLOSED:
+                holder.state.setClosed(true);
+                showBackgroundDarkened(holder.background);
+                break;
+            case STATE_OPENED:
+                holder.state.setOpened(true);
+                showBackgroundLightened(holder.background);
+                break;
+        }
+    }
+
+    private void showBackgroundLightened(ImageView background) {
+        background.setImageAlpha(255);
+    }
+
+    private void showBackgroundDarkened(ImageView background) {
+        background.setImageAlpha(100);
     }
 
     private void setBackgroundImage(ImageView background, String imageUrl) {
@@ -90,7 +156,7 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class QuestionViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.title) TextView title;
         @InjectView(R.id.state) QuestionStateImageButton state;
@@ -98,7 +164,31 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
         private String key;
 
-        public ViewHolder(View itemView) {
+        public QuestionViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        @OnClick(R.id.storyboard_frame_list_item)
+        public void onStoryboardFrameListItemClicked() {
+            bus.post(new StoryboardFrameListItemClicked(key));
+        }
+
+    }
+
+    public class ConversationViewHolder extends RecyclerView.ViewHolder {
+
+        @InjectView(R.id.title) TextView title;
+        @InjectView(R.id.state) ConversationStateImageButton state;
+        @InjectView(R.id.background_view) ImageView background;
+
+        private String key;
+
+        public ConversationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
         }

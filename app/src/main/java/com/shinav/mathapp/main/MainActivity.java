@@ -48,6 +48,7 @@ import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -170,6 +171,10 @@ public class MainActivity extends ActionBarActivity {
                                                           return question.getKey();
                                                       }
 
+                                                      @Override public String getType() {
+                                                          return StoryboardFrameListItem.TYPE_QUESTION;
+                                                      }
+
                                                       @Override public String getTitle() {
                                                           return question.getTitle();
                                                       }
@@ -208,6 +213,10 @@ public class MainActivity extends ActionBarActivity {
 
                                                       @Override public String getKey() {
                                                           return conversation.getKey();
+                                                      }
+
+                                                      @Override public String getType() {
+                                                          return StoryboardFrameListItem.TYPE_CONVERSATION;
                                                       }
 
                                                       @Override public String getTitle() {
@@ -264,6 +273,43 @@ public class MainActivity extends ActionBarActivity {
             for (StoryboardFrameListItem frameListItem : storyboardFrameListItems) {
                 int index = frameObjectKeys.indexOf(frameListItem.getKey());
                 listItems.add(index, frameListItem);
+            }
+
+            for (StoryboardFrameListItem listItem : listItems) {
+
+                if (listItem.getState() == StoryboardFrameListItem.STATE_CLOSED) {
+
+                    final StoryboardFrameListItem finalListItem = listItem;
+                    listItem = new StoryboardFrameListItem() {
+                        @Override public String getKey() {
+                            return finalListItem.getKey();
+                        }
+
+                        @Override public String getType() {
+                            return finalListItem.getType();
+                        }
+
+                        @Override public String getTitle() {
+                            return finalListItem.getTitle();
+                        }
+
+                        @Override public int getState() {
+                            return StoryboardFrameListItem.STATE_OPENED;
+                        }
+
+                        @Override public String getBackgroundImage() {
+                            return finalListItem.getBackgroundImage();
+                        }
+
+                    };
+
+                    // Make every frame open until next question
+                    if (listItem.getType().equals(TYPE_QUESTION)) {
+                        break;
+                    }
+
+                }
+
             }
 
             storyboardView.setListItems(listItems);
