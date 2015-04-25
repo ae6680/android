@@ -1,6 +1,8 @@
-package com.shinav.mathapp.main.storyboard;
+package com.shinav.mathapp.main.storyboard.viewHolder;
 
 import android.view.View;
+
+import com.shinav.mathapp.main.storyboard.viewHolder.stateButton.QuestionStateImageButton;
 
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_FAILED;

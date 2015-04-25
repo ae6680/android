@@ -2,15 +2,13 @@ package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
 
-import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
-import com.shinav.mathapp.db.dataMapper.StoryProgressPartMapper;
+import com.shinav.mathapp.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.QuestionActivity;
-import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -19,8 +17,6 @@ import javax.inject.Inject;
 public class TutorialQuestionActivity extends QuestionActivity {
 
     @Inject Bus bus;
-    @Inject StoryProgressMapper storyProgressMapper;
-    @Inject StoryProgressPartMapper storyProgressPartMapper;
 
     @Override public void registerBus() {
         bus.register(this);

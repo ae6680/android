@@ -1,10 +1,10 @@
-package com.shinav.mathapp.main.storyboard;
+package com.shinav.mathapp.event;
 
-public class StoryboardFrameListItemClicked {
+public class StoryboardFrameListItemClickedEvent {
 
     private final String frameTypeKey;
 
-    public StoryboardFrameListItemClicked(String frameTypeKey) {
+    public StoryboardFrameListItemClickedEvent(String frameTypeKey) {
         this.frameTypeKey = frameTypeKey;
     }
 

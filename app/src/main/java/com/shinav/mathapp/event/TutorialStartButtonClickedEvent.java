@@ -1,10 +1,10 @@
 package com.shinav.mathapp.event;
 
-public class TutorialStartButtonClicked {
+public class TutorialStartButtonClickedEvent {
 
     private final int resourceId;
 
-    public TutorialStartButtonClicked(int resourceId) {
+    public TutorialStartButtonClickedEvent(int resourceId) {
         this.resourceId = resourceId;
     }
 

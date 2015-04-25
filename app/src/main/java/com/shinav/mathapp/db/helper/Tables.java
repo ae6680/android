@@ -102,22 +102,6 @@ public interface Tables {
         String IMAGE_URL = "image_url";
     }
 
-    public interface StoryProgress {
-        String TABLE_NAME = "story_progress";
-        String KEY = "key";
-    }
-
-    public interface StoryProgressPart {
-        String TABLE_NAME = "story_progress_part";
-        String KEY = "key";
-
-        String STORY_PROGRESS_KEY = "story_progress_key";
-
-        String QUESTION_KEY = "question_key";
-        String STATE = "state";
-        String TITLE = "title";
-    }
-
     public interface Tutorial {
         String TABLE_NAME = "tutorial";
         String KEY = "key";

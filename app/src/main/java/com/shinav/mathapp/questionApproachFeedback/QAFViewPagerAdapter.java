@@ -1,4 +1,4 @@
-package com.shinav.mathapp.questionApproach.feedback;
+package com.shinav.mathapp.questionApproachFeedback;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

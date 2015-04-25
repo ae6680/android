@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main.storyboard;
+package com.shinav.mathapp.main.storyboard.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
+import com.shinav.mathapp.event.StoryboardFrameListItemClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
@@ -65,7 +66,7 @@ public abstract class StoryboardFrameViewHolder extends RecyclerView.ViewHolder 
     @OnClick(R.id.storyboard_frame_list_item)
     public void onStoryboardFrameListItemClicked() {
         if (currentState != STATE_CLOSED) {
-            bus.post(new StoryboardFrameListItemClicked(key));
+            bus.post(new StoryboardFrameListItemClickedEvent(key));
         }
     }
 

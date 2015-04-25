@@ -9,7 +9,7 @@ import java.util.List;
 
 import rx.functions.Func3;
 
-class StoryboardFramesReady implements Func3<
+class StoryboardFramesReadyFunc implements Func3<
         List<StoryboardFrame>,
         List<StoryboardFrameListItem>,
         List<StoryboardFrameListItem>,

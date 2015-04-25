@@ -1,4 +1,4 @@
-package com.shinav.mathapp.questionApproach;
+package com.shinav.mathapp.image;
 
 import android.content.Context;
 import android.widget.ImageView;

@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.shinav.mathapp.questionApproach.feedback.QAFViewPager
+    <com.shinav.mathapp.questionApproachFeedback.QAFViewPager
         android:id="@+id/feedback_view_pager"
         android:layout_above="@+id/indicator_container"
         android:overScrollMode="never"

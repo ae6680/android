@@ -21,9 +21,10 @@ import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
+import com.shinav.mathapp.image.BackgroundLoader;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
-import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
+import com.shinav.mathapp.questionApproachFeedback.QAFActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.dataMapper.StoryProgressMapper;
 import com.shinav.mathapp.db.pojo.Conversation;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
@@ -19,10 +18,10 @@ import com.shinav.mathapp.db.repository.ConversationRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
+import com.shinav.mathapp.event.StoryboardFrameListItemClickedEvent;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameListItem;
-import com.shinav.mathapp.main.storyboard.StoryboardFrameListItemClicked;
 import com.shinav.mathapp.main.storyboard.StoryboardView;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.shinav.mathapp.tab.TabsView;
@@ -56,8 +55,6 @@ public class MainActivity extends ActionBarActivity {
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
     @Inject SharedPreferences sharedPreferences;
-
-    @Inject StoryProgressMapper storyProgressMapper;
 
     @Inject StoryboardView storyboardView;
 
@@ -154,7 +151,8 @@ public class MainActivity extends ActionBarActivity {
 
                 Observable<List<StoryboardFrameListItem>> questionFramesObservable =
                         questionObservable.map(new Func1<List<Question>, List<StoryboardFrameListItem>>() {
-                            @Override public List<StoryboardFrameListItem> call(List<Question> questions) {
+                            @Override
+                            public List<StoryboardFrameListItem> call(List<Question> questions) {
 
                                 List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
@@ -237,7 +235,7 @@ public class MainActivity extends ActionBarActivity {
                         framesObservable,
                         questionFramesObservable,
                         conversationFramesObservable,
-                        new StoryboardFramesReady()
+                        new StoryboardFramesReadyFunc()
                 ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
                     @Override
                     public void call(List<StoryboardFrameListItem> listItems) {
@@ -273,7 +271,7 @@ public class MainActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    @Subscribe public void onStoryboardFrameListItemClicked(StoryboardFrameListItemClicked event) {
+    @Subscribe public void onStoryboardFrameListItemClicked(StoryboardFrameListItemClickedEvent event) {
         Intent intent = new Intent(this, StorytellingService.class);
 
         intent.setAction(StorytellingService.ACTION_START_FROM);

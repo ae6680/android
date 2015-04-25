@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.TutorialStartButtonClicked;
+import com.shinav.mathapp.event.TutorialStartButtonClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
@@ -101,7 +101,7 @@ public class TutorialView extends ButterKnifeLayout {
                     break;
             }
 
-            bus.post(new TutorialStartButtonClicked(resourceId));
+            bus.post(new TutorialStartButtonClickedEvent(resourceId));
         }
     }
 

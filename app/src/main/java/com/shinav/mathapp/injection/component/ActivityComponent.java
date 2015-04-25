@@ -7,7 +7,7 @@ import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
-import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
+import com.shinav.mathapp.questionApproachFeedback.QAFActivity;
 import com.shinav.mathapp.tutorial.TutorialActivity;
 import com.shinav.mathapp.tutorial.TutorialConversationActivity;
 import com.shinav.mathapp.tutorial.TutorialQAFActivity;

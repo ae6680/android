@@ -1,4 +1,4 @@
-package com.shinav.mathapp.questionApproach.feedback;
+package com.shinav.mathapp.questionApproachFeedback;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

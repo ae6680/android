@@ -6,13 +6,13 @@ import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameRecyclerView;
-import com.shinav.mathapp.main.storyboard.StoryboardFrameViewHolder;
+import com.shinav.mathapp.main.storyboard.viewHolder.StoryboardFrameViewHolder;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
-import com.shinav.mathapp.questionApproach.feedback.QAFViewPager;
-import com.shinav.mathapp.questionApproach.feedback.QAFViewPagerPage;
+import com.shinav.mathapp.questionApproachFeedback.QAFViewPager;
+import com.shinav.mathapp.questionApproachFeedback.QAFViewPagerPage;
 import com.shinav.mathapp.tab.TabsView;
 import com.shinav.mathapp.tutorial.TutorialView;
 

@@ -3,7 +3,7 @@ package com.shinav.mathapp.tutorial;
 import android.content.Intent;
 
 import com.shinav.mathapp.injection.component.Injector;
-import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
+import com.shinav.mathapp.questionApproachFeedback.QAFActivity;
 
 public class TutorialQAFActivity extends QAFActivity {
 

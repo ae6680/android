@@ -1,4 +1,4 @@
-package com.shinav.mathapp.question.event;
+package com.shinav.mathapp.event;
 
 public class OnAnswerFieldClickedEvent {
 }

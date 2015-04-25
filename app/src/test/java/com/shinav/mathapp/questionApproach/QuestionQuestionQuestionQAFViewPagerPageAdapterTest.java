@@ -1,7 +1,7 @@
 package com.shinav.mathapp.questionApproach;
 
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.questionApproach.feedback.QAFViewPagerPageAdapter;
+import com.shinav.mathapp.questionApproachFeedback.QAFViewPagerPageAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,20 +34,19 @@ public class QuestionQuestionQuestionQAFViewPagerPageAdapterTest {
 
         adapter.setQuestionApproachParts(Arrays.asList(questionApproachPart));
 
-        assertThat(adapter.isCorrect(pos1), is(true));
+        assertThat(adapter.isCorrect(questionApproachPart), is(true));
     }
 
     @Test
     public void testIncorrectWhenPositionNotEqualsItemPosition() throws Exception {
         int approachPosition = 1;
-        int pos1 = 0;
 
         QuestionApproachPart questionApproachPart = new QuestionApproachPart();
         questionApproachPart.setPosition(approachPosition);
 
         adapter.setQuestionApproachParts(Arrays.asList(questionApproachPart));
 
-        assertThat(adapter.isCorrect(pos1), is(false));
+        assertThat(adapter.isCorrect(questionApproachPart), is(false));
     }
 
 }

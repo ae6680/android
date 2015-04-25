@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.TutorialRepository;
-import com.shinav.mathapp.event.TutorialStartButtonClicked;
+import com.shinav.mathapp.event.TutorialStartButtonClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -61,7 +61,7 @@ public class TutorialActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    @Subscribe public void onTutorialStartButtonClicked(final TutorialStartButtonClicked event) {
+    @Subscribe public void onTutorialStartButtonClicked(final TutorialStartButtonClickedEvent event) {
 
         tutorialRepository.getFirst(new Action1<Tutorial>() {
             @Override public void call(Tutorial tutorial) {

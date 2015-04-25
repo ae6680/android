@@ -9,12 +9,17 @@ import com.shinav.mathapp.injection.annotation.ForApplication;
 import javax.inject.Inject;
 
 import static com.shinav.mathapp.db.helper.Tables.Conversation;
+import static com.shinav.mathapp.db.helper.Tables.ConversationLine;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
+import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach;
 import static com.shinav.mathapp.db.helper.Tables.Question;
+import static com.shinav.mathapp.db.helper.Tables.QuestionApproach;
+import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart;
 import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation;
-import static com.shinav.mathapp.db.helper.Tables.StoryProgress;
-import static com.shinav.mathapp.db.helper.Tables.StoryProgressPart;
+import static com.shinav.mathapp.db.helper.Tables.Storyboard;
+import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame;
 import static com.shinav.mathapp.db.helper.Tables.Tutorial;
+import static com.shinav.mathapp.db.helper.Tables.TutorialFrame;
 
 public class DbOpenHelper extends SQLiteOpenHelper {
 
@@ -52,9 +57,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         createConversationTable(db);
         createConversationLineTable(db);
 
-        createStoryProgressTable(db);
-        createStoryProgressPartTable(db);
-
         createTutorialTable(db);
         createTutorialFrameTable(db);
     }
@@ -80,37 +82,37 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createQuestionApproachTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.QuestionApproach.TABLE_NAME + " ("
-                        + Tables.QuestionApproach.KEY + " TEXT,"
-                        + Tables.QuestionApproach.QUESTION_KEY + " TEXT,"
-                        + " UNIQUE (" + Tables.QuestionApproach.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + QuestionApproach.TABLE_NAME + " ("
+                        + QuestionApproach.KEY + " TEXT,"
+                        + QuestionApproach.QUESTION_KEY + " TEXT,"
+                        + " UNIQUE (" + QuestionApproach.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.QuestionApproach.TABLE_NAME, Tables.QuestionApproach.KEY);
+        createIndex(db, QuestionApproach.TABLE_NAME, QuestionApproach.KEY);
     }
 
     private void createQuestionApproachPartTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.QuestionApproachPart.TABLE_NAME + " ("
-                        + Tables.QuestionApproachPart.KEY + " TEXT,"
-                        + Tables.QuestionApproachPart.QUESTION_APPROACH_KEY + " TEXT,"
-                        + Tables.QuestionApproachPart.VALUE + " TEXT,"
-                        + Tables.QuestionApproachPart.POSITION + " INTEGER,"
-                        + " UNIQUE (" + Tables.QuestionApproachPart.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + QuestionApproachPart.TABLE_NAME + " ("
+                        + QuestionApproachPart.KEY + " TEXT,"
+                        + QuestionApproachPart.QUESTION_APPROACH_KEY + " TEXT,"
+                        + QuestionApproachPart.VALUE + " TEXT,"
+                        + QuestionApproachPart.POSITION + " INTEGER,"
+                        + " UNIQUE (" + QuestionApproachPart.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.QuestionApproachPart.TABLE_NAME, Tables.QuestionApproachPart.KEY);
+        createIndex(db, QuestionApproachPart.TABLE_NAME, QuestionApproachPart.KEY);
     }
 
     private void createGivenApproachTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.GivenQuestionApproach.TABLE_NAME + " ("
-                        + Tables.GivenQuestionApproach.KEY + " TEXT,"
-                        + Tables.GivenQuestionApproach.QUESTION_APPROACH_KEY + " TEXT,"
-                        + Tables.GivenQuestionApproach.ARRANGEMENT + " TEXT,"
-                        + Tables.GivenQuestionApproach.GIVEN_AT + " INTEGER,"
-                        + " UNIQUE (" + Tables.GivenQuestionApproach.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + GivenQuestionApproach.TABLE_NAME + " ("
+                        + GivenQuestionApproach.KEY + " TEXT,"
+                        + GivenQuestionApproach.QUESTION_APPROACH_KEY + " TEXT,"
+                        + GivenQuestionApproach.ARRANGEMENT + " TEXT,"
+                        + GivenQuestionApproach.GIVEN_AT + " INTEGER,"
+                        + " UNIQUE (" + GivenQuestionApproach.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.GivenQuestionApproach.TABLE_NAME, Tables.GivenQuestionApproach.KEY);
+        createIndex(db, GivenQuestionApproach.TABLE_NAME, GivenQuestionApproach.KEY);
     }
 
     private void createGivenAnswerTable(SQLiteDatabase db) {
@@ -139,26 +141,26 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createStoryboardTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.Storyboard.TABLE_NAME + " ("
-                        + Tables.Storyboard.KEY + " TEXT,"
-                        + Tables.Storyboard.TITLE + " TEXT,"
-                        + " UNIQUE (" + Tables.Storyboard.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + Storyboard.TABLE_NAME + " ("
+                        + Storyboard.KEY + " TEXT,"
+                        + Storyboard.TITLE + " TEXT,"
+                        + " UNIQUE (" + Storyboard.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.Storyboard.TABLE_NAME, Tables.Storyboard.KEY);
+        createIndex(db, Storyboard.TABLE_NAME, Storyboard.KEY);
     }
 
     private void createStoryboardFrameTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.StoryboardFrame.TABLE_NAME + " ("
-                        + Tables.StoryboardFrame.KEY + " TEXT,"
-                        + Tables.StoryboardFrame.STORYBOARD_KEY + " TEXT,"
-                        + Tables.StoryboardFrame.FRAME_TYPE + " TEXT,"
-                        + Tables.StoryboardFrame.FRAME_TYPE_KEY + " TEXT,"
-                        + Tables.StoryboardFrame.POSITION + " INTEGER,"
-                        + " UNIQUE (" + Tables.StoryboardFrame.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + StoryboardFrame.TABLE_NAME + " ("
+                        + StoryboardFrame.KEY + " TEXT,"
+                        + StoryboardFrame.STORYBOARD_KEY + " TEXT,"
+                        + StoryboardFrame.FRAME_TYPE + " TEXT,"
+                        + StoryboardFrame.FRAME_TYPE_KEY + " TEXT,"
+                        + StoryboardFrame.POSITION + " INTEGER,"
+                        + " UNIQUE (" + StoryboardFrame.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.StoryboardFrame.TABLE_NAME, Tables.StoryboardFrame.KEY);
+        createIndex(db, StoryboardFrame.TABLE_NAME, StoryboardFrame.KEY);
     }
 
     private void createConversationTable(SQLiteDatabase db) {
@@ -173,41 +175,19 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createConversationLineTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.ConversationLine.TABLE_NAME + " ("
-                        + Tables.ConversationLine.KEY + " TEXT,"
-                        + Tables.ConversationLine.CONVERSATION_KEY + " TEXT,"
-                        + Tables.ConversationLine.VALUE + " TEXT,"
-                        + Tables.ConversationLine.DELAY + " INTEGER,"
-                        + Tables.ConversationLine.TYPING_DURATION + " INTEGER,"
-                        + Tables.ConversationLine.POSITION + " INTEGER,"
-                        + Tables.ConversationLine.ALIGNMENT + " INTEGER,"
-                        + Tables.ConversationLine.IMAGE_URL + " TEXT,"
-                        + " UNIQUE (" + Tables.ConversationLine.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + ConversationLine.TABLE_NAME + " ("
+                        + ConversationLine.KEY + " TEXT,"
+                        + ConversationLine.CONVERSATION_KEY + " TEXT,"
+                        + ConversationLine.VALUE + " TEXT,"
+                        + ConversationLine.DELAY + " INTEGER,"
+                        + ConversationLine.TYPING_DURATION + " INTEGER,"
+                        + ConversationLine.POSITION + " INTEGER,"
+                        + ConversationLine.ALIGNMENT + " INTEGER,"
+                        + ConversationLine.IMAGE_URL + " TEXT,"
+                        + " UNIQUE (" + ConversationLine.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.ConversationLine.TABLE_NAME, Tables.ConversationLine.KEY);
-    }
-
-    private void createStoryProgressTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + StoryProgress.TABLE_NAME + " ("
-                        + StoryProgress.KEY + " TEXT,"
-                        + " UNIQUE (" + StoryProgress.KEY + ") ON CONFLICT REPLACE)"
-        );
-
-        createIndex(db, StoryProgress.TABLE_NAME, StoryProgress.KEY);
-    }
-
-    private void createStoryProgressPartTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + StoryProgressPart.TABLE_NAME + " ("
-                        + StoryProgressPart.KEY + " TEXT,"
-                        + StoryProgressPart.STORY_PROGRESS_KEY + " TEXT,"
-                        + StoryProgressPart.QUESTION_KEY + " TEXT,"
-                        + StoryProgressPart.TITLE + " TEXT,"
-                        + StoryProgressPart.STATE + " INTEGER,"
-                        + " UNIQUE (" + StoryProgressPart.KEY + ") ON CONFLICT REPLACE)"
-        );
-
-        createIndex(db, StoryProgressPart.TABLE_NAME, StoryProgressPart.KEY);
+        createIndex(db, ConversationLine.TABLE_NAME, ConversationLine.KEY);
     }
 
     private void createTutorialTable(SQLiteDatabase db) {
@@ -221,16 +201,16 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createTutorialFrameTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.TutorialFrame.TABLE_NAME + " ("
-                        + Tables.TutorialFrame.KEY + " TEXT,"
-                        + Tables.TutorialFrame.TUTORIAL_KEY + " TEXT,"
-                        + Tables.TutorialFrame.FRAME_TYPE + " TEXT,"
-                        + Tables.TutorialFrame.FRAME_TYPE_KEY + " TEXT,"
-                        + Tables.TutorialFrame.POSITION + " INTEGER,"
-                        + " UNIQUE (" + Tables.TutorialFrame.KEY + ") ON CONFLICT REPLACE)"
+        db.execSQL("CREATE TABLE " + TutorialFrame.TABLE_NAME + " ("
+                        + TutorialFrame.KEY + " TEXT,"
+                        + TutorialFrame.TUTORIAL_KEY + " TEXT,"
+                        + TutorialFrame.FRAME_TYPE + " TEXT,"
+                        + TutorialFrame.FRAME_TYPE_KEY + " TEXT,"
+                        + TutorialFrame.POSITION + " INTEGER,"
+                        + " UNIQUE (" + TutorialFrame.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Tables.TutorialFrame.TABLE_NAME, Tables.TutorialFrame.KEY);
+        createIndex(db, TutorialFrame.TABLE_NAME, TutorialFrame.KEY);
     }
 
     private void createIndex(SQLiteDatabase db, String tableName, String column) {

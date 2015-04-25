@@ -1,4 +1,4 @@
-package com.shinav.mathapp.questionApproach.feedback;
+package com.shinav.mathapp.questionApproachFeedback;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +22,10 @@ import com.shinav.mathapp.db.repository.GivenQuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
+import com.shinav.mathapp.image.BackgroundLoader;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
-import com.shinav.mathapp.questionApproach.BackgroundLoader;
 import com.shinav.mathapp.questionApproach.QuestionSimpleCardView;
 
 import java.util.ArrayList;

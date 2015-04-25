@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.card.Card;
+import com.shinav.mathapp.event.OnAnswerFieldClickedEvent;
 import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.annotation.ForActivity;
-import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
