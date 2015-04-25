@@ -1,8 +1,10 @@
 package com.shinav.mathapp.conversation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -16,12 +18,12 @@ import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.repository.ConversationLineRepository;
 import com.shinav.mathapp.db.repository.ConversationRepository;
 import com.shinav.mathapp.event.ConversationMessageShownEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
+import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,11 +38,10 @@ import rx.functions.Action1;
 
 public class ConversationActivity extends ActionBarActivity {
 
-    @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
-//    @InjectView(R.id.conversation_recycler_view) ConversationLineRecyclerView conversationLineRecyclerView;
-    @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
+    @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
+    @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
 
     @Inject Bus bus;
     @Inject ConversationLineMapper conversationLineMapper;
@@ -75,7 +76,7 @@ public class ConversationActivity extends ActionBarActivity {
     }
 
     public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
     }
 
     public void registerBus() {
@@ -91,7 +92,6 @@ public class ConversationActivity extends ActionBarActivity {
             @Override public void call(List<ConversationLine> conversationLines) {
 
                 if (!conversationLines.isEmpty()) {
-                    Collections.sort(conversationLines);
                     ConversationActivity.this.conversationLines = conversationLines;
                     startConversationPart(conversationLines.get(0));
                 }
@@ -103,9 +103,20 @@ public class ConversationActivity extends ActionBarActivity {
     private void loadTitle(String conversationKey) {
         conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
             @Override public void call(Conversation conversation) {
-                toolbar.setTitle(conversation.getTitle());
-                setSupportActionBar(toolbar);
+                initToolbar(conversation);
                 loadBackground(conversation.getBackgroundImageUrl());
+            }
+        });
+    }
+
+    private void initToolbar(Conversation conversation) {
+        toolbar.setTitle(conversation.getTitle());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
@@ -160,7 +171,15 @@ public class ConversationActivity extends ActionBarActivity {
 
     @OnClick(R.id.next_question_button)
     public void onSubmitClicked() {
-//        storyTeller.next();
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        String conversationKey =
+                getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
+
+        intent.setAction(StorytellingService.ACTION_START_NEXT_FROM);
+        intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, conversationKey);
+
+        startService(intent);
     }
 
 }

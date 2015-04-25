@@ -20,26 +20,44 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".question.QuestionActivity"
-            android:noHistory="true" />
+        <!-- Tutorial -->
+        <activity android:name=".tutorial.TutorialActivity"
+                  android:screenOrientation="portrait"/>
 
+        <activity android:name=".tutorial.TutorialConversationActivity"
+                  android:screenOrientation="portrait" />
+
+        <activity android:name=".tutorial.TutorialQuestionActivity"
+                  android:screenOrientation="portrait" />
+
+        <activity android:name=".tutorial.TutorialQuestionApproachActivity"
+                  android:screenOrientation="portrait" />
+
+        <activity android:name=".tutorial.TutorialQAFActivity"
+                  android:screenOrientation="portrait" />
+
+        <!-- Conversation -->
+        <activity android:name=".conversation.ConversationActivity"
+                  android:screenOrientation="portrait"
+                  android:noHistory="true" />
+
+        <!-- Question -->
         <activity
             android:name=".questionApproach.QuestionApproachActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true"/>
 
         <activity
             android:name=".questionApproach.feedback.QAFActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true" />
 
-        <activity android:name=".conversation.ConversationActivity"
-                  android:noHistory="true" />
+        <activity
+            android:name=".question.QuestionActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
 
-        <activity android:name=".tutorial.TutorialConversationActivity"/>
-        <activity android:name=".tutorial.TutorialQuestionActivity"/>
-        <activity android:name=".tutorial.TutorialQuestionApproachActivity"/>
-        <activity android:name=".tutorial.TutorialQAFActivity"/>
-
+        <!-- Services -->
         <service android:name=".tutorial.TutorialManagingService"
                  android:exported="false" />
 
@@ -49,6 +67,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="468b2fb60fa46e4790b3e10de9b2ed175956feef" />
+
     </application>
 
 </manifest>

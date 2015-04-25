@@ -72,6 +72,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + Question.ANSWER + " TEXT,"
                         + Question.ANNEX_IMAGE_URL + " TEXT,"
                         + Question.BACKGROUND_IMAGE_URL + " TEXT,"
+                        + Question.PROGRESS_STATE + " INTEGER,"
                         + " UNIQUE (" + Question.KEY + ") ON CONFLICT REPLACE)"
         );
 

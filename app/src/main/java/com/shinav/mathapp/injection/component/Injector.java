@@ -6,7 +6,7 @@ import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.injection.module.ApplicationModule;
 import com.shinav.mathapp.injection.module.ViewModule;
 
-public class ComponentFactory {
+public class Injector {
 
     private static ApplicationComponent component;
 

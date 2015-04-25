@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 
 import javax.inject.Inject;
@@ -40,7 +40,7 @@ public class TabsView extends ButterKnifeLayout {
     }
 
     private void init(Context context) {
-        ComponentFactory.getViewComponent(context).inject(this);
+        Injector.getViewComponent(context).inject(this);
 
         inflate(R.layout.tabs_layout, this, true);
 

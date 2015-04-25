@@ -21,9 +21,9 @@ import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
-import com.shinav.mathapp.storytelling.StorytellingService;
+import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +73,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
 //        ApproachActivityComponent component = ApproachActivityComponent.Initializer.init(
 //                this, ((MyApplication) getApplication()).isMockMode());
 //        component.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
     }
 
     private void loadQuestion(String questionKey) {
@@ -173,11 +173,8 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     public void next() {
-        Intent intent = new Intent(this, StorytellingService.class);
-
-        intent.setAction(StorytellingService.ACTION_NEXT);
-
-        startService(intent);
+        Intent intent = getIntent().setClass(this, QAFActivity.class);
+        startActivity(intent);
     }
 
     @Override

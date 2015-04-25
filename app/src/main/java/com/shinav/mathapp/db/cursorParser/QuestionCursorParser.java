@@ -10,6 +10,7 @@ import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
+import static com.shinav.mathapp.db.helper.Tables.Question.PROGRESS_STATE;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
@@ -41,6 +42,7 @@ public class QuestionCursorParser implements rx.functions.Func1<Query, Question>
         question.setAnswer(c.getString(c.getColumnIndex(ANSWER)));
         question.setAnnexImageUrl(c.getString(c.getColumnIndex(ANNEX_IMAGE_URL)));
         question.setBackgroundImageUrl(c.getString(c.getColumnIndex(BACKGROUND_IMAGE_URL)));
+        question.setProgressState(c.getInt(c.getColumnIndex(PROGRESS_STATE)));
 
         return question;
     }

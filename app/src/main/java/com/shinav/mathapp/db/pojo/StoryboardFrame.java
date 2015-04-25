@@ -2,7 +2,7 @@ package com.shinav.mathapp.db.pojo;
 
 import android.text.TextUtils;
 
-public class StoryboardFrame {
+public class StoryboardFrame implements Comparable<StoryboardFrame> {
 
     private String key;
     private String storyboardKey;
@@ -59,4 +59,7 @@ public class StoryboardFrame {
         return TextUtils.equals(getFrameType(), "question");
     }
 
+    @Override public int compareTo(StoryboardFrame another) {
+        return getPosition() - another.getPosition();
+    }
 }

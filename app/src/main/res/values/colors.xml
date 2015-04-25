@@ -25,6 +25,7 @@
     <color name="indicator_unselected">#A3A3A3</color>
 
     <color name="toolbar_background">#009688</color>
+    <color name="background_primary">#34495E</color>
 
     <color name="card_background">#FAFAFA</color>
 

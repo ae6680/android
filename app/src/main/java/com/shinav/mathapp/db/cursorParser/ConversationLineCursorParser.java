@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.shinav.mathapp.db.pojo.ConversationLine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,6 +34,8 @@ public class ConversationLineCursorParser implements Func1<Query, List<Conversat
             while (c.moveToNext()) {
                 conversationLines.add(fromCursor(c));
             }
+
+            Collections.sort(conversationLines);
             return conversationLines;
         } finally {
             c.close();

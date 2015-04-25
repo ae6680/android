@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.DragSortRecycler;
 import com.shinav.mathapp.view.WrappedLinearLayoutManager;
 
@@ -38,7 +38,7 @@ public class QuestionApproachDragRecyclerView extends RecyclerView {
     }
 
     private void init(Context context) {
-        ComponentFactory.getViewComponent(context).inject(this);
+        Injector.getViewComponent(context).inject(this);
 
         setAdapter(questionApproachPartAdapter);
         setLayoutManager(new WrappedLinearLayoutManager(this.getContext()));

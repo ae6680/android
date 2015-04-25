@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.shinav.mathapp.view.WrappedLinearLayoutManager;
 
@@ -39,7 +39,7 @@ public class QAFViewPagerPage extends ButterKnifeLayout {
     }
 
     private void init() {
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
         inflate(R.layout.question_approach_feedback_view_pager_page, this, true);
 
         recyclerView.setAdapter(adapter);

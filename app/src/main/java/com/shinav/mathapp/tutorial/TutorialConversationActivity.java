@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.shinav.mathapp.conversation.ConversationActivity;
 import com.shinav.mathapp.event.ConversationMessageShownEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -23,7 +23,7 @@ public class TutorialConversationActivity extends ConversationActivity {
     }
 
     @Override public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(TutorialConversationActivity.this);
+        Injector.getActivityComponent(this).inject(TutorialConversationActivity.this);
     }
 
     @Override public void onSubmitClicked() {

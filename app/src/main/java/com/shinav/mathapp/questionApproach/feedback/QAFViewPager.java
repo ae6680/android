@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class QAFViewPager extends ViewPager {
     }
 
     private void init() {
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
         setAdapter(adapter);
     }
 

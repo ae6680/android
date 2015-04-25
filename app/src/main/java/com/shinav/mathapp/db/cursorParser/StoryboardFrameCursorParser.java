@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +31,8 @@ public class StoryboardFrameCursorParser implements Func1<Query, List<Storyboard
             while (c.moveToNext()) {
                 storyboardFrames.add(fromCursor(c));
             }
+
+            Collections.sort(storyboardFrames);
             return storyboardFrames;
         } finally {
             c.close();

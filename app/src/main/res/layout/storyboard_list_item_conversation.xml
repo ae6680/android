@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/storyboard_frame_list_item"
+                android:layout_margin="@dimen/default_quarter_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/image_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/background_view"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.shinav.mathapp.main.storyboard.ConversationStateImageButton
+            android:id="@+id/state"
+            android:layout_centerInParent="true"
+            android:background="@drawable/conversation_state_image_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:textColor="@color/text_tertiair"
+        android:layout_marginTop="@dimen/default_quarter_margin"
+        android:layout_below="@id/image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
