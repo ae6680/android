@@ -3,15 +3,17 @@ package com.shinav.mathapp.tutorial;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.db.dataMapper.TutorialFrameMapper;
 import com.shinav.mathapp.db.dataMapper.TutorialMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.TutorialFrame;
 import com.shinav.mathapp.db.repository.TutorialFrameRepository;
 import com.shinav.mathapp.db.repository.TutorialRepository;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.MainActivity;
 
 import java.util.Collections;
@@ -25,6 +27,7 @@ import rx.functions.Action1;
 public class TutorialManagingService extends Service {
 
     public static final String EXTRA_TUTORIAL_KEY = "extra_tutorial_key";
+    public static final String EXTRA_CHOSEN_CHARACTER = "extra_chosen_character";
 
     public static final String ACTION_START = "start";
     public static final String ACTION_NEXT = "next";
@@ -36,14 +39,17 @@ public class TutorialManagingService extends Service {
     @Inject TutorialRepository tutorialRepository;
     @Inject TutorialFrameRepository tutorialFrameRepository;
 
+    @Inject SharedPreferences sharedPreferences;
+
     private List<TutorialFrame> tutorialFrames;
     private int currentPosition = -1;
+    private int chosenCharacterResourceId;
 
     @Override public IBinder onBind(Intent intent) { return null; }
 
     @Override public void onCreate() {
         super.onCreate();
-        ComponentFactory.getApplicationComponent(this).inject(this);
+        Injector.getApplicationComponent(this).inject(this);
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -51,6 +57,7 @@ public class TutorialManagingService extends Service {
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
                 case ACTION_START:
+                    chosenCharacterResourceId = intent.getIntExtra(EXTRA_CHOSEN_CHARACTER, 0);
                     fetchTutorialFrames(intent.getStringExtra(EXTRA_TUTORIAL_KEY));
                     break;
                 case ACTION_NEXT:
@@ -88,6 +95,7 @@ public class TutorialManagingService extends Service {
             TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
             startBasedOnType(tutorialFrame);
         } else {
+            saveChosenCharacter(chosenCharacterResourceId);
             startActivity(MainActivity.class, null);
         }
     }
@@ -120,5 +128,13 @@ public class TutorialManagingService extends Service {
 
 //        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
+
+    private void saveChosenCharacter(int resourceId) {
+        sharedPreferences.edit().putInt(
+                MyApplication.PREF_CHOSEN_CHARACTER,
+                resourceId
+        ).apply();
+    }
+
 
 }

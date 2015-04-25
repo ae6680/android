@@ -2,13 +2,13 @@ package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
 
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.questionApproach.feedback.QAFActivity;
 
 public class TutorialQAFActivity extends QAFActivity {
 
     @Override public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
     }
 
     @Override public void next() {

@@ -8,7 +8,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.question.event.OnAnswerFieldClickedEvent;
 import com.squareup.otto.Bus;
@@ -31,7 +31,7 @@ public class TutorialQuestionActivity extends QuestionActivity {
     }
 
     @Override public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(TutorialQuestionActivity.this);
+        Injector.getActivityComponent(this).inject(TutorialQuestionActivity.this);
     }
 
     @Override @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class CalculatorFragment extends Fragment {
         View view = inflater.inflate(R.layout.calculator, container, false);
 
         ButterKnife.inject(this, view);
-        ComponentFactory.getViewComponent(view.getContext()).inject(this);
+        Injector.getViewComponent(view.getContext()).inject(this);
 
         return view;
     }

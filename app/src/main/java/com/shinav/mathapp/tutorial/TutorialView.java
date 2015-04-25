@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
 
@@ -56,7 +56,7 @@ public class TutorialView extends ButterKnifeLayout {
     }
 
     private void init() {
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
 
         inflate(R.layout.tutorial_layout, this, true);
 

@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.shinav.mathapp.conversation.ConversationActivity;
+import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.helper.Tables;
+import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
+import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.MainActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 import com.squareup.otto.Bus;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,13 +33,17 @@ public class StorytellingService extends Service {
 
     public static final String ACTION_START = "action_start";
     public static final String ACTION_START_FROM = "action_start_from";
-    public static final String ACTION_NEXT_FROM = "action_next_from";
+    public static final String ACTION_START_NEXT_FROM = "action_start_next_from";
+    public static final String ACTION_OPEN_NEXT_FROM = "action_open_next_from";
 
     @Inject Bus bus;
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
 
-    private List<StoryboardFrame> storyboardFrames;
+    @Inject QuestionRepository questionRepository;
+    @Inject QuestionMapper questionMapper;
+
+    private List<StoryboardFrame> storyboardFrames = Collections.emptyList();
 
     @Override public IBinder onBind(Intent intent) {
         return null;
@@ -43,7 +51,7 @@ public class StorytellingService extends Service {
 
     @Override public void onCreate() {
         super.onCreate();
-        ComponentFactory.getApplicationComponent(this).inject(this);
+        Injector.getApplicationComponent(this).inject(this);
     }
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -56,8 +64,12 @@ public class StorytellingService extends Service {
                 case ACTION_START_FROM:
                     startFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
                     break;
-                case ACTION_NEXT_FROM:
-                    nextFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
+                case ACTION_START_NEXT_FROM:
+                    startNextFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
+                    break;
+                case ACTION_OPEN_NEXT_FROM:
+                    openNextFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
+                    break;
             }
         }
 
@@ -84,14 +96,14 @@ public class StorytellingService extends Service {
         }
     }
 
-    private void nextFrom(String frameTypeKey) {
+    private void startNextFrom(String frameTypeKey) {
 
         boolean getFrame = false;
 
         for (StoryboardFrame frame : storyboardFrames) {
 
             if (getFrame) {
-               startBasedOnType(frame);
+                startBasedOnType(frame);
                 return;
             }
 
@@ -124,5 +136,30 @@ public class StorytellingService extends Service {
 
 //        ((Activity) context).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
+
+    private void openNextFrom(String frameTypeKey) {
+
+        boolean frameToBeOpened = false;
+
+        for (StoryboardFrame frame : storyboardFrames) {
+
+            if (frameToBeOpened && frame.isQuestion()) {
+
+                questionRepository.get(frame.getFrameTypeKey(), new Action1<Question>() {
+                    @Override public void call(Question question) {
+                        question.setProgressState(Question.STATE_OPENED);
+                        questionMapper.update(question);
+                    }
+                });
+
+                return;
+            }
+
+            if (frameTypeKey.equals(frame.getFrameTypeKey())) {
+                frameToBeOpened = true;
+            }
+        }
+    }
+
 
 }

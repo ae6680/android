@@ -5,7 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class StoryboardFrameRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
 
         setAdapter(storyboardFrameAdapter);
         setLayoutManager(new GridLayoutManager(this.getContext(), 3));

@@ -38,7 +38,7 @@ import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
 import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
 import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
 import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
 import com.shinav.mathapp.question.card.QuestionAnswerCardView;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -140,7 +140,7 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
     }
 
     public void registerBus() {
@@ -230,7 +230,26 @@ public class QuestionActivity extends ActionBarActivity {
         questionCardView.setSubmitButtonEnabled(false);
 
         saveGivenAnswer(event.getAnswer());
+
+        if (!isAlreadyMade()) {
+            openNextQuestion();
+        }
+
         updateProgressState(event.getAnswer());
+    }
+
+    private boolean isAlreadyMade() {
+        int state = question.getProgressState();
+        return state == Question.STATE_PASSED || state == Question.STATE_FAILED;
+    }
+
+    private void openNextQuestion() {
+        Intent intent = new Intent(this, StorytellingService.class);
+
+        intent.setAction(StorytellingService.ACTION_OPEN_NEXT_FROM);
+        intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, question.getKey());
+
+        startService(intent);
     }
 
     private void saveGivenAnswer(String answer) {
@@ -255,7 +274,7 @@ public class QuestionActivity extends ActionBarActivity {
     @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
         Intent intent = new Intent(this, StorytellingService.class);
 
-        intent.setAction(StorytellingService.ACTION_NEXT_FROM);
+        intent.setAction(StorytellingService.ACTION_START_NEXT_FROM);
         intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, question.getKey());
 
         startService(intent);

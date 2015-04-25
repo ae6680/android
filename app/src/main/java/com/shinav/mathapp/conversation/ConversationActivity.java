@@ -18,7 +18,7 @@ import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.db.repository.ConversationLineRepository;
 import com.shinav.mathapp.db.repository.ConversationRepository;
 import com.shinav.mathapp.event.ConversationMessageShownEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -76,7 +76,7 @@ public class ConversationActivity extends ActionBarActivity {
     }
 
     public void inject() {
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
     }
 
     public void registerBus() {
@@ -176,7 +176,7 @@ public class ConversationActivity extends ActionBarActivity {
         String conversationKey =
                 getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
-        intent.setAction(StorytellingService.ACTION_NEXT_FROM);
+        intent.setAction(StorytellingService.ACTION_START_NEXT_FROM);
         intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, conversationKey);
 
         startService(intent);

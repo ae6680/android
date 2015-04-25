@@ -1,17 +1,15 @@
 package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.event.TutorialStartButtonClicked;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -26,7 +24,6 @@ public class TutorialActivity extends ActionBarActivity {
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
     @Inject Bus bus;
-    @Inject SharedPreferences sharedPreferences;
     @Inject TutorialRepository tutorialRepository;
 
     @Override public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +31,7 @@ public class TutorialActivity extends ActionBarActivity {
         setContentView(R.layout.activity_tutorial);
 
         ButterKnife.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
 
         initToolbar();
     }
@@ -54,31 +51,26 @@ public class TutorialActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void startTutorialManagingService(String tutorialKey) {
+    private void startTutorialManagingService(String tutorialKey, int resourceId) {
         Intent intent = new Intent(this, TutorialManagingService.class);
 
         intent.setAction(TutorialManagingService.ACTION_START);
         intent.putExtra(TutorialManagingService.EXTRA_TUTORIAL_KEY, tutorialKey);
+        intent.putExtra(TutorialManagingService.EXTRA_CHOSEN_CHARACTER, resourceId);
 
         startService(intent);
     }
 
-    @Subscribe public void onTutorialStartButtonClicked(TutorialStartButtonClicked event) {
+    @Subscribe public void onTutorialStartButtonClicked(final TutorialStartButtonClicked event) {
 
         tutorialRepository.getFirst(new Action1<Tutorial>() {
             @Override public void call(Tutorial tutorial) {
-                startTutorialManagingService(tutorial.getKey());
+                startTutorialManagingService(
+                        tutorial.getKey(),
+                        event.getResourceId()
+                );
             }
         });
-
-        saveChosenCharacter(event.getResourceId());
-    }
-
-    private void saveChosenCharacter(int resourceId) {
-        sharedPreferences.edit().putInt(
-                MyApplication.PREF_CHOSEN_CHARACTER,
-                resourceId
-        ).apply();
     }
 
 }

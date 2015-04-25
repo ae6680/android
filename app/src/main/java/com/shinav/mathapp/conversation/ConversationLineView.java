@@ -11,7 +11,7 @@ import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.ConversationLine;
 import com.shinav.mathapp.event.ConversationMessageShownEvent;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
@@ -47,7 +47,7 @@ public class ConversationLineView extends ButterKnifeLayout {
     private void init(ConversationLine conversationLine) {
         this.conversationLine = conversationLine;
 
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
 
         int layout;
 

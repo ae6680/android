@@ -6,6 +6,7 @@ import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameRecyclerView;
+import com.shinav.mathapp.main.storyboard.StoryboardFrameViewHolder;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
 import com.shinav.mathapp.question.card.QuestionCardView;
 import com.shinav.mathapp.question.card.QuestionNextCardView;
@@ -43,4 +44,6 @@ public interface ViewComponent {
     void inject(QAFViewPager qafViewPager);
 
     void inject(QuestionApproachCardView questionApproachCardView);
+
+    void inject(StoryboardFrameViewHolder storyboardFrameViewHolder);
 }

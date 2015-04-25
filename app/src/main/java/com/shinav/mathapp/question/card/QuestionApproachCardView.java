@@ -7,7 +7,7 @@ import com.shinav.mathapp.R;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.shinav.mathapp.injection.annotation.ForActivity;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.questionApproach.QuestionApproachPartAdapter;
 import com.shinav.mathapp.view.WrappedLinearLayoutManager;
 
@@ -30,7 +30,7 @@ public class QuestionApproachCardView extends Card {
     }
 
     public void init() {
-        ComponentFactory.getViewComponent(this.getContext()).inject(this);
+        Injector.getViewComponent(this.getContext()).inject(this);
         inflate(R.layout.question_approach_card, this, true);
     }
 

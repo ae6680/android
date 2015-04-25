@@ -20,7 +20,7 @@ import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
-import com.shinav.mathapp.injection.component.ComponentFactory;
+import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameListItem;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameListItemClicked;
 import com.shinav.mathapp.main.storyboard.StoryboardView;
@@ -41,14 +41,11 @@ import butterknife.InjectView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Actions;
 import rx.functions.Func1;
-import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -75,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.inject(this);
-        ComponentFactory.getActivityComponent(this).inject(this);
+        Injector.getActivityComponent(this).inject(this);
 
         registerer.register();
 
@@ -102,8 +99,6 @@ public class MainActivity extends ActionBarActivity {
 
             progressBar.setVisibility(VISIBLE);
 
-            toolbar.setTitle(getResources().getString(R.string.choose_character));
-
             // Wait 5 seconds to load the data the first time.
             Observable.timer(5000, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -123,8 +118,8 @@ public class MainActivity extends ActionBarActivity {
     private void loadStoryboard() {
         storyboardRepository.getFirst(new Action1<Storyboard>() {
             @Override public void call(Storyboard storyboard) {
-                startStorytellingService(storyboard.getKey());
                 loadStoryboardFrames(storyboard);
+                startStorytellingService(storyboard.getKey());
             }
         });
     }
@@ -199,7 +194,7 @@ public class MainActivity extends ActionBarActivity {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread());
 
-                Observable<List<StoryboardFrameListItem>> conversationFramesObserable =
+                Observable<List<StoryboardFrameListItem>> conversationFramesObservable =
 
                         conversationObservable.map(new Func1<List<Conversation>, List<StoryboardFrameListItem>>() {
                             @Override
@@ -224,7 +219,7 @@ public class MainActivity extends ActionBarActivity {
                                                       }
 
                                                       @Override public int getState() {
-                                                          return 0;
+                                                          return STATE_CLOSED;
                                                       }
 
                                                       @Override public String getBackgroundImage() {
@@ -241,81 +236,17 @@ public class MainActivity extends ActionBarActivity {
                 Observable.combineLatest(
                         framesObservable,
                         questionFramesObservable,
-                        conversationFramesObserable,
-                        new FramesReady()
-                ).first().subscribe(Actions.empty());
+                        conversationFramesObservable,
+                        new StoryboardFramesReady()
+                ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
+                    @Override
+                    public void call(List<StoryboardFrameListItem> listItems) {
+                        storyboardView.setListItems(listItems);
+                    }
+                });
 
             }
         });
-    }
-
-    private class FramesReady implements Func3<
-            List<StoryboardFrame>,
-            List<StoryboardFrameListItem>,
-            List<StoryboardFrameListItem>,
-            Void> {
-        @Override
-        public Void call(
-                List<StoryboardFrame> storyboardFrames,
-                List<StoryboardFrameListItem> storyboardFrameListItems,
-                List<StoryboardFrameListItem> storyboardFrameListItems2
-        ) {
-
-            storyboardFrameListItems.addAll(storyboardFrameListItems2);
-
-            ArrayList<String> frameObjectKeys = new ArrayList<>(storyboardFrames.size());
-
-            for (StoryboardFrame frame : storyboardFrames) {
-                frameObjectKeys.add(frame.getFrameTypeKey());
-            }
-
-            List<StoryboardFrameListItem> listItems = new ArrayList<>(storyboardFrames.size());
-            for (StoryboardFrameListItem frameListItem : storyboardFrameListItems) {
-                int index = frameObjectKeys.indexOf(frameListItem.getKey());
-                listItems.add(index, frameListItem);
-            }
-
-            for (StoryboardFrameListItem listItem : listItems) {
-
-                if (listItem.getState() == StoryboardFrameListItem.STATE_CLOSED) {
-
-                    final StoryboardFrameListItem finalListItem = listItem;
-                    listItem = new StoryboardFrameListItem() {
-                        @Override public String getKey() {
-                            return finalListItem.getKey();
-                        }
-
-                        @Override public String getType() {
-                            return finalListItem.getType();
-                        }
-
-                        @Override public String getTitle() {
-                            return finalListItem.getTitle();
-                        }
-
-                        @Override public int getState() {
-                            return StoryboardFrameListItem.STATE_OPENED;
-                        }
-
-                        @Override public String getBackgroundImage() {
-                            return finalListItem.getBackgroundImage();
-                        }
-
-                    };
-
-                    // Make every frame open until next question
-                    if (listItem.getType().equals(TYPE_QUESTION)) {
-                        break;
-                    }
-
-                }
-
-            }
-
-            storyboardView.setListItems(listItems);
-            return null;
-        }
-
     }
 
     private void initToolbar() {
