@@ -1,10 +1,10 @@
 package com.shinav.mathapp.event;
 
-public class OnAnswerSubmittedEvent {
+public class AnswerSubmittedEvent {
 
     private String answer;
 
-    public OnAnswerSubmittedEvent(String answer) {
+    public AnswerSubmittedEvent(String answer) {
         this.answer = answer;
     }
 

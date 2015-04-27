@@ -1,7 +1,7 @@
 package com.shinav.mathapp.injection.component;
 
 import com.shinav.mathapp.calculator.CalculatorFragment;
-import com.shinav.mathapp.conversation.ConversationLineView;
+import com.shinav.mathapp.cutscene.CutsceneLineView;
 import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
@@ -38,7 +38,7 @@ public interface ViewComponent {
     void inject(QuestionNextCardView questionNextCardView);
     void inject(CalculatorFragment calculatorFragment);
     void inject(TutorialView tutorialView);
-    void inject(ConversationLineView conversationLineView);
+    void inject(CutsceneLineView cutsceneLineView);
 
     void inject(QAFViewPagerPage qafViewPagerPage);
     void inject(QAFViewPager qafViewPager);

@@ -8,13 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
 
-import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.Conversation;
+import com.shinav.mathapp.db.pojo.Cutscene;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
-import com.shinav.mathapp.db.repository.ConversationRepository;
+import com.shinav.mathapp.db.repository.CutsceneRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
@@ -45,6 +44,7 @@ import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryboardView storyboardView;
 
     @Inject QuestionRepository questionRepository;
-    @Inject ConversationRepository conversationRepository;
+    @Inject CutsceneRepository cutsceneRepository;
 
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
@@ -90,10 +90,11 @@ public class MainActivity extends ActionBarActivity {
 
     private void loadStoryboardFrames() {
 
-        int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
+        boolean tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
 
-        if (characterResId == 0) {
-
+        if (tutorialCompleted) {
+            loadStoryboard();
+        } else {
             progressBar.setVisibility(VISIBLE);
 
             // Wait 5 seconds to load the data the first time.
@@ -105,9 +106,6 @@ public class MainActivity extends ActionBarActivity {
                             showTutorial();
                         }
                     });
-
-        } else {
-            loadStoryboard();
         }
 
     }
@@ -130,19 +128,19 @@ public class MainActivity extends ActionBarActivity {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
 
                 List<String> questionKeys = new ArrayList<>();
-                List<String> conversationKeys = new ArrayList<>();
+                List<String> cutsceneKeys = new ArrayList<>();
 
                 for (StoryboardFrame storyboardFrame : storyboardFrames) {
                     if (storyboardFrame.isQuestion()) {
                         questionKeys.add(storyboardFrame.getFrameTypeKey());
 
-                    } else if (storyboardFrame.isConversation()) {
-                        conversationKeys.add(storyboardFrame.getFrameTypeKey());
+                    } else if (storyboardFrame.isCutscene()) {
+                        cutsceneKeys.add(storyboardFrame.getFrameTypeKey());
                     }
                 }
 
                 String questionKeysString = TextUtils.join("','", questionKeys);
-                String conversationKeysString = TextUtils.join("','", conversationKeys);
+                String cutsceneKeysString = TextUtils.join("','", cutsceneKeys);
 
                 Observable<List<Question>> questionObservable =
                         questionRepository.getCollection(questionKeysString)
@@ -187,33 +185,33 @@ public class MainActivity extends ActionBarActivity {
                             }
                         });
 
-                Observable<List<Conversation>> conversationObservable =
-                        conversationRepository.getCollection(conversationKeysString)
+                Observable<List<Cutscene>> cutsceneObservable =
+                        cutsceneRepository.getCollection(cutsceneKeysString)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread());
 
-                Observable<List<StoryboardFrameListItem>> conversationFramesObservable =
+                Observable<List<StoryboardFrameListItem>> cutsceneFramesObservable =
 
-                        conversationObservable.map(new Func1<List<Conversation>, List<StoryboardFrameListItem>>() {
+                        cutsceneObservable.map(new Func1<List<Cutscene>, List<StoryboardFrameListItem>>() {
                             @Override
-                            public List<StoryboardFrameListItem> call(List<Conversation> conversations) {
+                            public List<StoryboardFrameListItem> call(List<Cutscene> cutscenes) {
 
                                 List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
-                                for (final Conversation conversation : conversations) {
+                                for (final Cutscene cutscene : cutscenes) {
 
                                     listItems.add(new StoryboardFrameListItem() {
 
                                                       @Override public String getKey() {
-                                                          return conversation.getKey();
+                                                          return cutscene.getKey();
                                                       }
 
                                                       @Override public String getType() {
-                                                          return StoryboardFrameListItem.TYPE_CONVERSATION;
+                                                          return StoryboardFrameListItem.TYPE_CUTSCENE;
                                                       }
 
                                                       @Override public String getTitle() {
-                                                          return conversation.getTitle();
+                                                          return cutscene.getTitle();
                                                       }
 
                                                       @Override public int getState() {
@@ -221,7 +219,7 @@ public class MainActivity extends ActionBarActivity {
                                                       }
 
                                                       @Override public String getBackgroundImage() {
-                                                          return conversation.getBackgroundImageUrl();
+                                                          return cutscene.getBackgroundImageUrl();
                                                       }
                                                   }
                                     );
@@ -234,7 +232,7 @@ public class MainActivity extends ActionBarActivity {
                 Observable.combineLatest(
                         framesObservable,
                         questionFramesObservable,
-                        conversationFramesObservable,
+                        cutsceneFramesObservable,
                         new StoryboardFramesReadyFunc()
                 ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
                     @Override

@@ -8,8 +8,8 @@ import com.shinav.mathapp.injection.annotation.ForApplication;
 
 import javax.inject.Inject;
 
-import static com.shinav.mathapp.db.helper.Tables.Conversation;
-import static com.shinav.mathapp.db.helper.Tables.ConversationLine;
+import static com.shinav.mathapp.db.helper.Tables.Cutscene;
+import static com.shinav.mathapp.db.helper.Tables.CutsceneLine;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer;
 import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach;
 import static com.shinav.mathapp.db.helper.Tables.Question;
@@ -54,8 +54,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         createStoryboardTable(db);
         createStoryboardFrameTable(db);
 
-        createConversationTable(db);
-        createConversationLineTable(db);
+        createCutsceneTable(db);
+        createCutsceneLineTable(db);
 
         createTutorialTable(db);
         createTutorialFrameTable(db);
@@ -163,32 +163,32 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         createIndex(db, StoryboardFrame.TABLE_NAME, StoryboardFrame.KEY);
     }
 
-    private void createConversationTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Conversation.TABLE_NAME + " ("
-                        + Conversation.KEY + " TEXT,"
-                        + Conversation.TITLE + " TEXT,"
-                        + Conversation.BACKGROUND_IMAGE_URL + " TEXT,"
-                        + " UNIQUE (" + Conversation.KEY + ") ON CONFLICT REPLACE)"
+    private void createCutsceneTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + Tables.Cutscene.TABLE_NAME + " ("
+                        + Cutscene.KEY + " TEXT,"
+                        + Tables.Cutscene.TITLE + " TEXT,"
+                        + Tables.Cutscene.BACKGROUND_IMAGE_URL + " TEXT,"
+                        + " UNIQUE (" + Cutscene.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, Conversation.TABLE_NAME, Conversation.KEY);
+        createIndex(db, Tables.Cutscene.TABLE_NAME, Cutscene.KEY);
     }
 
-    private void createConversationLineTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + ConversationLine.TABLE_NAME + " ("
-                        + ConversationLine.KEY + " TEXT,"
-                        + ConversationLine.CONVERSATION_KEY + " TEXT,"
-                        + ConversationLine.VALUE + " TEXT,"
-                        + ConversationLine.DELAY + " INTEGER,"
-                        + ConversationLine.TYPING_DURATION + " INTEGER,"
-                        + ConversationLine.POSITION + " INTEGER,"
-                        + ConversationLine.ALIGNMENT + " INTEGER,"
-                        + ConversationLine.IMAGE_URL + " TEXT,"
-                        + ConversationLine.MAIN_CHARACTER + " INTEGER,"
-                        + " UNIQUE (" + ConversationLine.KEY + ") ON CONFLICT REPLACE)"
+    private void createCutsceneLineTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + Tables.CutsceneLine.TABLE_NAME + " ("
+                        + Tables.CutsceneLine.KEY + " TEXT,"
+                        + Tables.CutsceneLine.CUTSCENE_KEY + " TEXT,"
+                        + Tables.CutsceneLine.VALUE + " TEXT,"
+                        + CutsceneLine.DELAY + " INTEGER,"
+                        + Tables.CutsceneLine.TYPING_DURATION + " INTEGER,"
+                        + Tables.CutsceneLine.POSITION + " INTEGER,"
+                        + Tables.CutsceneLine.ALIGNMENT + " INTEGER,"
+                        + CutsceneLine.IMAGE_URL + " TEXT,"
+                        + Tables.CutsceneLine.MAIN_CHARACTER + " INTEGER,"
+                        + " UNIQUE (" + Tables.CutsceneLine.KEY + ") ON CONFLICT REPLACE)"
         );
 
-        createIndex(db, ConversationLine.TABLE_NAME, ConversationLine.KEY);
+        createIndex(db, Tables.CutsceneLine.TABLE_NAME, Tables.CutsceneLine.KEY);
     }
 
     private void createTutorialTable(SQLiteDatabase db) {

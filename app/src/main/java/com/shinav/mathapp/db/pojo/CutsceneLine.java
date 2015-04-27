@@ -2,14 +2,14 @@ package com.shinav.mathapp.db.pojo;
 
 import android.support.annotation.NonNull;
 
-public class ConversationLine implements Comparable<ConversationLine> {
+public class CutsceneLine implements Comparable<CutsceneLine> {
 
     public static final int ALIGNMENT_LEFT = 0;
     public static final int ALIGNMENT_RIGHT = 1;
 
     private String key;
 
-    private String conversationKey;
+    private String cutsceneKey;
 
     private String value;
     private int position;
@@ -27,12 +27,12 @@ public class ConversationLine implements Comparable<ConversationLine> {
         this.key = key;
     }
 
-    public String getConversationKey() {
-        return conversationKey;
+    public String getCutsceneKey() {
+        return cutsceneKey;
     }
 
-    public void setConversationKey(String conversationKey) {
-        this.conversationKey = conversationKey;
+    public void setCutsceneKey(String cutsceneKey) {
+        this.cutsceneKey = cutsceneKey;
     }
 
     public String getValue() {
@@ -95,7 +95,7 @@ public class ConversationLine implements Comparable<ConversationLine> {
         return mainCharacter == 1;
     }
 
-    @Override public int compareTo(@NonNull ConversationLine another) {
+    @Override public int compareTo(@NonNull CutsceneLine another) {
         return getPosition() - another.getPosition();
     }
 

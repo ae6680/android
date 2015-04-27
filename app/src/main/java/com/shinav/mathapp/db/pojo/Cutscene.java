@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.pojo;
 
-public class Conversation {
+public class Cutscene {
 
     private String key;
     private String title;

@@ -2,8 +2,8 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Conversation;
-import com.shinav.mathapp.db.pojo.ConversationLine;
+import com.shinav.mathapp.db.pojo.Cutscene;
+import com.shinav.mathapp.db.pojo.CutsceneLine;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
@@ -114,42 +114,42 @@ public class FirebaseParser {
         return storyboardFrame;
     }
 
-    public Conversation parseConversation(DataSnapshot dataSnapshot) {
-        Conversation conversation = new Conversation();
+    public Cutscene parseCutscene(DataSnapshot dataSnapshot) {
+        Cutscene cutscene = new Cutscene();
 
-        String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
-        String imageUrl =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
+        String title =      getString(dataSnapshot, Tables.Cutscene.TITLE);
+        String imageUrl =   getString(dataSnapshot, Tables.Cutscene.BACKGROUND_IMAGE_URL);
 
-        conversation.setKey(dataSnapshot.getKey());
-        conversation.setTitle(title);
-        conversation.setBackgroundImageUrl(imageUrl);
+        cutscene.setKey(dataSnapshot.getKey());
+        cutscene.setTitle(title);
+        cutscene.setBackgroundImageUrl(imageUrl);
 
-        return conversation;
+        return cutscene;
     }
 
-    public ConversationLine parseConversationLine(DataSnapshot dataSnapshot) {
-        ConversationLine conversationLine = new ConversationLine();
+    public CutsceneLine parseCutsceneLine(DataSnapshot dataSnapshot) {
+        CutsceneLine cutsceneLine = new CutsceneLine();
 
-        String conversationKey = getString(dataSnapshot, Tables.ConversationLine.CONVERSATION_KEY);
-        String value =            getString(dataSnapshot, Tables.ConversationLine.VALUE);
-        String position =         getString(dataSnapshot, Tables.ConversationLine.POSITION);
-        String delay =            getString(dataSnapshot, Tables.ConversationLine.DELAY);
-        String typingDuration =   getString(dataSnapshot, Tables.ConversationLine.TYPING_DURATION);
-        String alignment =        getString(dataSnapshot, Tables.ConversationLine.ALIGNMENT);
-        String imageUrl =         getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
-        String mainCharacter =    getString(dataSnapshot, Tables.ConversationLine.MAIN_CHARACTER);
+        String cutsceneKey =    getString(dataSnapshot, Tables.CutsceneLine.CUTSCENE_KEY);
+        String value =          getString(dataSnapshot, Tables.CutsceneLine.VALUE);
+        String position =       getString(dataSnapshot, Tables.CutsceneLine.POSITION);
+        String delay =          getString(dataSnapshot, Tables.CutsceneLine.DELAY);
+        String typingDuration = getString(dataSnapshot, Tables.CutsceneLine.TYPING_DURATION);
+        String alignment =      getString(dataSnapshot, Tables.CutsceneLine.ALIGNMENT);
+        String imageUrl =       getString(dataSnapshot, Tables.CutsceneLine.IMAGE_URL);
+        String mainCharacter =  getString(dataSnapshot, Tables.CutsceneLine.MAIN_CHARACTER);
 
-        conversationLine.setKey(dataSnapshot.getKey());
-        conversationLine.setConversationKey(conversationKey);
-        conversationLine.setValue(value);
-        conversationLine.setPosition(Integer.parseInt(position));
-        conversationLine.setDelay(Integer.parseInt(delay));
-        conversationLine.setTypingDuration(Integer.parseInt(typingDuration));
-        conversationLine.setAlignment(Integer.parseInt(alignment));
-        conversationLine.setImageUrl(imageUrl);
-        conversationLine.setMainCharacter(Integer.parseInt(mainCharacter));
+        cutsceneLine.setKey(dataSnapshot.getKey());
+        cutsceneLine.setCutsceneKey(cutsceneKey);
+        cutsceneLine.setValue(value);
+        cutsceneLine.setPosition(Integer.parseInt(position));
+        cutsceneLine.setDelay(Integer.parseInt(delay));
+        cutsceneLine.setTypingDuration(Integer.parseInt(typingDuration));
+        cutsceneLine.setAlignment(Integer.parseInt(alignment));
+        cutsceneLine.setImageUrl(imageUrl);
+        cutsceneLine.setMainCharacter(Integer.parseInt(mainCharacter));
 
-        return conversationLine;
+        return cutsceneLine;
     }
 
     public Tutorial parseTutorial(DataSnapshot dataSnapshot) {

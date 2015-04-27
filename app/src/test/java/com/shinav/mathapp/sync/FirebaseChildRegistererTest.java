@@ -2,7 +2,7 @@ package com.shinav.mathapp.sync;
 
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
-import com.shinav.mathapp.firebase.listener.FirebaseConversationListener;
+import com.shinav.mathapp.firebase.listener.FirebaseCutsceneListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
 import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
 
@@ -24,8 +24,8 @@ public class FirebaseChildRegistererTest {
 
         when(firebase.child(Nodes.STORYBOARD)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.STORYBOARD_FRAMES)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.CONVERSATIONS)).thenReturn(Mockito.mock(Firebase.class));
-        when(firebase.child(Nodes.CONVERSATION_LINES)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.CUTSCENES)).thenReturn(Mockito.mock(Firebase.class));
+        when(firebase.child(Nodes.CUTSCENE_LINES)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.QUESTIONS)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.QUESTION_APPROACHES)).thenReturn(Mockito.mock(Firebase.class));
         when(firebase.child(Nodes.QUESTION_APPROACH_PARTS)).thenReturn(Mockito.mock(Firebase.class));
@@ -42,8 +42,8 @@ public class FirebaseChildRegistererTest {
     }
 
     @Test
-    public void testRegistersChildConversations() throws Exception {
-        Mockito.verify(firebase.child(Nodes.CONVERSATIONS)).addChildEventListener(isA(FirebaseConversationListener.class));
+    public void testRegistersChildCutscenes() throws Exception {
+        Mockito.verify(firebase.child(Nodes.CUTSCENES)).addChildEventListener(isA(FirebaseCutsceneListener.class));
     }
 
     @Test

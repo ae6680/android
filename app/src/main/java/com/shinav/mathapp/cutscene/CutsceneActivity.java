@@ -1,4 +1,4 @@
-package com.shinav.mathapp.conversation;
+package com.shinav.mathapp.cutscene;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.dataMapper.ConversationLineMapper;
-import com.shinav.mathapp.db.dataMapper.ConversationMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneLineMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneMapper;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Conversation;
-import com.shinav.mathapp.db.pojo.ConversationLine;
-import com.shinav.mathapp.db.repository.ConversationLineRepository;
-import com.shinav.mathapp.db.repository.ConversationRepository;
-import com.shinav.mathapp.event.ConversationMessageShownEvent;
+import com.shinav.mathapp.db.pojo.Cutscene;
+import com.shinav.mathapp.db.pojo.CutsceneLine;
+import com.shinav.mathapp.db.repository.CutsceneLineRepository;
+import com.shinav.mathapp.db.repository.CutsceneRepository;
+import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
@@ -36,33 +36,33 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public class ConversationActivity extends ActionBarActivity {
+public class CutsceneActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
-    @InjectView(R.id.conversation_container) LinearLayout conversationContainer;
-    @InjectView(R.id.conversation_scroll_view) ScrollView conversationScrollView;
+    @InjectView(R.id.cutscene_container) LinearLayout cutsceneContainer;
+    @InjectView(R.id.cutscene_scroll_view) ScrollView cutsceneScrollView;
 
     @Inject Bus bus;
-    @Inject ConversationLineMapper conversationLineMapper;
-    @Inject ConversationMapper conversationMapper;
+    @Inject CutsceneLineMapper cutsceneLineMapper;
+    @Inject CutsceneMapper cutsceneMapper;
 
-    @Inject ConversationRepository conversationRepository;
-    @Inject ConversationLineRepository conversationLineRepository;
+    @Inject CutsceneRepository cutsceneRepository;
+    @Inject CutsceneLineRepository cutsceneLineRepository;
 
-    private List<ConversationLine> conversationLines;
+    private List<CutsceneLine> cutsceneLines;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
+        setContentView(R.layout.activity_cutscene);
 
         ButterKnife.inject(this);
         inject();
 
-        String conversationKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
+        String cutsceneKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
-        loadTitle(conversationKey);
-        startConversation(conversationKey);
+        loadTitle(cutsceneKey);
+        startCutscene(cutsceneKey);
     }
 
     @Override public void onStart() {
@@ -87,30 +87,30 @@ public class ConversationActivity extends ActionBarActivity {
         bus.unregister(this);
     }
 
-    private void startConversation(String conversationKey) {
-        conversationLineRepository.getByConversationKey(conversationKey).first().subscribe(new Action1<List<ConversationLine>>() {
-            @Override public void call(List<ConversationLine> conversationLines) {
+    private void startCutscene(String cutsceneKey) {
+        cutsceneLineRepository.getByCutsceneKey(cutsceneKey).first().subscribe(new Action1<List<CutsceneLine>>() {
+            @Override public void call(List<CutsceneLine> cutsceneLines) {
 
-                if (!conversationLines.isEmpty()) {
-                    ConversationActivity.this.conversationLines = conversationLines;
-                    startConversationPart(conversationLines.get(0));
+                if (!cutsceneLines.isEmpty()) {
+                    CutsceneActivity.this.cutsceneLines = cutsceneLines;
+                    startCutsceneLines(cutsceneLines.get(0));
                 }
 
             }
         });
     }
 
-    private void loadTitle(String conversationKey) {
-        conversationRepository.getByKey(conversationKey).first().subscribe(new Action1<Conversation>() {
-            @Override public void call(Conversation conversation) {
-                initToolbar(conversation);
-                loadBackground(conversation.getBackgroundImageUrl());
+    private void loadTitle(String cutsceneKey) {
+        cutsceneRepository.getByKey(cutsceneKey).first().subscribe(new Action1<Cutscene>() {
+            @Override public void call(Cutscene cutscene) {
+                initToolbar(cutscene);
+                loadBackground(cutscene.getBackgroundImageUrl());
             }
         });
     }
 
-    private void initToolbar(Conversation conversation) {
-        toolbar.setTitle(conversation.getTitle());
+    private void initToolbar(Cutscene cutscene) {
+        toolbar.setTitle(cutscene.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -130,23 +130,23 @@ public class ConversationActivity extends ActionBarActivity {
         backgroundView.setImageAlpha(50);
     }
 
-    private void startConversationPart(final ConversationLine conversationLine) {
+    private void startCutsceneLines(final CutsceneLine cutsceneLine) {
 
-        final ConversationLineView view = new ConversationLineView(
-                ConversationActivity.this,
-                conversationLine
+        final CutsceneLineView view = new CutsceneLineView(
+                CutsceneActivity.this,
+                cutsceneLine
         );
 
-        conversationContainer.addView(view);
-        conversationScrollView.post(new Runnable() {
+        cutsceneContainer.addView(view);
+        cutsceneScrollView.post(new Runnable() {
             @Override
             public void run() {
-                conversationScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                cutsceneScrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
 
         Observable<Long> delayedTimer = Observable.timer(
-                conversationLine.getTypingDuration(),
+                cutsceneLine.getTypingDuration(),
                 TimeUnit.MILLISECONDS
         );
 
@@ -161,11 +161,11 @@ public class ConversationActivity extends ActionBarActivity {
                 });
     }
 
-    @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {
+    @Subscribe public void onCutsceneTextShown(CutsceneLineTextShownEvent event) {
         int nextPos = event.getPosition() + 1;
 
-        if (nextPos < conversationLines.size()) {
-            startConversationPart(conversationLines.get(nextPos));
+        if (nextPos < cutsceneLines.size()) {
+            startCutsceneLines(cutsceneLines.get(nextPos));
         }
     }
 
@@ -173,11 +173,11 @@ public class ConversationActivity extends ActionBarActivity {
     public void onSubmitClicked() {
         Intent intent = new Intent(this, StorytellingService.class);
 
-        String conversationKey =
+        String cutsceneKey =
                 getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         intent.setAction(StorytellingService.ACTION_START_NEXT_FROM);
-        intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, conversationKey);
+        intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, cutsceneKey);
 
         startService(intent);
     }

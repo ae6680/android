@@ -20,7 +20,7 @@
     <dimen name="default_half_margin">8dp</dimen>
     <dimen name="default_quarter_margin">4dp</dimen>
 
-    <dimen name="conversation_part_margin_top">20dp</dimen>
+    <dimen name="cutscene_line_margin_top">20dp</dimen>
 
     <dimen name="card_pager_gutter">8dp</dimen>
     <dimen name="card_pager_margin">16dp</dimen>

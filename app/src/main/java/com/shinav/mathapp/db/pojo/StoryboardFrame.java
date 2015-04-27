@@ -1,5 +1,6 @@
 package com.shinav.mathapp.db.pojo;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 public class StoryboardFrame implements Comparable<StoryboardFrame> {
@@ -51,15 +52,15 @@ public class StoryboardFrame implements Comparable<StoryboardFrame> {
         this.frameTypeKey = frameTypeKey;
     }
 
-    public boolean isConversation() {
-        return TextUtils.equals(getFrameType(), "conversation");
+    public boolean isCutscene() {
+        return TextUtils.equals(getFrameType(), "cutscene");
     }
 
     public boolean isQuestion() {
         return TextUtils.equals(getFrameType(), "question");
     }
 
-    @Override public int compareTo(StoryboardFrame another) {
+    @Override public int compareTo(@NonNull StoryboardFrame another) {
         return getPosition() - another.getPosition();
     }
 }

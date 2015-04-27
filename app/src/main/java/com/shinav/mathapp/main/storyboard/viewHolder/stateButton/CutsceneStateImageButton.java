@@ -6,7 +6,7 @@ import android.widget.ImageButton;
 
 import com.shinav.mathapp.R;
 
-public class ConversationStateImageButton extends ImageButton {
+public class CutsceneStateImageButton extends ImageButton {
 
     public static final int[] STATE_CLOSED = { R.attr.state_closed };
     public static final int[] STATE_OPENED = { R.attr.state_opened };
@@ -14,7 +14,7 @@ public class ConversationStateImageButton extends ImageButton {
     private boolean isClosed = false;
     private boolean isOpened = false;
 
-    public ConversationStateImageButton(Context context, AttributeSet attrs) {
+    public CutsceneStateImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClickable(false);
     }

@@ -3,7 +3,7 @@ package com.shinav.mathapp.question.card;
 import android.content.Context;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
+import com.shinav.mathapp.event.NextQuestionClickedEvent;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
@@ -29,7 +29,7 @@ public class QuestionNextCardView extends ButterKnifeLayout {
 
     @OnClick(R.id.next_question_button)
     public void onNextButtonClicked() {
-        bus.post(new OnNextQuestionClickedEvent());
+        bus.post(new NextQuestionClickedEvent());
     }
 
 }

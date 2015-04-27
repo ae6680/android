@@ -2,15 +2,15 @@ package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
 
-import com.shinav.mathapp.conversation.ConversationActivity;
-import com.shinav.mathapp.event.ConversationMessageShownEvent;
+import com.shinav.mathapp.cutscene.CutsceneActivity;
+import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
-public class TutorialConversationActivity extends ConversationActivity {
+public class TutorialCutsceneActivity extends CutsceneActivity {
 
     @Inject Bus bus;
 
@@ -23,7 +23,7 @@ public class TutorialConversationActivity extends ConversationActivity {
     }
 
     @Override public void inject() {
-        Injector.getActivityComponent(this).inject(TutorialConversationActivity.this);
+        Injector.getActivityComponent(this).inject(TutorialCutsceneActivity.this);
     }
 
     @Override public void onSubmitClicked() {
@@ -47,7 +47,7 @@ public class TutorialConversationActivity extends ConversationActivity {
         super.onBackPressed();
     }
 
-    @Override @Subscribe public void onConversationMessageShown(ConversationMessageShownEvent event) {
-        super.onConversationMessageShown(event);
+    @Override @Subscribe public void onCutsceneTextShown(CutsceneLineTextShownEvent event) {
+        super.onCutsceneTextShown(event);
     }
 }

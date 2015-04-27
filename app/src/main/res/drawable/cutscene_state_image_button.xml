@@ -4,10 +4,10 @@
 
     <item
         app:state_closed="true"
-        android:drawable="@drawable/conversation_progress_state_closed"/>
+        android:drawable="@drawable/cutscene_progress_state_closed"/>
 
     <item
         app:state_opened="true"
-        android:drawable="@drawable/conversation_progress_state_opened"/>
+        android:drawable="@drawable/cutscene_progress_state_opened"/>
 
 </selector>

@@ -1,4 +1,4 @@
-package com.shinav.mathapp.conversation;
+package com.shinav.mathapp.cutscene;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.pojo.ConversationLine;
-import com.shinav.mathapp.event.ConversationMessageShownEvent;
+import com.shinav.mathapp.db.pojo.CutsceneLine;
+import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.view.ButterKnifeLayout;
 import com.squareup.otto.Bus;
@@ -28,58 +28,58 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class ConversationLineView extends ButterKnifeLayout {
+public class CutsceneLineView extends ButterKnifeLayout {
 
     public static final String IS_TYPING_TEXT = "aan het typen";
     public static final int DELAY_MILLIS = 150;
 
     private ViewHolder holder;
-    private ConversationLine conversationLine;
+    private CutsceneLine cutsceneLine;
 
     @Inject Bus bus;
     @Inject SharedPreferences sharedPreferences;
 
-    public ConversationLineView(Context context, ConversationLine conversationLine) {
+    public CutsceneLineView(Context context, CutsceneLine cutsceneLine) {
         super(context);
-        init(conversationLine);
+        init(cutsceneLine);
     }
 
-    private void init(ConversationLine conversationLine) {
-        this.conversationLine = conversationLine;
+    private void init(CutsceneLine cutsceneLine) {
+        this.cutsceneLine = cutsceneLine;
 
         Injector.getViewComponent(this.getContext()).inject(this);
 
-        int layout = getLayout(conversationLine);
+        int layout = getLayout(cutsceneLine);
         View view = inflate(layout, this, false);
 
         holder = new ViewHolder(view);
 
-        loadCharacterImage(conversationLine);
+        loadCharacterImage(cutsceneLine);
 
         addView(view);
     }
 
-    private int getLayout(ConversationLine conversationLine) {
+    private int getLayout(CutsceneLine cutsceneLine) {
         int layout;
 
-        switch (conversationLine.getAlignment()) {
-            case ConversationLine.ALIGNMENT_RIGHT:
-                layout = R.layout.conversation_list_item_right;
+        switch (cutsceneLine.getAlignment()) {
+            case CutsceneLine.ALIGNMENT_RIGHT:
+                layout = R.layout.cutscene_line_right;
                 break;
             default:
-                layout = R.layout.conversation_list_item_left;
+                layout = R.layout.cutscene_line_left;
         }
         return layout;
     }
 
-    private void loadCharacterImage(ConversationLine conversationLine) {
+    private void loadCharacterImage(CutsceneLine cutsceneLine) {
         int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
 
-        if (conversationLine.isMainCharacter() && characterResId != 0) {
+        if (cutsceneLine.isMainCharacter() && characterResId != 0) {
             holder.image.setImageResource(characterResId);
         } else {
             Picasso.with(this.getContext())
-                    .load(conversationLine.getImageUrl())
+                    .load(cutsceneLine.getImageUrl())
                     .centerCrop()
                     .fit()
                     .into(holder.image);
@@ -118,7 +118,7 @@ public class ConversationLineView extends ButterKnifeLayout {
                     }
                 });
 
-        Observable<Long> timer = Observable.timer(conversationLine.getTypingDuration(), TimeUnit.MILLISECONDS);
+        Observable<Long> timer = Observable.timer(cutsceneLine.getTypingDuration(), TimeUnit.MILLISECONDS);
         timer
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
@@ -131,14 +131,14 @@ public class ConversationLineView extends ButterKnifeLayout {
     }
 
     public void showMessage() {
-        holder.line_value.setText(conversationLine.getValue());
-        bus.post(new ConversationMessageShownEvent(conversationLine.getPosition()));
+        holder.line_value.setText(cutsceneLine.getValue());
+        bus.post(new CutsceneLineTextShownEvent(cutsceneLine.getPosition()));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @InjectView(R.id.conversation_line_value) TextView line_value;
-        @InjectView(R.id.conversation_line_image) ImageView image;
+        @InjectView(R.id.cutscene_line_value) TextView line_value;
+        @InjectView(R.id.cutscene_line_image) ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);

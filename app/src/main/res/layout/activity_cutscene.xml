@@ -15,14 +15,14 @@
         android:layout_height="wrap_content"/>
 
     <ScrollView
-        android:id="@+id/conversation_scroll_view"
+        android:id="@+id/cutscene_scroll_view"
         android:layout_below="@id/toolbar"
         android:layout_above="@id/next_question_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/conversation_container"
+            android:id="@+id/cutscene_container"
             android:orientation="vertical"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
@@ -34,7 +34,7 @@
     <TextView
         android:id="@+id/next_question_button"
         style="@style/primary_button"
-        android:text="Ga verder"
+        android:text="@string/continue_now"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"

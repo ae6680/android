@@ -34,11 +34,11 @@ import com.shinav.mathapp.db.repository.QuestionApproachPartRepository;
 import com.shinav.mathapp.db.repository.QuestionApproachRepository;
 import com.shinav.mathapp.db.repository.QuestionExplanationRepository;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.event.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
-import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
-import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.event.AnswerFieldClickedEvent;
+import com.shinav.mathapp.event.AnswerSubmittedEvent;
+import com.shinav.mathapp.event.CalculatorResultAreaClickedEvent;
+import com.shinav.mathapp.event.NextQuestionClickedEvent;
+import com.shinav.mathapp.event.NumpadOperationClickedEvent;
 import com.shinav.mathapp.image.BackgroundLoader;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.card.QuestionAnnexCardView;
@@ -223,7 +223,7 @@ public class QuestionActivity extends ActionBarActivity {
                 .add(R.id.calculator_container, new CalculatorFragment(), CALCULATOR_FRAGMENT).commit();
     }
 
-    @Subscribe public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
+    @Subscribe public void OnAnswerSubmittedEvent(AnswerSubmittedEvent event) {
         startAnimation(event.getAnswer());
 
         questionCardView.setAnswerFieldEnabled(false);
@@ -271,7 +271,7 @@ public class QuestionActivity extends ActionBarActivity {
         questionMapper.update(question);
     }
 
-    @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
+    @Subscribe public void onNextButtonClicked(NextQuestionClickedEvent event) {
         Intent intent = new Intent(this, StorytellingService.class);
 
         intent.setAction(StorytellingService.ACTION_START_NEXT_FROM);
@@ -280,13 +280,13 @@ public class QuestionActivity extends ActionBarActivity {
         startService(intent);
     }
 
-    @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {
+    @Subscribe public void onAnswerFieldClicked(AnswerFieldClickedEvent event) {
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
                 .findFragmentByTag(CALCULATOR_FRAGMENT);
         fragment.releaseFocus();
     }
 
-    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClickedEvent event) {
+    @Subscribe public void onCalculatorResultAreaClicked(CalculatorResultAreaClickedEvent event) {
         questionCardView.releaseFocus();
 
         CalculatorFragment fragment = (CalculatorFragment) getSupportFragmentManager()
@@ -294,7 +294,7 @@ public class QuestionActivity extends ActionBarActivity {
         fragment.gainFocus();
     }
 
-    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
+    @Subscribe public void onCalculatorNumpadClicked(NumpadOperationClickedEvent event) {
         questionCardView.onCalculatorNumpadClicked(event);
     }
 

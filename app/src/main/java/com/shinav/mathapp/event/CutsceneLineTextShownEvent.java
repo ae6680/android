@@ -1,9 +1,9 @@
 package com.shinav.mathapp.event;
 
-public class ConversationMessageShownEvent {
+public class CutsceneLineTextShownEvent {
     private final int position;
 
-    public ConversationMessageShownEvent(int position) {
+    public CutsceneLineTextShownEvent(int position) {
         this.position = position;
     }
 

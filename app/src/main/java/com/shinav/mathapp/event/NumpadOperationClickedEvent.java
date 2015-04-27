@@ -1,6 +1,6 @@
 package com.shinav.mathapp.event;
 
-public class OnNumpadOperationClickedEvent {
+public class NumpadOperationClickedEvent {
 
     public static final int OPERATION_INSERT = 0;
     public static final int OPERATION_BACKSPACE = 1;
@@ -9,7 +9,7 @@ public class OnNumpadOperationClickedEvent {
     private final int operation;
     private final String value;
 
-    public OnNumpadOperationClickedEvent(int operation, String value) {
+    public NumpadOperationClickedEvent(int operation, String value) {
         this.operation = operation;
         this.value = value;
     }
