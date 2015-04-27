@@ -49,6 +49,17 @@ public class ConversationLineView extends ButterKnifeLayout {
 
         Injector.getViewComponent(this.getContext()).inject(this);
 
+        int layout = getLayout(conversationLine);
+        View view = inflate(layout, this, false);
+
+        holder = new ViewHolder(view);
+
+        loadCharacterImage(conversationLine);
+
+        addView(view);
+    }
+
+    private int getLayout(ConversationLine conversationLine) {
         int layout;
 
         switch (conversationLine.getAlignment()) {
@@ -58,16 +69,14 @@ public class ConversationLineView extends ButterKnifeLayout {
             default:
                 layout = R.layout.conversation_list_item_left;
         }
+        return layout;
+    }
 
-        View view = inflate(layout, this, false);
+    private void loadCharacterImage(ConversationLine conversationLine) {
+        int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
 
-        holder =  new ViewHolder(view);
-
-        if (conversationLine.getImageUrl().equals("main")) {
-
-            int characterResId = sharedPreferences.getInt(MyApplication.PREF_CHOSEN_CHARACTER, 0);
+        if (conversationLine.isMainCharacter() && characterResId != 0) {
             holder.image.setImageResource(characterResId);
-
         } else {
             Picasso.with(this.getContext())
                     .load(conversationLine.getImageUrl())
@@ -75,8 +84,6 @@ public class ConversationLineView extends ButterKnifeLayout {
                     .fit()
                     .into(holder.image);
         }
-
-        addView(view);
     }
 
     public void startTyping() {

@@ -184,6 +184,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                         + ConversationLine.POSITION + " INTEGER,"
                         + ConversationLine.ALIGNMENT + " INTEGER,"
                         + ConversationLine.IMAGE_URL + " TEXT,"
+                        + ConversationLine.MAIN_CHARACTER + " INTEGER,"
                         + " UNIQUE (" + ConversationLine.KEY + ") ON CONFLICT REPLACE)"
         );
 

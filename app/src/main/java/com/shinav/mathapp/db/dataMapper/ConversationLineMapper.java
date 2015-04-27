@@ -12,6 +12,7 @@ import static com.shinav.mathapp.db.helper.Tables.ConversationLine.CONVERSATION_
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.DELAY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.KEY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationLine.MAIN_CHARACTER;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.TYPING_DURATION;
@@ -35,6 +36,7 @@ public class ConversationLineMapper {
         values.put(CONVERSATION_KEY, conversationLine.getConversationKey());
         values.put(VALUE, conversationLine.getValue());
         values.put(IMAGE_URL, conversationLine.getImageUrl());
+        values.put(MAIN_CHARACTER, conversationLine.getMainCharacter());
 
         return values;
     }

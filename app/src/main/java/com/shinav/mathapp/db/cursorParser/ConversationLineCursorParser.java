@@ -17,6 +17,7 @@ import static com.shinav.mathapp.db.helper.Tables.ConversationLine.CONVERSATION_
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.DELAY;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.KEY;
+import static com.shinav.mathapp.db.helper.Tables.ConversationLine.MAIN_CHARACTER;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.TYPING_DURATION;
 import static com.shinav.mathapp.db.helper.Tables.ConversationLine.VALUE;
@@ -53,6 +54,7 @@ public class ConversationLineCursorParser implements Func1<Query, List<Conversat
         conversationLine.setTypingDuration(c.getInt(c.getColumnIndex(TYPING_DURATION)));
         conversationLine.setAlignment(c.getInt(c.getColumnIndex(ALIGNMENT)));
         conversationLine.setImageUrl(c.getString(c.getColumnIndex(IMAGE_URL)));
+        conversationLine.setMainCharacter(c.getInt(c.getColumnIndex(MAIN_CHARACTER)));
 
         return conversationLine;
     }

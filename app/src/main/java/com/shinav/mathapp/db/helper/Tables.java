@@ -100,6 +100,7 @@ public interface Tables {
         String POSITION = "position";
         String ALIGNMENT = "alignment";
         String IMAGE_URL = "image_url";
+        String MAIN_CHARACTER = "main_character";
     }
 
     public interface Tutorial {

@@ -27,10 +27,10 @@ public class FirebaseParser {
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
-        String answer = getString(dataSnapshot, Tables.Question.ANSWER);
-        String value =  getString(dataSnapshot, Tables.Question.VALUE);
-        String title =  getString(dataSnapshot, Tables.Question.TITLE);
-        String annexImageUrl = getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
+        String answer =             getString(dataSnapshot, Tables.Question.ANSWER);
+        String value =              getString(dataSnapshot, Tables.Question.VALUE);
+        String title =              getString(dataSnapshot, Tables.Question.TITLE);
+        String annexImageUrl =      getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
         String backgroundImageUrl = getString(dataSnapshot, Tables.Question.BACKGROUND_IMAGE_URL);
 
         question.setKey(dataSnapshot.getKey());
@@ -72,10 +72,10 @@ public class FirebaseParser {
     public QuestionExplanation parseQuestionExplanation(DataSnapshot dataSnapshot) {
         QuestionExplanation questionExplanation = new QuestionExplanation();
 
-        String questionKey = getString(dataSnapshot, Tables.QuestionExplanation.QUESTION_KEY);
-        String text = getString(dataSnapshot, Tables.QuestionExplanation.TEXT);
-        String imageUrl = getString(dataSnapshot, Tables.QuestionExplanation.IMAGE_URL);
-        String position = getString(dataSnapshot, Tables.QuestionExplanation.POSITION);
+        String questionKey =    getString(dataSnapshot, Tables.QuestionExplanation.QUESTION_KEY);
+        String text =           getString(dataSnapshot, Tables.QuestionExplanation.TEXT);
+        String imageUrl =       getString(dataSnapshot, Tables.QuestionExplanation.IMAGE_URL);
+        String position =       getString(dataSnapshot, Tables.QuestionExplanation.POSITION);
 
         questionExplanation.setKey(dataSnapshot.getKey());
         questionExplanation.setQuestionKey(questionKey);
@@ -118,11 +118,11 @@ public class FirebaseParser {
         Conversation conversation = new Conversation();
 
         String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
-        String image_url =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
+        String imageUrl =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
 
         conversation.setKey(dataSnapshot.getKey());
         conversation.setTitle(title);
-        conversation.setBackgroundImageUrl(image_url);
+        conversation.setBackgroundImageUrl(imageUrl);
 
         return conversation;
     }
@@ -130,22 +130,24 @@ public class FirebaseParser {
     public ConversationLine parseConversationLine(DataSnapshot dataSnapshot) {
         ConversationLine conversationLine = new ConversationLine();
 
-        String conversation_key = getString(dataSnapshot, Tables.ConversationLine.CONVERSATION_KEY);
+        String conversationKey = getString(dataSnapshot, Tables.ConversationLine.CONVERSATION_KEY);
         String value =            getString(dataSnapshot, Tables.ConversationLine.VALUE);
         String position =         getString(dataSnapshot, Tables.ConversationLine.POSITION);
         String delay =            getString(dataSnapshot, Tables.ConversationLine.DELAY);
         String typingDuration =   getString(dataSnapshot, Tables.ConversationLine.TYPING_DURATION);
         String alignment =        getString(dataSnapshot, Tables.ConversationLine.ALIGNMENT);
-        String image_url =        getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
+        String imageUrl =         getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
+        String mainCharacter =    getString(dataSnapshot, Tables.ConversationLine.MAIN_CHARACTER);
 
         conversationLine.setKey(dataSnapshot.getKey());
-        conversationLine.setConversationKey(conversation_key);
+        conversationLine.setConversationKey(conversationKey);
         conversationLine.setValue(value);
         conversationLine.setPosition(Integer.parseInt(position));
         conversationLine.setDelay(Integer.parseInt(delay));
         conversationLine.setTypingDuration(Integer.parseInt(typingDuration));
         conversationLine.setAlignment(Integer.parseInt(alignment));
-        conversationLine.setImageUrl(image_url);
+        conversationLine.setImageUrl(imageUrl);
+        conversationLine.setMainCharacter(Integer.parseInt(mainCharacter));
 
         return conversationLine;
     }
