@@ -2,11 +2,11 @@ package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
 
-import com.shinav.mathapp.event.OnAnswerFieldClickedEvent;
-import com.shinav.mathapp.event.OnAnswerSubmittedEvent;
-import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
-import com.shinav.mathapp.event.OnNextQuestionClickedEvent;
-import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.event.AnswerFieldClickedEvent;
+import com.shinav.mathapp.event.AnswerSubmittedEvent;
+import com.shinav.mathapp.event.CalculatorResultAreaClickedEvent;
+import com.shinav.mathapp.event.NextQuestionClickedEvent;
+import com.shinav.mathapp.event.NumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.squareup.otto.Bus;
@@ -30,7 +30,7 @@ public class TutorialQuestionActivity extends QuestionActivity {
         Injector.getActivityComponent(this).inject(TutorialQuestionActivity.this);
     }
 
-    @Override @Subscribe public void onNextButtonClicked(OnNextQuestionClickedEvent event) {
+    @Override @Subscribe public void onNextButtonClicked(NextQuestionClickedEvent event) {
 
         Intent intent = new Intent(this, TutorialManagingService.class);
 
@@ -51,19 +51,19 @@ public class TutorialQuestionActivity extends QuestionActivity {
         super.onBackPressed();
     }
 
-    @Subscribe public void OnAnswerSubmittedEvent(OnAnswerSubmittedEvent event) {
+    @Subscribe public void OnAnswerSubmittedEvent(AnswerSubmittedEvent event) {
         super.OnAnswerSubmittedEvent(event);
     }
 
-    @Subscribe public void onAnswerFieldClicked(OnAnswerFieldClickedEvent event) {
+    @Subscribe public void onAnswerFieldClicked(AnswerFieldClickedEvent event) {
         super.onAnswerFieldClicked(event);
     }
 
-    @Subscribe public void onCalculatorResultAreaClicked(OnCalculatorResultAreaClickedEvent event) {
+    @Subscribe public void onCalculatorResultAreaClicked(CalculatorResultAreaClickedEvent event) {
         super.onCalculatorResultAreaClicked(event);
     }
 
-    @Subscribe public void onCalculatorNumpadClicked(OnNumpadOperationClickedEvent event) {
+    @Subscribe public void onCalculatorNumpadClicked(NumpadOperationClickedEvent event) {
         super.onCalculatorNumpadClicked(event);
     }
 

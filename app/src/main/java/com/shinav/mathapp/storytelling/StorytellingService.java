@@ -5,7 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.shinav.mathapp.conversation.ConversationActivity;
+import com.shinav.mathapp.cutscene.CutsceneActivity;
 import com.shinav.mathapp.db.dataMapper.QuestionMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Question;
@@ -122,8 +122,8 @@ public class StorytellingService extends Service {
         if (storyboardFrame.isQuestion()) {
             start(QuestionApproachActivity.class, frameTypeKey);
 
-        } else if (storyboardFrame.isConversation()) {
-            start(ConversationActivity.class, frameTypeKey);
+        } else if (storyboardFrame.isCutscene()) {
+            start(CutsceneActivity.class, frameTypeKey);
         }
     }
 

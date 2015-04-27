@@ -9,8 +9,9 @@ public abstract class FirebaseNodes {
         String STORYBOARD = "storyboards";
         String STORYBOARD_FRAMES = "storyboard_frames";
 
-        String CONVERSATIONS = "conversations";
-        String CONVERSATION_LINES = "conversation_lines";
+        String CUTSCENES = "cutscenes";
+        String CUTSCENE_LINES = "cutscene_lines";
+        String CUTSCENE_NOTICES = "cutscene_notices";
 
         String QUESTIONS = "questions";
         String QUESTION_APPROACHES = "question_approaches";

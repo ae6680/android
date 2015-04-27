@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.main.storyboard.viewHolder.ConversationViewHolder;
+import com.shinav.mathapp.main.storyboard.viewHolder.CutsceneViewHolder;
 import com.shinav.mathapp.main.storyboard.viewHolder.QuestionViewHolder;
 import com.shinav.mathapp.main.storyboard.viewHolder.StoryboardFrameViewHolder;
 
@@ -17,16 +17,16 @@ import javax.inject.Inject;
 
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CONVERSATION;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
 public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrameViewHolder> {
 
-    public static final int VIEW_TYPE_CONVERSATION = 0;
+    public static final int VIEW_TYPE_CUTSCENE = 0;
     public static final int VIEW_TYPE_QUESTION = 1;
 
     private List<StoryboardFrameListItem> listItems = Collections.emptyList();
-    private int conversationState = STATE_OPENED;
+    private int cutsceneState = STATE_OPENED;
 
     @Inject public StoryboardFrameAdapter() { }
 
@@ -37,11 +37,11 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
         switch (viewType) {
             case VIEW_TYPE_QUESTION:
-                view = inflater.inflate(R.layout.storyboard_list_item_question, parent, false);
+                view = inflater.inflate(R.layout.storyboard_frame_question, parent, false);
                 return new QuestionViewHolder(view);
-            case VIEW_TYPE_CONVERSATION:
-                view = inflater.inflate(R.layout.storyboard_list_item_conversation, parent, false);
-                return new ConversationViewHolder(view);
+            case VIEW_TYPE_CUTSCENE:
+                view = inflater.inflate(R.layout.storyboard_frame_cutscene, parent, false);
+                return new CutsceneViewHolder(view);
         }
 
         return null;
@@ -56,7 +56,7 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
         if (isFirstClosed(position, listItem.getState())) {
             holder.setState(STATE_OPENED);
-            conversationState = STATE_CLOSED;
+            cutsceneState = STATE_CLOSED;
         } else {
 
             switch (listItem.getType()) {
@@ -64,12 +64,12 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
                     holder.setState(listItem.getState());
 
                     if (listItem.getState() == STATE_OPENED) {
-                        conversationState = STATE_CLOSED;
+                        cutsceneState = STATE_CLOSED;
                     }
 
                     break;
-                case TYPE_CONVERSATION:
-                    holder.setState(conversationState);
+                case TYPE_CUTSCENE:
+                    holder.setState(cutsceneState);
             }
 
         }
@@ -89,8 +89,8 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
         switch (listItem.getType()) {
             case TYPE_QUESTION:
                 return VIEW_TYPE_QUESTION;
-            case TYPE_CONVERSATION:
-                return VIEW_TYPE_CONVERSATION;
+            case TYPE_CUTSCENE:
+                return VIEW_TYPE_CUTSCENE;
         }
 
         return super.getItemViewType(position);
@@ -98,7 +98,7 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
     public void setListItems(List<StoryboardFrameListItem> listItems) {
         this.listItems = listItems;
-        conversationState = STATE_OPENED;
+        cutsceneState = STATE_OPENED;
         notifyDataSetChanged();
     }
 

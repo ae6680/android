@@ -81,22 +81,35 @@ public interface Tables {
         String FRAME_TYPE_KEY = "frame_type_key";
     }
 
-    public interface Conversation {
-        String TABLE_NAME = "conversation";
+    public interface Cutscene {
+        String TABLE_NAME = "cutscene";
         String KEY = "key";
         String TITLE = "title";
         String BACKGROUND_IMAGE_URL = "background_image_url";
     }
 
-    public interface ConversationLine {
-        String TABLE_NAME = "conversation_line";
+    public interface CutsceneLine {
+        String TABLE_NAME = "cutscene_line";
         String KEY = "key";
 
-        String CONVERSATION_KEY = "conversation_key";
+        String CUTSCENE_KEY = "cutscene_key";
 
         String VALUE = "value";
         String DELAY = "delay";
         String TYPING_DURATION = "typing_duration";
+        String POSITION = "position";
+        String ALIGNMENT = "alignment";
+        String IMAGE_URL = "image_url";
+        String MAIN_CHARACTER = "main_character";
+    }
+
+    public interface CutsceneNotice {
+        String TABLE_NAME = "cutscene_notice";
+        String KEY = "key";
+
+        String CUTSCENE_KEY = "cutscene_key";
+
+        String TEXT = "text";
         String POSITION = "position";
         String ALIGNMENT = "alignment";
         String IMAGE_URL = "image_url";

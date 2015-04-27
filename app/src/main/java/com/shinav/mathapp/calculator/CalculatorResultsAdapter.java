@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.OnCalculatorResultAreaClickedEvent;
+import com.shinav.mathapp.event.CalculatorResultAreaClickedEvent;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -122,7 +122,7 @@ public class CalculatorResultsAdapter extends RecyclerView.Adapter<CalculatorRes
         }
 
         @Override public void onClick(View v) {
-            bus.post(new OnCalculatorResultAreaClickedEvent());
+            bus.post(new CalculatorResultAreaClickedEvent());
         }
     }
 }

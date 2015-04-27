@@ -24,7 +24,7 @@
         <activity android:name=".tutorial.TutorialActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name=".tutorial.TutorialConversationActivity"
+        <activity android:name=".tutorial.TutorialCutsceneActivity"
                   android:screenOrientation="portrait" />
 
         <activity android:name=".tutorial.TutorialQuestionActivity"
@@ -36,8 +36,8 @@
         <activity android:name=".tutorial.TutorialQAFActivity"
                   android:screenOrientation="portrait" />
 
-        <!-- Conversation -->
-        <activity android:name=".conversation.ConversationActivity"
+        <!-- Cutscene -->
+        <activity android:name=".cutscene.CutsceneActivity"
                   android:screenOrientation="portrait"
                   android:noHistory="true" />
 

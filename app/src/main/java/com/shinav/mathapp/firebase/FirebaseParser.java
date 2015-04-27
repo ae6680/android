@@ -2,8 +2,9 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.helper.Tables;
-import com.shinav.mathapp.db.pojo.Conversation;
-import com.shinav.mathapp.db.pojo.ConversationLine;
+import com.shinav.mathapp.db.pojo.Cutscene;
+import com.shinav.mathapp.db.pojo.CutsceneLine;
+import com.shinav.mathapp.db.pojo.CutsceneNotice;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
@@ -27,10 +28,10 @@ public class FirebaseParser {
     public Question parseQuestion(DataSnapshot dataSnapshot) {
         Question question = new Question();
 
-        String answer = getString(dataSnapshot, Tables.Question.ANSWER);
-        String value =  getString(dataSnapshot, Tables.Question.VALUE);
-        String title =  getString(dataSnapshot, Tables.Question.TITLE);
-        String annexImageUrl = getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
+        String answer =             getString(dataSnapshot, Tables.Question.ANSWER);
+        String value =              getString(dataSnapshot, Tables.Question.VALUE);
+        String title =              getString(dataSnapshot, Tables.Question.TITLE);
+        String annexImageUrl =      getString(dataSnapshot, Tables.Question.ANNEX_IMAGE_URL);
         String backgroundImageUrl = getString(dataSnapshot, Tables.Question.BACKGROUND_IMAGE_URL);
 
         question.setKey(dataSnapshot.getKey());
@@ -72,10 +73,10 @@ public class FirebaseParser {
     public QuestionExplanation parseQuestionExplanation(DataSnapshot dataSnapshot) {
         QuestionExplanation questionExplanation = new QuestionExplanation();
 
-        String questionKey = getString(dataSnapshot, Tables.QuestionExplanation.QUESTION_KEY);
-        String text = getString(dataSnapshot, Tables.QuestionExplanation.TEXT);
-        String imageUrl = getString(dataSnapshot, Tables.QuestionExplanation.IMAGE_URL);
-        String position = getString(dataSnapshot, Tables.QuestionExplanation.POSITION);
+        String questionKey =    getString(dataSnapshot, Tables.QuestionExplanation.QUESTION_KEY);
+        String text =           getString(dataSnapshot, Tables.QuestionExplanation.TEXT);
+        String imageUrl =       getString(dataSnapshot, Tables.QuestionExplanation.IMAGE_URL);
+        String position =       getString(dataSnapshot, Tables.QuestionExplanation.POSITION);
 
         questionExplanation.setKey(dataSnapshot.getKey());
         questionExplanation.setQuestionKey(questionKey);
@@ -114,40 +115,61 @@ public class FirebaseParser {
         return storyboardFrame;
     }
 
-    public Conversation parseConversation(DataSnapshot dataSnapshot) {
-        Conversation conversation = new Conversation();
+    public Cutscene parseCutscene(DataSnapshot dataSnapshot) {
+        Cutscene cutscene = new Cutscene();
 
-        String title =      getString(dataSnapshot, Tables.Conversation.TITLE);
-        String image_url =  getString(dataSnapshot, Tables.Conversation.BACKGROUND_IMAGE_URL);
+        String title =      getString(dataSnapshot, Tables.Cutscene.TITLE);
+        String imageUrl =   getString(dataSnapshot, Tables.Cutscene.BACKGROUND_IMAGE_URL);
 
-        conversation.setKey(dataSnapshot.getKey());
-        conversation.setTitle(title);
-        conversation.setBackgroundImageUrl(image_url);
+        cutscene.setKey(dataSnapshot.getKey());
+        cutscene.setTitle(title);
+        cutscene.setBackgroundImageUrl(imageUrl);
 
-        return conversation;
+        return cutscene;
     }
 
-    public ConversationLine parseConversationLine(DataSnapshot dataSnapshot) {
-        ConversationLine conversationLine = new ConversationLine();
+    public CutsceneLine parseCutsceneLine(DataSnapshot dataSnapshot) {
+        CutsceneLine cutsceneLine = new CutsceneLine();
 
-        String conversation_key = getString(dataSnapshot, Tables.ConversationLine.CONVERSATION_KEY);
-        String value =            getString(dataSnapshot, Tables.ConversationLine.VALUE);
-        String position =         getString(dataSnapshot, Tables.ConversationLine.POSITION);
-        String delay =            getString(dataSnapshot, Tables.ConversationLine.DELAY);
-        String typingDuration =   getString(dataSnapshot, Tables.ConversationLine.TYPING_DURATION);
-        String alignment =        getString(dataSnapshot, Tables.ConversationLine.ALIGNMENT);
-        String image_url =        getString(dataSnapshot, Tables.ConversationLine.IMAGE_URL);
+        String cutsceneKey =    getString(dataSnapshot, Tables.CutsceneLine.CUTSCENE_KEY);
+        String value =          getString(dataSnapshot, Tables.CutsceneLine.VALUE);
+        String position =       getString(dataSnapshot, Tables.CutsceneLine.POSITION);
+        String delay =          getString(dataSnapshot, Tables.CutsceneLine.DELAY);
+        String typingDuration = getString(dataSnapshot, Tables.CutsceneLine.TYPING_DURATION);
+        String alignment =      getString(dataSnapshot, Tables.CutsceneLine.ALIGNMENT);
+        String imageUrl =       getString(dataSnapshot, Tables.CutsceneLine.IMAGE_URL);
+        String mainCharacter =  getString(dataSnapshot, Tables.CutsceneLine.MAIN_CHARACTER);
 
-        conversationLine.setKey(dataSnapshot.getKey());
-        conversationLine.setConversationKey(conversation_key);
-        conversationLine.setValue(value);
-        conversationLine.setPosition(Integer.parseInt(position));
-        conversationLine.setDelay(Integer.parseInt(delay));
-        conversationLine.setTypingDuration(Integer.parseInt(typingDuration));
-        conversationLine.setAlignment(Integer.parseInt(alignment));
-        conversationLine.setImageUrl(image_url);
+        cutsceneLine.setKey(dataSnapshot.getKey());
+        cutsceneLine.setCutsceneKey(cutsceneKey);
+        cutsceneLine.setValue(value);
+        cutsceneLine.setPosition(Integer.parseInt(position));
+        cutsceneLine.setDelay(Integer.parseInt(delay));
+        cutsceneLine.setTypingDuration(Integer.parseInt(typingDuration));
+        cutsceneLine.setAlignment(Integer.parseInt(alignment));
+        cutsceneLine.setImageUrl(imageUrl);
+        cutsceneLine.setMainCharacter(Integer.parseInt(mainCharacter));
 
-        return conversationLine;
+        return cutsceneLine;
+    }
+
+    public CutsceneNotice parseCutsceneNotice(DataSnapshot dataSnapshot) {
+        CutsceneNotice cutsceneNotice = new CutsceneNotice();
+
+        String cutsceneKey =    getString(dataSnapshot, Tables.CutsceneNotice.CUTSCENE_KEY);
+        String text =           getString(dataSnapshot, Tables.CutsceneNotice.TEXT);
+        String position =       getString(dataSnapshot, Tables.CutsceneNotice.POSITION);
+        String alignment =      getString(dataSnapshot, Tables.CutsceneNotice.ALIGNMENT);
+        String imageUrl =       getString(dataSnapshot, Tables.CutsceneNotice.IMAGE_URL);
+
+        cutsceneNotice.setKey(dataSnapshot.getKey());
+        cutsceneNotice.setCutsceneKey(cutsceneKey);
+        cutsceneNotice.setText(text);
+        cutsceneNotice.setPosition(Integer.parseInt(position));
+        cutsceneNotice.setAlignment(Integer.parseInt(alignment));
+        cutsceneNotice.setImageUrl(imageUrl);
+
+        return cutsceneNotice;
     }
 
     public Tutorial parseTutorial(DataSnapshot dataSnapshot) {

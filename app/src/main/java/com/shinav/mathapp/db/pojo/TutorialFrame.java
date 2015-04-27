@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 public class TutorialFrame implements Comparable<TutorialFrame> {
 
-    public static final String CONVERSATION = "conversation";
+    public static final String CUTSCENE = "cutscene";
     public static final String APPROACH = "approach";
     public static final String APPROACH_FEEDBACK = "approach_feedback";
     public static final String QUESTION = "question";

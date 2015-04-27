@@ -1,7 +1,8 @@
 package com.shinav.mathapp.injection.component;
 
 import com.shinav.mathapp.calculator.CalculatorFragment;
-import com.shinav.mathapp.conversation.ConversationLineView;
+import com.shinav.mathapp.cutscene.CutsceneLineView;
+import com.shinav.mathapp.cutscene.CutsceneNoticeView;
 import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
@@ -32,18 +33,24 @@ public interface ViewComponent {
     StoryboardFrameAdapter storyProgressPartAdapter();
 
     void inject(TabsView tabsView);
-    void inject(QuestionApproachDragRecyclerView questionApproachDragRecyclerView);
-    void inject(StoryboardFrameRecyclerView storyboardFrameRecyclerView);
-    void inject(QuestionCardView questionCardView);
-    void inject(QuestionNextCardView questionNextCardView);
-    void inject(CalculatorFragment calculatorFragment);
+
     void inject(TutorialView tutorialView);
-    void inject(ConversationLineView conversationLineView);
+
+    void inject(StoryboardFrameRecyclerView storyboardFrameRecyclerView);
+    void inject(StoryboardFrameViewHolder storyboardFrameViewHolder);
+
+    void inject(QuestionApproachCardView questionApproachCardView);
+    void inject(QuestionApproachDragRecyclerView questionApproachDragRecyclerView);
 
     void inject(QAFViewPagerPage qafViewPagerPage);
     void inject(QAFViewPager qafViewPager);
 
-    void inject(QuestionApproachCardView questionApproachCardView);
+    void inject(QuestionCardView questionCardView);
+    void inject(QuestionNextCardView questionNextCardView);
 
-    void inject(StoryboardFrameViewHolder storyboardFrameViewHolder);
+    void inject(CalculatorFragment calculatorFragment);
+
+    void inject(CutsceneLineView cutsceneLineView);
+    void inject(CutsceneNoticeView cutsceneNoticeView);
+
 }

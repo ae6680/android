@@ -1,10 +1,12 @@
 package com.shinav.mathapp.tutorial;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.db.repository.TutorialRepository;
@@ -25,6 +27,7 @@ public class TutorialActivity extends ActionBarActivity {
 
     @Inject Bus bus;
     @Inject TutorialRepository tutorialRepository;
+    @Inject SharedPreferences sharedPreferences;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +54,11 @@ public class TutorialActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void startTutorialManagingService(String tutorialKey, int resourceId) {
+    private void startTutorialManagingService(String tutorialKey) {
         Intent intent = new Intent(this, TutorialManagingService.class);
 
         intent.setAction(TutorialManagingService.ACTION_START);
         intent.putExtra(TutorialManagingService.EXTRA_TUTORIAL_KEY, tutorialKey);
-        intent.putExtra(TutorialManagingService.EXTRA_CHOSEN_CHARACTER, resourceId);
 
         startService(intent);
     }
@@ -65,12 +67,19 @@ public class TutorialActivity extends ActionBarActivity {
 
         tutorialRepository.getFirst(new Action1<Tutorial>() {
             @Override public void call(Tutorial tutorial) {
+                saveChosenCharacter(event.getResourceId());
                 startTutorialManagingService(
-                        tutorial.getKey(),
-                        event.getResourceId()
+                        tutorial.getKey()
                 );
             }
         });
+    }
+
+    private void saveChosenCharacter(int resourceId) {
+        sharedPreferences.edit().putInt(
+                MyApplication.PREF_CHOSEN_CHARACTER,
+                resourceId
+        ).apply();
     }
 
 }

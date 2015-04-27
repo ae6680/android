@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.event.OnNumpadOperationClickedEvent;
+import com.shinav.mathapp.event.NumpadOperationClickedEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Bus;
 
@@ -101,8 +101,8 @@ public class CalculatorFragment extends Fragment {
             answer = calculator.calculate(equation);
             updateLastCalculatorResultItem();
         } else {
-            bus.post(new OnNumpadOperationClickedEvent(
-                    OnNumpadOperationClickedEvent.OPERATION_INSERT, number));
+            bus.post(new NumpadOperationClickedEvent(
+                    NumpadOperationClickedEvent.OPERATION_INSERT, number));
         }
     }
 
@@ -143,8 +143,8 @@ public class CalculatorFragment extends Fragment {
                 updateLastCalculatorResultItem();
             }
         } else {
-            bus.post(new OnNumpadOperationClickedEvent(
-                    OnNumpadOperationClickedEvent.OPERATION_BACKSPACE, null));
+            bus.post(new NumpadOperationClickedEvent(
+                    NumpadOperationClickedEvent.OPERATION_BACKSPACE, null));
         }
     }
 
@@ -155,8 +155,8 @@ public class CalculatorFragment extends Fragment {
             answer = "";
             updateLastCalculatorResultItem();
         } else {
-            bus.post(new OnNumpadOperationClickedEvent(
-                    OnNumpadOperationClickedEvent.OPERATION_REMOVE_ALL, null));
+            bus.post(new NumpadOperationClickedEvent(
+                    NumpadOperationClickedEvent.OPERATION_REMOVE_ALL, null));
         }
 
         return false;
@@ -168,8 +168,8 @@ public class CalculatorFragment extends Fragment {
             equation += ",";
             updateLastCalculatorResultItem();
         } else {
-            bus.post(new OnNumpadOperationClickedEvent(
-                    OnNumpadOperationClickedEvent.OPERATION_INSERT, ","));
+            bus.post(new NumpadOperationClickedEvent(
+                    NumpadOperationClickedEvent.OPERATION_INSERT, ","));
         }
     }
 
