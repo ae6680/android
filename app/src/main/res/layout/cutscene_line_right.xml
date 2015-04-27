@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/cutscene_line_value"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="@dimen/default_double_margin"
         android:layout_marginEnd="@dimen/default_margin"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/cutscene_line_image"
@@ -18,7 +18,7 @@
     <ImageView
         android:id="@+id/cutscene_line_image"
         android:layout_alignParentEnd="true"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="@dimen/cutscene_line_image"
+        android:layout_height="@dimen/cutscene_line_image"/>
 
 </RelativeLayout>

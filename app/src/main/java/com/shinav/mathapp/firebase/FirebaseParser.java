@@ -4,6 +4,7 @@ import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Cutscene;
 import com.shinav.mathapp.db.pojo.CutsceneLine;
+import com.shinav.mathapp.db.pojo.CutsceneNotice;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.QuestionApproach;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
@@ -150,6 +151,25 @@ public class FirebaseParser {
         cutsceneLine.setMainCharacter(Integer.parseInt(mainCharacter));
 
         return cutsceneLine;
+    }
+
+    public CutsceneNotice parseCutsceneNotice(DataSnapshot dataSnapshot) {
+        CutsceneNotice cutsceneNotice = new CutsceneNotice();
+
+        String cutsceneKey =    getString(dataSnapshot, Tables.CutsceneNotice.CUTSCENE_KEY);
+        String text =           getString(dataSnapshot, Tables.CutsceneNotice.TEXT);
+        String position =       getString(dataSnapshot, Tables.CutsceneNotice.POSITION);
+        String alignment =      getString(dataSnapshot, Tables.CutsceneNotice.ALIGNMENT);
+        String imageUrl =       getString(dataSnapshot, Tables.CutsceneNotice.IMAGE_URL);
+
+        cutsceneNotice.setKey(dataSnapshot.getKey());
+        cutsceneNotice.setCutsceneKey(cutsceneKey);
+        cutsceneNotice.setText(text);
+        cutsceneNotice.setPosition(Integer.parseInt(position));
+        cutsceneNotice.setAlignment(Integer.parseInt(alignment));
+        cutsceneNotice.setImageUrl(imageUrl);
+
+        return cutsceneNotice;
     }
 
     public Tutorial parseTutorial(DataSnapshot dataSnapshot) {

@@ -4,6 +4,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.listener.FirebaseCutsceneLineListener;
 import com.shinav.mathapp.firebase.listener.FirebaseCutsceneListener;
+import com.shinav.mathapp.firebase.listener.FirebaseCutsceneNoticeListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachPartListener;
 import com.shinav.mathapp.firebase.listener.FirebaseQuestionExplanationListener;
@@ -29,6 +30,7 @@ public class FirebaseChildRegisterer {
 
     @Inject FirebaseCutsceneListener firebaseCutsceneListener;
     @Inject FirebaseCutsceneLineListener firebaseCutsceneLineListener;
+    @Inject FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener;
 
     @Inject FirebaseQuestionListener firebaseQuestionListener;
     @Inject FirebaseQuestionApproachListener firebaseQuestionApproachListener;
@@ -47,6 +49,7 @@ public class FirebaseChildRegisterer {
 
         addChildEventListener(Nodes.CUTSCENES, firebaseCutsceneListener);
         addChildEventListener(Nodes.CUTSCENE_LINES, firebaseCutsceneLineListener);
+        addChildEventListener(Nodes.CUTSCENE_NOTICES, firebaseCutsceneNoticeListener);
 
         addChildEventListener(Nodes.QUESTIONS, firebaseQuestionListener);
         addChildEventListener(Nodes.QUESTION_APPROACHES, firebaseQuestionApproachListener);

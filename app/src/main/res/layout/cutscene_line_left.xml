@@ -7,14 +7,14 @@
 
     <ImageView
         android:id="@+id/cutscene_line_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="@dimen/cutscene_line_image"
+        android:layout_height="@dimen/cutscene_line_image"/>
 
     <TextView
         android:id="@+id/cutscene_line_value"
         android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="32dp"
-        android:textColor="#fff"
+        android:layout_marginEnd="@dimen/default_double_margin"
+        android:textColor="@color/text_tertiair"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>

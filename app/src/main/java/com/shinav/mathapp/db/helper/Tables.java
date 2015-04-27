@@ -103,6 +103,18 @@ public interface Tables {
         String MAIN_CHARACTER = "main_character";
     }
 
+    public interface CutsceneNotice {
+        String TABLE_NAME = "cutscene_notice";
+        String KEY = "key";
+
+        String CUTSCENE_KEY = "cutscene_key";
+
+        String TEXT = "text";
+        String POSITION = "position";
+        String ALIGNMENT = "alignment";
+        String IMAGE_URL = "image_url";
+    }
+
     public interface Tutorial {
         String TABLE_NAME = "tutorial";
         String KEY = "key";

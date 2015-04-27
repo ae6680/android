@@ -56,6 +56,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
         createCutsceneTable(db);
         createCutsceneLineTable(db);
+        createCutsceneNoticeTable(db);
 
         createTutorialTable(db);
         createTutorialFrameTable(db);
@@ -189,6 +190,20 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         );
 
         createIndex(db, Tables.CutsceneLine.TABLE_NAME, Tables.CutsceneLine.KEY);
+    }
+
+    private void createCutsceneNoticeTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + Tables.CutsceneNotice.TABLE_NAME + " ("
+                        + Tables.CutsceneNotice.KEY + " TEXT,"
+                        + Tables.CutsceneNotice.CUTSCENE_KEY + " TEXT,"
+                        + Tables.CutsceneNotice.TEXT + " TEXT,"
+                        + Tables.CutsceneNotice.POSITION + " INTEGER,"
+                        + Tables.CutsceneNotice.ALIGNMENT + " INTEGER,"
+                        + Tables.CutsceneNotice.IMAGE_URL + " TEXT,"
+                        + " UNIQUE (" + Tables.CutsceneNotice.KEY + ") ON CONFLICT REPLACE)"
+        );
+
+        createIndex(db, Tables.CutsceneNotice.TABLE_NAME, Tables.CutsceneNotice.KEY);
     }
 
     private void createTutorialTable(SQLiteDatabase db) {

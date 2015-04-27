@@ -19,6 +19,7 @@
     <dimen name="default_margin">16dp</dimen>
     <dimen name="default_half_margin">8dp</dimen>
     <dimen name="default_quarter_margin">4dp</dimen>
+    <dimen name="default_double_margin">32dp</dimen>
 
     <dimen name="cutscene_line_margin_top">20dp</dimen>
 
@@ -27,5 +28,8 @@
 
     <dimen name="indicator_dimension">16dp</dimen>
     <dimen name="gender_selector_item_dimen">125dp</dimen>
+
+    <dimen name="cutscene_line_image">60dp</dimen>
+    <dimen name="cutscene_notice_image">40dp</dimen>
 
 </resources>

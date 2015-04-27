@@ -11,6 +11,7 @@ public abstract class FirebaseNodes {
 
         String CUTSCENES = "cutscenes";
         String CUTSCENE_LINES = "cutscene_lines";
+        String CUTSCENE_NOTICES = "cutscene_notices";
 
         String QUESTIONS = "questions";
         String QUESTION_APPROACHES = "question_approaches";

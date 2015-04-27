@@ -15,7 +15,9 @@ import com.shinav.mathapp.db.dataMapper.CutsceneMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Cutscene;
 import com.shinav.mathapp.db.pojo.CutsceneLine;
+import com.shinav.mathapp.db.pojo.CutsceneNotice;
 import com.shinav.mathapp.db.repository.CutsceneLineRepository;
+import com.shinav.mathapp.db.repository.CutsceneNoticeRepository;
 import com.shinav.mathapp.db.repository.CutsceneRepository;
 import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
@@ -24,6 +26,8 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +39,9 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Actions;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 public class CutsceneActivity extends ActionBarActivity {
 
@@ -49,8 +56,11 @@ public class CutsceneActivity extends ActionBarActivity {
 
     @Inject CutsceneRepository cutsceneRepository;
     @Inject CutsceneLineRepository cutsceneLineRepository;
+    @Inject CutsceneNoticeRepository cutsceneNoticeRepository;
 
-    private List<CutsceneLine> cutsceneLines;
+    private List<CutsceneLine> cutsceneLines = Collections.emptyList();
+    private List<CutsceneNotice> aboveNotices = new ArrayList<>();
+    private List<CutsceneNotice> underNotices = new ArrayList<>();
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +71,7 @@ public class CutsceneActivity extends ActionBarActivity {
 
         String cutsceneKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
-        loadTitle(cutsceneKey);
+        loadCutscene(cutsceneKey);
         startCutscene(cutsceneKey);
     }
 
@@ -88,19 +98,26 @@ public class CutsceneActivity extends ActionBarActivity {
     }
 
     private void startCutscene(String cutsceneKey) {
-        cutsceneLineRepository.getByCutsceneKey(cutsceneKey).first().subscribe(new Action1<List<CutsceneLine>>() {
-            @Override public void call(List<CutsceneLine> cutsceneLines) {
+        Observable<List<CutsceneLine>> lineObservable =
+                cutsceneLineRepository.getByCutsceneKey(cutsceneKey)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .first();
 
-                if (!cutsceneLines.isEmpty()) {
-                    CutsceneActivity.this.cutsceneLines = cutsceneLines;
-                    startCutsceneLines(cutsceneLines.get(0));
-                }
+        Observable<List<CutsceneNotice>> noticesObservable =
+                cutsceneNoticeRepository.getByCutsceneKey(cutsceneKey)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .first();
 
-            }
-        });
+        Observable.combineLatest(
+                lineObservable,
+                noticesObservable,
+                new SceneComponentsReady()
+        ).first().subscribe(Actions.empty());
     }
 
-    private void loadTitle(String cutsceneKey) {
+    private void loadCutscene(String cutsceneKey) {
         cutsceneRepository.getByKey(cutsceneKey).first().subscribe(new Action1<Cutscene>() {
             @Override public void call(Cutscene cutscene) {
                 initToolbar(cutscene);
@@ -166,6 +183,10 @@ public class CutsceneActivity extends ActionBarActivity {
 
         if (nextPos < cutsceneLines.size()) {
             startCutsceneLines(cutsceneLines.get(nextPos));
+        } else {
+            for (CutsceneNotice notice : underNotices) {
+                addCutsceneNoticeView(notice);
+            }
         }
     }
 
@@ -180,6 +201,42 @@ public class CutsceneActivity extends ActionBarActivity {
         intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, cutsceneKey);
 
         startService(intent);
+    }
+
+    private void addCutsceneNoticeView(CutsceneNotice notice) {
+        CutsceneNoticeView noticeView = new CutsceneNoticeView(this);
+        noticeView.setText(notice.getText());
+        noticeView.setImage(notice.getImageUrl());
+
+        cutsceneContainer.addView(noticeView);
+    }
+
+    private class SceneComponentsReady implements
+            Func2<List<CutsceneLine>, List<CutsceneNotice>, Void> {
+
+        @Override
+        public Void call(List<CutsceneLine> cutsceneLines, List<CutsceneNotice> cutsceneNotices) {
+
+            for (CutsceneNotice notice : cutsceneNotices) {
+                if (notice.isAlignedAbove()) {
+                    aboveNotices.add(notice);
+                } else if (notice.isAlignedUnder()) {
+                    underNotices.add(notice);
+                }
+            }
+
+            for (CutsceneNotice notice : aboveNotices) {
+                addCutsceneNoticeView(notice);
+            }
+
+            if (!cutsceneLines.isEmpty()) {
+                CutsceneActivity.this.cutsceneLines = cutsceneLines;
+                startCutsceneLines(cutsceneLines.get(0));
+            }
+
+            return null;
+        }
+
     }
 
 }
