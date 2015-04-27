@@ -26,7 +26,7 @@ public class QuestionApproachPartAdapter extends RecyclerView.Adapter<QuestionAp
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.approach_list_item, parent, false);
+                .inflate(R.layout.question_approach_list_item, parent, false);
 
         return new ViewHolder(view);
     }

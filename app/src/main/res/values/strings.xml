@@ -5,7 +5,6 @@
     <string name="main_toolbar_title">Rekentoets</string>
 
     <string name="main_tab_1">VERHAAL</string>
-    <string name="main_tab_2">OEFENEN</string>
 
     <string name="action_approach">Aanpak</string>
 
@@ -17,5 +16,6 @@
     <string name="drag_info">Sleep in de juiste volgorde.</string>
     <string name="choose_character">Kies een karakter</string>
     <string name="continue_now">Ga verder</string>
+    <string name="next_question">VOLGENDE VRAAG</string>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/question_next_card"
-              android:layout_height="60dp"
+              android:layout_height="@dimen/question_next_card_height"
               android:layout_marginStart="@dimen/card_pager_margin"
               android:layout_marginEnd="@dimen/card_pager_margin"
               style="@style/card">
@@ -9,11 +9,9 @@
     <Button
         android:id="@+id/next_question_button"
         style="?android:attr/borderlessButtonStyle"
-        android:text="VOLGENDE VRAAG"
+        android:text="@string/next_question"
         android:textColor="@drawable/submit_button"
-        android:textSize="@dimen/text_size_normal"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/answer_input"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:layout_width="wrap_content"

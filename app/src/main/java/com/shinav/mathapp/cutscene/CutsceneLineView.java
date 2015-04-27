@@ -55,6 +55,7 @@ public class CutsceneLineView extends ButterKnifeLayout {
         holder = new ViewHolder(view);
 
         loadCharacterImage(cutsceneLine);
+        holder.line_value.setVisibility(INVISIBLE);
 
         addView(view);
     }
@@ -89,6 +90,7 @@ public class CutsceneLineView extends ButterKnifeLayout {
     public void startTyping() {
 
         holder.line_value.setText(IS_TYPING_TEXT);
+        holder.line_value.setVisibility(VISIBLE);
 
         final Subscription typingSubscription = Observable.interval(DELAY_MILLIS, TimeUnit.MILLISECONDS).map(new Func1<Long, String>() {
 
