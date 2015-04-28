@@ -147,8 +147,10 @@ public class StorytellingService extends Service {
 
                 questionRepository.get(frame.getFrameTypeKey(), new Action1<Question>() {
                     @Override public void call(Question question) {
-                        question.setProgressState(Question.STATE_OPENED);
-                        questionMapper.update(question);
+                        if (question.getProgressState() == Question.STATE_CLOSED) {
+                            question.setProgressState(Question.STATE_OPENED);
+                            questionMapper.update(question);
+                        }
                     }
                 });
 
