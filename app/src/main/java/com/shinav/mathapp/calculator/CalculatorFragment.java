@@ -176,7 +176,7 @@ public class CalculatorFragment extends Fragment {
     @OnClick(R.id.calculator_options_parenthesis)
     public void onParenthesis() {
 
-        equation += equationHandler.handleParenthesis(equation);
+        equation = equationHandler.handleParenthesis(equation);
 
         if (equation.endsWith(")")) {
             answer = calculator.calculate(equation);
