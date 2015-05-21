@@ -18,4 +18,7 @@
     <string name="continue_now">Ga verder</string>
     <string name="next_question">VOLGENDE VRAAG</string>
 
+    <string name="end_message_pass">Je bent geslaagd. \nGefeliciteerd!</string>
+    <string name="end_message_fail">Helaas, niet geslaagd. \nProbeer nog wat meer te oefenen!</string>
+
 </resources>
