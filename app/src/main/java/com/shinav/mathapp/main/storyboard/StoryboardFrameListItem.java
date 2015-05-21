@@ -2,18 +2,19 @@ package com.shinav.mathapp.main.storyboard;
 
 public interface StoryboardFrameListItem {
 
-    public static final int STATE_CLOSED = 0;
-    public static final int STATE_OPENED = 1;
-    public static final int STATE_PASSED = 2;
-    public static final int STATE_FAILED = 3;
+    int STATE_CLOSED = 0;
+    int STATE_OPENED = 1;
+    int STATE_PASSED = 2;
+    int STATE_FAILED = 3;
 
-    public static final String TYPE_CUTSCENE = "type_cutscene";
-    public static final String TYPE_QUESTION = "type_question";
+    String TYPE_CUTSCENE = "type_cutscene";
+    String TYPE_QUESTION = "type_question";
 
-    public String getKey();
-    public String getType();
-    public String getTitle();
-    public int getState();
-    public String getBackgroundImage();
+    String getKey();
+    String getType();
+    String getTitle();
+    int getState();
+    void setState(int state);
+    String getBackgroundImage();
 
 }

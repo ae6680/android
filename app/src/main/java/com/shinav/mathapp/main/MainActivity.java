@@ -174,6 +174,10 @@ public class MainActivity extends ActionBarActivity {
                                                           return question.getProgressState();
                                                       }
 
+                                                      @Override public void setState(int state) {
+                                                          question.setProgressState(state);
+                                                      }
+
                                                       @Override public String getBackgroundImage() {
                                                           return question.getBackgroundImageUrl();
                                                       }
@@ -218,6 +222,8 @@ public class MainActivity extends ActionBarActivity {
                                                           return STATE_CLOSED;
                                                       }
 
+                                                      @Override public void setState(int state) {  }
+
                                                       @Override public String getBackgroundImage() {
                                                           return cutscene.getBackgroundImageUrl();
                                                       }
@@ -237,6 +243,17 @@ public class MainActivity extends ActionBarActivity {
                 ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
                     @Override
                     public void call(List<StoryboardFrameListItem> listItems) {
+
+                        // Open up first question if closed after tutorial.
+                        for (StoryboardFrameListItem listItem : listItems) {
+                            if (listItem.getType().equals(StoryboardFrameListItem.TYPE_QUESTION)) {
+                                if (listItem.getState() == StoryboardFrameListItem.STATE_CLOSED) {
+                                    listItem.setState(StoryboardFrameListItem.STATE_OPENED);
+                                }
+                                break;
+                            }
+                        }
+
                         storyboardView.setListItems(listItems);
                     }
                 });

@@ -54,29 +54,21 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
         holder.setTitle(listItem.getTitle());
         holder.setBackgroundImage(listItem.getBackgroundImage());
 
-        if (isFirstClosed(position, listItem.getState())) {
-            holder.setState(STATE_OPENED);
-            cutsceneState = STATE_CLOSED;
-        } else {
+        switch (listItem.getType()) {
+            case TYPE_QUESTION:
+                holder.setState(listItem.getState());
 
-            switch (listItem.getType()) {
-                case TYPE_QUESTION:
-                    holder.setState(listItem.getState());
+                // If it reaches the current open question,
+                // close the further cutscenes
+                if (listItem.getState() == STATE_OPENED) {
+                    cutsceneState = STATE_CLOSED;
+                }
 
-                    if (listItem.getState() == STATE_OPENED) {
-                        cutsceneState = STATE_CLOSED;
-                    }
-
-                    break;
-                case TYPE_CUTSCENE:
-                    holder.setState(cutsceneState);
-            }
-
+                break;
+            case TYPE_CUTSCENE:
+                holder.setState(cutsceneState);
         }
-    }
 
-    private boolean isFirstClosed(int position, int state) {
-        return position == 0 && state == STATE_CLOSED;
     }
 
     @Override public int getItemCount() {

@@ -4,6 +4,7 @@ import com.shinav.mathapp.cutscene.CutsceneActivity;
 import com.shinav.mathapp.injection.annotation.ForActivity;
 import com.shinav.mathapp.injection.module.ActivityModule;
 import com.shinav.mathapp.main.MainActivity;
+import com.shinav.mathapp.main.storyboard.StoryboardEndActivity;
 import com.shinav.mathapp.question.QuestionActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachDragRecyclerView;
@@ -41,4 +42,6 @@ public interface ActivityComponent {
     void inject(QuestionApproachDragRecyclerView questionApproachDragRecyclerView);
     void inject(QAFActivity QAFActivity);
     void inject(QuestionActivity questionActivity);
+
+    void inject(StoryboardEndActivity storyboardEndActivity);
 }

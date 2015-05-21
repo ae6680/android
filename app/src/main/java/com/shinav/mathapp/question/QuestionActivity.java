@@ -257,6 +257,7 @@ public class QuestionActivity extends ActionBarActivity {
 
         givenAnswer.setQuestionKey(question.getKey());
         givenAnswer.setValue(answer);
+        givenAnswer.setGivenAt((int) System.currentTimeMillis());
 
         givenAnswerMapper.insert(givenAnswer);
     }
