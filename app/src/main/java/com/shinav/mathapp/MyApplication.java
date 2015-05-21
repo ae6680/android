@@ -3,11 +3,8 @@ package com.shinav.mathapp;
 import android.app.Application;
 import android.util.DisplayMetrics;
 
-import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.reporting.CrashlyticsTree;
 
-import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 public class MyApplication extends Application {
@@ -33,8 +30,8 @@ public class MyApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
-            Timber.plant(new CrashlyticsTree());
-            Fabric.with(this, new Crashlytics());
+//            Timber.plant(new CrashlyticsTree());
+//            Fabric.with(this, new Crashlytics());
         }
     }
 
