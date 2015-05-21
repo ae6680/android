@@ -14,7 +14,7 @@ import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
 import com.shinav.mathapp.db.repository.StoryboardRepository;
 import com.shinav.mathapp.injection.component.Injector;
-import com.shinav.mathapp.main.MainActivity;
+import com.shinav.mathapp.main.storyboard.StoryboardEndActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
 import com.squareup.otto.Bus;
 
@@ -112,7 +112,7 @@ public class StorytellingService extends Service {
             }
         }
 
-        start(MainActivity.class, null);
+        start(StoryboardEndActivity.class, null);
     }
 
     private void startBasedOnType(StoryboardFrame storyboardFrame) {
@@ -133,8 +133,6 @@ public class StorytellingService extends Service {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
-//        ((Activity) context).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
     private void openNextFrom(String frameTypeKey) {

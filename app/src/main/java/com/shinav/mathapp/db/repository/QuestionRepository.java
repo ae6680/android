@@ -4,6 +4,7 @@ import com.shinav.mathapp.db.cursorParser.QuestionCursorParser;
 import com.shinav.mathapp.db.cursorParser.QuestionListCursorParser;
 import com.shinav.mathapp.db.pojo.Question;
 import com.squareup.sqlbrite.SqlBrite;
+import com.squareup.sqlbrite.SqlBrite.Query;
 
 import java.util.List;
 
@@ -51,4 +52,23 @@ public class QuestionRepository {
                         " WHERE " + KEY + " IN ('" + questionKeys + "')"
         ).map(listParser).first();
     }
+
+    public Observable<Query> getAmountPassed() {
+        return db.createQuery(
+                TABLE_NAME,
+                "SELECT * FROM " + TABLE_NAME +
+                        " WHERE " + PROGRESS_STATE + " = ?"
+                , String.valueOf(Question.STATE_PASSED)
+        ).first();
+    }
+
+    public Observable<Query> getAmountFailed() {
+        return db.createQuery(
+                TABLE_NAME,
+                "SELECT * FROM " + TABLE_NAME +
+                        " WHERE " + PROGRESS_STATE + " = ?"
+                , String.valueOf(Question.STATE_FAILED)
+        ).first();
+    }
+
 }

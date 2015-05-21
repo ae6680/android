@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/question_next_card"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                tools:layout_gravity="center"
+                style="@style/card">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_centerHorizontal="true"
+        tools:src="@drawable/pass_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
+
+    <TextView
+        android:id="@+id/message"
+        tools:text="@string/ending_message_pass"
+        android:gravity="center"
+        android:layout_below="@id/image"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/stats"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_below="@id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Goed"
+                android:layout_margin="@dimen/default_margin"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/amount_pass"
+                tools:text="21"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Fout"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/amount_fail"
+                tools:text="10"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ok_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="OK"
+        android:textColor="@drawable/submit_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/default_half_margin"
+        android:layout_marginEnd="@dimen/default_half_margin"
+        android:layout_marginBottom="@dimen/default_half_margin"
+        android:layout_below="@id/stats"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

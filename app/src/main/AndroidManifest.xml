@@ -70,6 +70,12 @@
             android:screenOrientation="portrait"
             android:noHistory="true" />
 
+        <!-- Ending -->
+        <activity
+            android:name=".main.storyboard.StoryboardEndActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
+
         <!-- Services -->
         <service android:name=".tutorial.TutorialManagingService"
                  android:exported="false" />
