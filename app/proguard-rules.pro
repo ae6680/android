@@ -15,3 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-include proguard/butterknife.pro
+-include proguard/square.pro
+-include proguard/jackson.pro
