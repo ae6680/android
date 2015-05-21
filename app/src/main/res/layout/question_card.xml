@@ -37,10 +37,11 @@
             android:hint="@string/answer_input_placeholder"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/default_margin"
             android:layout_centerVertical="true"
             android:paddingTop="@dimen/default_margin"
             android:paddingBottom="@dimen/default_margin"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -56,6 +57,7 @@
             android:layout_marginBottom="@dimen/default_half_margin"
             android:paddingTop="@dimen/default_margin"
             android:paddingBottom="@dimen/default_margin"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
