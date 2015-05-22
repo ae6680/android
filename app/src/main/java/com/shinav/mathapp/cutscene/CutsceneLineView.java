@@ -33,20 +33,21 @@ public class CutsceneLineView extends ButterKnifeLayout {
     public static final String IS_TYPING_TEXT = "aan het typen";
     public static final int DELAY_MILLIS = 150;
 
+    private Bus bus;
     private ViewHolder holder;
     private CutsceneLine cutsceneLine;
 
-    @Inject Bus bus;
     @Inject SharedPreferences sharedPreferences;
 
-    public CutsceneLineView(Context context, CutsceneLine cutsceneLine) {
+    public CutsceneLineView(Context context, CutsceneLine cutsceneLine, Bus bus) {
         super(context);
-        init(cutsceneLine);
-    }
-
-    private void init(CutsceneLine cutsceneLine) {
+        this.bus = bus;
         this.cutsceneLine = cutsceneLine;
 
+        init();
+    }
+
+    private void init() {
         Injector.getViewComponent(this.getContext()).inject(this);
 
         int layout = getLayout(cutsceneLine);

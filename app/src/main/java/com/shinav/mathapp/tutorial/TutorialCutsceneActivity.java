@@ -5,21 +5,16 @@ import android.content.Intent;
 import com.shinav.mathapp.cutscene.CutsceneActivity;
 import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import javax.inject.Inject;
 
 public class TutorialCutsceneActivity extends CutsceneActivity {
 
-    @Inject Bus bus;
-
     @Override public void registerBus() {
-        bus.register(this);
+        super.bus.register(this);
     }
 
     @Override public void unregisterBus() {
-        bus.unregister(this);
+        super.bus.unregister(this);
     }
 
     @Override public void inject() {
