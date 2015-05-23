@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
@@ -53,22 +54,20 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
         holder.setTitle(listItem.getTitle());
         holder.setBackgroundImage(listItem.getBackgroundImage());
 
-        holder.setState(STATE_OPENED);
+        switch (listItem.getType()) {
+            case TYPE_QUESTION:
+                holder.setState(listItem.getState());
 
-//        switch (listItem.getType()) {
-//            case TYPE_QUESTION:
-//                holder.setState(listItem.getState());
-//
-//                // If it reaches the current open question,
-//                // close the further cutscenes
-//                if (listItem.getState() == STATE_OPENED) {
-//                    cutsceneState = STATE_CLOSED;
-//                }
-//
-//                break;
-//            case TYPE_CUTSCENE:
-//                holder.setState(cutsceneState);
-//        }
+                // If it reaches the current open question,
+                // close the further cutscenes
+                if (listItem.getState() == STATE_OPENED) {
+                    cutsceneState = STATE_CLOSED;
+                }
+
+                break;
+            case TYPE_CUTSCENE:
+                holder.setState(cutsceneState);
+        }
 
     }
 
