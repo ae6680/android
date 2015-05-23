@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                style="@style/view_pager_card">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             style="@style/view_pager_card">
 
     <ScrollView
+        android:id="@+id/scroll_container"
+        android:padding="@dimen/default_half_margin"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/explanation_body"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/explanation_body"
-                android:paddingTop="@dimen/default_half_margin"
-                android:paddingBottom="@dimen/default_half_margin"
-                android:paddingStart="@dimen/default_half_margin"
-                android:paddingEnd="@dimen/default_half_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:id="@+id/explanation_image"
-                android:layout_below="@id/explanation_body"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"/>
 
     </ScrollView>
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/explanation_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>
