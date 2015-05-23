@@ -45,6 +45,10 @@ import rx.schedulers.Schedulers;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -219,10 +223,12 @@ public class MainActivity extends ActionBarActivity {
                                                       }
 
                                                       @Override public int getState() {
-                                                          return STATE_CLOSED;
+                                                          return cutscene.getState();
                                                       }
 
-                                                      @Override public void setState(int state) {  }
+                                                      @Override public void setState(int state) {
+                                                          cutscene.setState(state);
+                                                      }
 
                                                       @Override public String getBackgroundImage() {
                                                           return cutscene.getBackgroundImageUrl();
@@ -243,23 +249,36 @@ public class MainActivity extends ActionBarActivity {
                 ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
                     @Override
                     public void call(List<StoryboardFrameListItem> listItems) {
-
-                        // Open up first question if closed after tutorial.
-                        for (StoryboardFrameListItem listItem : listItems) {
-                            if (listItem.getType().equals(StoryboardFrameListItem.TYPE_QUESTION)) {
-                                if (listItem.getState() == StoryboardFrameListItem.STATE_CLOSED) {
-                                    listItem.setState(StoryboardFrameListItem.STATE_OPENED);
-                                }
-                                break;
-                            }
-                        }
-
+                        setupStoryFrameStates(listItems);
                         storyboardView.setListItems(listItems);
                     }
                 });
 
             }
         });
+    }
+
+    private void setupStoryFrameStates(List<StoryboardFrameListItem> listItems) {
+        for (StoryboardFrameListItem listItem : listItems) {
+
+            // Open up all cutscenes until current open
+            // question is found.
+            if (listItem.getType().equals(TYPE_CUTSCENE)) {
+                listItem.setState(STATE_OPENED);
+            }
+
+            if (listItem.getType().equals(TYPE_QUESTION)) {
+                // Open up first question if closed after tutorial.
+                if (listItem.getState() == STATE_CLOSED) {
+                    listItem.setState(STATE_OPENED);
+                }
+
+                // Currently open question is found, break.
+                if (listItem.getState() == STATE_OPENED) {
+                    break;
+                }
+            }
+        }
     }
 
     private void initToolbar() {

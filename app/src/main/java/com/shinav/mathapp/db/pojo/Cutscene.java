@@ -1,10 +1,13 @@
 package com.shinav.mathapp.db.pojo;
 
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
+
 public class Cutscene {
 
     private String key;
     private String title;
     private String backgroundImageUrl;
+    private int state = STATE_CLOSED;
 
     public String getKey() {
         return key;
@@ -28,5 +31,13 @@ public class Cutscene {
 
     public void setBackgroundImageUrl(String backgroundImageUrl) {
         this.backgroundImageUrl = backgroundImageUrl;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

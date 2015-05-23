@@ -15,8 +15,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
-import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
 
@@ -26,7 +24,6 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
     public static final int VIEW_TYPE_QUESTION = 1;
 
     private List<StoryboardFrameListItem> listItems = Collections.emptyList();
-    private int cutsceneState = STATE_OPENED;
 
     @Inject public StoryboardFrameAdapter() { }
 
@@ -53,22 +50,7 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
         holder.setKey(listItem.getKey());
         holder.setTitle(listItem.getTitle());
         holder.setBackgroundImage(listItem.getBackgroundImage());
-
-        switch (listItem.getType()) {
-            case TYPE_QUESTION:
-                holder.setState(listItem.getState());
-
-                // If it reaches the current open question,
-                // close the further cutscenes
-                if (listItem.getState() == STATE_OPENED) {
-                    cutsceneState = STATE_CLOSED;
-                }
-
-                break;
-            case TYPE_CUTSCENE:
-                holder.setState(cutsceneState);
-        }
-
+        holder.setState(listItem.getState());
     }
 
     @Override public int getItemCount() {
@@ -90,7 +72,6 @@ public class StoryboardFrameAdapter extends RecyclerView.Adapter<StoryboardFrame
 
     public void setListItems(List<StoryboardFrameListItem> listItems) {
         this.listItems = listItems;
-        cutsceneState = STATE_OPENED;
         notifyDataSetChanged();
     }
 
