@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.shinav.mathapp.R;
@@ -30,7 +31,6 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -44,16 +44,19 @@ import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.shinav.mathapp.MyApplication.PREF_DATA_UPDATED_AT;
 import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
+    @InjectView(R.id.overlay) View overlay;
     @InjectView(R.id.progress) ProgressBar progressBar;
 
     @Inject Bus bus;
@@ -68,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
 
+    private boolean tutorialCompleted;
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -75,43 +80,55 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         Injector.getActivityComponent(this).inject(this);
 
-        registerer.register();
-
         initToolbar();
         initTabs();
+
+        tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
+
+        long dayOfLatestUpdate = MILLISECONDS.toDays(sharedPreferences.getLong(PREF_DATA_UPDATED_AT, 0));
+        long today = MILLISECONDS.toDays(System.currentTimeMillis());
+
+        if (!tutorialCompleted || today > dayOfLatestUpdate) {
+
+            overlay.setVisibility(VISIBLE);
+            progressBar.setVisibility(VISIBLE);
+
+            registerer.register();
+
+            sharedPreferences.edit().putLong(
+                    PREF_DATA_UPDATED_AT,
+                    System.currentTimeMillis()
+            ).apply();
+
+            // Wait 5 seconds to refresh the data.
+            Observable.timer(5000, MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Long>() {
+                        @Override public void call(Long aLong) {
+                            overlay.setVisibility(GONE);
+                            progressBar.setVisibility(GONE);
+
+                            if (tutorialCompleted) {
+                                loadStoryboard();
+                            } else {
+                                showTutorial();
+                            }
+                        }
+                    });
+        } else {
+            loadStoryboard();
+        }
+
     }
 
     @Override public void onStart() {
         super.onStart();
         bus.register(this);
-        loadStoryboardFrames();
     }
 
     @Override public void onStop() {
         super.onStop();
         bus.unregister(this);
-    }
-
-    private void loadStoryboardFrames() {
-
-        boolean tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
-
-        if (tutorialCompleted) {
-            loadStoryboard();
-        } else {
-            progressBar.setVisibility(VISIBLE);
-
-            // Wait 5 seconds to load the data the first time.
-            Observable.timer(5000, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
-                        @Override public void call(Long aLong) {
-                            progressBar.setVisibility(GONE);
-                            showTutorial();
-                        }
-                    });
-        }
-
     }
 
     private void loadStoryboard() {
