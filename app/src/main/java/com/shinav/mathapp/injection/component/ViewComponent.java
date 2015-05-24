@@ -5,7 +5,6 @@ import com.shinav.mathapp.cutscene.CutsceneLineView;
 import com.shinav.mathapp.cutscene.CutsceneNoticeView;
 import com.shinav.mathapp.injection.annotation.ForView;
 import com.shinav.mathapp.injection.module.ViewModule;
-import com.shinav.mathapp.main.storyboard.StoryboardFrameAdapter;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameRecyclerView;
 import com.shinav.mathapp.main.storyboard.viewHolder.StoryboardFrameViewHolder;
 import com.shinav.mathapp.question.card.QuestionApproachCardView;
@@ -29,8 +28,6 @@ import dagger.Component;
 )
 @ForView
 public interface ViewComponent {
-
-    StoryboardFrameAdapter storyProgressPartAdapter();
 
     void inject(TabsView tabsView);
 

@@ -20,8 +20,6 @@ public class MyApplication extends Application {
     public static int screenHeight;
     public static int screenWidth;
 
-    private boolean mockMode = false;
-
     @Override public void onCreate() {
         super.onCreate();
 
@@ -43,11 +41,4 @@ public class MyApplication extends Application {
         Firebase.setAndroidContext(this);
     }
 
-    public void setMockMode(boolean provideMocks) {
-        mockMode = provideMocks;
-    }
-
-    public boolean isMockMode() {
-        return mockMode;
-    }
 }
