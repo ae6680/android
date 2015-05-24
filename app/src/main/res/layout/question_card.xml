@@ -32,7 +32,7 @@
 
         <com.shinav.mathapp.view.NoKeyboardEditText
             android:id="@+id/answer_input"
-            android:ems="8"
+            android:ems="9"
             android:singleLine="true"
             android:hint="@string/answer_input_placeholder"
             android:textColor="@color/text_primary"
