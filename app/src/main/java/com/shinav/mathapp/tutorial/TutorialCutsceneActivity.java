@@ -7,6 +7,9 @@ import com.shinav.mathapp.event.CutsceneLineTextShownEvent;
 import com.shinav.mathapp.injection.component.Injector;
 import com.squareup.otto.Subscribe;
 
+import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.FRAME_TYPE_KEY;
+import static com.shinav.mathapp.db.pojo.TutorialFrame.CUTSCENE;
+
 public class TutorialCutsceneActivity extends CutsceneActivity {
 
     @Override public void registerBus() {
@@ -22,24 +25,16 @@ public class TutorialCutsceneActivity extends CutsceneActivity {
     }
 
     @Override public void onSubmitClicked() {
-
         Intent intent = new Intent(this, TutorialManagingService.class);
 
-        intent.setAction(TutorialManagingService.ACTION_NEXT);
+        String cutsceneKey = getIntent().getStringExtra(FRAME_TYPE_KEY);
+
+        intent.setAction(TutorialManagingService.ACTION_START_NEXT_FROM);
+
+        intent.putExtra(TutorialManagingService.EXTRA_FRAME_TYPE, CUTSCENE);
+        intent.putExtra(TutorialManagingService.EXTRA_FRAME_TYPE_KEY, cutsceneKey);
 
         startService(intent);
-
-    }
-
-    @Override public void onBackPressed() {
-
-        Intent intent = new Intent(this, TutorialManagingService.class);
-
-        intent.setAction(TutorialManagingService.ACTION_BACK);
-
-        startService(intent);
-
-        super.onBackPressed();
     }
 
     @Override @Subscribe public void onCutsceneTextShown(CutsceneLineTextShownEvent event) {

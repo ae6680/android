@@ -15,12 +15,10 @@ import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.MainActivity;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.functions.Action1;
 
 import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
@@ -28,10 +26,11 @@ import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
 public class TutorialManagingService extends Service {
 
     public static final String EXTRA_TUTORIAL_KEY = "extra_tutorial_key";
+    public static final String EXTRA_FRAME_TYPE_KEY = "extra_frame_type_key";
+    public static final String EXTRA_FRAME_TYPE = "extra_frame_type";
 
     public static final String ACTION_START = "start";
-    public static final String ACTION_NEXT = "next";
-    public static final String ACTION_BACK = "back";
+    public static final String ACTION_START_NEXT_FROM = "action_start_next_from";
 
     @Inject TutorialFrameMapper tutorialFrameMapper;
     @Inject TutorialMapper tutorialMapper;
@@ -42,7 +41,6 @@ public class TutorialManagingService extends Service {
     @Inject SharedPreferences sharedPreferences;
 
     private List<TutorialFrame> tutorialFrames;
-    private int currentPosition = -1;
 
     @Override public IBinder onBind(Intent intent) { return null; }
 
@@ -58,44 +56,49 @@ public class TutorialManagingService extends Service {
                 case ACTION_START:
                     fetchTutorialFrames(intent.getStringExtra(EXTRA_TUTORIAL_KEY));
                     break;
-                case ACTION_NEXT:
-                    startNext();
+                case ACTION_START_NEXT_FROM:
+                    startNextFrom(
+                            intent.getStringExtra(EXTRA_FRAME_TYPE),
+                            intent.getStringExtra(EXTRA_FRAME_TYPE_KEY)
+                    );
                     break;
-                case ACTION_BACK:
-                    back();
             }
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void back() {
-        currentPosition--;
-    }
-
     private void fetchTutorialFrames(String tutorialKey) {
 
-        Observable<List<TutorialFrame>> observable =
-                tutorialFrameRepository.getByTutorialKey(tutorialKey).first();
-
-        observable.subscribe(new Action1<List<TutorialFrame>>() {
-            @Override public void call(List<TutorialFrame> tutorialFrames) {
-                Collections.sort(tutorialFrames);
-                TutorialManagingService.this.tutorialFrames = tutorialFrames;
-                startNext();
+        tutorialFrameRepository.getByTutorialKey(tutorialKey, new Action1<List<TutorialFrame>>() {
+            @Override public void call(List<TutorialFrame> tutorialFramesList) {
+                tutorialFrames = tutorialFramesList;
+                startBasedOnType(tutorialFrames.get(0));
             }
         });
     }
 
-    private void startNext() {
-        if (currentPosition+1 < tutorialFrames.size()) {
-            currentPosition++;
-            TutorialFrame tutorialFrame = tutorialFrames.get(currentPosition);
-            startBasedOnType(tutorialFrame);
-        } else {
-            saveTutorialCompleted();
-            startActivity(MainActivity.class, null);
+    private void startNextFrom(String frameType, String frameTypeKey) {
+
+        boolean getFrame = false;
+
+        for (TutorialFrame frame : tutorialFrames) {
+
+            if (getFrame) {
+                startBasedOnType(frame);
+                return;
+            }
+
+            boolean correctType = frameType.equals(frame.getFrameType());
+            boolean correctTypeKey = frameTypeKey.equals(frame.getFrameTypeKey());
+
+            if (correctTypeKey && correctType) {
+                getFrame = true;
+            }
         }
+
+        saveTutorialCompleted();
+        start(MainActivity.class, null);
     }
 
     private void startBasedOnType(TutorialFrame tutorialFrame) {
@@ -104,27 +107,25 @@ public class TutorialManagingService extends Service {
 
         switch (tutorialFrame.getFrameType()) {
             case TutorialFrame.CUTSCENE:
-                startActivity(TutorialCutsceneActivity.class, frameTypeKey);
+                start(TutorialCutsceneActivity.class, frameTypeKey);
                 break;
             case TutorialFrame.APPROACH:
-                startActivity(TutorialQuestionApproachActivity.class, frameTypeKey);
+                start(TutorialQuestionApproachActivity.class, frameTypeKey);
                 break;
             case TutorialFrame.APPROACH_FEEDBACK:
-                startActivity(TutorialQAFActivity.class, frameTypeKey);
+                start(TutorialQAFActivity.class, frameTypeKey);
                 break;
             case TutorialFrame.QUESTION:
-                startActivity(TutorialQuestionActivity.class, frameTypeKey);
+                start(TutorialQuestionActivity.class, frameTypeKey);
         }
 
     }
 
-    private void startActivity(Class<? extends Activity> cls, String typeKey) {
+    private void start(Class<? extends Activity> cls, String typeKey) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, typeKey);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
-//        ((Activity) this.getApplicationContext()).overridePendingTransition(R.anim.slide_left_from_outside, R.anim.slide_left_to_outside);
     }
 
     private void saveTutorialCompleted() {

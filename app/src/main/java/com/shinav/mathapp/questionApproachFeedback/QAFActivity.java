@@ -43,8 +43,6 @@ import static android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 
 public class QAFActivity extends ActionBarActivity {
 
-    public static final float PERCENTAGE_HEIGHT = 0.38f;
-
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.background_view) ImageView backgroundView;
     @InjectView(R.id.card_view_pager) CardViewPager cardViewPager;

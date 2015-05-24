@@ -14,6 +14,9 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
+import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.FRAME_TYPE_KEY;
+import static com.shinav.mathapp.db.pojo.TutorialFrame.QUESTION;
+
 public class TutorialQuestionActivity extends QuestionActivity {
 
     @Inject Bus bus;
@@ -31,24 +34,16 @@ public class TutorialQuestionActivity extends QuestionActivity {
     }
 
     @Override @Subscribe public void onNextButtonClicked(NextQuestionClickedEvent event) {
-
         Intent intent = new Intent(this, TutorialManagingService.class);
 
-        intent.setAction(TutorialManagingService.ACTION_NEXT);
+        String questionKey = getIntent().getStringExtra(FRAME_TYPE_KEY);
+
+        intent.setAction(TutorialManagingService.ACTION_START_NEXT_FROM);
+
+        intent.putExtra(TutorialManagingService.EXTRA_FRAME_TYPE, QUESTION);
+        intent.putExtra(TutorialManagingService.EXTRA_FRAME_TYPE_KEY, questionKey);
 
         startService(intent);
-
-    }
-
-    @Override public void onBackPressed() {
-
-        Intent intent = new Intent(this, TutorialManagingService.class);
-
-        intent.setAction(TutorialManagingService.ACTION_BACK);
-
-        startService(intent);
-
-        super.onBackPressed();
     }
 
     @Subscribe public void OnAnswerSubmittedEvent(AnswerSubmittedEvent event) {
