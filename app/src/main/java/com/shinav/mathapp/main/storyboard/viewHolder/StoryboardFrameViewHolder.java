@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
 
 public abstract class StoryboardFrameViewHolder extends RecyclerView.ViewHolder {
@@ -61,6 +63,14 @@ public abstract class StoryboardFrameViewHolder extends RecyclerView.ViewHolder 
 
     public void setState(int state) {
         this.currentState = state;
+    }
+
+    public void showTitle() {
+        title.setVisibility(VISIBLE);
+    }
+
+    public void hideTitle() {
+        title.setVisibility(GONE);
     }
 
     @OnClick(R.id.storyboard_frame_list_item)

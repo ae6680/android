@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import rx.functions.Action1;
 
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.TUTORIAL_KEY;
@@ -21,13 +21,13 @@ public class TutorialFrameRepository {
     @Inject
     public TutorialFrameRepository() { }
 
-    public Observable<List<TutorialFrame>> getByTutorialKey(String tutorialKey) {
-        return db.createQuery(
+    public void getByTutorialKey(String tutorialKey, Action1<List<TutorialFrame>> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + TUTORIAL_KEY + " = ?"
                 , tutorialKey
-        ).map(parser);
+        ).map(parser).first().subscribe(action);
     }
 
 }

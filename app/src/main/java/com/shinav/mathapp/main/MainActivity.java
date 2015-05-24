@@ -1,11 +1,15 @@
 package com.shinav.mathapp.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.shinav.mathapp.R;
@@ -30,12 +34,12 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -44,13 +48,22 @@ import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.shinav.mathapp.MyApplication.PREF_DATA_UPDATED_AT;
 import static com.shinav.mathapp.MyApplication.PREF_TUTORIAL_COMPLETED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
+
+    @InjectView(R.id.overlay) View overlay;
     @InjectView(R.id.progress) ProgressBar progressBar;
+    @InjectView(R.id.internet_not_found) LinearLayout internetNotFound;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -64,14 +77,14 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
 
+    private boolean tutorialCompleted;
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.inject(this);
         Injector.getActivityComponent(this).inject(this);
-
-        registerer.register();
 
         initToolbar();
         initTabs();
@@ -80,7 +93,12 @@ public class MainActivity extends ActionBarActivity {
     @Override public void onStart() {
         super.onStart();
         bus.register(this);
-        loadStoryboardFrames();
+        updateAndLoad();
+    }
+
+    @OnClick(R.id.retry_internet_connection)
+    public void onRetryInternetConnectionClicked() {
+        updateAndLoad();
     }
 
     @Override public void onStop() {
@@ -88,26 +106,65 @@ public class MainActivity extends ActionBarActivity {
         bus.unregister(this);
     }
 
-    private void loadStoryboardFrames() {
+    private void updateAndLoad() {
+        internetNotFound.setVisibility(GONE);
+        overlay.setVisibility(VISIBLE);
+        progressBar.setVisibility(VISIBLE);
 
-        boolean tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
+        tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
 
-        if (tutorialCompleted) {
+        long dayOfLatestUpdate = MILLISECONDS.toDays(sharedPreferences.getLong(PREF_DATA_UPDATED_AT, 0));
+        long today = MILLISECONDS.toDays(System.currentTimeMillis());
+
+        if ((!tutorialCompleted || today > dayOfLatestUpdate) && isOnline()) {
+            registerer.register();
+            updatePrefDataUpdatedAt();
+            waitAndLoad();
+
+        } else if (!tutorialCompleted) {
+            progressBar.setVisibility(GONE);
+            internetNotFound.setVisibility(VISIBLE);
+        }  else {
+            hideOverlayViews();
             loadStoryboard();
-        } else {
-            progressBar.setVisibility(VISIBLE);
+        }
+    }
 
-            // Wait 5 seconds to load the data the first time.
-            Observable.timer(5000, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
-                        @Override public void call(Long aLong) {
-                            progressBar.setVisibility(GONE);
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    private void updatePrefDataUpdatedAt() {
+        sharedPreferences.edit().putLong(
+                PREF_DATA_UPDATED_AT,
+                System.currentTimeMillis()
+        ).apply();
+    }
+
+    private void waitAndLoad() {
+        Observable.timer(5000, MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override public void call(Long aLong) {
+                        hideOverlayViews();
+
+                        if (tutorialCompleted) {
+                            loadStoryboard();
+                        } else {
                             showTutorial();
                         }
-                    });
-        }
+                    }
+                });
+    }
 
+    private void hideOverlayViews() {
+        overlay.setVisibility(GONE);
+        progressBar.setVisibility(GONE);
+        internetNotFound.setVisibility(GONE);
     }
 
     private void loadStoryboard() {
@@ -122,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
     private void loadStoryboardFrames(final Storyboard storyboard) {
 
         final Observable<List<StoryboardFrame>> framesObservable =
-                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey());
+                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first();
 
         framesObservable.subscribe(new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
@@ -145,7 +202,7 @@ public class MainActivity extends ActionBarActivity {
                 Observable<List<Question>> questionObservable =
                         questionRepository.getCollection(questionKeysString)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
+                                .observeOn(AndroidSchedulers.mainThread()).first();
 
                 Observable<List<StoryboardFrameListItem>> questionFramesObservable =
                         questionObservable.map(new Func1<List<Question>, List<StoryboardFrameListItem>>() {
@@ -192,7 +249,7 @@ public class MainActivity extends ActionBarActivity {
                 Observable<List<Cutscene>> cutsceneObservable =
                         cutsceneRepository.getCollection(cutsceneKeysString)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
+                                .observeOn(AndroidSchedulers.mainThread()).first();
 
                 Observable<List<StoryboardFrameListItem>> cutsceneFramesObservable =
 
@@ -219,10 +276,12 @@ public class MainActivity extends ActionBarActivity {
                                                       }
 
                                                       @Override public int getState() {
-                                                          return STATE_CLOSED;
+                                                          return cutscene.getState();
                                                       }
 
-                                                      @Override public void setState(int state) {  }
+                                                      @Override public void setState(int state) {
+                                                          cutscene.setState(state);
+                                                      }
 
                                                       @Override public String getBackgroundImage() {
                                                           return cutscene.getBackgroundImageUrl();
@@ -243,23 +302,36 @@ public class MainActivity extends ActionBarActivity {
                 ).first().subscribe(new Action1<List<StoryboardFrameListItem>>() {
                     @Override
                     public void call(List<StoryboardFrameListItem> listItems) {
-
-                        // Open up first question if closed after tutorial.
-                        for (StoryboardFrameListItem listItem : listItems) {
-                            if (listItem.getType().equals(StoryboardFrameListItem.TYPE_QUESTION)) {
-                                if (listItem.getState() == StoryboardFrameListItem.STATE_CLOSED) {
-                                    listItem.setState(StoryboardFrameListItem.STATE_OPENED);
-                                }
-                                break;
-                            }
-                        }
-
+                        setupStoryFrameStates(listItems);
                         storyboardView.setListItems(listItems);
                     }
                 });
 
             }
         });
+    }
+
+    private void setupStoryFrameStates(List<StoryboardFrameListItem> listItems) {
+        for (StoryboardFrameListItem listItem : listItems) {
+
+            // Open up all cutscenes until current open
+            // question is found.
+            if (listItem.getType().equals(TYPE_CUTSCENE)) {
+                listItem.setState(STATE_OPENED);
+            }
+
+            if (listItem.getType().equals(TYPE_QUESTION)) {
+                // Open up first question if closed after tutorial.
+                if (listItem.getState() == STATE_CLOSED) {
+                    listItem.setState(STATE_OPENED);
+                }
+
+                // Currently open question is found, break.
+                if (listItem.getState() == STATE_OPENED) {
+                    break;
+                }
+            }
+        }
     }
 
     private void initToolbar() {

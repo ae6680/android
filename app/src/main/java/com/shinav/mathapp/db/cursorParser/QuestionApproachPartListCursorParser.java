@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +30,9 @@ public class QuestionApproachPartListCursorParser implements Func1<Query, List<Q
             while (c.moveToNext()) {
                 questionApproachParts.add(fromCursor(c));
             }
+
+            Collections.sort(questionApproachParts);
+
             return questionApproachParts;
         } finally {
             c.close();

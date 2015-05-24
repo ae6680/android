@@ -24,6 +24,7 @@ import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.storytelling.StorytellingService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.otto.ThreadEnforcer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,7 +51,6 @@ public class CutsceneActivity extends ActionBarActivity {
     @InjectView(R.id.cutscene_container) LinearLayout cutsceneContainer;
     @InjectView(R.id.cutscene_scroll_view) ScrollView cutsceneScrollView;
 
-    @Inject Bus bus;
     @Inject CutsceneLineMapper cutsceneLineMapper;
     @Inject CutsceneMapper cutsceneMapper;
 
@@ -58,6 +58,8 @@ public class CutsceneActivity extends ActionBarActivity {
     @Inject CutsceneLineRepository cutsceneLineRepository;
     @Inject CutsceneNoticeRepository cutsceneNoticeRepository;
 
+    protected Bus bus;
+    private String cutsceneKey;
     private List<CutsceneLine> cutsceneLines = Collections.emptyList();
     private List<CutsceneNotice> aboveNotices = new ArrayList<>();
     private List<CutsceneNotice> underNotices = new ArrayList<>();
@@ -69,18 +71,22 @@ public class CutsceneActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         inject();
 
-        String cutsceneKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
+        cutsceneKey = getIntent().getStringExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY);
 
         loadCutscene(cutsceneKey);
+    }
+
+    @Override public void onResume() {
+        super.onStart();
+
+        bus = new Bus(ThreadEnforcer.ANY);
+        registerBus();
+
+        clearCutscene();
         startCutscene(cutsceneKey);
     }
 
-    @Override public void onStart() {
-        super.onStart();
-        registerBus();
-    }
-
-    @Override public void onStop() {
+    @Override public void onPause() {
         super.onStop();
         unregisterBus();
     }
@@ -95,6 +101,15 @@ public class CutsceneActivity extends ActionBarActivity {
 
     public void unregisterBus() {
         bus.unregister(this);
+    }
+
+    private void clearCutscene() {
+        aboveNotices.clear();
+        underNotices.clear();
+
+        if (cutsceneContainer.getChildCount() > 0) {
+            cutsceneContainer.removeAllViews();
+        }
     }
 
     private void startCutscene(String cutsceneKey) {
@@ -147,11 +162,12 @@ public class CutsceneActivity extends ActionBarActivity {
         backgroundView.setImageAlpha(50);
     }
 
-    private void startCutsceneLines(final CutsceneLine cutsceneLine) {
+    private void startCutsceneLine(final CutsceneLine cutsceneLine) {
 
         final CutsceneLineView view = new CutsceneLineView(
                 CutsceneActivity.this,
-                cutsceneLine
+                cutsceneLine,
+                bus
         );
 
         cutsceneContainer.addView(view);
@@ -162,12 +178,11 @@ public class CutsceneActivity extends ActionBarActivity {
             }
         });
 
-        Observable<Long> delayedTimer = Observable.timer(
+        Observable.timer(
                 cutsceneLine.getTypingDuration(),
                 TimeUnit.MILLISECONDS
-        );
-
-        delayedTimer
+        )
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
 
@@ -182,7 +197,7 @@ public class CutsceneActivity extends ActionBarActivity {
         int nextPos = event.getPosition() + 1;
 
         if (nextPos < cutsceneLines.size()) {
-            startCutsceneLines(cutsceneLines.get(nextPos));
+            startCutsceneLine(cutsceneLines.get(nextPos));
         } else {
             for (CutsceneNotice notice : underNotices) {
                 addCutsceneNoticeView(notice);
@@ -231,7 +246,7 @@ public class CutsceneActivity extends ActionBarActivity {
 
             if (!cutsceneLines.isEmpty()) {
                 CutsceneActivity.this.cutsceneLines = cutsceneLines;
-                startCutsceneLines(cutsceneLines.get(0));
+                startCutsceneLine(cutsceneLines.get(0));
             }
 
             return null;

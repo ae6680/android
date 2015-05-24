@@ -2,6 +2,7 @@
           package="com.shinav.mathapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <compatible-screens>
         <!-- all small size screens -->

@@ -10,7 +10,7 @@
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:scrollbars="vertical"
-        android:maxLines="18"
+        android:maxLines="30"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/question_card_footer"

@@ -12,6 +12,7 @@ public class MyApplication extends Application {
     public static String PREF = "com.shinav.mathapp";
     public static String PREF_CHOSEN_CHARACTER = PREF + ".chosen_character";
     public static String PREF_TUTORIAL_COMPLETED = PREF + ".tutorial_completed";
+    public static String PREF_DATA_UPDATED_AT = PREF + ".data_updated_at";
 
     public static int screenHeight;
     public static int screenWidth;

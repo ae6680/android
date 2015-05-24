@@ -27,10 +27,12 @@ public class CutsceneViewHolder extends StoryboardFrameViewHolder {
             case STATE_CLOSED:
                 cutsceneStateImageButton.setClosed(true);
                 showBackgroundDarkened();
+                hideTitle();
                 break;
             case STATE_OPENED:
                 cutsceneStateImageButton.setOpened(true);
                 showBackgroundLightened();
+                showTitle();
                 break;
         }
     }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import com.shinav.mathapp.db.pojo.TutorialFrame;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,6 +32,9 @@ public class TutorialFrameListCursorParser implements Func1<Query, List<Tutorial
             while (c.moveToNext()) {
                 tutorialFrames.add(fromCursor(c));
             }
+
+            Collections.sort(tutorialFrames);
+
             return tutorialFrames;
         } finally {
             c.close();
