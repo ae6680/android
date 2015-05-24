@@ -1,12 +1,15 @@
 package com.shinav.mathapp.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.shinav.mathapp.R;
@@ -36,6 +39,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -56,8 +60,10 @@ public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.tabs_view) TabsView tabsView;
+
     @InjectView(R.id.overlay) View overlay;
     @InjectView(R.id.progress) ProgressBar progressBar;
+    @InjectView(R.id.internet_not_found) LinearLayout internetNotFound;
 
     @Inject Bus bus;
     @Inject FirebaseChildRegisterer registerer;
@@ -70,6 +76,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
+
+    private boolean tutorialCompleted;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,48 +96,75 @@ public class MainActivity extends ActionBarActivity {
         updateAndLoad();
     }
 
+    @OnClick(R.id.retry_internet_connection)
+    public void onRetryInternetConnectionClicked() {
+        updateAndLoad();
+    }
+
     @Override public void onStop() {
         super.onStop();
         bus.unregister(this);
     }
 
     private void updateAndLoad() {
-        final boolean tutorialCompleted =
-                sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
+        internetNotFound.setVisibility(GONE);
+        overlay.setVisibility(VISIBLE);
+        progressBar.setVisibility(VISIBLE);
+
+        tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
 
         long dayOfLatestUpdate = MILLISECONDS.toDays(sharedPreferences.getLong(PREF_DATA_UPDATED_AT, 0));
         long today = MILLISECONDS.toDays(System.currentTimeMillis());
 
-        if (!tutorialCompleted || today > dayOfLatestUpdate) {
-
-            overlay.setVisibility(VISIBLE);
-            progressBar.setVisibility(VISIBLE);
-
+        if ((!tutorialCompleted || today > dayOfLatestUpdate) && isOnline()) {
             registerer.register();
+            updatePrefDataUpdatedAt();
+            waitAndLoad();
 
-            sharedPreferences.edit().putLong(
-                    PREF_DATA_UPDATED_AT,
-                    System.currentTimeMillis()
-            ).apply();
-
-            // Wait 5 seconds to refresh the data.
-            Observable.timer(5000, MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
-                        @Override public void call(Long aLong) {
-                            overlay.setVisibility(GONE);
-                            progressBar.setVisibility(GONE);
-
-                            if (tutorialCompleted) {
-                                loadStoryboard();
-                            } else {
-                                showTutorial();
-                            }
-                        }
-                    });
-        } else {
+        } else if (!tutorialCompleted) {
+            progressBar.setVisibility(GONE);
+            internetNotFound.setVisibility(VISIBLE);
+        }  else {
+            hideOverlayViews();
             loadStoryboard();
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    private void updatePrefDataUpdatedAt() {
+        sharedPreferences.edit().putLong(
+                PREF_DATA_UPDATED_AT,
+                System.currentTimeMillis()
+        ).apply();
+    }
+
+    private void waitAndLoad() {
+        Observable.timer(5000, MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override public void call(Long aLong) {
+                        hideOverlayViews();
+
+                        if (tutorialCompleted) {
+                            loadStoryboard();
+                        } else {
+                            showTutorial();
+                        }
+                    }
+                });
+    }
+
+    private void hideOverlayViews() {
+        overlay.setVisibility(GONE);
+        progressBar.setVisibility(GONE);
+        internetNotFound.setVisibility(GONE);
     }
 
     private void loadStoryboard() {

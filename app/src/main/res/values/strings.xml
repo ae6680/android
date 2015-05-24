@@ -20,5 +20,7 @@
 
     <string name="ending_message_pass">Je bent geslaagd. \nGefeliciteerd!</string>
     <string name="ending_message_fail">Helaas, niet geslaagd. \nProbeer nog wat meer te oefenen!</string>
+    <string name="no_internet_connection">Geen internet connectie.</string>
+    <string name="retry">Probeer opnieuw</string>
 
 </resources>
