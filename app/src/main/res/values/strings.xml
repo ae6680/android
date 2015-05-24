@@ -23,5 +23,6 @@
     <string name="no_internet_connection">Geen internet connectie.</string>
     <string name="no_internet_connection_question_annex">Je hebt een internet connectie nodig om deze bijlage te kunnen zien.</string>
     <string name="retry">Probeer opnieuw</string>
+    <string name="waiting_message">Even geduld, \nwe zijn het verhaal aan het zoeken.</string>
 
 </resources>

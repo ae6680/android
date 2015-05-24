@@ -25,13 +25,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ProgressBar
+    <LinearLayout
         android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:visibility="gone"
-        android:indeterminate="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/waiting_message"
+            android:textColor="@color/text_tertiair"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/default_half_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/internet_not_found"

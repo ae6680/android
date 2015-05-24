@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.pojo.Cutscene;
@@ -62,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.tabs_view) TabsView tabsView;
 
     @InjectView(R.id.overlay) View overlay;
-    @InjectView(R.id.progress) ProgressBar progressBar;
+    @InjectView(R.id.progress) LinearLayout progress;
     @InjectView(R.id.internet_not_found) LinearLayout internetNotFound;
 
     @Inject Bus bus;
@@ -109,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
     private void updateAndLoad() {
         internetNotFound.setVisibility(GONE);
         overlay.setVisibility(VISIBLE);
-        progressBar.setVisibility(VISIBLE);
+        progress.setVisibility(VISIBLE);
 
         tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
 
@@ -122,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
             waitAndLoad();
 
         } else if (!tutorialCompleted) {
-            progressBar.setVisibility(GONE);
+            progress.setVisibility(GONE);
             internetNotFound.setVisibility(VISIBLE);
         }  else {
             hideOverlayViews();
@@ -163,7 +162,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void hideOverlayViews() {
         overlay.setVisibility(GONE);
-        progressBar.setVisibility(GONE);
+        progress.setVisibility(GONE);
         internetNotFound.setVisibility(GONE);
     }
 
