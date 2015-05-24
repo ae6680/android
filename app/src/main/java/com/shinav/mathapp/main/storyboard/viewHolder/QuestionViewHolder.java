@@ -29,18 +29,22 @@ public class QuestionViewHolder extends StoryboardFrameViewHolder {
             case STATE_CLOSED:
                 questionStateImageButton.setClosed(true);
                 showBackgroundDarkened();
+                hideTitle();
                 break;
             case STATE_OPENED:
                 questionStateImageButton.setOpened(true);
                 showBackgroundLightened();
+                showTitle();
                 break;
             case STATE_PASSED:
                 questionStateImageButton.setPassed(true);
                 showBackgroundLightened();
+                showTitle();
                 break;
             case STATE_FAILED:
                 questionStateImageButton.setFailed(true);
                 showBackgroundLightened();
+                showTitle();
                 break;
         }
     }
