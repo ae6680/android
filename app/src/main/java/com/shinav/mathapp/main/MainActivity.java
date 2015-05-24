@@ -71,8 +71,6 @@ public class MainActivity extends ActionBarActivity {
     @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
 
-    private boolean tutorialCompleted;
-
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -82,8 +80,22 @@ public class MainActivity extends ActionBarActivity {
 
         initToolbar();
         initTabs();
+    }
 
-        tutorialCompleted = sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
+    @Override public void onStart() {
+        super.onStart();
+        bus.register(this);
+        updateAndLoad();
+    }
+
+    @Override public void onStop() {
+        super.onStop();
+        bus.unregister(this);
+    }
+
+    private void updateAndLoad() {
+        final boolean tutorialCompleted =
+                sharedPreferences.getBoolean(PREF_TUTORIAL_COMPLETED, false);
 
         long dayOfLatestUpdate = MILLISECONDS.toDays(sharedPreferences.getLong(PREF_DATA_UPDATED_AT, 0));
         long today = MILLISECONDS.toDays(System.currentTimeMillis());
@@ -118,17 +130,6 @@ public class MainActivity extends ActionBarActivity {
         } else {
             loadStoryboard();
         }
-
-    }
-
-    @Override public void onStart() {
-        super.onStart();
-        bus.register(this);
-    }
-
-    @Override public void onStop() {
-        super.onStop();
-        bus.unregister(this);
     }
 
     private void loadStoryboard() {
@@ -143,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
     private void loadStoryboardFrames(final Storyboard storyboard) {
 
         final Observable<List<StoryboardFrame>> framesObservable =
-                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey());
+                storyboardFrameRepository.getByStoryboardKey(storyboard.getKey()).first();
 
         framesObservable.subscribe(new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
@@ -166,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
                 Observable<List<Question>> questionObservable =
                         questionRepository.getCollection(questionKeysString)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
+                                .observeOn(AndroidSchedulers.mainThread()).first();
 
                 Observable<List<StoryboardFrameListItem>> questionFramesObservable =
                         questionObservable.map(new Func1<List<Question>, List<StoryboardFrameListItem>>() {
@@ -213,7 +214,7 @@ public class MainActivity extends ActionBarActivity {
                 Observable<List<Cutscene>> cutsceneObservable =
                         cutsceneRepository.getCollection(cutsceneKeysString)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
+                                .observeOn(AndroidSchedulers.mainThread()).first();
 
                 Observable<List<StoryboardFrameListItem>> cutsceneFramesObservable =
 
