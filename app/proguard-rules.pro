@@ -18,4 +18,4 @@
 
 -include proguard/butterknife.pro
 -include proguard/square.pro
--include proguard/jackson.pro
+-include proguard/firebase.pro

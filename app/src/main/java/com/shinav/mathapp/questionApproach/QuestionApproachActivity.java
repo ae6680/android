@@ -71,9 +71,6 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     public void inject() {
-//        ApproachActivityComponent component = ApproachActivityComponent.Initializer.init(
-//                this, ((MyApplication) getApplication()).isMockMode());
-//        component.inject(this);
         Injector.getActivityComponent(this).inject(this);
     }
 
