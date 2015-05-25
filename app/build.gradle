@@ -26,8 +26,8 @@ android {
         applicationId "com.shinav.mathapp"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.2.1"
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
