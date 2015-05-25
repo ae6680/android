@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:hint="@string/answer_input_placeholder"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:textColorHint="@color/question_answer_field_hint"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_centerVertical="true"
             android:paddingTop="@dimen/default_margin"

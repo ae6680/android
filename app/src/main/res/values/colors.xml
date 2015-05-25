@@ -17,6 +17,7 @@
     <color name="calculator_calculation_answer_text">#E2E2E2</color>
 
     <color name="question_answer_field_text">#B1B1B1</color>
+    <color name="question_answer_field_hint">#009688</color>
 
     <color name="input_correct">#26C281</color>
     <color name="input_incorrect">#ffff7665</color>
