@@ -1,15 +1,13 @@
 package com.shinav.mathapp.calculator;
 
-import android.util.Log;
-
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import javax.inject.Inject;
 
-public class Calculator {
+import timber.log.Timber;
 
-    private static final String TAG = "Calculator";
+public class Calculator {
 
     private EquationFilterer equationFilterer;
     private AnswerCleaner answerCleaner;
@@ -24,17 +22,21 @@ public class Calculator {
         String answer = "";
 
         try {
-            String filteredEquation = equationFilterer.filterEquation(equation);
+            String filteredEquation = filterEquation(equation);
 
             String rawAnswer = calculateEquation(filteredEquation);
 
-            answer = answerCleaner.clean(rawAnswer);
+            answer = cleanAnswer(rawAnswer);
 
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.getMessage());
+            Timber.e(e.getMessage());
         }
 
         return answer;
+    }
+
+    private String filterEquation(String equation) {
+        return equationFilterer.filter(equation);
     }
 
     private String calculateEquation(String equation) {
@@ -46,6 +48,10 @@ public class Calculator {
             e.printStackTrace();
             return "";
         }
+    }
+
+    private String cleanAnswer(String rawAnswer) {
+        return answerCleaner.clean(rawAnswer);
     }
 
 }

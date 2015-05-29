@@ -108,7 +108,9 @@ public class CalculatorFragment extends Fragment {
 
     private void operatorClicked(String operator) {
         if (hasFocus) {
-            checkForResumedCalculating();
+            if (isResumingCalculation()) {
+                equation = equationHandler.handleResumedCalculating(equation, answer);
+            }
 
             if (!equation.endsWith("√")) {
                 equation = equationHandler.handleOperator(equation, operator);
@@ -118,10 +120,8 @@ public class CalculatorFragment extends Fragment {
         }
     }
 
-    private void checkForResumedCalculating() {
-        if (!TextUtils.isEmpty(answer) && TextUtils.isEmpty(equation)) {
-            equation = equationHandler.handleResumedCalculating(equation, answer);
-        }
+    private boolean isResumingCalculation() {
+        return !TextUtils.isEmpty(answer) && TextUtils.isEmpty(equation);
     }
 
     @OnClick(R.id.calculator_options_equals)

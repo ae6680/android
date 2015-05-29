@@ -2,7 +2,7 @@ package com.shinav.mathapp.firebase;
 
 public abstract class FirebaseNodes {
 
-    public interface Nodes {
+    interface Nodes {
         String TUTORIALS = "tutorials";
         String TUTORIAL_FRAMES = "tutorial_frames";
 

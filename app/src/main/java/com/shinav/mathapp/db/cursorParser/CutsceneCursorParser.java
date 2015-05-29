@@ -6,14 +6,12 @@ import com.shinav.mathapp.db.pojo.Cutscene;
 
 import javax.inject.Inject;
 
-import rx.functions.Func1;
-
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class CutsceneCursorParser implements Func1<Query, Cutscene> {
+public class CutsceneCursorParser implements Mapper {
 
     @Inject
     public CutsceneCursorParser() { }

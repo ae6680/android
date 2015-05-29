@@ -17,7 +17,7 @@ public class AnswerCleaner {
         return cleanAnswer;
     }
 
-    public String roundOnDecimals(String answer, int amountOfDecimals) {
+    private String roundOnDecimals(String answer, int amountOfDecimals) {
 
         String[] splits = answer.split("\\.");
         if (splits.length > 1) {
@@ -31,14 +31,14 @@ public class AnswerCleaner {
         return answer;
     }
 
-    public String stripDotZero(String answer) {
+    private String stripDotZero(String answer) {
         if (answer.endsWith(".0")) {
             answer = answer.substring(0, answer.length() - 2);
         }
         return answer;
     }
 
-    public String replaceDotsWithCommas(String answer) {
+    private String replaceDotsWithCommas(String answer) {
         return answer.replace(".", ",");
     }
 

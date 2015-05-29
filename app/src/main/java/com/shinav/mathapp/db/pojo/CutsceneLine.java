@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 public class CutsceneLine implements Comparable<CutsceneLine> {
 
-    public static final int ALIGNMENT_LEFT = 0;
     public static final int ALIGNMENT_RIGHT = 1;
 
     private String key;

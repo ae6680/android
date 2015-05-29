@@ -246,7 +246,7 @@ public class QuestionActivity extends ActionBarActivity {
     private void openNextQuestion() {
         Intent intent = new Intent(this, StorytellingService.class);
 
-        intent.setAction(StorytellingService.ACTION_OPEN_NEXT_FROM);
+        intent.setAction(StorytellingService.ACTION_OPEN_NEXT_QUESTION_FROM);
         intent.putExtra(StorytellingService.EXTRA_FRAME_TYPE_KEY, question.getKey());
 
         startService(intent);

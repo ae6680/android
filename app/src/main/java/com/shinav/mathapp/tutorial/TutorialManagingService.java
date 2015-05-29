@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 
-import com.shinav.mathapp.db.dataMapper.TutorialFrameMapper;
-import com.shinav.mathapp.db.dataMapper.TutorialMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.TutorialFrame;
 import com.shinav.mathapp.db.repository.TutorialFrameRepository;
-import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.MainActivity;
 
@@ -29,15 +26,10 @@ public class TutorialManagingService extends Service {
     public static final String EXTRA_FRAME_TYPE_KEY = "extra_frame_type_key";
     public static final String EXTRA_FRAME_TYPE = "extra_frame_type";
 
-    public static final String ACTION_START = "start";
+    public static final String ACTION_START = "action_start";
     public static final String ACTION_START_NEXT_FROM = "action_start_next_from";
 
-    @Inject TutorialFrameMapper tutorialFrameMapper;
-    @Inject TutorialMapper tutorialMapper;
-
-    @Inject TutorialRepository tutorialRepository;
     @Inject TutorialFrameRepository tutorialFrameRepository;
-
     @Inject SharedPreferences sharedPreferences;
 
     private List<TutorialFrame> tutorialFrames;
@@ -97,7 +89,7 @@ public class TutorialManagingService extends Service {
             }
         }
 
-        saveTutorialCompleted();
+        saveTutorialCompletion();
         start(MainActivity.class, null);
     }
 
@@ -121,14 +113,14 @@ public class TutorialManagingService extends Service {
 
     }
 
-    private void start(Class<? extends Activity> cls, String typeKey) {
+    private void start(Class<? extends Activity> cls, String frameTypeKey) {
         Intent intent = new Intent(this, cls);
-        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, typeKey);
+        intent.putExtra(Tables.StoryboardFrame.FRAME_TYPE_KEY, frameTypeKey);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    private void saveTutorialCompleted() {
+    private void saveTutorialCompletion() {
         sharedPreferences.edit().putBoolean(
                 PREF_TUTORIAL_COMPLETED,
                 true

@@ -12,11 +12,9 @@ import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.db.repository.StoryboardFrameRepository;
-import com.shinav.mathapp.db.repository.StoryboardRepository;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.storyboard.StoryboardEndActivity;
 import com.shinav.mathapp.questionApproach.QuestionApproachActivity;
-import com.squareup.otto.Bus;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,12 +32,9 @@ public class StorytellingService extends Service {
     public static final String ACTION_START = "action_start";
     public static final String ACTION_START_FROM = "action_start_from";
     public static final String ACTION_START_NEXT_FROM = "action_start_next_from";
-    public static final String ACTION_OPEN_NEXT_FROM = "action_open_next_from";
+    public static final String ACTION_OPEN_NEXT_QUESTION_FROM = "action_open_next_question_from";
 
-    @Inject Bus bus;
-    @Inject StoryboardRepository storyboardRepository;
     @Inject StoryboardFrameRepository storyboardFrameRepository;
-
     @Inject QuestionRepository questionRepository;
     @Inject QuestionMapper questionMapper;
 
@@ -67,8 +62,8 @@ public class StorytellingService extends Service {
                 case ACTION_START_NEXT_FROM:
                     startNextFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
                     break;
-                case ACTION_OPEN_NEXT_FROM:
-                    openNextFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
+                case ACTION_OPEN_NEXT_QUESTION_FROM:
+                    openNextQuestionFrom(intent.getStringExtra(EXTRA_FRAME_TYPE_KEY));
                     break;
             }
         }
@@ -135,7 +130,7 @@ public class StorytellingService extends Service {
         startActivity(intent);
     }
 
-    private void openNextFrom(String frameTypeKey) {
+    private void openNextQuestionFrom(String frameTypeKey) {
 
         boolean frameToBeOpened = false;
 

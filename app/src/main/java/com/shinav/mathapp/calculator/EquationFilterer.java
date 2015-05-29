@@ -7,7 +7,7 @@ public class EquationFilterer {
     @Inject
     public EquationFilterer() { }
 
-    public String filterEquation(String equation) {
+    public String filter(String equation) {
 
         equation = filterMultiplyCharacter(equation);
         equation = filterDivideCharacter(equation);
@@ -17,19 +17,19 @@ public class EquationFilterer {
         return equation;
     }
 
-    public String filterMultiplyCharacter(String equation) {
+    private String filterMultiplyCharacter(String equation) {
         return equation.replace("×", "*");
     }
 
-    public String filterDivideCharacter(String equation) {
+    private String filterDivideCharacter(String equation) {
         return equation.replace("÷", "/");
     }
 
-    public String filterCommaCharacter(String equation) {
+    private String filterCommaCharacter(String equation) {
         return equation.replace(",", ".");
     }
 
-    public String filterSquareRootCharacter(String equation) {
+    private String filterSquareRootCharacter(String equation) {
         int squareIndex = equation.indexOf("√");
         if (squareIndex != -1) {
 

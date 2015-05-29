@@ -2,27 +2,26 @@ package com.shinav.mathapp.db.helper;
 
 public interface Tables {
 
-    public interface Question {
+    interface Question {
         String TABLE_NAME = "question";
         String KEY = "key";
 
         String TITLE = "title";
         String VALUE = "value";
         String ANSWER = "answer";
-        String EXPLANATION = "explanation";
         String BACKGROUND_IMAGE_URL = "background_image_url";
         String ANNEX_IMAGE_URL = "annex_image_url";
         String PROGRESS_STATE = "progress_state";
     }
 
-    public interface QuestionApproach {
+    interface QuestionApproach {
         String TABLE_NAME = "question_approach";
         String KEY = "key";
 
         String QUESTION_KEY = "question_key";
     }
 
-    public interface QuestionApproachPart {
+    interface QuestionApproachPart {
         String TABLE_NAME = "question_approach_part";
         String KEY = "key";
 
@@ -32,7 +31,7 @@ public interface Tables {
         String POSITION = "position";
     }
 
-    public interface GivenQuestionApproach {
+    interface GivenQuestionApproach {
         String TABLE_NAME = "given_question_approach";
         String KEY = "key";
 
@@ -42,7 +41,7 @@ public interface Tables {
         String GIVEN_AT = "given_at";
     }
 
-    public interface GivenAnswer {
+    interface GivenAnswer {
         String TABLE_NAME = "given_answer";
         String KEY = "key";
 
@@ -52,7 +51,7 @@ public interface Tables {
         String GIVEN_AT = "given_at";
     }
 
-    public interface QuestionExplanation {
+    interface QuestionExplanation {
         String TABLE_NAME = "question_explanation";
         String KEY = "key";
 
@@ -63,14 +62,14 @@ public interface Tables {
         String POSITION = "position";
     }
 
-    public interface Storyboard {
+    interface Storyboard {
         String TABLE_NAME = "storyboard";
         String KEY = "key";
         
         String TITLE = "title";
     }
 
-    public interface StoryboardFrame {
+    interface StoryboardFrame {
         String TABLE_NAME = "storyboard_frame";
         String KEY = "key";
 
@@ -81,14 +80,14 @@ public interface Tables {
         String FRAME_TYPE_KEY = "frame_type_key";
     }
 
-    public interface Cutscene {
+    interface Cutscene {
         String TABLE_NAME = "cutscene";
         String KEY = "key";
         String TITLE = "title";
         String BACKGROUND_IMAGE_URL = "background_image_url";
     }
 
-    public interface CutsceneLine {
+    interface CutsceneLine {
         String TABLE_NAME = "cutscene_line";
         String KEY = "key";
 
@@ -103,7 +102,7 @@ public interface Tables {
         String MAIN_CHARACTER = "main_character";
     }
 
-    public interface CutsceneNotice {
+    interface CutsceneNotice {
         String TABLE_NAME = "cutscene_notice";
         String KEY = "key";
 
@@ -115,14 +114,14 @@ public interface Tables {
         String IMAGE_URL = "image_url";
     }
 
-    public interface Tutorial {
+    interface Tutorial {
         String TABLE_NAME = "tutorial";
         String KEY = "key";
 
         String TITLE = "title";
     }
 
-    public interface TutorialFrame {
+    interface TutorialFrame {
         String TABLE_NAME = "tutorial_frame";
         String KEY = "key";
 
