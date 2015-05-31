@@ -152,7 +152,7 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadQuestion(String questionKey) {
-        questionRepository.get(questionKey, new Action1<Question>() {
+        questionRepository.find(questionKey, new Action1<Question>() {
 
             @Override public void call(Question question) {
                 QuestionActivity.this.question = question;

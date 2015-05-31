@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.functions.Action1;
 
 public class StorytellingService extends Service {
@@ -72,11 +71,7 @@ public class StorytellingService extends Service {
     }
 
     private void fetchStoryboardFrames(String storyboardKey) {
-
-        Observable<List<StoryboardFrame>> observable =
-                storyboardFrameRepository.getByStoryboardKey(storyboardKey);
-
-        observable.subscribe(new Action1<List<StoryboardFrame>>() {
+        storyboardFrameRepository.findAllByParent(storyboardKey, new Action1<List<StoryboardFrame>>() {
             @Override public void call(List<StoryboardFrame> storyboardFrames) {
                 StorytellingService.this.storyboardFrames = storyboardFrames;
             }
@@ -138,7 +133,7 @@ public class StorytellingService extends Service {
 
             if (frameToBeOpened && frame.isQuestion()) {
 
-                questionRepository.get(frame.getFrameTypeKey(), new Action1<Question>() {
+                questionRepository.find(frame.getFrameTypeKey(), new Action1<Question>() {
                     @Override public void call(Question question) {
                         if (question.getProgressState() == Question.STATE_CLOSED) {
                             question.setProgressState(Question.STATE_OPENED);
@@ -155,6 +150,5 @@ public class StorytellingService extends Service {
             }
         }
     }
-
 
 }

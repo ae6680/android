@@ -11,10 +11,10 @@ import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class CutsceneCursorParser implements Mapper {
+public class CutsceneMapper implements Mapper {
 
     @Inject
-    public CutsceneCursorParser() { }
+    public CutsceneMapper() { }
 
     @Override public Cutscene call(Query query) {
         Cursor c = query.run();
@@ -29,7 +29,7 @@ public class CutsceneCursorParser implements Mapper {
         }
     }
 
-    public Cutscene fromCursor(Cursor c) {
+    @Override public Cutscene fromCursor(Cursor c) {
         Cutscene cutscene = new Cutscene();
 
         cutscene.setKey(c.getString(c.getColumnIndex(KEY)));

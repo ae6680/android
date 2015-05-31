@@ -53,14 +53,14 @@ public class StoryboardEndActivity extends Activity {
     }
 
     private void fetchAmountPassed() {
-        amountPassedObservable = questionRepository.getAmountPassed()
+        amountPassedObservable = questionRepository.findAmountPassed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new AmountQueryReady()).first();
     }
 
     private void fetchAmountFailed() {
-        amountFailedObservable = questionRepository.getAmountFailed()
+        amountFailedObservable = questionRepository.findAmountFailed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new AmountQueryReady()).first();

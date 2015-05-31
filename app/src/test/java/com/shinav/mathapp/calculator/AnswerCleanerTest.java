@@ -21,28 +21,27 @@ public class AnswerCleanerTest {
     public void testStripDotZero() throws Exception {
         String answer = "2.0";
 
-        answer = answerCleaner.stripDotZero(answer);
+        answer = answerCleaner.clean(answer);
 
         assertThat(answer, equalTo("2"));
-    }
-
-    @Test
-    public void testRoundOnDecimals() throws Exception {
-        String answer = "3.1415926535";
-        int amountOfDecimals = 5;
-
-        answer = answerCleaner.roundOnDecimals(answer, amountOfDecimals);
-
-        assertThat(answer.split("\\.")[1].length(), is(amountOfDecimals));
     }
 
     @Test
     public void testReplaceDotsWithCommas() throws Exception {
         String answer = "20.23";
 
-        answer = answerCleaner.replaceDotsWithCommas(answer);
+        answer = answerCleaner.clean(answer);
 
         assertThat(answer, containsString(","));
+    }
+
+    @Test
+    public void testRoundOnDecimals() throws Exception {
+        String answer = "3.1415926535";
+
+        answer = answerCleaner.clean(answer);
+
+        assertThat(answer.split(",")[1].length(), is(5));
     }
 
 }

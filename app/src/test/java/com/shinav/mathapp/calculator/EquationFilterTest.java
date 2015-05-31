@@ -23,7 +23,7 @@ public class EquationFilterTest {
     public void testFilterMultiplyCharacterToCalculableCharacter() throws Exception {
         String equation = "1 × 1";
 
-        equation = equationFilterer.filterMultiplyCharacter(equation);
+        equation = equationFilterer.filter(equation);
 
         assertThat(equation, containsString("*"));
     }
@@ -32,7 +32,7 @@ public class EquationFilterTest {
     public void testFilterDivideCharacterToCalculableCharacter() throws Exception {
         String equation = "1 ÷ 1";
 
-        equation = equationFilterer.filterDivideCharacter(equation);
+        equation = equationFilterer.filter(equation);
 
         assertThat(equation, containsString("/"));
     }
@@ -41,7 +41,7 @@ public class EquationFilterTest {
     public void testFilterCommaCharacterToCalculableCharacter() throws Exception {
         String equation = "3,1415926535";
 
-        equation = equationFilterer.filterCommaCharacter(equation);
+        equation = equationFilterer.filter(equation);
 
         assertThat(equation, containsString("."));
     }
@@ -50,7 +50,7 @@ public class EquationFilterTest {
     public void testFilterSquareRootCharacterToCalculableCharacter() throws Exception {
         String equation = "√ 122";
 
-        equation = equationFilterer.filterSquareRootCharacter(equation);
+        equation = equationFilterer.filter(equation);
 
         assertThat(equation, is("sqrt(122)"));
     }

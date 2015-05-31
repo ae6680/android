@@ -133,8 +133,9 @@ public class CutsceneActivity extends ActionBarActivity {
     }
 
     private void loadCutscene(String cutsceneKey) {
-        cutsceneRepository.getByKey(cutsceneKey).first().subscribe(new Action1<Cutscene>() {
-            @Override public void call(Cutscene cutscene) {
+        cutsceneRepository.find(cutsceneKey, new Action1<Object>() {
+            @Override public void call(Object o) {
+                Cutscene cutscene = (Cutscene) o;
                 initToolbar(cutscene);
                 loadBackground(cutscene.getBackgroundImageUrl());
             }

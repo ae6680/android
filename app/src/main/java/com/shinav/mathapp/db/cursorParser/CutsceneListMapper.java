@@ -9,21 +9,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.functions.Func1;
-
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class CutsceneListCursorParser implements Func1<Query, List<Cutscene>> {
+public class CutsceneListMapper implements ListMapper {
 
-    @Inject CutsceneCursorParser parser;
+    @Inject CutsceneMapper mapper;
 
     @Inject
-    public CutsceneListCursorParser() { }
+    public CutsceneListMapper() { }
 
-    @Override public List<Cutscene> call(Query query) {
+    @Override public List<Object> call(Query query) {
         Cursor c = query.run();
         try {
-            List<Cutscene> cutscenes = new ArrayList<>(c.getCount());
+            List<Object> cutscenes = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 cutscenes.add(fromCursor(c));
             }
@@ -33,8 +31,8 @@ public class CutsceneListCursorParser implements Func1<Query, List<Cutscene>> {
         }
     }
 
-    private Cutscene fromCursor(Cursor c) {
-        return parser.fromCursor(c);
+    @Override public Cutscene fromCursor(Cursor cursor) {
+        return mapper.fromCursor(cursor);
     }
 
 }

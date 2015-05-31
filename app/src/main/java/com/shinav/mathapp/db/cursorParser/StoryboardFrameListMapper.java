@@ -19,10 +19,10 @@ import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.STORYBOARD_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class StoryboardFrameCursorParser implements Func1<Query, List<StoryboardFrame>> {
+public class StoryboardFrameListMapper implements Func1<Query, List<StoryboardFrame>> {
 
     @Inject
-    public StoryboardFrameCursorParser() { }
+    public StoryboardFrameListMapper() { }
 
     @Override public List<StoryboardFrame> call(Query query) {
         Cursor c = query.run();

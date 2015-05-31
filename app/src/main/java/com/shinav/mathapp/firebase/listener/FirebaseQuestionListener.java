@@ -26,7 +26,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
         final Question question = firebaseParser.parseQuestion(dataSnapshot);
 
         // Look for previous progressState
-        repository.get(question.getKey(), new Action1<Question>() {
+        repository.find(question.getKey(), new Action1<Question>() {
             @Override public void call(Question q) {
                 if (q != null) {
                     question.setProgressState(q.getProgressState());
@@ -42,7 +42,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
         final Question question = firebaseParser.parseQuestion(dataSnapshot);
 
         // Look for previous progressState
-        repository.get(question.getKey(), new Action1<Question>() {
+        repository.find(question.getKey(), new Action1<Question>() {
             @Override public void call(Question q) {
                 if (q != null) {
                     question.setProgressState(q.getProgressState());

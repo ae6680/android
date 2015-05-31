@@ -1,12 +1,12 @@
 package com.shinav.mathapp.firebase;
 
-public abstract class FirebaseNodes {
+public interface FirebaseNodes {
 
     interface Nodes {
         String TUTORIALS = "tutorials";
         String TUTORIAL_FRAMES = "tutorial_frames";
 
-        String STORYBOARD = "storyboards";
+        String STORYBOARDS = "storyboards";
         String STORYBOARD_FRAMES = "storyboard_frames";
 
         String CUTSCENES = "cutscenes";

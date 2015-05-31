@@ -18,14 +18,39 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TYPING_DURATION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.VALUE;
 
-public class CutsceneLineMapper {
+public class CutsceneLineMapper implements DataMapper {
 
     @Inject SqlBrite db;
 
     @Inject
     public CutsceneLineMapper() { }
 
-    private ContentValues getContentValues(CutsceneLine cutsceneLine) {
+    @Override public void insert(Object object) {
+        db.insert(TABLE_NAME, getContentValues(object));
+    }
+
+    @Override public void update(Object object) {
+        CutsceneLine cutsceneLine = (CutsceneLine) object;
+
+        db.update(
+                TABLE_NAME,
+                getContentValues(cutsceneLine),
+                KEY + " = ?",
+                cutsceneLine.getKey()
+        );
+    }
+
+    @Override public void delete(String cutsceneLineKey) {
+        db.delete(
+                TABLE_NAME,
+                KEY + " = ?",
+                cutsceneLineKey
+        );
+    }
+
+    @Override public ContentValues getContentValues(Object object) {
+        CutsceneLine cutsceneLine = (CutsceneLine) object;
+
         ContentValues values = new ContentValues();
 
         values.put(KEY, cutsceneLine.getKey());
@@ -39,27 +64,6 @@ public class CutsceneLineMapper {
         values.put(MAIN_CHARACTER, cutsceneLine.getMainCharacter());
 
         return values;
-    }
-
-    public void insert(CutsceneLine cutsceneLine) {
-        db.insert(TABLE_NAME, getContentValues(cutsceneLine));
-    }
-
-    public void update(CutsceneLine cutsceneLine) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(cutsceneLine),
-                KEY + " = ?",
-                cutsceneLine.getKey()
-        );
-    }
-
-    public void delete(String cutsceneLineKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                cutsceneLineKey
-        );
     }
 
 }

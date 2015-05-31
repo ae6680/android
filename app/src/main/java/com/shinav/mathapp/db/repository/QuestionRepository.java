@@ -1,7 +1,9 @@
 package com.shinav.mathapp.db.repository;
 
+import android.text.TextUtils;
+
 import com.shinav.mathapp.db.cursorParser.QuestionCursorParser;
-import com.shinav.mathapp.db.cursorParser.QuestionListCursorParser;
+import com.shinav.mathapp.db.cursorParser.QuestionListMapper;
 import com.shinav.mathapp.db.pojo.Question;
 import com.squareup.sqlbrite.SqlBrite;
 import com.squareup.sqlbrite.SqlBrite.Query;
@@ -11,7 +13,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
@@ -26,12 +30,12 @@ public class QuestionRepository {
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
 
     @Inject QuestionCursorParser parser;
-    @Inject QuestionListCursorParser listParser;
+    @Inject QuestionListMapper listParser;
 
     @Inject
     public QuestionRepository() { }
 
-    public void get(String questionKey, Action1<Question> action) {
+    public void find(String questionKey, Action1<Question> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
@@ -40,7 +44,10 @@ public class QuestionRepository {
         ).map(parser).first().subscribe(action);
     }
 
-    public Observable<List<Question>> getCollection(String questionKeys) {
+    public Observable<List<Object>> findCollection(List<String> questionKeys) {
+
+        String questionKeysString = TextUtils.join("','", questionKeys);
+
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT " +
@@ -49,11 +56,15 @@ public class QuestionRepository {
                         BACKGROUND_IMAGE_URL + ", " +
                         PROGRESS_STATE +
                         " FROM " + TABLE_NAME +
-                        " WHERE " + KEY + " IN ('" + questionKeys + "')"
-        ).map(listParser).first();
+                        " WHERE " + KEY + " IN ('" + questionKeysString + "')"
+        )
+                .map(listParser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .first();
     }
 
-    public Observable<Query> getAmountPassed() {
+    public Observable<Query> findAmountPassed() {
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
@@ -62,7 +73,7 @@ public class QuestionRepository {
         ).first();
     }
 
-    public Observable<Query> getAmountFailed() {
+    public Observable<Query> findAmountFailed() {
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

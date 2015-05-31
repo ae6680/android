@@ -1,8 +1,9 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.CutsceneCursorParser;
-import com.shinav.mathapp.db.cursorParser.CutsceneListCursorParser;
-import com.shinav.mathapp.db.pojo.Cutscene;
+import android.text.TextUtils;
+
+import com.shinav.mathapp.db.cursorParser.CutsceneListMapper;
+import com.shinav.mathapp.db.cursorParser.CutsceneMapper;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
@@ -19,22 +23,29 @@ import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 public class CutsceneRepository {
 
     @Inject SqlBrite db;
-    @Inject CutsceneCursorParser parser;
-    @Inject CutsceneListCursorParser listParser;
+    @Inject CutsceneMapper mapper;
+    @Inject CutsceneListMapper listMapper;
 
     @Inject
     public CutsceneRepository() { }
 
-    public Observable<Cutscene> getByKey(String cutsceneKey) {
-        return db.createQuery(
+    public void find(String cutsceneKey, Action1<Object> action) {
+        db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , cutsceneKey
-        ).map(parser);
+        )
+                .map(mapper)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .first().subscribe(action);
     }
 
-    public Observable<List<Cutscene>> getCollection(String cutsceneKeys) {
+    public Observable<List<Object>> findCollection(List<String> cutsceneKeys) {
+
+        String cutsceneKeysString = TextUtils.join("','", cutsceneKeys);
+
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT " +
@@ -42,8 +53,12 @@ public class CutsceneRepository {
                         TITLE + ", " +
                         BACKGROUND_IMAGE_URL +
                         " FROM " + TABLE_NAME +
-                        " WHERE " + KEY + " IN ('" + cutsceneKeys + "')"
-        ).map(listParser).first();
+                        " WHERE " + KEY + " IN ('" + cutsceneKeysString + "')"
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .first()
+                .map(listMapper);
     }
 
 }

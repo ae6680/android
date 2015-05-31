@@ -9,23 +9,21 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.functions.Func1;
-
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Question.PROGRESS_STATE;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class QuestionListCursorParser implements Func1<Query, List<Question>> {
+public class QuestionListMapper implements ListMapper {
 
     @Inject
-    public QuestionListCursorParser() { }
+    public QuestionListMapper() { }
 
-    @Override public List<Question> call(Query query) {
+    @Override public List<Object> call(Query query) {
         Cursor c = query.run();
         try {
-            List<Question> questions = new ArrayList<>(c.getCount());
+            List<Object> questions = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 questions.add(fromCursor(c));
             }

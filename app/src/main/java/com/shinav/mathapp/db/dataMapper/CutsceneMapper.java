@@ -12,7 +12,7 @@ import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 
-public class CutsceneMapper {
+public class CutsceneMapper  {
 
     @Inject SqlBrite db;
 

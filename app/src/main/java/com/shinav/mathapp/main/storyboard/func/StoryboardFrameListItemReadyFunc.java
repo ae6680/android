@@ -1,4 +1,4 @@
-package com.shinav.mathapp.main;
+package com.shinav.mathapp.main.storyboard.func;
 
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.main.storyboard.StoryboardFrameListItem;
@@ -7,18 +7,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import rx.functions.Func3;
+import rx.functions.Func2;
 
-class StoryboardFramesReadyFunc implements Func3<
-        List<StoryboardFrame>,
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_CLOSED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.STATE_OPENED;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_CUTSCENE;
+import static com.shinav.mathapp.main.storyboard.StoryboardFrameListItem.TYPE_QUESTION;
+
+public class StoryboardFrameListItemReadyFunc implements Func2<
         List<StoryboardFrameListItem>,
         List<StoryboardFrameListItem>,
         List<StoryboardFrameListItem>
         > {
 
+    private final List<StoryboardFrame> storyboardFrames;
+
+    public StoryboardFrameListItemReadyFunc(List<StoryboardFrame> storyboardFrames) {
+        this.storyboardFrames = storyboardFrames;
+    }
+
     @Override
     public List<StoryboardFrameListItem> call(
-            List<StoryboardFrame> storyboardFrames,
             List<StoryboardFrameListItem> storyboardFrameListItems,
             List<StoryboardFrameListItem> storyboardFrameListItems2
     ) {
@@ -30,7 +39,10 @@ class StoryboardFramesReadyFunc implements Func3<
                 storyboardFrameListItems
         );
 
-        return Arrays.asList(frameArray);
+        List<StoryboardFrameListItem> frames = Arrays.asList(frameArray);
+        setupStoryFrameStates(frames);
+
+        return frames;
     }
 
     private StoryboardFrameListItem[] orderOnFrameOrder(
@@ -56,6 +68,29 @@ class StoryboardFramesReadyFunc implements Func3<
             frameObjectKeys.add(frame.getFrameTypeKey());
         }
         return frameObjectKeys;
+    }
+
+    private void setupStoryFrameStates(List<StoryboardFrameListItem> listItems) {
+        for (StoryboardFrameListItem listItem : listItems) {
+
+            // Open up all cutscenes until current open
+            // question is found.
+            if (listItem.getType().equals(TYPE_CUTSCENE)) {
+                listItem.setState(STATE_OPENED);
+            }
+
+            if (listItem.getType().equals(TYPE_QUESTION)) {
+                // Open up first question if closed after tutorial.
+                if (listItem.getState() == STATE_CLOSED) {
+                    listItem.setState(STATE_OPENED);
+                }
+
+                // Currently open question is found, break.
+                if (listItem.getState() == STATE_OPENED) {
+                    break;
+                }
+            }
+        }
     }
 
 }

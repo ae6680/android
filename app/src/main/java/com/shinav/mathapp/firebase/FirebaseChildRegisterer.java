@@ -20,31 +20,57 @@ import static com.shinav.mathapp.firebase.FirebaseNodes.Nodes;
 
 public class FirebaseChildRegisterer {
 
-    @Inject Firebase firebase;
+    private Firebase firebase;
 
-    @Inject FirebaseTutorialListener firebaseTutorialListener;
-    @Inject FirebaseTutorialFrameListener firebaseTutorialFrameListener;
+    private FirebaseTutorialListener firebaseTutorialListener;
+    private FirebaseTutorialFrameListener firebaseTutorialFrameListener;
 
-    @Inject FirebaseStoryboardListener firebaseStoryboardListener;
-    @Inject FirebaseStoryboardFrameListener firebaseStoryboardFrameListener;
+    private FirebaseStoryboardListener firebaseStoryboardListener;
+    private FirebaseStoryboardFrameListener firebaseStoryboardFrameListener;
 
-    @Inject FirebaseCutsceneListener firebaseCutsceneListener;
-    @Inject FirebaseCutsceneLineListener firebaseCutsceneLineListener;
-    @Inject FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener;
+    private FirebaseCutsceneListener firebaseCutsceneListener;
+    private FirebaseCutsceneLineListener firebaseCutsceneLineListener;
+    private FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener;
 
-    @Inject FirebaseQuestionListener firebaseQuestionListener;
-    @Inject FirebaseQuestionApproachListener firebaseQuestionApproachListener;
-    @Inject FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener;
-    @Inject FirebaseQuestionExplanationListener firebaseQuestionExplanationListener;
+    private FirebaseQuestionListener firebaseQuestionListener;
+    private FirebaseQuestionApproachListener firebaseQuestionApproachListener;
+    private FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener;
+    private FirebaseQuestionExplanationListener firebaseQuestionExplanationListener;
 
     @Inject
-    public FirebaseChildRegisterer() { }
+    public FirebaseChildRegisterer(
+            Firebase firebase,
+            FirebaseTutorialListener firebaseTutorialListener,
+            FirebaseTutorialFrameListener firebaseTutorialFrameListener,
+            FirebaseStoryboardListener firebaseStoryboardListener,
+            FirebaseStoryboardFrameListener firebaseStoryboardFrameListener,
+            FirebaseCutsceneListener firebaseCutsceneListener,
+            FirebaseCutsceneLineListener firebaseCutsceneLineListener,
+            FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener,
+            FirebaseQuestionListener firebaseQuestionListener,
+            FirebaseQuestionApproachListener firebaseQuestionApproachListener,
+            FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener,
+            FirebaseQuestionExplanationListener firebaseQuestionExplanationListener
+    ) {
+        this.firebase = firebase;
+        this.firebaseTutorialListener = firebaseTutorialListener;
+        this.firebaseTutorialFrameListener = firebaseTutorialFrameListener;
+        this.firebaseStoryboardListener = firebaseStoryboardListener;
+        this.firebaseStoryboardFrameListener = firebaseStoryboardFrameListener;
+        this.firebaseCutsceneListener = firebaseCutsceneListener;
+        this.firebaseCutsceneLineListener = firebaseCutsceneLineListener;
+        this.firebaseCutsceneNoticeListener = firebaseCutsceneNoticeListener;
+        this.firebaseQuestionListener = firebaseQuestionListener;
+        this.firebaseQuestionApproachListener = firebaseQuestionApproachListener;
+        this.firebaseQuestionApproachPartListener = firebaseQuestionApproachPartListener;
+        this.firebaseQuestionExplanationListener = firebaseQuestionExplanationListener;
+    }
 
     public void register() {
         addChildEventListener(Nodes.TUTORIALS, firebaseTutorialListener);
         addChildEventListener(Nodes.TUTORIAL_FRAMES, firebaseTutorialFrameListener);
 
-        addChildEventListener(Nodes.STORYBOARD, firebaseStoryboardListener);
+        addChildEventListener(Nodes.STORYBOARDS, firebaseStoryboardListener);
         addChildEventListener(Nodes.STORYBOARD_FRAMES, firebaseStoryboardFrameListener);
 
         addChildEventListener(Nodes.CUTSCENES, firebaseCutsceneListener);
