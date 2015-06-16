@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.CutsceneLineCursorParser;
+import com.shinav.mathapp.db.mapper.CutsceneLineListMapper;
 import com.shinav.mathapp.db.pojo.CutsceneLine;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -16,7 +16,7 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TABLE_NAME;
 public class CutsceneLineRepository {
 
     @Inject SqlBrite db;
-    @Inject CutsceneLineCursorParser parser;
+    @Inject CutsceneLineListMapper listMapper;
 
     @Inject
     public CutsceneLineRepository() { }
@@ -27,7 +27,7 @@ public class CutsceneLineRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + CUTSCENE_KEY + " = ?"
                 , cutsceneKey
-        ).map(parser);
+        ).map(listMapper);
     }
 
 }

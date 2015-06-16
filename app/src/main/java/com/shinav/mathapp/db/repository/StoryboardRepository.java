@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.StoryboardCursorParser;
+import com.shinav.mathapp.db.mapper.StoryboardMapper;
 import com.shinav.mathapp.db.pojo.Storyboard;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -14,7 +14,7 @@ import static com.shinav.mathapp.db.helper.Tables.Storyboard.TABLE_NAME;
 public class StoryboardRepository {
 
     @Inject SqlBrite db;
-    @Inject StoryboardCursorParser parser;
+    @Inject StoryboardMapper mapper;
 
     @Inject
     public StoryboardRepository() { }
@@ -24,7 +24,7 @@ public class StoryboardRepository {
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " LIMIT 1"
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
     public void find(String storyboardKey, Action1<Storyboard> action) {
@@ -33,7 +33,7 @@ public class StoryboardRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , storyboardKey
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
 }

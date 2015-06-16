@@ -1,16 +1,13 @@
-package com.shinav.mathapp.db.cursorParser;
+package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.CutsceneLine;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.ALIGNMENT;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.CUTSCENE_KEY;
@@ -23,27 +20,19 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TYPING_DURATION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class CutsceneLineCursorParser implements Func1<Query, List<CutsceneLine>> {
+public class CutsceneLineListMapper extends ListMapper<CutsceneLine> {
 
     @Inject
-    public CutsceneLineCursorParser() { }
+    public CutsceneLineListMapper() { }
 
     @Override public List<CutsceneLine> call(Query query) {
-        Cursor c = query.run();
-        try {
-            List<CutsceneLine> cutsceneLines = new ArrayList<>(c.getCount());
-            while (c.moveToNext()) {
-                cutsceneLines.add(fromCursor(c));
-            }
+        List<CutsceneLine> cutsceneLines = super.call(query);
+        Collections.sort(cutsceneLines);
 
-            Collections.sort(cutsceneLines);
-            return cutsceneLines;
-        } finally {
-            c.close();
-        }
+        return cutsceneLines;
     }
 
-    public CutsceneLine fromCursor(Cursor c) {
+    @Override public CutsceneLine fromCursor(Cursor c) {
         CutsceneLine cutsceneLine = new CutsceneLine();
 
         cutsceneLine.setKey(c.getString(c.getColumnIndex(KEY)));

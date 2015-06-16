@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.QuestionExplanationCursorParser;
+import com.shinav.mathapp.db.mapper.QuestionExplanationListMapper;
 import com.shinav.mathapp.db.pojo.QuestionExplanation;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -16,7 +16,7 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation.TABLE_NAME
 public class QuestionExplanationRepository {
 
     @Inject SqlBrite db;
-    @Inject QuestionExplanationCursorParser parser;
+    @Inject QuestionExplanationListMapper listMapper;
 
     @Inject
     public QuestionExplanationRepository() { }
@@ -27,7 +27,7 @@ public class QuestionExplanationRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_KEY + " = ?"
                 , questionKey
-        ).map(parser).first().subscribe(action);
+        ).map(listMapper).first().subscribe(action);
     }
 
 }

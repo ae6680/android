@@ -1,7 +1,8 @@
-package com.shinav.mathapp.db.cursorParser;
+package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
+import com.shinav.mathapp.db.dataMapper.DataMapper;
 import com.shinav.mathapp.db.pojo.Cutscene;
 
 import javax.inject.Inject;
@@ -11,23 +12,10 @@ import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class CutsceneMapper implements Mapper {
+public class CutsceneMapper extends Mapper<Cutscene> {
 
     @Inject
     public CutsceneMapper() { }
-
-    @Override public Cutscene call(Query query) {
-        Cursor c = query.run();
-        try {
-            if (!c.moveToFirst()) {
-                return null;
-            }
-
-            return fromCursor(c);
-        } finally {
-            c.close();
-        }
-    }
 
     @Override public Cutscene fromCursor(Cursor c) {
         Cutscene cutscene = new Cutscene();

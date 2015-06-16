@@ -1,4 +1,4 @@
-package com.shinav.mathapp.db.cursorParser;
+package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
@@ -12,25 +12,12 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionApproach.KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproach.QUESTION_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class QuestionApproachCursorParser implements Func1<Query, QuestionApproach> {
+public class QuestionApproachMapper extends Mapper<QuestionApproach> {
 
     @Inject
-    public QuestionApproachCursorParser() { }
+    public QuestionApproachMapper() { }
 
-    @Override public QuestionApproach call(Query query) {
-        Cursor c = query.run();
-        try {
-            if (!c.moveToFirst()) {
-                return null;
-            }
-
-            return fromCursor(c);
-        } finally {
-            c.close();
-        }
-    }
-
-    public QuestionApproach fromCursor(Cursor c) {
+    @Override public QuestionApproach fromCursor(Cursor c) {
         QuestionApproach questionApproach = new QuestionApproach();
 
         questionApproach.setKey(c.getString(c.getColumnIndex(KEY)));

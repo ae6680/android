@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.GivenQuestionApproachCursorParser;
+import com.shinav.mathapp.db.mapper.GivenQuestionApproachMapper;
 import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -14,7 +14,7 @@ import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach.TABLE_NA
 public class GivenQuestionApproachRepository {
 
     @Inject SqlBrite db;
-    @Inject GivenQuestionApproachCursorParser parser;
+    @Inject GivenQuestionApproachMapper mapper;
 
     @Inject
     public GivenQuestionApproachRepository() { }
@@ -25,7 +25,7 @@ public class GivenQuestionApproachRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_APPROACH_KEY + " = ?"
                 , questionApproachKey
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
 }

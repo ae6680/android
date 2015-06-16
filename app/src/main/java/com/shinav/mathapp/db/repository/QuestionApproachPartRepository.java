@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.QuestionApproachPartListCursorParser;
+import com.shinav.mathapp.db.mapper.QuestionApproachPartListMapper;
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -16,7 +16,7 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.TABLE_NAM
 public class QuestionApproachPartRepository {
 
     @Inject SqlBrite db;
-    @Inject QuestionApproachPartListCursorParser parser;
+    @Inject QuestionApproachPartListMapper listMapper;
 
     @Inject
     public QuestionApproachPartRepository() { }
@@ -27,7 +27,7 @@ public class QuestionApproachPartRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_APPROACH_KEY + " = ?"
                 , questionApproachKey
-        ).map(parser).first().subscribe(action);
+        ).map(listMapper).first().subscribe(action);
     }
 
 }

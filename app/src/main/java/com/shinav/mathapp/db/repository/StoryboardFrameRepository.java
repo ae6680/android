@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.StoryboardFrameListMapper;
+import com.shinav.mathapp.db.mapper.StoryboardFrameListMapper;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.squareup.sqlbrite.SqlBrite;
 

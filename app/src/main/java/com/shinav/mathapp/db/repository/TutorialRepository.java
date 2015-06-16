@@ -1,6 +1,6 @@
 package com.shinav.mathapp.db.repository;
 
-import com.shinav.mathapp.db.cursorParser.TutorialCursorParser;
+import com.shinav.mathapp.db.mapper.TutorialMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -14,7 +14,7 @@ import static com.shinav.mathapp.db.helper.Tables.Tutorial.TABLE_NAME;
 public class TutorialRepository {
 
     @Inject SqlBrite db;
-    @Inject TutorialCursorParser parser;
+    @Inject TutorialMapper mapper;
 
     @Inject
     public TutorialRepository() { }
@@ -24,7 +24,7 @@ public class TutorialRepository {
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " LIMIT 1"
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
     public void find(String tutorialKey, Action1<Tutorial> action) {
@@ -33,7 +33,7 @@ public class TutorialRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , tutorialKey
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
 }

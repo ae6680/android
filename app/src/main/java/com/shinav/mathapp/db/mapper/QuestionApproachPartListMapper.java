@@ -1,16 +1,13 @@
-package com.shinav.mathapp.db.cursorParser;
+package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.POSITION;
@@ -18,28 +15,19 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.QUESTION_
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.VALUE;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class QuestionApproachPartListCursorParser implements Func1<Query, List<QuestionApproachPart>> {
+public class QuestionApproachPartListMapper extends ListMapper<QuestionApproachPart> {
 
     @Inject
-    public QuestionApproachPartListCursorParser() { }
+    public QuestionApproachPartListMapper() { }
 
     @Override public List<QuestionApproachPart> call(Query query) {
-        Cursor c = query.run();
-        try {
-            List<QuestionApproachPart> questionApproachParts = new ArrayList<>(c.getCount());
-            while (c.moveToNext()) {
-                questionApproachParts.add(fromCursor(c));
-            }
+        List<QuestionApproachPart> questionApproachParts = super.call(query);
+        Collections.sort(questionApproachParts);
 
-            Collections.sort(questionApproachParts);
-
-            return questionApproachParts;
-        } finally {
-            c.close();
-        }
+        return questionApproachParts;
     }
 
-    public QuestionApproachPart fromCursor(Cursor c) {
+    @Override public QuestionApproachPart fromCursor(Cursor c) {
         QuestionApproachPart questionApproachPart = new QuestionApproachPart();
 
         questionApproachPart.setKey(c.getString(c.getColumnIndex(KEY)));

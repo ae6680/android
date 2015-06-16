@@ -1,16 +1,13 @@
-package com.shinav.mathapp.db.cursorParser;
+package com.shinav.mathapp.db.mapper;
 
 import android.database.Cursor;
 
 import com.shinav.mathapp.db.pojo.TutorialFrame;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.functions.Func1;
 
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.FRAME_TYPE;
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.FRAME_TYPE_KEY;
@@ -19,29 +16,19 @@ import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.TUTORIAL_KEY;
 import static com.squareup.sqlbrite.SqlBrite.Query;
 
-public class TutorialFrameListCursorParser implements Func1<Query, List<TutorialFrame>> {
+public class TutorialFrameListMapper extends ListMapper<TutorialFrame> {
 
     @Inject
-    public TutorialFrameListCursorParser() {
-    }
+    public TutorialFrameListMapper() { }
 
     @Override public List<TutorialFrame> call(Query query) {
-        Cursor c = query.run();
-        try {
-            List<TutorialFrame> tutorialFrames = new ArrayList<>(c.getCount());
-            while (c.moveToNext()) {
-                tutorialFrames.add(fromCursor(c));
-            }
+        List<TutorialFrame> tutorialFrames = super.call(query);
+        Collections.sort(tutorialFrames);
 
-            Collections.sort(tutorialFrames);
-
-            return tutorialFrames;
-        } finally {
-            c.close();
-        }
+        return tutorialFrames;
     }
 
-    public TutorialFrame fromCursor(Cursor c) {
+    @Override public TutorialFrame fromCursor(Cursor c) {
         TutorialFrame tutorialFrame = new TutorialFrame();
 
         tutorialFrame.setKey(c.getString(c.getColumnIndex(KEY)));

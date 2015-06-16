@@ -2,8 +2,8 @@ package com.shinav.mathapp.db.repository;
 
 import android.text.TextUtils;
 
-import com.shinav.mathapp.db.cursorParser.QuestionCursorParser;
-import com.shinav.mathapp.db.cursorParser.QuestionListMapper;
+import com.shinav.mathapp.db.mapper.QuestionMapper;
+import com.shinav.mathapp.db.mapper.QuestionListMapper;
 import com.shinav.mathapp.db.pojo.Question;
 import com.squareup.sqlbrite.SqlBrite;
 import com.squareup.sqlbrite.SqlBrite.Query;
@@ -26,11 +26,8 @@ import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 public class QuestionRepository {
 
     @Inject SqlBrite db;
-    @Inject QuestionApproachRepository questionApproachRepository;
-    @Inject QuestionApproachPartRepository questionApproachPartRepository;
-
-    @Inject QuestionCursorParser parser;
-    @Inject QuestionListMapper listParser;
+    @Inject QuestionMapper mapper;
+    @Inject QuestionListMapper listMapper;
 
     @Inject
     public QuestionRepository() { }
@@ -41,10 +38,10 @@ public class QuestionRepository {
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + KEY + " = ?"
                 , questionKey
-        ).map(parser).first().subscribe(action);
+        ).map(mapper).first().subscribe(action);
     }
 
-    public Observable<List<Object>> findCollection(List<String> questionKeys) {
+    public Observable<List<Question>> findCollection(List<String> questionKeys) {
 
         String questionKeysString = TextUtils.join("','", questionKeys);
 
@@ -58,7 +55,7 @@ public class QuestionRepository {
                         " FROM " + TABLE_NAME +
                         " WHERE " + KEY + " IN ('" + questionKeysString + "')"
         )
-                .map(listParser)
+                .map(listMapper)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .first();

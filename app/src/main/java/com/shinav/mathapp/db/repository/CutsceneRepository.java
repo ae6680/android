@@ -2,8 +2,9 @@ package com.shinav.mathapp.db.repository;
 
 import android.text.TextUtils;
 
-import com.shinav.mathapp.db.cursorParser.CutsceneListMapper;
-import com.shinav.mathapp.db.cursorParser.CutsceneMapper;
+import com.shinav.mathapp.db.mapper.CutsceneListMapper;
+import com.shinav.mathapp.db.mapper.CutsceneMapper;
+import com.shinav.mathapp.db.pojo.Cutscene;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class CutsceneRepository {
                 .first().subscribe(action);
     }
 
-    public Observable<List<Object>> findCollection(List<String> cutsceneKeys) {
+    public Observable<List<Cutscene>> findCollection(List<String> cutsceneKeys) {
 
         String cutsceneKeysString = TextUtils.join("','", cutsceneKeys);
 
