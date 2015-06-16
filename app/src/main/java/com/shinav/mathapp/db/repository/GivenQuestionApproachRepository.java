@@ -19,12 +19,12 @@ public class GivenQuestionApproachRepository {
     @Inject
     public GivenQuestionApproachRepository() { }
 
-    public void get(String approachKey, Action1<GivenQuestionApproach> action) {
+    public void findByParent(String questionApproachKey, Action1<GivenQuestionApproach> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_APPROACH_KEY + " = ?"
-                , approachKey
+                , questionApproachKey
         ).map(parser).first().subscribe(action);
     }
 

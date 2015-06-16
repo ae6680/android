@@ -65,11 +65,11 @@ public class TutorialActivity extends ActionBarActivity {
 
     @Subscribe public void onTutorialStartButtonClicked(final TutorialStartButtonClickedEvent event) {
 
-        tutorialRepository.getFirst(new Action1<Tutorial>() {
+        tutorialRepository.findFirst(new Action1<Tutorial>() {
             @Override public void call(Tutorial tutorial) {
                 saveChosenCharacter(event.getResourceId());
                 startTutorialManagingService(
-                        tutorial.getKey()
+                    tutorial.getKey()
                 );
             }
         });

@@ -106,7 +106,7 @@ public class QAFActivity extends ActionBarActivity {
     }
 
     private void fetchQuestionApproach(String questionKey) {
-        questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
+        questionApproachRepository.findByParent(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
                 fetchQuestionApproachParts(questionApproach.getKey());
@@ -115,7 +115,7 @@ public class QAFActivity extends ActionBarActivity {
     }
 
     private void fetchQuestionApproachParts(final String approachKey) {
-        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
+        questionApproachPartRepository.findAllByParent(approachKey, new Action1<List<QuestionApproachPart>>() {
 
             @Override public void call(List<QuestionApproachPart> questionApproachParts) {
                 Collections.sort(questionApproachParts);
@@ -128,10 +128,10 @@ public class QAFActivity extends ActionBarActivity {
             String approachKey,
             final List<QuestionApproachPart> questionApproachParts)
     {
-        givenQuestionApproachRepository.get(approachKey, new Action1<GivenQuestionApproach>() {
+        givenQuestionApproachRepository.findByParent(approachKey, new Action1<GivenQuestionApproach>() {
             @Override public void call(GivenQuestionApproach givenQuestionApproach) {
                 List<QuestionApproachPart> arrangedQuestionApproachParts =
-                        sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
+                    sortOnGivenApproachArrangement(questionApproachParts, givenQuestionApproach);
 
                 initQuestionApproachPartsViewPager(questionApproachParts, arrangedQuestionApproachParts);
             }

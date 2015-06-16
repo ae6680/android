@@ -82,8 +82,8 @@ public class QuestionApproachActivity extends ActionBarActivity {
                 initToolbar(question.getTitle());
 
                 backgroundLoader.loadBackground(
-                        backgroundView,
-                        question.getBackgroundImageUrl()
+                    backgroundView,
+                    question.getBackgroundImageUrl()
                 );
 
                 initViewPager(question);
@@ -92,7 +92,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     private void loadApproach(String questionKey) {
-        questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
+        questionApproachRepository.findByParent(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
                 QuestionApproachActivity.this.questionApproach = questionApproach;
@@ -102,7 +102,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
     }
 
     private void loadApproachParts(String approachKey) {
-        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
+        questionApproachPartRepository.findAllByParent(approachKey, new Action1<List<QuestionApproachPart>>() {
 
             @Override public void call(List<QuestionApproachPart> questionApproachParts) {
                 Collections.shuffle(questionApproachParts);

@@ -19,7 +19,7 @@ public class StoryboardRepository {
     @Inject
     public StoryboardRepository() { }
 
-    public void getFirst(Action1<Storyboard> action) {
+    public void findFirst(Action1<Storyboard> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
@@ -27,7 +27,7 @@ public class StoryboardRepository {
         ).map(parser).first().subscribe(action);
     }
 
-    public void get(String storyboardKey, Action1<Storyboard> action) {
+    public void find(String storyboardKey, Action1<Storyboard> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

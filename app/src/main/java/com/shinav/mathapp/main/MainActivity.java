@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadStoryboard() {
-        storyboardRepository.getFirst(new Action1<Storyboard>() {
+        storyboardRepository.findFirst(new Action1<Storyboard>() {
             @Override public void call(Storyboard storyboard) {
                 loadStoryboardFrames(storyboard);
                 startStorytellingService(storyboard.getKey());

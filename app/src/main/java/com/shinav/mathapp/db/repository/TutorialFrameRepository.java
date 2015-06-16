@@ -21,7 +21,7 @@ public class TutorialFrameRepository {
     @Inject
     public TutorialFrameRepository() { }
 
-    public void getByTutorialKey(String tutorialKey, Action1<List<TutorialFrame>> action) {
+    public void findAllByParent(String tutorialKey, Action1<List<TutorialFrame>> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

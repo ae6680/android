@@ -114,13 +114,13 @@ public class CutsceneActivity extends ActionBarActivity {
 
     private void startCutscene(String cutsceneKey) {
         Observable<List<CutsceneLine>> lineObservable =
-                cutsceneLineRepository.getByCutsceneKey(cutsceneKey)
+                cutsceneLineRepository.findAllByParent(cutsceneKey)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .first();
 
         Observable<List<CutsceneNotice>> noticesObservable =
-                cutsceneNoticeRepository.getByCutsceneKey(cutsceneKey)
+                cutsceneNoticeRepository.findAllByParent(cutsceneKey)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .first();

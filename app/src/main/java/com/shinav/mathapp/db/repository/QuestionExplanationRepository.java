@@ -21,7 +21,7 @@ public class QuestionExplanationRepository {
     @Inject
     public QuestionExplanationRepository() { }
 
-    public void get(String questionKey, Action1<List<QuestionExplanation>> action) {
+    public void findAllByParent(String questionKey, Action1<List<QuestionExplanation>> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

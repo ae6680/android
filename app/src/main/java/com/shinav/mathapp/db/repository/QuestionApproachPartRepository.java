@@ -21,12 +21,12 @@ public class QuestionApproachPartRepository {
     @Inject
     public QuestionApproachPartRepository() { }
 
-    public void getApproachParts(String approachKey, Action1<List<QuestionApproachPart>> action) {
+    public void findAllByParent(String questionApproachKey, Action1<List<QuestionApproachPart>> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
                         " WHERE " + QUESTION_APPROACH_KEY + " = ?"
-                , approachKey
+                , questionApproachKey
         ).map(parser).first().subscribe(action);
     }
 

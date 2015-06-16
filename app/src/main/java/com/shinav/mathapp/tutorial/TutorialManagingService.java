@@ -69,7 +69,7 @@ public class TutorialManagingService extends Service {
 
     private void fetchTutorialFrames(String tutorialKey) {
 
-        tutorialFrameRepository.getByTutorialKey(tutorialKey, new Action1<List<TutorialFrame>>() {
+        tutorialFrameRepository.findAllByParent(tutorialKey, new Action1<List<TutorialFrame>>() {
             @Override public void call(List<TutorialFrame> tutorialFramesList) {
                 tutorialFrames = tutorialFramesList;
                 startBasedOnType(tutorialFrames.get(0));

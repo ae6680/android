@@ -21,7 +21,7 @@ public class CutsceneNoticeRepository {
     @Inject
     public CutsceneNoticeRepository() { }
 
-    public Observable<List<CutsceneNotice>> getByCutsceneKey(String cutsceneKey) {
+    public Observable<List<CutsceneNotice>> findAllByParent(String cutsceneKey) {
         return db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

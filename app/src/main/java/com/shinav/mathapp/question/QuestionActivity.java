@@ -159,15 +159,15 @@ public class QuestionActivity extends ActionBarActivity {
                 initToolbar(question.getTitle());
 
                 backgroundLoader.loadBackground(
-                        backgroundView,
-                        question.getBackgroundImageUrl()
+                    backgroundView,
+                    question.getBackgroundImageUrl()
                 );
             }
         });
     }
 
     private void loadApproach(String questionKey) {
-        questionApproachRepository.get(questionKey, new Action1<QuestionApproach>() {
+        questionApproachRepository.findByParent(questionKey, new Action1<QuestionApproach>() {
 
             @Override public void call(QuestionApproach questionApproach) {
                 loadApproachParts(questionApproach.getKey());
@@ -176,7 +176,7 @@ public class QuestionActivity extends ActionBarActivity {
     }
 
     private void loadApproachParts(String approachKey) {
-        questionApproachPartRepository.getApproachParts(approachKey, new Action1<List<QuestionApproachPart>>() {
+        questionApproachPartRepository.findAllByParent(approachKey, new Action1<List<QuestionApproachPart>>() {
 
             @Override public void call(List<QuestionApproachPart> questionApproachParts) {
                 initViewPager(questionApproachParts);
@@ -311,14 +311,14 @@ public class QuestionActivity extends ActionBarActivity {
         anim1.addListener(new SimpleAnimatorListener() {
             @Override public void onAnimationEnd(Animator animation) {
 
-                questionExplanationRepository.get(question.getKey(), new Action1<List<QuestionExplanation>>() {
+                questionExplanationRepository.findAllByParent(question.getKey(), new Action1<List<QuestionExplanation>>() {
                     @Override public void call(List<QuestionExplanation> questionExplanations) {
                         List<Card> cards = new ArrayList<>();
 
                         for (QuestionExplanation questionExplanation : questionExplanations) {
 
                             QuestionExplanationCardView explanationView =
-                                    new QuestionExplanationCardView(QuestionActivity.this);
+                                new QuestionExplanationCardView(QuestionActivity.this);
                             explanationView.setExplanationText(questionExplanation.getText());
                             explanationView.setExplanationImageUrl(questionExplanation.getImageUrl());
 

@@ -19,7 +19,7 @@ public class GivenAnswerRepository {
     @Inject
     public GivenAnswerRepository() { }
 
-    public void get(String questionKey, Action1<GivenAnswer> action) {
+    public void findByParent(String questionKey, Action1<GivenAnswer> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +

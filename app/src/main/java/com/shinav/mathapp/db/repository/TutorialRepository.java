@@ -19,7 +19,7 @@ public class TutorialRepository {
     @Inject
     public TutorialRepository() { }
 
-    public void getFirst(Action1<Tutorial> action) {
+    public void findFirst(Action1<Tutorial> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
@@ -27,7 +27,7 @@ public class TutorialRepository {
         ).map(parser).first().subscribe(action);
     }
 
-    public void get(String tutorialKey, Action1<Tutorial> action) {
+    public void find(String tutorialKey, Action1<Tutorial> action) {
         db.createQuery(
                 TABLE_NAME,
                 "SELECT * FROM " + TABLE_NAME +
