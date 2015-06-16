@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
-import com.shinav.mathapp.db.dataMapper.GivenQuestionApproachMapper;
+import com.shinav.mathapp.db.dataMapper.GivenQuestionApproachDataMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenQuestionApproach;
 import com.shinav.mathapp.db.pojo.Question;
@@ -51,7 +51,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
 
     @Inject QuestionSimpleCardView questionSimpleCardView;
 
-    @Inject GivenQuestionApproachMapper givenQuestionApproachMapper;
+    @Inject GivenQuestionApproachDataMapper givenQuestionApproachDataMapper;
     @Inject BackgroundLoader backgroundLoader;
 
     private QuestionApproach questionApproach;
@@ -158,7 +158,7 @@ public class QuestionApproachActivity extends ActionBarActivity {
         givenQuestionApproach.setApproachKey(questionApproach.getKey());
         givenQuestionApproach.setArrangement(order);
 
-        givenQuestionApproachMapper.insert(givenQuestionApproach);
+        givenQuestionApproachDataMapper.insert(givenQuestionApproach);
     }
 
     private String getOrder(List<QuestionApproachPart> questionApproachParts) {

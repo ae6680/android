@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
@@ -14,14 +13,12 @@ import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.STORYBOARD_KEY;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.TABLE_NAME;
 
-public class StoryboardFrameMapper {
-
-    @Inject SqlBrite db;
+public class StoryboardFrameDataMapper extends DataMapper<StoryboardFrame> {
 
     @Inject
-    public StoryboardFrameMapper() { }
+    public StoryboardFrameDataMapper() { }
 
-    private ContentValues getContentValues(StoryboardFrame storyboardFrame) {
+    @Override public ContentValues getContentValues(StoryboardFrame storyboardFrame) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, storyboardFrame.getKey());
@@ -33,25 +30,8 @@ public class StoryboardFrameMapper {
         return values;
     }
 
-    public void insert(StoryboardFrame storyboardFrame) {
-        db.insert(TABLE_NAME, getContentValues(storyboardFrame));
-    }
-
-    public void update(StoryboardFrame storyboardFrame) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(storyboardFrame),
-                KEY + " = ?",
-                storyboardFrame.getKey()
-        );
-    }
-
-    public void delete(String storyboardFrameKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                storyboardFrameKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

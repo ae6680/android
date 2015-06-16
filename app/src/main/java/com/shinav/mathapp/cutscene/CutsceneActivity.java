@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.shinav.mathapp.R;
-import com.shinav.mathapp.db.dataMapper.CutsceneLineMapper;
-import com.shinav.mathapp.db.dataMapper.CutsceneMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneLineDataMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneDataMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Cutscene;
 import com.shinav.mathapp.db.pojo.CutsceneLine;
@@ -51,8 +51,8 @@ public class CutsceneActivity extends ActionBarActivity {
     @InjectView(R.id.cutscene_container) LinearLayout cutsceneContainer;
     @InjectView(R.id.cutscene_scroll_view) ScrollView cutsceneScrollView;
 
-    @Inject CutsceneLineMapper cutsceneLineMapper;
-    @Inject CutsceneMapper cutsceneMapper;
+    @Inject CutsceneLineDataMapper cutsceneLineDataMapper;
+    @Inject CutsceneDataMapper cutsceneDataMapper;
 
     @Inject CutsceneRepository cutsceneRepository;
     @Inject CutsceneLineRepository cutsceneLineRepository;

@@ -3,7 +3,7 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.dataMapper.StoryboardFrameMapper;
+import com.shinav.mathapp.db.dataMapper.StoryboardFrameDataMapper;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 import com.shinav.mathapp.firebase.FirebaseParser;
 
@@ -14,30 +14,30 @@ import timber.log.Timber;
 public class FirebaseStoryboardFrameListener implements ChildEventListener {
 
     private final FirebaseParser firebaseParser;
-    private final StoryboardFrameMapper storyboardFrameMapper;
+    private final StoryboardFrameDataMapper storyboardFrameDataMapper;
 
     @Inject
-    public FirebaseStoryboardFrameListener(FirebaseParser firebaseParser, StoryboardFrameMapper storyboardFrameMapper) {
+    public FirebaseStoryboardFrameListener(FirebaseParser firebaseParser, StoryboardFrameDataMapper storyboardFrameDataMapper) {
         this.firebaseParser = firebaseParser;
-        this.storyboardFrameMapper = storyboardFrameMapper;
+        this.storyboardFrameDataMapper = storyboardFrameDataMapper;
     }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         StoryboardFrame storyboardFrame = firebaseParser.parseStoryboardFrame(dataSnapshot);
-        storyboardFrameMapper.insert(storyboardFrame);
+        storyboardFrameDataMapper.insert(storyboardFrame);
 
         Timber.d("Firebase added a StoryboardFrame");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         StoryboardFrame storyboardFrame = firebaseParser.parseStoryboardFrame(dataSnapshot);
-        storyboardFrameMapper.update(storyboardFrame);
+        storyboardFrameDataMapper.update(storyboardFrame, storyboardFrame.getKey());
 
         Timber.d("Firebase changed a StoryboardFrame");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-        storyboardFrameMapper.delete(dataSnapshot.getKey());
+        storyboardFrameDataMapper.delete(dataSnapshot.getKey());
 
         Timber.d("Firebase removed a StoryboardFrame");
     }

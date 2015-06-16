@@ -16,14 +16,12 @@ import static com.shinav.mathapp.db.helper.Tables.Question.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 
-public class QuestionMapper {
-
-    @Inject SqlBrite db;
+public class QuestionDataMapper extends DataMapper<Question> {
 
     @Inject
-    public QuestionMapper() { }
+    public QuestionDataMapper() { }
 
-    private ContentValues getContentValues(Question question) {
+    @Override public ContentValues getContentValues(Question question) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, question.getKey());
@@ -37,25 +35,8 @@ public class QuestionMapper {
         return values;
     }
 
-    public void insert(Question question) {
-        db.insert(TABLE_NAME, getContentValues(question));
-    }
-
-    public void update(Question question) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(question),
-                KEY + " = ?",
-                question.getKey()
-        );
-    }
-
-    public void delete(String questionKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                questionKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

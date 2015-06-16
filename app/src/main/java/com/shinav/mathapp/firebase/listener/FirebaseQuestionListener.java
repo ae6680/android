@@ -3,7 +3,7 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionDataMapper;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.repository.QuestionRepository;
 import com.shinav.mathapp.firebase.FirebaseParser;
@@ -16,7 +16,7 @@ import timber.log.Timber;
 public class FirebaseQuestionListener implements ChildEventListener {
 
     @Inject FirebaseParser firebaseParser;
-    @Inject QuestionMapper questionMapper;
+    @Inject QuestionDataMapper questionDataMapper;
     @Inject QuestionRepository repository;
 
     @Inject
@@ -31,7 +31,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
                 if (q != null) {
                     question.setProgressState(q.getProgressState());
                 }
-                questionMapper.insert(question);
+                questionDataMapper.insert(question);
                 Timber.d("Firebase added a Question");
             }
         });
@@ -47,7 +47,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
                 if (q != null) {
                     question.setProgressState(q.getProgressState());
                 }
-                questionMapper.update(question);
+                questionDataMapper.update(question, question.getKey());
                 Timber.d("Firebase changed a Question");
             }
         });
@@ -55,7 +55,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-        questionMapper.delete(dataSnapshot.getKey());
+        questionDataMapper.delete(dataSnapshot.getKey());
 
         Timber.d("Firebase removed a Question");
     }

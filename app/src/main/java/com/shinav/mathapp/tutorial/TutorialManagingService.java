@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 
+import com.shinav.mathapp.db.dataMapper.TutorialFrameDataMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialDataMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.TutorialFrame;
 import com.shinav.mathapp.db.repository.TutorialFrameRepository;
+import com.shinav.mathapp.db.repository.TutorialRepository;
 import com.shinav.mathapp.injection.component.Injector;
 import com.shinav.mathapp.main.MainActivity;
 
@@ -29,6 +32,10 @@ public class TutorialManagingService extends Service {
     public static final String ACTION_START = "action_start";
     public static final String ACTION_START_NEXT_FROM = "action_start_next_from";
 
+    @Inject TutorialFrameDataMapper tutorialFrameDataMapper;
+    @Inject TutorialDataMapper tutorialDataMapper;
+
+    @Inject TutorialRepository tutorialRepository;
     @Inject TutorialFrameRepository tutorialFrameRepository;
     @Inject SharedPreferences sharedPreferences;
 

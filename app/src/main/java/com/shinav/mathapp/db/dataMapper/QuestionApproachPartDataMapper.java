@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.QuestionApproachPart;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
@@ -13,14 +12,12 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.QUESTION_
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproachPart.VALUE;
 
-public class QuestionApproachPartMapper {
-
-    @Inject SqlBrite db;
+public class QuestionApproachPartDataMapper extends DataMapper<QuestionApproachPart> {
 
     @Inject
-    public QuestionApproachPartMapper() { }
+    public QuestionApproachPartDataMapper() { }
 
-    private ContentValues getContentValues(QuestionApproachPart questionApproachPart) {
+    @Override public ContentValues getContentValues(QuestionApproachPart questionApproachPart) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, questionApproachPart.getKey());
@@ -31,25 +28,8 @@ public class QuestionApproachPartMapper {
         return values;
     }
 
-    public void insert(QuestionApproachPart questionApproachPart) {
-        db.insert(TABLE_NAME, getContentValues(questionApproachPart));
-    }
-
-    public void update(QuestionApproachPart questionApproachPart) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(questionApproachPart),
-                KEY + " = ?",
-                questionApproachPart.getKey()
-        );
-    }
-
-    public void delete(String approachPartKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                approachPartKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

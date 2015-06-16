@@ -11,12 +11,12 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionApproach.KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproach.QUESTION_KEY;
 import static com.shinav.mathapp.db.helper.Tables.QuestionApproach.TABLE_NAME;
 
-public class QuestionApproachMapper {
+public class QuestionApproachDataMapper {
 
     @Inject SqlBrite db;
 
     @Inject
-    public QuestionApproachMapper() { }
+    public QuestionApproachDataMapper() { }
 
     private ContentValues getContentValues(QuestionApproach questionApproach) {
         ContentValues values = new ContentValues();

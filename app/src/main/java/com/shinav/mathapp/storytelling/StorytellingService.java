@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.shinav.mathapp.cutscene.CutsceneActivity;
-import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionDataMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
@@ -35,7 +35,7 @@ public class StorytellingService extends Service {
 
     @Inject StoryboardFrameRepository storyboardFrameRepository;
     @Inject QuestionRepository questionRepository;
-    @Inject QuestionMapper questionMapper;
+    @Inject QuestionDataMapper questionDataMapper;
 
     private List<StoryboardFrame> storyboardFrames = Collections.emptyList();
 
@@ -137,7 +137,7 @@ public class StorytellingService extends Service {
                     @Override public void call(Question question) {
                         if (question.getProgressState() == Question.STATE_CLOSED) {
                             question.setProgressState(Question.STATE_OPENED);
-                            questionMapper.update(question);
+                            questionDataMapper.update(question, question.getKey());
                         }
                     }
                 });

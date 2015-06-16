@@ -15,14 +15,12 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.TEXT;
 
-public class CutsceneNoticeMapper {
-
-    @Inject SqlBrite db;
+public class CutsceneNoticeDataMapper extends DataMapper<CutsceneNotice> {
 
     @Inject
-    public CutsceneNoticeMapper() { }
+    public CutsceneNoticeDataMapper() { }
 
-    private ContentValues getContentValues(CutsceneNotice cutsceneNotice) {
+    @Override public ContentValues getContentValues(CutsceneNotice cutsceneNotice) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, cutsceneNotice.getKey());
@@ -35,24 +33,8 @@ public class CutsceneNoticeMapper {
         return values;
     }
 
-    public void insert(CutsceneNotice cutsceneNotice) {
-        db.insert(TABLE_NAME, getContentValues(cutsceneNotice));
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
-    public void update(CutsceneNotice cutsceneNotice) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(cutsceneNotice),
-                KEY + " = ?",
-                cutsceneNotice.getKey()
-        );
-    }
-
-    public void delete(String cutsceneNoticeKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                cutsceneNoticeKey
-        );
-    }
 }

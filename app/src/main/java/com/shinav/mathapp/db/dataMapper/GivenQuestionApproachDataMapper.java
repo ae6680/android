@@ -16,14 +16,12 @@ import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach.KEY;
 import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach.QUESTION_APPROACH_KEY;
 import static com.shinav.mathapp.db.helper.Tables.GivenQuestionApproach.TABLE_NAME;
 
-public class GivenQuestionApproachMapper {
-
-    @Inject SqlBrite db;
+public class GivenQuestionApproachDataMapper extends DataMapper<GivenQuestionApproach> {
 
     @Inject
-    public GivenQuestionApproachMapper() { }
+    public GivenQuestionApproachDataMapper() { }
 
-    private ContentValues getContentValues(GivenQuestionApproach givenQuestionApproach) {
+    @Override public ContentValues getContentValues(GivenQuestionApproach givenQuestionApproach) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, UUID.randomUUID().toString());
@@ -34,16 +32,8 @@ public class GivenQuestionApproachMapper {
         return values;
     }
 
-    public void insert(GivenQuestionApproach givenQuestionApproach) {
-        db.insert(TABLE_NAME, getContentValues(givenQuestionApproach));
-    }
-
-    public void delete(String approachKey) {
-        db.delete(
-                TABLE_NAME,
-                QUESTION_APPROACH_KEY + " = ?",
-                approachKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

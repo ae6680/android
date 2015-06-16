@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.GivenAnswer;
-import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,14 +15,12 @@ import static com.shinav.mathapp.db.helper.Tables.GivenAnswer.QUESTION_KEY;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.GivenAnswer.VALUE;
 
-public class GivenAnswerMapper {
-
-    @Inject SqlBrite db;
+public class GivenAnswerDataMapper extends DataMapper<GivenAnswer> {
 
     @Inject
-    public GivenAnswerMapper() { }
+    public GivenAnswerDataMapper() { }
 
-    private ContentValues getContentValues(GivenAnswer givenAnswer) {
+    @Override public ContentValues getContentValues(GivenAnswer givenAnswer) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, UUID.randomUUID().toString());
@@ -34,16 +31,8 @@ public class GivenAnswerMapper {
         return values;
     }
 
-    public void insert(GivenAnswer givenAnswer) {
-        db.insert(TABLE_NAME, getContentValues(givenAnswer));
-    }
-
-    public void delete(String questionKey) {
-        db.delete(
-                TABLE_NAME,
-                QUESTION_KEY + " = ?",
-                questionKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.TutorialFrame;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
@@ -14,14 +13,12 @@ import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.TutorialFrame.TUTORIAL_KEY;
 
-public class TutorialFrameMapper {
-
-    @Inject SqlBrite db;
+public class TutorialFrameDataMapper extends DataMapper<TutorialFrame> {
 
     @Inject
-    public TutorialFrameMapper() { }
+    public TutorialFrameDataMapper() { }
 
-    private ContentValues getContentValues(TutorialFrame tutorialFrame) {
+    @Override public ContentValues getContentValues(TutorialFrame tutorialFrame) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, tutorialFrame.getKey());
@@ -33,25 +30,8 @@ public class TutorialFrameMapper {
         return values;
     }
 
-    public void insert(TutorialFrame tutorialFrame) {
-        db.insert(TABLE_NAME, getContentValues(tutorialFrame));
-    }
-
-    public void update(TutorialFrame tutorialFrame) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(tutorialFrame),
-                KEY + " = ?",
-                tutorialFrame.getKey()
-        );
-    }
-
-    public void delete(String tutorialFrameKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                tutorialFrameKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

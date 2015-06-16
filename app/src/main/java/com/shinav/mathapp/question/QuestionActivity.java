@@ -22,8 +22,8 @@ import com.shinav.mathapp.animation.YAnimation;
 import com.shinav.mathapp.calculator.CalculatorFragment;
 import com.shinav.mathapp.card.Card;
 import com.shinav.mathapp.card.CardViewPager;
-import com.shinav.mathapp.db.dataMapper.GivenAnswerMapper;
-import com.shinav.mathapp.db.dataMapper.QuestionMapper;
+import com.shinav.mathapp.db.dataMapper.GivenAnswerDataMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionDataMapper;
 import com.shinav.mathapp.db.helper.Tables;
 import com.shinav.mathapp.db.pojo.GivenAnswer;
 import com.shinav.mathapp.db.pojo.Question;
@@ -82,8 +82,8 @@ public class QuestionActivity extends ActionBarActivity {
     @Inject QuestionApproachPartRepository questionApproachPartRepository;
     @Inject QuestionExplanationRepository questionExplanationRepository;
 
-    @Inject QuestionMapper questionMapper;
-    @Inject GivenAnswerMapper givenAnswerMapper;
+    @Inject QuestionDataMapper questionDataMapper;
+    @Inject GivenAnswerDataMapper givenAnswerDataMapper;
     @Inject BackgroundLoader backgroundLoader;
 
     private Question question;
@@ -259,7 +259,7 @@ public class QuestionActivity extends ActionBarActivity {
         givenAnswer.setValue(answer);
         givenAnswer.setGivenAt((int) System.currentTimeMillis());
 
-        givenAnswerMapper.insert(givenAnswer);
+        givenAnswerDataMapper.insert(givenAnswer);
     }
 
     private void updateProgressState(String answer) {
@@ -269,7 +269,7 @@ public class QuestionActivity extends ActionBarActivity {
             question.setProgressState(Question.STATE_FAILED);
         }
 
-        questionMapper.update(question);
+        questionDataMapper.update(question, question.getKey());
     }
 
     @Subscribe public void onNextButtonClicked(NextQuestionClickedEvent event) {

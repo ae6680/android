@@ -18,38 +18,12 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TYPING_DURATION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.VALUE;
 
-public class CutsceneLineMapper implements DataMapper {
-
-    @Inject SqlBrite db;
+public class CutsceneLineDataMapper extends DataMapper<CutsceneLine> {
 
     @Inject
-    public CutsceneLineMapper() { }
+    public CutsceneLineDataMapper() { }
 
-    @Override public void insert(Object object) {
-        db.insert(TABLE_NAME, getContentValues(object));
-    }
-
-    @Override public void update(Object object) {
-        CutsceneLine cutsceneLine = (CutsceneLine) object;
-
-        db.update(
-                TABLE_NAME,
-                getContentValues(cutsceneLine),
-                KEY + " = ?",
-                cutsceneLine.getKey()
-        );
-    }
-
-    @Override public void delete(String cutsceneLineKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                cutsceneLineKey
-        );
-    }
-
-    @Override public ContentValues getContentValues(Object object) {
-        CutsceneLine cutsceneLine = (CutsceneLine) object;
+    @Override public ContentValues getContentValues(CutsceneLine cutsceneLine) {
 
         ContentValues values = new ContentValues();
 
@@ -65,5 +39,10 @@ public class CutsceneLineMapper implements DataMapper {
 
         return values;
     }
+
+    @Override public String getTable() {
+        return TABLE_NAME;
+    }
+
 
 }

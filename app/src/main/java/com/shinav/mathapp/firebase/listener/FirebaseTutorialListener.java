@@ -3,7 +3,7 @@ package com.shinav.mathapp.firebase.listener;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.shinav.mathapp.db.dataMapper.TutorialMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialDataMapper;
 import com.shinav.mathapp.db.pojo.Tutorial;
 import com.shinav.mathapp.firebase.FirebaseParser;
 
@@ -14,27 +14,27 @@ import timber.log.Timber;
 public class FirebaseTutorialListener implements ChildEventListener {
 
     @Inject FirebaseParser firebaseParser;
-    @Inject TutorialMapper tutorialMapper;
+    @Inject TutorialDataMapper tutorialDataMapper;
 
     @Inject
     public FirebaseTutorialListener() { }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Tutorial tutorial = firebaseParser.parseTutorial(dataSnapshot);
-        tutorialMapper.insert(tutorial);
+        tutorialDataMapper.insert(tutorial);
 
         Timber.d("Firebase added a Tutorial");
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         Tutorial tutorial = firebaseParser.parseTutorial(dataSnapshot);
-        tutorialMapper.update(tutorial);
+        tutorialDataMapper.update(tutorial, tutorial.getKey());
 
         Timber.d("Firebase changed a Tutorial");
     }
 
     @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-        tutorialMapper.delete(dataSnapshot.getKey());
+        tutorialDataMapper.delete(dataSnapshot.getKey());
 
         Timber.d("Firebase removed a Tutorial");
     }

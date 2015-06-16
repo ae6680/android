@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.QuestionExplanation;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
@@ -14,14 +13,12 @@ import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation.QUESTION_K
 import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.QuestionExplanation.TEXT;
 
-public class QuestionExplanationMapper {
-
-    @Inject SqlBrite db;
+public class QuestionExplanationDataMapper extends DataMapper<QuestionExplanation> {
 
     @Inject
-    public QuestionExplanationMapper() { }
+    public QuestionExplanationDataMapper() { }
 
-    private ContentValues getContentValues(QuestionExplanation questionExplanation) {
+    @Override public ContentValues getContentValues(QuestionExplanation questionExplanation) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, questionExplanation.getKey());
@@ -33,25 +30,8 @@ public class QuestionExplanationMapper {
         return values;
     }
 
-    public void insert(com.shinav.mathapp.db.pojo.QuestionExplanation questionExplanation) {
-        db.insert(TABLE_NAME, getContentValues(questionExplanation));
-    }
-
-    public void update(QuestionExplanation questionExplanation) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(questionExplanation),
-                KEY + " = ?",
-                questionExplanation.getKey()
-        );
-    }
-
-    public void delete(String questionExplanationKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                questionExplanationKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }

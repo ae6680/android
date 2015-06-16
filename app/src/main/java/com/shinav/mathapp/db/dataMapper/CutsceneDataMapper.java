@@ -3,7 +3,6 @@ package com.shinav.mathapp.db.dataMapper;
 import android.content.ContentValues;
 
 import com.shinav.mathapp.db.pojo.Cutscene;
-import com.squareup.sqlbrite.SqlBrite;
 
 import javax.inject.Inject;
 
@@ -12,14 +11,12 @@ import static com.shinav.mathapp.db.helper.Tables.Cutscene.KEY;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TABLE_NAME;
 import static com.shinav.mathapp.db.helper.Tables.Cutscene.TITLE;
 
-public class CutsceneMapper  {
-
-    @Inject SqlBrite db;
+public class CutsceneDataMapper extends DataMapper<Cutscene> {
 
     @Inject
-    public CutsceneMapper() { }
+    public CutsceneDataMapper() { }
 
-    private ContentValues getContentValues(Cutscene cutscene) {
+    @Override public ContentValues getContentValues(Cutscene cutscene) {
         ContentValues values = new ContentValues();
 
         values.put(KEY, cutscene.getKey());
@@ -29,25 +26,8 @@ public class CutsceneMapper  {
         return values;
     }
 
-    public void insert(Cutscene cutscene) {
-        db.insert(TABLE_NAME, getContentValues(cutscene));
-    }
-
-    public void update(Cutscene cutscene) {
-        db.update(
-                TABLE_NAME,
-                getContentValues(cutscene),
-                KEY + " = ?",
-                cutscene.getKey()
-        );
-    }
-
-    public void delete(String cutsceneKey) {
-        db.delete(
-                TABLE_NAME,
-                KEY + " = ?",
-                cutsceneKey
-        );
+    @Override public String getTable() {
+        return TABLE_NAME;
     }
 
 }
