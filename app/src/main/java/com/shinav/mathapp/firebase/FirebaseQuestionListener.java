@@ -1,29 +1,40 @@
-package com.shinav.mathapp.firebase.listener;
+package com.shinav.mathapp.firebase;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
 import com.shinav.mathapp.db.dataMapper.QuestionDataMapper;
 import com.shinav.mathapp.db.pojo.Question;
 import com.shinav.mathapp.db.repository.QuestionRepository;
-import com.shinav.mathapp.firebase.FirebaseParser;
+import com.shinav.mathapp.firebase.mapper.QuestionFirebaseMapper;
 
 import javax.inject.Inject;
 
 import rx.functions.Action1;
 import timber.log.Timber;
 
-public class FirebaseQuestionListener implements ChildEventListener {
+public class FirebaseQuestionListener extends FirebaseListener<QuestionFirebaseMapper, QuestionDataMapper> {
 
-    @Inject FirebaseParser firebaseParser;
-    @Inject QuestionDataMapper questionDataMapper;
-    @Inject QuestionRepository repository;
+    private QuestionFirebaseMapper questionFirebaseMapper;
+    private QuestionDataMapper questionDataMapper;
+    private QuestionRepository repository;
 
     @Inject
-    public FirebaseQuestionListener() { }
+    public FirebaseQuestionListener(
+        QuestionFirebaseMapper questionFirebaseMapper,
+        QuestionDataMapper questionDataMapper,
+        QuestionRepository repository
+    ) {
+        super(questionFirebaseMapper, questionDataMapper);
+        this.questionFirebaseMapper = questionFirebaseMapper;
+        this.questionDataMapper = questionDataMapper;
+        this.repository = repository;
+    }
+
+    public FirebaseQuestionListener(QuestionFirebaseMapper firebaseMapper, QuestionDataMapper dataMapper) {
+        super(firebaseMapper, dataMapper);
+    }
 
     @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        final Question question = firebaseParser.parseQuestion(dataSnapshot);
+        final Question question = questionFirebaseMapper.fromDataSnapshot(dataSnapshot);
 
         // Look for previous progressState
         repository.find(question.getKey(), new Action1<Question>() {
@@ -39,7 +50,7 @@ public class FirebaseQuestionListener implements ChildEventListener {
     }
 
     @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        final Question question = firebaseParser.parseQuestion(dataSnapshot);
+        final Question question = questionFirebaseMapper.fromDataSnapshot(dataSnapshot);
 
         // Look for previous progressState
         repository.find(question.getKey(), new Action1<Question>() {
@@ -54,13 +65,4 @@ public class FirebaseQuestionListener implements ChildEventListener {
 
     }
 
-    @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
-        questionDataMapper.delete(dataSnapshot.getKey());
-
-        Timber.d("Firebase removed a Question");
-    }
-
-    @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {  }
-
-    @Override public void onCancelled(FirebaseError firebaseError) {  }
 }

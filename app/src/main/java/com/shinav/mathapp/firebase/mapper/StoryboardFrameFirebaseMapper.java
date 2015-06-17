@@ -3,12 +3,16 @@ package com.shinav.mathapp.firebase.mapper;
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.pojo.StoryboardFrame;
 
+import javax.inject.Inject;
+
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.FRAME_TYPE;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.FRAME_TYPE_KEY;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.StoryboardFrame.STORYBOARD_KEY;
 
 public class StoryboardFrameFirebaseMapper extends FirebaseMapper<StoryboardFrame> {
+
+    @Inject public StoryboardFrameFirebaseMapper() { }
 
     @Override public StoryboardFrame fromDataSnapshot(DataSnapshot dataSnapshot) {
         StoryboardFrame storyboardFrame = new StoryboardFrame();

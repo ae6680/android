@@ -28,20 +28,17 @@ public class UpdateCheckerTest {
 
     private UpdateChecker updateChecker;
     private SharedPreferences prefs;
-    private Context context;
-    private ConnectivityManager cm;
     private NetworkInfo networkInfo;
     private TimeUtils timeUtils;
-    private Editor editor;
 
     @Before
     public void setUp() throws Exception {
         prefs = Mockito.mock(SharedPreferences.class);
-        context = Mockito.mock(Context.class);
-        cm = Mockito.mock(ConnectivityManager.class);
+        Context context = Mockito.mock(Context.class);
+        ConnectivityManager cm = Mockito.mock(ConnectivityManager.class);
         networkInfo = Mockito.mock(NetworkInfo.class);
         timeUtils = Mockito.mock(TimeUtils.class);
-        editor = Mockito.mock(Editor.class);
+        Editor editor = Mockito.mock(Editor.class);
 
         Mockito.when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(cm);
         Mockito.when(cm.getActiveNetworkInfo()).thenReturn(networkInfo);

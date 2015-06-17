@@ -8,15 +8,14 @@ import java.util.List;
 
 import rx.functions.Func1;
 
-public class CutsceneReadyFunc implements Func1<List<Object>, List<StoryboardFrameListItem>> {
+public class CutsceneReadyFunc implements Func1<List<Cutscene>, List<StoryboardFrameListItem>> {
 
     @Override
-    public List<StoryboardFrameListItem> call(List<Object> objects) {
+    public List<StoryboardFrameListItem> call(List<Cutscene> cutscenes) {
 
         List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
-        for (Object object : objects) {
-            Cutscene cutscene = (Cutscene) object;
+        for (Cutscene cutscene : cutscenes) {
             listItems.add(createStoryboardFrameListItem(cutscene));
         }
 

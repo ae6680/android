@@ -7,7 +7,6 @@ import com.firebase.client.Firebase;
 import com.shinav.mathapp.MyApplication;
 import com.shinav.mathapp.R;
 import com.shinav.mathapp.db.helper.DbOpenHelper;
-import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -29,10 +28,6 @@ public class ApplicationModule {
 
     @Provides @Singleton Bus provideBus() {
         return new Bus(ThreadEnforcer.ANY);
-    }
-
-    @Provides @Singleton FirebaseParser provideFirebaseParser() {
-        return new FirebaseParser();
     }
 
     @Provides @Singleton Firebase provideFirebase() {

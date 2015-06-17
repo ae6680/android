@@ -3,6 +3,8 @@ package com.shinav.mathapp.firebase.mapper;
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.pojo.CutsceneLine;
 
+import javax.inject.Inject;
+
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.ALIGNMENT;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.CUTSCENE_KEY;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.DELAY;
@@ -13,6 +15,8 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.TYPING_DURATION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneLine.VALUE;
 
 public class CutsceneLineFirebaseMapper extends FirebaseMapper<CutsceneLine> {
+
+    @Inject public CutsceneLineFirebaseMapper() { }
 
     @Override public CutsceneLine fromDataSnapshot(DataSnapshot dataSnapshot) {
         CutsceneLine cutsceneLine = new CutsceneLine();

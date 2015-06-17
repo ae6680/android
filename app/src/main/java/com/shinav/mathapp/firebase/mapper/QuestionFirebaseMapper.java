@@ -3,6 +3,8 @@ package com.shinav.mathapp.firebase.mapper;
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.pojo.Question;
 
+import javax.inject.Inject;
+
 import static com.shinav.mathapp.db.helper.Tables.Question.ANNEX_IMAGE_URL;
 import static com.shinav.mathapp.db.helper.Tables.Question.ANSWER;
 import static com.shinav.mathapp.db.helper.Tables.Question.BACKGROUND_IMAGE_URL;
@@ -10,6 +12,8 @@ import static com.shinav.mathapp.db.helper.Tables.Question.TITLE;
 import static com.shinav.mathapp.db.helper.Tables.Question.VALUE;
 
 public class QuestionFirebaseMapper extends FirebaseMapper<Question> {
+
+    @Inject public QuestionFirebaseMapper() { }
 
     @Override public Question fromDataSnapshot(DataSnapshot dataSnapshot) {
         Question question = new Question();

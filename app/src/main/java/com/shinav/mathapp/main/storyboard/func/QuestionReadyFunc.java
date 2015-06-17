@@ -8,15 +8,14 @@ import java.util.List;
 
 import rx.functions.Func1;
 
-public class QuestionReadyFunc implements Func1<List<Object>, List<StoryboardFrameListItem>> {
+public class QuestionReadyFunc implements Func1<List<Question>, List<StoryboardFrameListItem>> {
 
     @Override
-    public List<StoryboardFrameListItem> call(List<Object> objects) {
+    public List<StoryboardFrameListItem> call(List<Question> questions) {
 
         List<StoryboardFrameListItem> listItems = new ArrayList<>();
 
-        for (Object object : objects) {
-            Question question = (Question) object;
+        for (Question question : questions) {
             listItems.add(createStoryboardListItem(question));
         }
 

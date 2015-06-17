@@ -3,6 +3,8 @@ package com.shinav.mathapp.firebase.mapper;
 import com.firebase.client.DataSnapshot;
 import com.shinav.mathapp.db.pojo.CutsceneNotice;
 
+import javax.inject.Inject;
+
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.ALIGNMENT;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.CUTSCENE_KEY;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.IMAGE_URL;
@@ -10,6 +12,8 @@ import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.POSITION;
 import static com.shinav.mathapp.db.helper.Tables.CutsceneNotice.TEXT;
 
 public class CutsceneNoticeFirebaseMapper extends FirebaseMapper<CutsceneNotice> {
+
+    @Inject public CutsceneNoticeFirebaseMapper() { }
 
     @Override public CutsceneNotice fromDataSnapshot(DataSnapshot dataSnapshot) {
         CutsceneNotice cutsceneNotice = new CutsceneNotice();

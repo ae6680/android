@@ -2,17 +2,26 @@ package com.shinav.mathapp.firebase;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
-import com.shinav.mathapp.firebase.listener.FirebaseCutsceneLineListener;
-import com.shinav.mathapp.firebase.listener.FirebaseCutsceneListener;
-import com.shinav.mathapp.firebase.listener.FirebaseCutsceneNoticeListener;
-import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachListener;
-import com.shinav.mathapp.firebase.listener.FirebaseQuestionApproachPartListener;
-import com.shinav.mathapp.firebase.listener.FirebaseQuestionExplanationListener;
-import com.shinav.mathapp.firebase.listener.FirebaseQuestionListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryboardFrameListener;
-import com.shinav.mathapp.firebase.listener.FirebaseStoryboardListener;
-import com.shinav.mathapp.firebase.listener.FirebaseTutorialFrameListener;
-import com.shinav.mathapp.firebase.listener.FirebaseTutorialListener;
+import com.shinav.mathapp.db.dataMapper.CutsceneDataMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneLineDataMapper;
+import com.shinav.mathapp.db.dataMapper.CutsceneNoticeDataMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionApproachDataMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionApproachPartDataMapper;
+import com.shinav.mathapp.db.dataMapper.QuestionExplanationDataMapper;
+import com.shinav.mathapp.db.dataMapper.StoryboardDataMapper;
+import com.shinav.mathapp.db.dataMapper.StoryboardFrameDataMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialDataMapper;
+import com.shinav.mathapp.db.dataMapper.TutorialFrameDataMapper;
+import com.shinav.mathapp.firebase.mapper.CutsceneFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.CutsceneLineFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.CutsceneNoticeFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.QuestionApproachFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.QuestionApproachPartFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.QuestionExplanationFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.StoryboardFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.StoryboardFrameFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.TutorialFirebaseMapper;
+import com.shinav.mathapp.firebase.mapper.TutorialFrameFirebaseMapper;
 
 import javax.inject.Inject;
 
@@ -22,35 +31,35 @@ public class FirebaseChildRegisterer {
 
     private Firebase firebase;
 
-    private FirebaseTutorialListener firebaseTutorialListener;
-    private FirebaseTutorialFrameListener firebaseTutorialFrameListener;
+    private FirebaseListener<TutorialFirebaseMapper, TutorialDataMapper> firebaseTutorialListener;
+    private FirebaseListener<TutorialFrameFirebaseMapper, TutorialFrameDataMapper> firebaseTutorialFrameListener;
 
-    private FirebaseStoryboardListener firebaseStoryboardListener;
-    private FirebaseStoryboardFrameListener firebaseStoryboardFrameListener;
+    private FirebaseListener<StoryboardFirebaseMapper, StoryboardDataMapper> firebaseStoryboardListener;
+    private FirebaseListener<StoryboardFrameFirebaseMapper, StoryboardFrameDataMapper> firebaseStoryboardFrameListener;
 
-    private FirebaseCutsceneListener firebaseCutsceneListener;
-    private FirebaseCutsceneLineListener firebaseCutsceneLineListener;
-    private FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener;
+    private FirebaseListener<CutsceneFirebaseMapper, CutsceneDataMapper> firebaseCutsceneListener;
+    private FirebaseListener<CutsceneLineFirebaseMapper, CutsceneLineDataMapper> firebaseCutsceneLineListener;
+    private FirebaseListener<CutsceneNoticeFirebaseMapper, CutsceneNoticeDataMapper> firebaseCutsceneNoticeListener;
 
     private FirebaseQuestionListener firebaseQuestionListener;
-    private FirebaseQuestionApproachListener firebaseQuestionApproachListener;
-    private FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener;
-    private FirebaseQuestionExplanationListener firebaseQuestionExplanationListener;
+    private FirebaseListener<QuestionApproachFirebaseMapper, QuestionApproachDataMapper> firebaseQuestionApproachListener;
+    private FirebaseListener<QuestionApproachPartFirebaseMapper, QuestionApproachPartDataMapper> firebaseQuestionApproachPartListener;
+    private FirebaseListener<QuestionExplanationFirebaseMapper, QuestionExplanationDataMapper> firebaseQuestionExplanationListener;
 
     @Inject
     public FirebaseChildRegisterer(
             Firebase firebase,
-            FirebaseTutorialListener firebaseTutorialListener,
-            FirebaseTutorialFrameListener firebaseTutorialFrameListener,
-            FirebaseStoryboardListener firebaseStoryboardListener,
-            FirebaseStoryboardFrameListener firebaseStoryboardFrameListener,
-            FirebaseCutsceneListener firebaseCutsceneListener,
-            FirebaseCutsceneLineListener firebaseCutsceneLineListener,
-            FirebaseCutsceneNoticeListener firebaseCutsceneNoticeListener,
+            FirebaseListener<TutorialFirebaseMapper, TutorialDataMapper> firebaseTutorialListener,
+            FirebaseListener<TutorialFrameFirebaseMapper, TutorialFrameDataMapper> firebaseTutorialFrameListener,
+            FirebaseListener<StoryboardFirebaseMapper, StoryboardDataMapper> firebaseStoryboardListener,
+            FirebaseListener<StoryboardFrameFirebaseMapper, StoryboardFrameDataMapper> firebaseStoryboardFrameListener,
+            FirebaseListener<CutsceneFirebaseMapper, CutsceneDataMapper> firebaseCutsceneListener,
+            FirebaseListener<CutsceneLineFirebaseMapper, CutsceneLineDataMapper> firebaseCutsceneLineListener,
+            FirebaseListener<CutsceneNoticeFirebaseMapper, CutsceneNoticeDataMapper> firebaseCutsceneNoticeListener,
             FirebaseQuestionListener firebaseQuestionListener,
-            FirebaseQuestionApproachListener firebaseQuestionApproachListener,
-            FirebaseQuestionApproachPartListener firebaseQuestionApproachPartListener,
-            FirebaseQuestionExplanationListener firebaseQuestionExplanationListener
+            FirebaseListener<QuestionApproachFirebaseMapper, QuestionApproachDataMapper> firebaseQuestionApproachListener,
+            FirebaseListener<QuestionApproachPartFirebaseMapper, QuestionApproachPartDataMapper> firebaseQuestionApproachPartListener,
+            FirebaseListener<QuestionExplanationFirebaseMapper, QuestionExplanationDataMapper> firebaseQuestionExplanationListener
     ) {
         this.firebase = firebase;
         this.firebaseTutorialListener = firebaseTutorialListener;

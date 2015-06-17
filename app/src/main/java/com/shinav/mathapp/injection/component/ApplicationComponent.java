@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 
 import com.firebase.client.Firebase;
 import com.shinav.mathapp.firebase.FirebaseChildRegisterer;
-import com.shinav.mathapp.firebase.FirebaseParser;
 import com.shinav.mathapp.injection.annotation.ForApplication;
 import com.shinav.mathapp.injection.module.ApplicationModule;
 import com.shinav.mathapp.storytelling.StorytellingService;
@@ -24,7 +23,6 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     Bus bus();
-    FirebaseParser firebaseParser();
     Firebase firebase();
 
     SqlBrite sqlBrite();
